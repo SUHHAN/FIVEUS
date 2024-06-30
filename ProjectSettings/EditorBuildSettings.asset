@@ -6,15 +6,15 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Haeun/MainScreen/Prototype11.unity
+    path: Assets/Scenes/Haeun/MainScreen/MainScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
-    path: Assets/Scenes/Haeun/MainScreen/Login.unity
+    path: Assets/Scenes/Haeun/MainScreen/LoginScene.unity
     guid: 2c3ec11b17f764e49bbb89ef78623275
   - enabled: 1
     path: Assets/Scenes/Haeun/MainScreen/IngameEx.unity
     guid: e8eb2bfc305a36446860e8ede895c3fc
   - enabled: 1
-    path: Assets/Scenes/Haeun/MainScreen/DataSlot.unity
+    path: Assets/Scenes/Haeun/MainScreen/DataSlotScene.unity
     guid: 2d86835138f6ba347bb2c8ff64a7cf6b
   m_configObjects: {}

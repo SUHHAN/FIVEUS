@@ -10,13 +10,13 @@ public class MainClick : MonoBehaviour
         SceneManager.LoadScene("IngameEx2");
     }
     public void ChangeDataSlot() {
-        SceneManager.LoadScene("DataSlot");
+        SceneManager.LoadScene("DataSlotScene");
     }
     public void ChangeLogin() {
-        SceneManager.LoadScene("Login");
+        SceneManager.LoadScene("LoginScene");
     }
     public void ReturnMain() {
-        SceneManager.LoadScene("Prototype11");
+        SceneManager.LoadScene("MainScene");
     }
     public void ReturnMain222() {
         SceneManager.LoadScene("Prototype22");
