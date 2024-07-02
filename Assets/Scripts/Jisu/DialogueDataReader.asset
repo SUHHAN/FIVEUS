@@ -9,14 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: f2ff857967f9656468d8be78b6362ef4, type: 3}
   m_Name: DialogueDataReader
   m_EditorClassIdentifier: Assembly-CSharp::DialogueDataReader
   associatedSheet: 1B1uFwuGoBD6vqiESAWT7gpHLAvgtjzsQOfW7kaIocAs
-  associatedWorksheet: Dialogue
+  associatedWorksheet: dialogue
   START_ROW_LENGTH: 2
-  END_ROW_LENGTH: 2
-  DataList:
-  - id: 1
-    name: "\uC9C0\uC218"
-    dialogue: "\uC774\uAC74 \uC608\uC2DC \uB300\uC0AC\uC57C."
+  END_ROW_LENGTH: 3
+  DialogueList: []

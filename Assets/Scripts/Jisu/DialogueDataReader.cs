@@ -30,7 +30,7 @@ public class DialogueDataReader : DataReaderBase
 
     internal void UpdateStats(List<GSTU_Cell> list, int DialogueID)
     {
-        int id = 0;
+        int id = -1;
         string name = null, dialogue = null;
 
         for (int i = 0; i < list.Count; i++)
