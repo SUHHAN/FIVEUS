@@ -26,7 +26,7 @@ public struct DialogueData
 [CreateAssetMenu(fileName = "Reader", menuName = "Scriptable Object/DialogueDataReader", order = int.MaxValue)]
 public class DialogueDataReader : DataReaderBase
 {
-    [Header("스프레드시트에서 읽혀져 직렬화 된 오브젝트")][SerializeField] public List<DialogueData> DataList = new List<DialogueData>();
+    [Header("스프레드시트에서 읽혀져 직렬화 된 오브젝트")][SerializeField] public List<DialogueData> DialogueList = new List<DialogueData>();
 
     internal void UpdateStats(List<GSTU_Cell> list, int DialogueID)
     {
@@ -55,7 +55,7 @@ public class DialogueDataReader : DataReaderBase
             }
         }
 
-        DataList.Add(new DialogueData(id, name, dialogue));
+        DialogueList.Add(new DialogueData(id, name, dialogue));
     }
 }
 
@@ -79,7 +79,7 @@ public class DialogueDataReaderEditor : Editor
         if (GUILayout.Button("데이터 읽기(API 호출)"))
         {
             UpdateStats(UpdateMethodOne);
-            data.DataList.Clear();
+            data.DialogueList.Clear();
         }
     }
 
