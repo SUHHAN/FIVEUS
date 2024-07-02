@@ -4,6 +4,7 @@ using System;
 
 namespace GoogleSheetsToUnity
 {
+  [CreateAssetMenu(fileName = "GoogleSheetsToUnityConfig", menuName = "GoogleSheetsToUnity/Config")]
     public class GoogleSheetsToUnityConfig : ScriptableObject
   {
     public string CLIENT_ID = "";

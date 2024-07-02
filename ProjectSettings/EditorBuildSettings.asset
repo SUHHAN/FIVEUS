@@ -18,5 +18,4 @@ EditorBuildSettings:
     path: Assets/Scenes/Haeun/MainScreen/DataSlotScene.unity
     guid: 2d86835138f6ba347bb2c8ff64a7cf6b
   m_configObjects:
-    com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000, guid: abe30d10f5412c34e867a45593f5b842, type: 2}
-
+    com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000, guid: b70536bf5becdbb448a02cbf386f8c3b, type: 2}
