@@ -1,6 +1,8 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
 --- !u!114 &-9154680054164997275
+--- !u!114 &-1251545245334963821
+
 MonoBehaviour:
   m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
@@ -10,6 +12,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 179fc3111e144bc4688dca4038b3265d, type: 3}
+
   m_Name: WebGL Settings
   m_EditorClassIdentifier: 
   m_LoaderManagerInstance: {fileID: -9106918128901494092}
@@ -42,6 +45,11 @@ MonoBehaviour:
   m_Name: Android Settings
   m_EditorClassIdentifier: 
   m_LoaderManagerInstance: {fileID: 7312139105936832857}
+
+  m_Name: Standalone Settings
+  m_EditorClassIdentifier: 
+  m_LoaderManagerInstance: {fileID: 5284251073455652259}
+
   m_InitManagerOnStart: 1
 --- !u!114 &11400000
 MonoBehaviour:
@@ -55,6 +63,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb0ece14d1f711a4fb9325ca819dee95, type: 3}
   m_Name: AdaptivePerformanceGeneralSettings
   m_EditorClassIdentifier: 
+
   Keys: 01000000070000000d000000
   Values:
   - {fileID: 7728849118119703599}
@@ -90,6 +99,12 @@ MonoBehaviour:
   m_LoaderManagerInstance: {fileID: 8368767065373511679}
   m_InitManagerOnStart: 1
 --- !u!114 &8368767065373511679
+
+  Keys: 01000000
+  Values:
+  - {fileID: -1251545245334963821}
+--- !u!114 &5284251073455652259
+
 MonoBehaviour:
   m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
@@ -103,5 +118,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_AutomaticLoading: 0
   m_AutomaticRunning: 0
+
   m_Loaders:
   - {fileID: 11400000, guid: 091663d1156250441a37f586580276c7, type: 2}
+
+  m_Loaders: []
+
