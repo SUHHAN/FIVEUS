@@ -11,6 +11,7 @@ public class PlayerAction_bin : MonoBehaviour
     Rigidbody2D rigid_bin;
     Vector3 dirVec_bin;
     GameObject ScanObject_bin;
+    private bool collisionInfdoor = false;
 
     float h_bin;
     float v_bin;
@@ -66,6 +67,10 @@ public class PlayerAction_bin : MonoBehaviour
         // scan object
         if (Input.GetButtonDown("Jump") && ScanObject_bin != null)
             manager_bin.Action(ScanObject_bin);
+
+        if(collisionInfdoor && Input.GetButtonDown("Jump"))
+            StartCoroutine(LoadSceneCoroutine("inf_guild", 7));
+
     }
 
     void FixedUpdate()
@@ -142,6 +147,17 @@ public class PlayerAction_bin : MonoBehaviour
             LoadedScene = 6;
             StartCoroutine(LoadSceneCoroutine("main_map", 0));
         }
+        if ((collision.gameObject.name == "infguild_indoor"))
+        {
+            collisionInfdoor = true;
+           
+        }
+        if (collision.gameObject.name == "infguild_outdoor")
+        {
+            LoadedScene = 7;
+            StartCoroutine(LoadSceneCoroutine("main_map", 0));
+        }
+
     }
 
     private IEnumerator LoadSceneCoroutine(string sceneName, int loadedScene)
@@ -205,6 +221,14 @@ public class PlayerAction_bin : MonoBehaviour
         if (scene.name == "main_map" && LoadedScene == 6)
         {
             transform.position = new Vector3(-21, -14, 0);
+        }
+        if (scene.name == "inf_guild")
+        {
+            transform.position = new Vector3(2, -2, 0);
+        }
+        if (scene.name == "main_map" && LoadedScene ==7)
+        {
+            transform.position = new Vector3(19, -14, 0);
         }
         Speed_bin = 3; // 이동 속도 복원
     }
