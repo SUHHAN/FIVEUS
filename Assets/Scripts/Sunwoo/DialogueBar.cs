@@ -7,7 +7,7 @@ public class DialogueBar : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI nameTxt; // 이름 표시할 컴포넌트
     [SerializeField] TypeEffect talk; // 대사 표시할 컴포넌트
-    string[] str = { "HI", "HIHIHI", "HI HI HI H I HIHI " }; // 예시 대화 배열
+    string[] str = {}; // 예시 대화 배열
 
     void Start()
     {
