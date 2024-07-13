@@ -9,14 +9,12 @@ public class ProDialogue
     public int id; // 번호
     public string name; // 인물
     public string line; // 대사
-    public string image; // 이미지
 
-    public ProDialogue(int id, string name, string line, string image)
+    public ProDialogue(int id, string name, string line)
     {
         this.id = id;
         this.name = name;
         this.line = line;
-        this.image = image;
     }
 }
 
@@ -32,7 +30,6 @@ public class TalkManager : MonoBehaviour
     public TextMeshProUGUI narrationText; // TextMeshPro UI 텍스트 요소
 
     public GameObject dialogue;
-    public GameObject imageObj; // 초상화 이미지 요소
     public GameObject nameObj; // 이름 요소
     public TextMeshProUGUI nameText; // TextMeshPro UI 텍스트 요소
     public TextMeshProUGUI descriptionText; // TextMeshPro UI 텍스트 요소
@@ -75,9 +72,8 @@ public class TalkManager : MonoBehaviour
             int id = int.Parse(row["id"].ToString().Trim());
             string name = row["name"].ToString();
             string line = row["dialogue"].ToString();
-            string image = row["image"].ToString();
 
-            proDialogue.Add(new ProDialogue(id, name, line, image));
+            proDialogue.Add(new ProDialogue(id, name, line));
         }
     }
 
@@ -92,7 +88,7 @@ public class TalkManager : MonoBehaviour
 
         ProDialogue currentDialogue = proDialogue[index];
 
-        if (index < 2)
+        if (index < 15)
         {
             narration.SetActive(false);
             dialogue.SetActive(false);
