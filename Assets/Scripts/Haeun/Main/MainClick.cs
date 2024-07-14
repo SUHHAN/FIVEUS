@@ -21,6 +21,12 @@ public class MainClick : MonoBehaviour
     public void ReturnMain222() {
         SceneManager.LoadScene("Prototype22");
     }
+    public void changeStore() {
+        SceneManager.LoadScene("StoreMain");
+    }
+    public void changeInventory() {
+        SceneManager.LoadScene("InventoryMain");
+    }
     public void OnExitButtonClick()
     {
         #if UNITY_EDITOR
