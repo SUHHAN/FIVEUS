@@ -24,7 +24,7 @@ public class GameManager222222 : MonoBehaviour
     {
         LoadItemsFromCSV("Item"); // CSV 파일 이름, 확장자는 제외
         //SaveItem();
-        LoadItem();
+        SaveItem();
 
         Debug.Log($"Loaded {AllItemList.Count} items.");
 
