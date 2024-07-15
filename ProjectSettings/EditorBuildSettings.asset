@@ -4,5 +4,47 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Haeun/MainScreen/MainScene.unity
+    guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/Haeun/MainScreen/LoginScene.unity
+    guid: 2c3ec11b17f764e49bbb89ef78623275
+  - enabled: 1
+    path: Assets/Scenes/Haeun/MainScreen/IngameEx.unity
+    guid: e8eb2bfc305a36446860e8ede895c3fc
+  - enabled: 1
+    path: Assets/Scenes/Haeun/MainScreen/DataSlotScene.unity
+    guid: 2d86835138f6ba347bb2c8ff64a7cf6b
+  - enabled: 1
+    path: Assets/Scenes/Haeun/Load/LoadTest.unity
+    guid: b1fa1bff9045fc4449ca99d8c9b67eb3
+  - enabled: 1
+    path: Assets/Scenes/Haeun/Inventory/InventoryMain.unity
+    guid: 86d8cf86e12fb5740b56547133d8c0f6
+  - enabled: 1
+    path: Assets/Scenes/Haeun/Store/StoreMain.unity
+    guid: ab65ee673cf7c1b43b3e751b32abbe00
+  - enabled: 1
+    path: Assets/Scenes/Eunbin/bar.unity
+    guid: a48418140a1516e4b8c8df3b42456733
+  - enabled: 1
+    path: Assets/Scenes/Eunbin/big_house.unity
+    guid: ca15730b5e8d1854d8b2136a13cf2c36
+  - enabled: 1
+    path: Assets/Scenes/Eunbin/inf_guild.unity
+    guid: dbddda6ed7119af4f8e4e7f44df3cb65
+  - enabled: 1
+    path: Assets/Scenes/Eunbin/main_house.unity
+    guid: 0cd46ccbb148728408430ee2646ba977
+  - enabled: 1
+    path: Assets/Scenes/Eunbin/store.unity
+    guid: 485698672fac8ca41bd58839ae8b56a0
+  - enabled: 1
+    path: Assets/Scenes/Eunbin/sub1_house.unity
+    guid: 5a29afc6a1f13a34bb2195eb416c0dfb
+  - enabled: 1
+    path: Assets/Scenes/Eunbin/sub2_house.unity
+    guid: fd706924b1066164898de1973566d6aa
   m_configObjects: {}
