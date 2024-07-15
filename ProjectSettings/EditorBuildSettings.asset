@@ -42,4 +42,4 @@ EditorBuildSettings:
     path: Assets/Scenes/Eunbin/inf_guild.unity
     guid: dbddda6ed7119af4f8e4e7f44df3cb65
   m_configObjects:
-    com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000, guid: b70536bf5becdbb448a02cbf386f8c3b, type: 2}
+    com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000, guid: c911035f6a96f804a8559876366c9ad6, type: 2}
