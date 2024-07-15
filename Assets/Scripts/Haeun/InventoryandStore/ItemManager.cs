@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using System.IO;
-using Google.GData.Documents;
+
 
 [System.Serializable]
 public class GameItem
@@ -15,7 +15,7 @@ public class GameItem
     public string Id, Name, Description;
 }
 
-public class GameManager222222 : MonoBehaviour
+public class ItemManager : MonoBehaviour
 {
     [SerializeField] private List<GameItem> AllItemList = new List<GameItem>();
     [SerializeField] private List<GameItem> MyItemList = new List<GameItem>();
