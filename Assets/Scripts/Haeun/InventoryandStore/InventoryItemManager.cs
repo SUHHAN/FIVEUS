@@ -17,11 +17,16 @@ public class GameItem
 {
     public GameItem(string _Id, string _Name, string _Description, string _Type, bool _isUsing)
     {
-        Id = _Id; Name = _Name; Description = _Description; Type = _Type; isUsing =  _isUsing;
+        Id = _Id; Name = _Name; Description = _Description; Type = _Type; isUsing = _isUsing;
     }
 
     public string Id, Name, Description, Type;
     public bool isUsing;
+}
+
+public class ItemButton : MonoBehaviour
+{
+    public GameItem Item { get; set; }
 }
 
 public class InventoryItemManager : MonoBehaviour
@@ -32,11 +37,21 @@ public class InventoryItemManager : MonoBehaviour
     public string curType = "장비"; // 현재 고른 탭의 타입이 무엇인지
     public GameObject[] slot;
     public Image[] TabImage;
-    public Color TabSelectColor =  new Color32(171, 243, 255, 255);
-
+    public Sprite[] itemSprites;
+    public Color TabSelectColor = new Color32(210, 208, 240, 255);
     public Color TabIdleColor = new Color32(255, 255, 255, 255);
+
+    // 슬롯 버튼을 누르면 패널을 활성화하기 위함.
+    public GameObject SelectItemInfor; // 미니 창 패널
+    public Image itemImageText; // 설명창에 아이템 이미지 표시
+
+    public TextMeshProUGUI itemNameText; // 설명창에 아이템 이름 표시
+    public TextMeshProUGUI itemDescriptionText; // 설명창에 아이템 설명 표시
+    public TextMeshProUGUI itemIdText; // 설명창에 아이템 아이디 표시
+    public TextMeshProUGUI itemTypeText; // 설명창에 아이템 타입 표시
+
     private string filePath;
-    
+
     void Start()
     {
         filePath = Application.persistentDataPath + "/MyItemtext.txt";
@@ -47,6 +62,14 @@ public class InventoryItemManager : MonoBehaviour
         Debug.Log($"Loaded {AllItemList.Count} items.");
 
         LoadItem();
+
+        if (SelectItemInfor == null || itemNameText == null || itemDescriptionText == null)
+        {
+            Debug.LogError("UI 요소가 연결되지 않았습니다.");
+            return;
+        }
+
+        SelectItemInfor.SetActive(false); // 설명 창 비활성화
 
         // MyItemList의 내용을 확인하기 위한 디버그 로그
         Debug.Log("MyItemList 내용 로드 후:");
@@ -108,20 +131,88 @@ public class InventoryItemManager : MonoBehaviour
                 {
                     Debug.LogError("TextMeshProUGUI component not found in slot's children.");
                 }
+
+                // 이미지 설정
+                Transform imageTransform = slot[i].transform.Find("Image");
+                if (imageTransform != null)
+                {
+                    Image imageComponent = imageTransform.GetComponent<Image>();
+                    if (imageComponent != null)
+                    {
+                        // 현재 아이템의 Id를 기준으로 이미지를 설정
+                        int itemId = int.Parse(CurItemList[i].Id);
+                        if (itemId >= 0 && itemId < itemSprites.Length)
+                        {
+                            imageComponent.sprite = itemSprites[itemId];
+                        }
+                        else
+                        {
+                            Debug.LogError($"Item Id {itemId}에 맞는 이미지가 없습니다.");
+                        }
+                    }
+                    else
+                    {
+                        Debug.LogError("Image component not found in imageTransform's children.");
+                    }
+                }
+                else
+                {
+                    Debug.LogError("Image Transform not found in slot's children.");
+                }
+
+                // 버튼에 아이템 정보 추가 및 클릭 이벤트 연결
+                ItemButton itemButton = slot[i].GetComponent<ItemButton>();
+                if (itemButton == null)
+                {
+                    itemButton = slot[i].AddComponent<ItemButton>();
+                }
+                itemButton.Item = CurItemList[i];
+                Button button = slot[i].GetComponent<Button>();
+                if (button != null)
+                {
+                    button.onClick.RemoveAllListeners(); // 기존 이벤트 제거
+                    button.onClick.AddListener(() => SlotClick(itemButton.Item));
+                }
+                else
+                {
+                    Debug.LogError("Button component not found in slot.");
+                }
             }
         }
 
-
         int tabNum = 0;
-        switch (tabName) {
-            case "장비" : tabNum = 0; break;
-            case "물약" : tabNum = 1; break;
-            case "단서" : tabNum = 2; break;
-            case "기타" : tabNum = 3; break;
+        switch (tabName)
+        {
+            case "장비": tabNum = 0; break;
+            case "물약": tabNum = 1; break;
+            case "단서": tabNum = 2; break;
+            case "기타": tabNum = 3; break;
         }
-        for (int i = 0; i <TabImage.Length; i++) {
+        for (int i = 0; i < TabImage.Length; i++)
+        {
             TabImage[i].color = i == tabNum ? TabSelectColor : TabIdleColor;
         }
+    }
+
+    // 슬롯 버튼 클릭 시 아이템 정보 표시
+    public void SlotClick(GameItem item)
+    {
+        int itemId = int.Parse(item.Id);
+        if (itemId >= 0 && itemId < itemSprites.Length)
+        {
+            itemImageText.sprite = itemSprites[itemId];
+        }
+        else
+        {
+            Debug.LogError($"Item Id {itemId}에 맞는 이미지가 없습니다.");
+        }
+
+        itemNameText.text = item.Name;
+        itemDescriptionText.text = item.Description;
+        itemTypeText.text = item.Type;
+        itemIdText.text = "No. " + item.Id;
+
+        SelectItemInfor.SetActive(true); // 설명 창 활성화
     }
 
     // 리셋 버튼을 눌렀을 경우
@@ -162,5 +253,4 @@ public class InventoryItemManager : MonoBehaviour
 
         TapClick(curType);
     }
-
 }

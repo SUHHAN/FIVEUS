@@ -48,6 +48,10 @@ public class StoreItemManager : MonoBehaviour
 
         LoadItem();
 
+        
+
+
+
         // MyItemList의 내용을 확인하기 위한 디버그 로그
         Debug.Log("MyItemList 내용 로드 후:");
         foreach (var item in MyItemList)
