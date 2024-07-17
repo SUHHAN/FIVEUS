@@ -38,7 +38,7 @@ public class InventoryItemManager : MonoBehaviour
     public GameObject[] slot;
     public Image[] TabImage;
     public Sprite[] itemSprites;
-    public Color TabSelectColor = new Color32(210, 208, 240, 255);
+    public Color TabSelectColor = new Color32(186, 227, 255, 255);
     public Color TabIdleColor = new Color32(255, 255, 255, 255);
 
     // 슬롯 버튼을 누르면 패널을 활성화하기 위함.
@@ -249,7 +249,7 @@ public class InventoryItemManager : MonoBehaviour
         MyItemList = JsonUtility.FromJson<Serialization<GameItem>>(jdata).target;
 
         // Inspector에서 리스트가 업데이트되도록 합니다.
-        UnityEditor.EditorUtility.SetDirty(this);
+        //UnityEditor.EditorUtility.SetDirty(this);
 
         TapClick(curType);
     }

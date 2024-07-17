@@ -32,7 +32,7 @@ public class StoreItemManager : MonoBehaviour
     public string curType = "장비"; // 현재 고른 탭의 타입이 무엇인지
     public GameObject[] slot;
     public Image[] TabImage;
-    public Color TabSelectColor =  new Color32(171, 243, 255, 255);
+    public Color TabSelectColor =  new Color32(186, 227, 255, 255);
 
     public Color TabIdleColor = new Color32(255, 255, 255, 255);
     private string filePath;
