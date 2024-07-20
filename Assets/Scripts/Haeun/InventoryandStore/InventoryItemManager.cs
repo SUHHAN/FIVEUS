@@ -70,8 +70,19 @@ public class InventoryItemManager : MonoBehaviour
 
         if (SelectItemInfor == null || itemNameText == null || itemDescriptionText == null)
         {
-            Debug.LogError("UI 요소가 연결되지 않았습니다.");
+            
+            if (SelectItemInfor == null) {
+                Debug.LogError("SelectItemInfor 연결되지 않았습니다.");
+            }
+            if (itemNameText == null) {
+                Debug.LogError("itemNameText 연결되지 않았습니다.");
+            }
+            if (itemDescriptionText == null)
+            {
+                Debug.LogError("itemDescriptionText 연결되지 않았습니다.");
+            }
             return;
+            
         }
 
         SelectItemInfor.SetActive(false); // 설명 창 비활성화
