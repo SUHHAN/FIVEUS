@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using System.IO;
@@ -54,6 +55,10 @@ public class InventoryItemManager : MonoBehaviour
 
     void Start()
     {
+        
+        // Additively load the GUI scene
+        SceneManager.LoadScene("UI", LoadSceneMode.Additive);
+
         filePath = Application.persistentDataPath + "/MyItemtext.txt";
         print(filePath);
 
