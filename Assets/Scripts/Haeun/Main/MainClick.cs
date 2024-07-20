@@ -27,6 +27,9 @@ public class MainClick : MonoBehaviour
     public void changeInventory() {
         SceneManager.LoadScene("InventoryMain");
     }
+    public void changeSetting() {
+        SceneManager.LoadScene("SettingMain");
+    }
     public void OnExitButtonClick()
     {
         #if UNITY_EDITOR
