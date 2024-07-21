@@ -91,7 +91,7 @@ public class InventoryItemManager : MonoBehaviour
         Debug.Log("MyItemList 내용 로드 후:");
         foreach (var item in MyItemList)
         {
-            Debug.Log($"ID: {item.Id}, Name: {item.Name}, Description: {item.Description}");
+            Debug.Log($"ID: {item.Id}, Name: {item.Name}, Description: {item.Description}, isUsing: {item.isUsing}");
         }
     }
 
