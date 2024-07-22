@@ -16,17 +16,20 @@ EditorBuildSettings:
     guid: dbddda6ed7119af4f8e4e7f44df3cb65
   - enabled: 1
     path: Assets/Scenes/Eunbin/main_map.unity
-    guid: eb0071950363f9947adf893c70f12b99
+    guid: 9ef46cee4c2c7ac499ff659648a04c0e
   - enabled: 1
     path: Assets/Scenes/Eunbin/main_house.unity
-    guid: 6526c894161990743934415f5a2cbe91
+    guid: 0cd46ccbb148728408430ee2646ba977
   - enabled: 1
     path: Assets/Scenes/Eunbin/store.unity
-    guid: f4d61eeea5b68f841a397fc15dc5cb95
+    guid: 485698672fac8ca41bd58839ae8b56a0
   - enabled: 1
     path: Assets/Scenes/Eunbin/sub2_house.unity
-    guid: cf9ccced05623544a98d8ebdda8b5fa7
+    guid: fd706924b1066164898de1973566d6aa
   - enabled: 1
     path: Assets/Scenes/Eunbin/sub1_house.unity
-    guid: fe7d2f1a2946d144c8fb396fd187dd92
+    guid: 5a29afc6a1f13a34bb2195eb416c0dfb
+  - enabled: 1
+    path: Assets/Scenes/Eunbin/inf_guild_in.unity
+    guid: 9e9f01b55dd971b4ca8661a53d8d2da4
   m_configObjects: {}

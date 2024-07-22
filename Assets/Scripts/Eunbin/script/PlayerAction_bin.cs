@@ -158,6 +158,16 @@ public class PlayerAction_bin : MonoBehaviour
             StartCoroutine(LoadSceneCoroutine("main_map", 0));
         }
 
+        if (collision.gameObject.name == "inf_indoor")
+        {
+            StartCoroutine(LoadSceneCoroutine("inf_guild_in", 8));
+        }
+        if (collision.gameObject.name == "inf_outdoor")
+        {
+            LoadedScene = 8;
+            StartCoroutine(LoadSceneCoroutine("inf_guild", 7));
+        }
+
     }
 
     private IEnumerator LoadSceneCoroutine(string sceneName, int loadedScene)
@@ -229,6 +239,14 @@ public class PlayerAction_bin : MonoBehaviour
         if (scene.name == "main_map" && LoadedScene ==7)
         {
             transform.position = new Vector3(19, -14, 0);
+        }
+        if (scene.name == "inf_guild_in")
+        {
+            transform.position = new Vector3(1, -2, 0);
+        }
+        if (scene.name == "inf_guild" && LoadedScene == 8)
+        {
+            transform.position = new Vector3(3, 4, 0);
         }
         Speed_bin = 3; // 이동 속도 복원
     }
