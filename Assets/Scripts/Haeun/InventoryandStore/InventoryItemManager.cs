@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using System.IO;
@@ -54,6 +55,10 @@ public class InventoryItemManager : MonoBehaviour
 
     void Start()
     {
+        
+        // Additively load the GUI scene
+        SceneManager.LoadScene("UI", LoadSceneMode.Additive);
+
         filePath = Application.persistentDataPath + "/MyItemtext.txt";
         print(filePath);
 
@@ -65,8 +70,19 @@ public class InventoryItemManager : MonoBehaviour
 
         if (SelectItemInfor == null || itemNameText == null || itemDescriptionText == null)
         {
-            Debug.LogError("UI 요소가 연결되지 않았습니다.");
+            
+            if (SelectItemInfor == null) {
+                Debug.LogError("SelectItemInfor 연결되지 않았습니다.");
+            }
+            if (itemNameText == null) {
+                Debug.LogError("itemNameText 연결되지 않았습니다.");
+            }
+            if (itemDescriptionText == null)
+            {
+                Debug.LogError("itemDescriptionText 연결되지 않았습니다.");
+            }
             return;
+            
         }
 
         SelectItemInfor.SetActive(false); // 설명 창 비활성화
@@ -75,7 +91,7 @@ public class InventoryItemManager : MonoBehaviour
         Debug.Log("MyItemList 내용 로드 후:");
         foreach (var item in MyItemList)
         {
-            Debug.Log($"ID: {item.Id}, Name: {item.Name}, Description: {item.Description}");
+            Debug.Log($"ID: {item.Id}, Name: {item.Name}, Description: {item.Description}, isUsing: {item.isUsing}");
         }
     }
 

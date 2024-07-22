@@ -3,6 +3,19 @@ using UnityEngine.SceneManagement;
 
 public class MainClick : MonoBehaviour
 {
+    private string previousSceneName;
+
+    void Start()
+    {
+
+        // 현재 씬 이름 가져오기
+        string currentSceneName = SceneManager.GetActiveScene().name;
+
+        // 이전 씬 이름 가져오기
+        previousSceneName = PlayerPrefs.GetString("PreviousScene", "");
+        
+    }
+
     public void ChangeIngame() {
         SceneManager.LoadScene("IngameEx");
     }
@@ -27,6 +40,7 @@ public class MainClick : MonoBehaviour
     public void changeInventory() {
         SceneManager.LoadScene("InventoryMain");
     }
+    
     public void OnExitButtonClick()
     {
         #if UNITY_EDITOR
@@ -34,6 +48,28 @@ public class MainClick : MonoBehaviour
         #else
             Application.Quit();
         #endif
+    }
+
+    public void BackButtonClick()
+    {
+        if (!string.IsNullOrEmpty(previousSceneName))
+        {
+            SceneManager.LoadScene(previousSceneName);
+        }
+        else
+        {
+            Debug.LogWarning("이전 씬 정보가 없습니다.");
+        }
+    }
+
+    public static void LoadSettingsScene(string settingsSceneName)
+    {
+        // 현재 씬 이름 저장
+        PlayerPrefs.SetString("PreviousScene", SceneManager.GetActiveScene().name);
+        PlayerPrefs.Save();
+
+        // 환경 설정 씬 로드
+        SceneManager.LoadScene("SettingMain");
     }
 
 }

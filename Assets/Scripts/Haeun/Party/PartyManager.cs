@@ -7,16 +7,16 @@ using System;
 using TMPro;
 
 [System.Serializable]
-public class Serialization_Store<T>
+public class SerializationParty<T>
 {
-    public Serialization_Store(List<T> _target) => target = _target;
+    public SerializationParty(List<T> _target) => target = _target;
     public List<T> target;
 }
 
 [System.Serializable]
-public class StoreItem
+public class PartyCharacter
 {
-    public StoreItem(string _Id, string _Name, string _Description, string _Type, bool _isUsing, string _Price)
+    public PartyCharacter(string _Id, string _Name, string _Description, string _Type, bool _isUsing, string _Price)
     {
         Id = _Id; Name = _Name; Description = _Description; Type = _Type; isUsing = _isUsing; Price = _Price;
     }
@@ -25,16 +25,16 @@ public class StoreItem
     public bool isUsing;
 }
 
-public class StoreButton : MonoBehaviour
+public class PartyButton : MonoBehaviour
 {
-    public StoreItem Item { get; set; }
+    public PartyCharacter Item { get; set; }
 }
 
-public class StoreItemManager : MonoBehaviour
+public class PartyManager : MonoBehaviour
 {
-    [SerializeField] private List<StoreItem> AllItemList = new List<StoreItem>();
-    [SerializeField] private List<StoreItem> MyItemList = new List<StoreItem>();
-    [SerializeField] private List<StoreItem> CurItemList = new List<StoreItem>();
+    [SerializeField] private List<PartyCharacter> AllItemList = new List<PartyCharacter>();
+    [SerializeField] private List<PartyCharacter> MyItemList = new List<PartyCharacter>();
+    [SerializeField] private List<PartyCharacter> CurItemList = new List<PartyCharacter>();
     public string curType = "장비"; // 현재 고른 탭의 타입이 무엇인지
     public GameObject[] slot;
     public Image[] TabImage;
@@ -114,7 +114,7 @@ public class StoreItemManager : MonoBehaviour
                     isUsing = false; // 파싱 실패 시 기본값 설정
                 }
 
-                AllItemList.Add(new StoreItem(id, name, description, type, isUsing, price));
+                AllItemList.Add(new PartyCharacter(id, name, description, type, isUsing, price));
             }
         }
         else
@@ -198,17 +198,17 @@ public void TapClick(string tabName)
             }
 
             // 버튼에 아이템 정보 추가 및 클릭 이벤트 연결
-            StoreButton storeButton = slot[i].GetComponent<StoreButton>();
-            if (storeButton == null)
+            PartyButton partyButton = slot[i].GetComponent<PartyButton>();
+            if (partyButton == null)
             {
-                storeButton = slot[i].AddComponent<StoreButton>();
+                partyButton = slot[i].AddComponent<PartyButton>();
             }
-            storeButton.Item = CurItemList[i];
+            partyButton.Item = CurItemList[i];
             Button button = slot[i].GetComponent<Button>();
             if (button != null)
             {
                 button.onClick.RemoveAllListeners(); // 기존 이벤트 제거
-                button.onClick.AddListener(() => SlotClick(storeButton.Item));
+                button.onClick.AddListener(() => SlotClick(partyButton.Item));
             }
             else
             {
@@ -233,7 +233,7 @@ public void TapClick(string tabName)
 
 
     // 슬롯 버튼 클릭 시 아이템 정보 표시
-    public void SlotClick(StoreItem item)
+    public void SlotClick(PartyCharacter item)
     {
         int itemId = int.Parse(item.Id);
         if (itemId >= 0 && itemId < itemSprites.Length)
@@ -257,10 +257,10 @@ public void TapClick(string tabName)
     // 리셋 버튼을 눌렀을 경우
     public void ReSetItemClick()
     {
-        StoreItem BasicItem = AllItemList.Find(x => x.Name == "기본템");
+        PartyCharacter BasicItem = AllItemList.Find(x => x.Name == "기본템");
         if (BasicItem != null)
         {
-            MyItemList = new List<StoreItem>() { BasicItem };
+            MyItemList = new List<PartyCharacter>() { BasicItem };
         }
         else
         {
@@ -272,7 +272,7 @@ public void TapClick(string tabName)
 
     void SaveItem()
     {
-        string jdata = JsonUtility.ToJson(new Serialization_Store<StoreItem>(MyItemList));
+        string jdata = JsonUtility.ToJson(new SerializationParty<PartyCharacter>(MyItemList));
         File.WriteAllText(filePath, jdata);
     }
 
@@ -285,7 +285,7 @@ public void TapClick(string tabName)
         }
         
         string jdata = File.ReadAllText(filePath);
-        MyItemList = JsonUtility.FromJson<Serialization<StoreItem>>(jdata).target;
+        MyItemList = JsonUtility.FromJson<SerializationParty<PartyCharacter>>(jdata).target;
 
         // Inspector에서 리스트가 업데이트되도록 합니다.
         //UnityEditor.EditorUtility.SetDirty(this);
