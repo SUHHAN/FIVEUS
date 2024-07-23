@@ -26,9 +26,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Eunbin/sub1_house.unity
     guid: 5a29afc6a1f13a34bb2195eb416c0dfb
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Eunbin/sub2_house.unity
-    guid: cf9ccced05623544a98d8ebdda8b5fa7
+    guid: fd706924b1066164898de1973566d6aa
+  - enabled: 1
+    path: Assets/Scenes/Eunbin/inf_guild_in.unity
+    guid: 9e9f01b55dd971b4ca8661a53d8d2da4
   - enabled: 1
     path: Assets/Scenes/Haeun/Inventory/InventoryMain.unity
     guid: 86d8cf86e12fb5740b56547133d8c0f6
