@@ -2210,7 +2210,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2110177058}
         m_TargetAssemblyTypeName: MainClick, Assembly-CSharp
-        m_MethodName: BackButtonClick
+        m_MethodName: ReturnMain
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
