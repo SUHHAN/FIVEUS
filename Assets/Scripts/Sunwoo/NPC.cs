@@ -3,149 +3,147 @@ using UnityEngine.UI;
 
 public class NPC : MonoBehaviour
 {
-    public GameObject interactionUI; // 상호작용 UI (대화하기, 설득하기 버튼)
-    public Button talkButton; // 대화하기 버튼
-    public Button persuadeButton; // 설득하기 버튼
-    public GameObject dialogueUI; // 대화 UI (대화 텍스트를 표시하는 UI)
+    public string npcName; // NPC 이름
+    public int affection = 0; // NPC 호감도
+    public string[] dialogues; // 호감도에 따른 대사 배열
+    public GameObject dialogueUI; // 대화 UI
+    public GameObject choiceUI; // 선택지 UI
+    public GameObject giftUI; // 선물 UI
+    public GameObject persuadeUI; // 설득 UI
     public Text dialogueText; // 대화 텍스트
-    public GameObject choiceUI; // 선택창 UI
-    public Button choice1Button; // 선택 1 버튼
-    public Button choice2Button; // 선택 2 버튼
-    public int affection; // 호감도 (0~100)
-    private bool isPlayerNearby; // 플레이어가 근처에 있는지 여부
+
+    private bool isNearPlayer = false; // 플레이어가 가까이 있는지 여부
+    private ToastManager toastManager; // 토스트 매니저 인스턴스
 
     void Start()
     {
-        interactionUI.SetActive(false);
-        dialogueUI.SetActive(false);
-        choiceUI.SetActive(false);
-
-        talkButton.onClick.AddListener(Talk);
-        persuadeButton.onClick.AddListener(Persuade);
-        choice1Button.onClick.AddListener(() => MakeChoice(1));
-        choice2Button.onClick.AddListener(() => MakeChoice(2));
+        toastManager = FindObjectOfType<ToastManager>(); // ToastManager 인스턴스 찾기
     }
 
     void Update()
     {
-        if (isPlayerNearby && Input.GetKeyDown(KeyCode.E))
+        // 플레이어가 가까이 있고 E 키를 눌렀을 때 선택지 표시
+        if (isNearPlayer && Input.GetKeyDown(KeyCode.E))
         {
-            interactionUI.SetActive(true);
+            ShowChoices();
         }
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
+        // 플레이어가 트리거 범위에 들어왔을 때
         if (other.CompareTag("Player"))
         {
-            isPlayerNearby = true;
+            isNearPlayer = true;
         }
     }
 
     void OnTriggerExit2D(Collider2D other)
     {
+        // 플레이어가 트리거 범위에서 나갔을 때
         if (other.CompareTag("Player"))
         {
-            isPlayerNearby = false;
-            interactionUI.SetActive(false);
-            dialogueUI.SetActive(false);
-            choiceUI.SetActive(false);
+            isNearPlayer = false;
+            HideChoices();
         }
     }
 
-    void Talk()
+    public void ShowChoices()
     {
-        interactionUI.SetActive(false);
-        dialogueUI.SetActive(true);
+        choiceUI.SetActive(true); // 선택지 UI 표시
+    }
 
-        if (affection < 30)
+    public void HideChoices()
+    {
+        choiceUI.SetActive(false); // 선택지 UI 숨기기
+    }
+
+    public void Talk()
+    {
+        HideChoices();
+        dialogueUI.SetActive(true); // 대화 UI 표시
+        UpdateDialogue(); // 대화 업데이트
+    }
+
+    public void UpdateDialogue()
+    {
+        string dialogue = GetDialogueBasedOnAffection(); // 호감도에 따른 대사 가져오기
+        dialogueText.text = dialogue; // 대사 텍스트 설정
+        if (affection == 100)
         {
-            dialogueText.text = "호감도가 낮은 대사";
-        }
-        else if (affection < 70)
-        {
-            dialogueText.text = "호감도가 중간인 대사";
+            choiceUI.SetActive(false); // 호감도가 100이면 선택지 UI 숨기기
         }
         else
         {
-            dialogueText.text = "호감도가 높은 대사";
+            ShowChoices(); // 그렇지 않으면 선택지 UI 표시
         }
-
-        // 대화 중 선택창 띄우기
-        Invoke("ShowChoices", 2.0f); // 2초 후 선택창 띄우기
+        EndDialogue();
     }
 
-    void ShowChoices()
+    public void EndDialogue()
     {
-        choiceUI.SetActive(true);
-        dialogueUI.SetActive(false);
+        // 대화가 끝난 후 호감도 변화 메시지 표시
+        string affectionChangeMessage = "호감도가 " + affection + "만큼 되었습니다.";
+        toastManager.ShowToast(affectionChangeMessage);
     }
 
-    void MakeChoice(int choice)
+    public string GetDialogueBasedOnAffection()
     {
-        choiceUI.SetActive(false);
-        dialogueUI.SetActive(true);
-
-        if (choice == 1)
-        {
-            affection += 10;
-            dialogueText.text = "선택 1을 선택했을 때의 대사. 호감도가 증가합니다.";
-        }
-        else if (choice == 2)
-        {
-            affection -= 10;
-            dialogueText.text = "선택 2를 선택했을 때의 대사. 호감도가 감소합니다.";
-        }
+        // 호감도에 따른 대사 반환
+        if (affection >= 100) return "너가 너무 좋아!";
+        else if (affection >= 90) return dialogues[6];
+        else if (affection >= 80) return dialogues[5];
+        else if (affection >= 70) return dialogues[4];
+        else if (affection >= 60) return dialogues[3];
+        else if (affection >= 50) return dialogues[2];
+        else return dialogues[1];
     }
 
-    void Persuade()
+    public void Gift()
     {
-        interactionUI.SetActive(false);
-        dialogueUI.SetActive(true);
+        HideChoices();
+        giftUI.SetActive(true); // 선물 UI 표시
+    }
 
-        int successChance = 0;
+    public void ReceiveGift(string giftName)
+    {
+        int affectionChange = GetGiftAffectionChange(giftName); // 선물에 따른 호감도 변화 가져오기
+        if (affectionChange > 0)
+        {
+            affection += affectionChange; // 호감도 증가
+            toastManager.ShowToast("호감도가 " + affectionChange + "만큼 증가했습니다."); // 호감도 변화 메시지 표시
+        }
+        giftUI.SetActive(false); // 선물 UI 숨기기
+    }
 
-        if (affection >= 50 && affection < 60)
-        {
-            successChance = 50;
-        }
-        else if (affection >= 60 && affection < 70)
-        {
-            successChance = 60;
-        }
-        else if (affection >= 70 && affection < 80)
-        {
-            successChance = 70;
-        }
-        else if (affection >= 80 && affection < 90)
-        {
-            successChance = 80;
-        }
-        else if (affection >= 90 && affection < 100)
-        {
-            successChance = 90;
-        }
-        else if (affection == 100)
-        {
-            successChance = 100;
-        }
+    public int GetGiftAffectionChange(string giftName)
+    {
+        // 특정 선물에 따른 호감도 변화 구현
+        // 예: if (giftName == "특정 선물") return 10;
+        return 0; // 기본적으로 호감도 변화 없음
+    }
 
-        if (Random.Range(0, 100) < successChance)
+    public void Persuade()
+    {
+        HideChoices();
+        persuadeUI.SetActive(true); // 설득 UI 표시
+    }
+
+    public void AttemptPersuasion()
+    {
+        int successChance = affection; // 호감도에 비례한 성공 확률
+        int randomValue = Random.Range(0, 100); // 0에서 100 사이의 랜덤 값 생성
+        if (randomValue < successChance)
         {
-            dialogueText.text = "설득에 성공했습니다!";
+            // 설득 성공
+            toastManager.ShowToast("설득에 성공했습니다!");
+            // 팀에 영입하는 로직 추가
         }
         else
         {
-            dialogueText.text = "설득에 실패했습니다.";
+            // 설득 실패
+            toastManager.ShowToast("설득에 실패했습니다.");
         }
-    }
-
-    public void GiveGift(int giftValue)
-    {
-        affection += giftValue;
-        if (affection < 0) affection = 0;
-        if (affection > 100) affection = 100;
-
-        dialogueText.text = "선물을 받은 후의 대사. 현재 호감도: " + affection;
+        persuadeUI.SetActive(false); // 설득 UI 숨기기
     }
 }
