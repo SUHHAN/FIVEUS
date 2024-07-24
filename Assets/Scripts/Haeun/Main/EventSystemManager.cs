@@ -15,6 +15,7 @@ public class EventSystemManager : MonoBehaviour
         else
         {
             Destroy(gameObject); // 이미 인스턴스가 존재하면 현재 오브젝트를 파괴
+            return;
         }
     }
 }
