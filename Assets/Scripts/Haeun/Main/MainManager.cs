@@ -2,10 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
+using UnityEngine.UI; // UI 관련 라이브러리 추가
 
 public class MainManager : MonoBehaviour
 {
     private string previousSceneName;
+
+    public Button continueButton; // 이어하기 버튼
+    public Button newGameButton; // 새로하기 버튼
+    public GameObject warningPopup; // 경고 팝업 프리팹
 
     void Start()
     {
@@ -16,21 +21,28 @@ public class MainManager : MonoBehaviour
 
         // 배경음 시작
         AudioManager.Instance.PlayBgm(true);
-        
+
+        // PlayerPrefs 안에 데이터가 있는지 확인하여 이어하기 버튼 활성화
+        CheckDataAlreadyExists();
+        warningPopup.SetActive(false);
+
+
+        // 새로하기 버튼에 이벤트 리스너 추가
+        newGameButton.onClick.AddListener(OnNewGameButtonClick);
     }
 
     public void ChangeIngame() {
         SceneManager.LoadScene("IngameEx");
     }
-    public void ChangeLogin() {
-        SceneManager.LoadScene("LoginScene");
-    }
+    
     public void ReturnMain() {
         SceneManager.LoadScene("MainScene");
     }
+
     public void changeStore() {
         SceneManager.LoadScene("StoreMain");
     }
+
     public void changeInventory() {
         SceneManager.LoadScene("InventoryMain");
     }
@@ -42,6 +54,48 @@ public class MainManager : MonoBehaviour
         #else
             Application.Quit();
         #endif
+    }
+    
+    // PlayerPrefs 안에 새게임을 누른적이 있는지 한번 확인하고, 있으면 이어하기 버튼 활성화
+    public void CheckDataAlreadyExists() {
+        bool dataExists = PlayerPrefs.GetInt("isDataExisting", 0) == 1;
+
+        continueButton.interactable = dataExists; // 이어하기 버튼 상태 설정
+    }
+
+    public void OnNewGameButtonClick()
+    {
+        bool dataExists = PlayerPrefs.GetInt("isDataExisting", 0) == 1;
+
+        if (dataExists) {
+            // 경고 팝업 생성
+            warningPopup.SetActive(true);
+            // 경고 팝업에서 확인 버튼과 취소 버튼 가져오기
+            Button confirmButton = warningPopup.transform.Find("OkButton").GetComponent<Button>();
+            Button cancelButton = warningPopup.transform.Find("NoButton").GetComponent<Button>();
+
+            // 확인 버튼에 이벤트 리스너 추가
+            confirmButton.onClick.AddListener(() => {
+                warningPopup.SetActive(false);
+                StartNewGame(); // 새 게임 시작
+            });
+
+            // 취소 버튼에 이벤트 리스너 추가
+            cancelButton.onClick.AddListener(() => {
+               warningPopup.SetActive(false);
+            });
+        } else {
+            StartNewGame(); // 저장된 데이터가 없으면 바로 새 게임 시작
+        }
+    }
+
+    public void StartNewGame()
+    {
+        // 새 게임 시작 시 PlayerPrefs 초기화 및 isDataExisting 플래그 설정
+        PlayerPrefs.DeleteAll();
+        PlayerPrefs.SetInt("isDataExisting", 1);
+        PlayerPrefs.Save();
+        SceneManager.LoadScene("IngameEx");
     }
 
     public void BackButtonClick()

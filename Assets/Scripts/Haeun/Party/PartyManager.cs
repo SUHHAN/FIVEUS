@@ -60,6 +60,10 @@ public class PartyManager : MonoBehaviour
     public TextMeshProUGUI CharName_T,CharDescription_T,CharType_T;
     public TextMeshProUGUI CharHP_T,CharSTR_T,CharDEX_T,CharINT_T,CharCON_T,CharDEF_T,CharATK_T;
 
+
+    // 정렬 버튼 연결
+    public GameObject SortPanel;
+
     private string filePath;
     
 
@@ -155,7 +159,8 @@ public void IdleClick()
     CurCharacterList = AllCharacterList;
 
     //CurCharacterList = AllCharacterList.FindAll(x => x.Type == tabName);
-
+    // 정렬 패널의 텍스트 변경
+    SortNum();
 
     // 슬롯과 텍스트를 보일 수 있도록 만들기
     for (int i = 0; i < slot.Length; i++)
@@ -307,6 +312,12 @@ public void IdleClick()
         }
     }
 }
+
+    void SortNum() {
+        TextMeshProUGUI SortTextComponent = SortPanel.GetComponentInChildren<TextMeshProUGUI>();
+        SortTextComponent.text = AllCharacterList.Count + "/" + CurCharacterList.Count;
+
+    }
 
 
     // 슬롯 버튼 클릭 시 아이템 정보 표시
