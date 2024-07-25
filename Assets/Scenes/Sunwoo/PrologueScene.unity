@@ -396,7 +396,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &256616404
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -996,11 +996,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3433164337862000459, guid: 4413f814da31e0b439b0f936457d25f3, type: 3}
   m_PrefabInstance: {fileID: 827946818}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &827946821 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5876351550150144190, guid: 4413f814da31e0b439b0f936457d25f3, type: 3}
-  m_PrefabInstance: {fileID: 827946818}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &827946822 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5472057876251699214, guid: 4413f814da31e0b439b0f936457d25f3, type: 3}
@@ -1239,7 +1234,6 @@ MonoBehaviour:
   narration: {fileID: 503195907}
   narrationText: {fileID: 89836991}
   dialogue: {fileID: 693390490}
-  imageObj: {fileID: 827946821}
   nameObj: {fileID: 827946823}
   nameText: {fileID: 827946824}
   descriptionText: {fileID: 827946822}
