@@ -1,11 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using TMPro; // TextMeshPro 네임스페이스 추가
 
 public class ToastManager : MonoBehaviour
 {
-    public Text toastText;
+    public TextMeshProUGUI toastText;
     public GameObject toastUI;
 
     public void ShowToast(string message)

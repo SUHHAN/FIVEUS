@@ -1,5 +1,7 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using TMPro; // TextMeshPro 네임스페이스 추가
 
 public class NPC : MonoBehaviour
 {
@@ -10,7 +12,7 @@ public class NPC : MonoBehaviour
     public GameObject choiceUI; // 선택지 UI
     public GameObject giftUI; // 선물 UI
     public GameObject persuadeUI; // 설득 UI
-    public Text dialogueText; // 대화 텍스트
+    public TextMeshProUGUI dialogueText; // 대화 텍스트
 
     private bool isNearPlayer = false; // 플레이어가 가까이 있는지 여부
     private ToastManager toastManager; // 토스트 매니저 인스턴스
@@ -23,7 +25,7 @@ public class NPC : MonoBehaviour
     void Update()
     {
         // 플레이어가 가까이 있고 E 키를 눌렀을 때 선택지 표시
-        if (isNearPlayer && Input.GetKeyDown(KeyCode.E))
+        if (isNearPlayer && Input.GetKeyDown(KeyCode.Return))
         {
             ShowChoices();
         }
