@@ -167,6 +167,24 @@ public class PlayerAction_bin : MonoBehaviour
             LoadedScene = 8;
             StartCoroutine(LoadSceneCoroutine("inf_guild", 7));
         }
+        if (collision.gameObject.name == "camping_indoor")
+        {
+            StartCoroutine(LoadSceneCoroutine("camping", 9));
+        }
+        if (collision.gameObject.name == "camping_outdoor")
+        {
+            LoadedScene = 9;
+            StartCoroutine(LoadSceneCoroutine("main_map", 0));
+        }
+        if (collision.gameObject.name == "training_indoor")
+        {
+            StartCoroutine(LoadSceneCoroutine("training", 10));
+        }
+        if (collision.gameObject.name == "training_outdoor")
+        {
+            LoadedScene = 10;
+            StartCoroutine(LoadSceneCoroutine("main_map", 0));
+        }
 
     }
 
@@ -247,6 +265,22 @@ public class PlayerAction_bin : MonoBehaviour
         if (scene.name == "inf_guild" && LoadedScene == 8)
         {
             transform.position = new Vector3(3, 4, 0);
+        }
+        if (scene.name == "camping")
+        {
+            transform.position = new Vector3(3, -1, 0);
+        }
+        if (scene.name == "main_map" && LoadedScene == 9)
+        {
+            transform.position = new Vector3(-9, -18, 0);
+        }
+        if (scene.name == "training")
+        {
+            transform.position = new Vector3(8, 1, 0);
+        }
+        if (scene.name == "main_map" && LoadedScene == 10)
+        {
+            transform.position = new Vector3(-26, 4, 0);
         }
         Speed_bin = 3; // 이동 속도 복원
     }

@@ -33,6 +33,12 @@ EditorBuildSettings:
     path: Assets/Scenes/Eunbin/inf_guild_in.unity
     guid: 9e9f01b55dd971b4ca8661a53d8d2da4
   - enabled: 1
+    path: Assets/Scenes/Eunbin/camping.unity
+    guid: cbe7d0e689fac25448d2c669e131eebf
+  - enabled: 1
+    path: Assets/Scenes/Eunbin/training.unity
+    guid: 1acd8f4febae53341931b59fe1a72790
+  - enabled: 1
     path: Assets/Scenes/Haeun/Inventory/InventoryMain.unity
     guid: 86d8cf86e12fb5740b56547133d8c0f6
   - enabled: 1
