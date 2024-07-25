@@ -170,14 +170,13 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    void ChangeGoldLevel() {
+    void ChangeGoldLevel() 
+    {
         // 0. 수치 가지고 오기 / 이건 예지 언니 변수 가지고 오는걸로 생각하면 될 것 같아요.
-        string GoldLevel = Gold_ex.ToString();  // 예지언니 체력 계산 후 체력
-        
-        // 1. 재화 텍스트 바꾸기
-        GoldLevelText.text = GoldLevel;
+        int GoldLevel = Gold_ex;  // 예지언니 재화 수치
 
-        // 2. 재화 텍스트 , 콤마 찍어주는 기능 추가해야 할듯.
+        // 1. 재화 텍스트 바꾸기 (천 단위 마다 콤마 찍어주는 기능 추가)
+        GoldLevelText.text = GoldLevel.ToString("N0"); // "N0"은 천 단위 구분 기호와 소수점 0자리 형식을 의미합니다.
     }
 
 
