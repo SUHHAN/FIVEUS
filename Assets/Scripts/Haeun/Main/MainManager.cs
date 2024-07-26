@@ -36,10 +36,12 @@ public class MainManager : MonoBehaviour
         SettingButton.onClick.AddListener(() => LoadSettingsScene(previousSceneName));
     }
 
+    // 이어하기 버튼
     public void OnContinueButtonClick() {
-        SceneManager.LoadScene("IngameEx");
+        SceneManager.LoadScene("DataSlotScene");
     }
     
+    // 나가기 버튼
     public void OnExitButtonClick()
     {
         #if UNITY_EDITOR
@@ -58,6 +60,7 @@ public class MainManager : MonoBehaviour
         SettingButtonWarningText.SetActive(!dataExists);
     }
 
+    // 새 게임 버튼
     public void OnNewGameButtonClick()
     {
         bool dataExists = PlayerPrefs.GetInt("isDataExisting", 0) == 1;
@@ -90,6 +93,8 @@ public class MainManager : MonoBehaviour
         PlayerPrefs.Save();
         continueButton.interactable = false;
         SettingButton.interactable = false; // 설정 버튼 상태 설정
+        SettingButtonWarningText.SetActive(true);
+
     }
 
     public void StartNewGame()

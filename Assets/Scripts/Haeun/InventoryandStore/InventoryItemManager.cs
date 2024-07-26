@@ -202,7 +202,6 @@ public class InventoryItemManager : MonoBehaviour
             case "장비": tabNum = 0; break;
             case "물약": tabNum = 1; break;
             case "단서": tabNum = 2; break;
-            case "기타": tabNum = 3; break;
         }
         for (int i = 0; i < TabImage.Length; i++)
         {

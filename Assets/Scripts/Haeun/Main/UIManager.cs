@@ -24,9 +24,11 @@ public class UIManager : MonoBehaviour
     public int HPnum_ex = 79;
     public int Fatiguenum_ex = 79;
     public int Gold_ex = 10000000;
+    public int Day_ex = 12;
     public TextMeshProUGUI HPLevelText;      // 체력 수치 관련 텍스트
     public TextMeshProUGUI FatigueLevelText; // 피로도 수치 관련 텍스트
     public TextMeshProUGUI GoldLevelText;    // 재화 수치 관련 텍스트
+    public TextMeshProUGUI DayLevelText;    // 날짜 수치 관련 텍스트
 
     [Header("#SpriteChange")]
     public Image HPLevelImage;
@@ -62,6 +64,7 @@ public class UIManager : MonoBehaviour
         ChangeHPLevel();
         ChangeFatigueLevel();
         ChangeGoldLevel();
+        ChangeDayLevel();
 
 
         // 버튼 클릭 이벤트 연결
@@ -179,6 +182,14 @@ public class UIManager : MonoBehaviour
         GoldLevelText.text = GoldLevel.ToString("N0"); // "N0"은 천 단위 구분 기호와 소수점 0자리 형식을 의미합니다.
     }
 
+    void ChangeDayLevel() 
+    {
+        // 0. 수치 가지고 오기 / 이건 예지 언니 변수 가지고 오는걸로 생각하면 될 것 같아요.
+        int DayLevel = Day_ex;  // 예지언니 날짜 수치
+
+        // 1. 재화 텍스트 바꾸기 (천 단위 마다 콤마 찍어주는 기능 추가)
+        DayLevelText.text = "D-" + DayLevel.ToString();
+    }
 
     // 씬 전환 코드
     public void changeStore() {

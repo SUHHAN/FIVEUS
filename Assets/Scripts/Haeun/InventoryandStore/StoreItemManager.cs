@@ -67,23 +67,6 @@ public class StoreItemManager : MonoBehaviour
 
         LoadItem();
 
-        if (SelectItemInfor == null || itemNameText == null || itemDescriptionText == null)
-        {
-            if (SelectItemInfor == null)
-            {
-                Debug.LogError("SelectItemInfor 연결되지 않았습니다.");
-            }
-            if (itemNameText == null)
-            {
-                Debug.LogError("itemNameText 연결되지 않았습니다.");
-            }
-            if (itemDescriptionText == null)
-            {
-                Debug.LogError("itemDescriptionText 연결되지 않았습니다.");
-            }
-            return;
-        }
-
         SelectItemInfor.SetActive(false); // 설명 창 비활성화
 
         // MyItemList의 내용을 확인하기 위한 디버그 로그
@@ -223,7 +206,6 @@ public void TapClick(string tabName)
         case "장비": tabNum = 0; break;
         case "물약": tabNum = 1; break;
         case "단서": tabNum = 2; break;
-        case "기타": tabNum = 3; break;
     }
     for (int i = 0; i < TabImage.Length; i++)
     {
@@ -274,6 +256,7 @@ public void TapClick(string tabName)
     {
         string jdata = JsonUtility.ToJson(new Serialization_Store<StoreItem>(MyItemList));
         File.WriteAllText(filePath, jdata);
+        
     }
 
     void LoadItem()
