@@ -2316,7 +2316,6 @@ MonoBehaviour:
   - {fileID: 528435579}
   - {fileID: 1673208603}
   - {fileID: 317724212}
-  - {fileID: 0}
   itemSprites:
   - {fileID: 2095688108, guid: 9ba704397b71d3f4ba7ee7333f97f7b3, type: 3}
   - {fileID: 2095688108, guid: 9ba704397b71d3f4ba7ee7333f97f7b3, type: 3}
