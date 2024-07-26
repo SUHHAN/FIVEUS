@@ -119,6 +119,7 @@ public class NpcScript : MonoBehaviour
             {
                 // 설득 실패
                 resultText.text = $"실패했습니다! 남은 기회: {remainingAttempts}";
+                success = false; // 설득 실패 여부 설정
             }
             persuadeUI.SetActive(false); // 설득 UI 숨기기
             resultUI.SetActive(true); // 결과 UI 표시
