@@ -17,12 +17,12 @@ public class NpcScript : MonoBehaviour
     public Button persuadeButton; // 설득하기 버튼 연결
     public Button yesButton; // 예 버튼 연결
     public Button noButton; // 아니오 버튼 연결
-    public Button attemptPersuasionButton; // 설득 시도 버튼 연결
     public float interactionRange = 3.0f; // 상호작용 거리
     private GameObject player; // 플레이어 오브젝트
     private bool isTalking = false; // 대화 중인지 여부
     public int affection = 50; // 호감도
     private int remainingAttempts = 3; // 남은 설득 시도 횟수
+    public bool success = false; // 설득 성공 여부
 
     void Start()
     {
@@ -86,7 +86,9 @@ public class NpcScript : MonoBehaviour
     {
         HideChoices();
         persuadeUI.SetActive(true); // 설득 UI 표시
-        persuadeText.text = $"설득하시겠습니까? 남은 횟수: {remainingAttempts}";
+        persuadeText.text = $"설득하시겠습니까? 남은 기회: {remainingAttempts}";
+        yesButton.gameObject.SetActive(true); // 예 버튼 표시
+        noButton.gameObject.SetActive(true); // 아니오 버튼 표시
     }
 
     public void OnYesButtonClick()
@@ -97,24 +99,26 @@ public class NpcScript : MonoBehaviour
     public void OnNoButtonClick()
     {
         persuadeUI.SetActive(false); // 설득 UI 숨기기
+        choiceUI.SetActive(true); // 선택 UI 다시 표시
     }
 
     public void AttemptPersuasion()
     {
         if (remainingAttempts > 0)
         {
-            remainingAttempts--;
+            remainingAttempts--; // 남은 시도 횟수 1 감소
             int successChance = affection; // 호감도에 비례한 성공 확률
             int randomValue = Random.Range(0, 100); // 0에서 100 사이의 랜덤 값 생성
             if (randomValue < successChance)
             {
                 // 설득 성공
                 resultText.text = "성공했습니다!";
+                success = true;
             }
             else
             {
                 // 설득 실패
-                resultText.text = $"실패했습니다! 남은 횟수: {remainingAttempts}";
+                resultText.text = $"실패했습니다! 남은 기회: {remainingAttempts}";
             }
             persuadeUI.SetActive(false); // 설득 UI 숨기기
             resultUI.SetActive(true); // 결과 UI 표시
@@ -132,6 +136,8 @@ public class NpcScript : MonoBehaviour
         choiceUI.SetActive(false); // 선택 UI 숨기기
         dialogueUI.SetActive(false); // 대화 UI 숨기기
         persuadeUI.SetActive(false); // 설득 UI 숨기기
+        yesButton.gameObject.SetActive(false); // 예 버튼 숨기기
+        noButton.gameObject.SetActive(false); // 아니오 버튼 숨기기
     }
 
     void EndDialogue()
