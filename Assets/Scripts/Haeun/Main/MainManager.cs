@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
-using UnityEngine.UI; // UI 관련 라이브러리 추가
+using UnityEngine.UI;
+using TMPro; // UI 관련 라이브러리 추가
 
 public class MainManager : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class MainManager : MonoBehaviour
 
     public Button continueButton; // 이어하기 버튼
     public Button newGameButton; // 새로하기 버튼
+    public Button SettingButton; // 설정 버튼
+    public GameObject SettingButtonWarningText;
     public GameObject warningPopup; // 경고 팝업 프리팹
 
     void Start()
@@ -29,24 +32,16 @@ public class MainManager : MonoBehaviour
 
         // 새로하기 버튼에 이벤트 리스너 추가
         newGameButton.onClick.AddListener(OnNewGameButtonClick);
+        continueButton.onClick.AddListener(OnContinueButtonClick);
+        SettingButton.onClick.AddListener(() => LoadSettingsScene(previousSceneName));
     }
 
-    public void ChangeIngame() {
-        SceneManager.LoadScene("IngameEx");
+    // 이어하기 버튼
+    public void OnContinueButtonClick() {
+        SceneManager.LoadScene("DataSlotScene");
     }
     
-    public void ReturnMain() {
-        SceneManager.LoadScene("MainScene");
-    }
-
-    public void changeStore() {
-        SceneManager.LoadScene("StoreMain");
-    }
-
-    public void changeInventory() {
-        SceneManager.LoadScene("InventoryMain");
-    }
-    
+    // 나가기 버튼
     public void OnExitButtonClick()
     {
         #if UNITY_EDITOR
@@ -61,8 +56,11 @@ public class MainManager : MonoBehaviour
         bool dataExists = PlayerPrefs.GetInt("isDataExisting", 0) == 1;
 
         continueButton.interactable = dataExists; // 이어하기 버튼 상태 설정
+        SettingButton.interactable = dataExists; // 설정 버튼 상태 설정
+        SettingButtonWarningText.SetActive(!dataExists);
     }
 
+    // 새 게임 버튼
     public void OnNewGameButtonClick()
     {
         bool dataExists = PlayerPrefs.GetInt("isDataExisting", 0) == 1;
@@ -77,7 +75,7 @@ public class MainManager : MonoBehaviour
             // 확인 버튼에 이벤트 리스너 추가
             confirmButton.onClick.AddListener(() => {
                 warningPopup.SetActive(false);
-                StartNewGame(); // 새 게임 시작
+                ResetGamedata(); // 새 게임 시작
             });
 
             // 취소 버튼에 이벤트 리스너 추가
@@ -87,6 +85,16 @@ public class MainManager : MonoBehaviour
         } else {
             StartNewGame(); // 저장된 데이터가 없으면 바로 새 게임 시작
         }
+    }
+
+    public void ResetGamedata() {
+        PlayerPrefs.DeleteAll();
+        PlayerPrefs.SetInt("isDataExisting", 0);
+        PlayerPrefs.Save();
+        continueButton.interactable = false;
+        SettingButton.interactable = false; // 설정 버튼 상태 설정
+        SettingButtonWarningText.SetActive(true);
+
     }
 
     public void StartNewGame()
