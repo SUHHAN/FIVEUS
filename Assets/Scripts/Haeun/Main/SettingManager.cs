@@ -70,9 +70,14 @@ public class SettingManager : MonoBehaviour
             
 
             // 일단 지금은 무조건 true로 두지만, 저장 상태를 불러오는 기능은 추가해뒀음.
-            checkImageTransform.gameObject.SetActive(true);
-            // bool AlarmCheck_isActive = PlayerPrefs.GetInt("AlarmCheck_" + i, 0) == 1; // 저장된 상태 불러오기
-            // checkImageTransform.gameObject.SetActive(AlarmCheck_isActive); // 저장된 상태로 설정
+            if(PlayerPrefs.HasKey("AlarmCheck_1")) {
+                // 저장 정보가 있을 시에는 저장된 상태를 불러오기
+                bool AlarmCheck_isActive = PlayerPrefs.GetInt("AlarmCheck_" + i, 0) == 1; // 저장된 상태 불러오기
+                checkImageTransform.gameObject.SetActive(AlarmCheck_isActive); // 저장된 상태로 설정
+            }else {
+                // 어떤 저장 정보도 없을 시에는 무조건 true로 시작하기
+                checkImageTransform.gameObject.SetActive(true);
+            }
 
             if (checkButton != null)
             {
