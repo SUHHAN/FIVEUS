@@ -727,8 +727,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1179748683}
-        m_TargetAssemblyTypeName: NpcScript, Assembly-CSharp
+      - m_Target: {fileID: 1179748684}
+        m_TargetAssemblyTypeName: NpcPersuade, Assembly-CSharp
         m_MethodName: OnYesButtonClick
         m_Mode: 1
         m_Arguments:
@@ -1490,6 +1490,7 @@ GameObject:
   - component: {fileID: 1179748680}
   - component: {fileID: 1179748679}
   - component: {fileID: 1179748683}
+  - component: {fileID: 1179748684}
   m_Layer: 0
   m_Name: NPC
   m_TagString: npc
@@ -1640,17 +1641,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   choiceUI: {fileID: 389974959}
   dialogueUI: {fileID: 399077125}
-  persuadeUI: {fileID: 1239447184}
-  resultUI: {fileID: 1781985428}
   dialogueText: {fileID: 921075215}
-  persuadeText: {fileID: 1322078192}
-  resultText: {fileID: 2040740807}
   talkButton: {fileID: 169533229}
   persuadeButton: {fileID: 430457492}
+  giftButton: {fileID: 321505167}
+  interactionRange: 3
+--- !u!114 &1179748684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1179748678}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1fed8b290502ab4fb0400c32c4d5cc1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  persuadeUI: {fileID: 1239447184}
+  resultUI: {fileID: 1781985428}
+  persuadeText: {fileID: 1322078192}
+  resultText: {fileID: 2040740807}
   yesButton: {fileID: 792935015}
   noButton: {fileID: 1331580253}
-  interactionRange: 3
-  affection: 50
+  affection: 35
   success: 0
 --- !u!1 &1205125180
 GameObject:
@@ -2015,8 +2029,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1179748683}
-        m_TargetAssemblyTypeName: NpcScript, Assembly-CSharp
+      - m_Target: {fileID: 1179748684}
+        m_TargetAssemblyTypeName: NpcPersuade, Assembly-CSharp
         m_MethodName: OnNoButtonClick
         m_Mode: 1
         m_Arguments:
