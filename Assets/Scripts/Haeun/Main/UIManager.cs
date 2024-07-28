@@ -18,13 +18,11 @@ public class UIManager : MonoBehaviour
 
     public Canvas canvas; // Canvas 오브젝트를 참조
 
+    public GameObject TempDataCheckWindow;
+
     private string previousSceneName;
 
     [Header("#TextChange")]
-    public int HPnum_ex = 79;
-    public int Fatiguenum_ex = 79;
-    public int Gold_ex = 10000000;
-    public int Day_ex = 12;
     public TextMeshProUGUI HPLevelText;      // 체력 수치 관련 텍스트
     public TextMeshProUGUI FatigueLevelText; // 피로도 수치 관련 텍스트
     public TextMeshProUGUI GoldLevelText;    // 재화 수치 관련 텍스트
@@ -36,11 +34,17 @@ public class UIManager : MonoBehaviour
     public Sprite[] HPLevelSprites;      // 체력 수치 관련 이미지
     public Sprite[] FatigueLevelSprites; // 피로도 수치 관련 이미지
 
+    void Awake()
+    {
+        //DontDestroyOnLoad(canvas.gameObject); // Canvas 오브젝트 파괴되지 않도록 설정
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        // 0. 씬 설정의 경우
+        // 데이터 로드
+        DataManager.instance.LoadData();
+
         // 현재 씬 이름 가져오기
         string currentSceneName = SceneManager.GetActiveScene().name;
 
@@ -59,159 +63,128 @@ public class UIManager : MonoBehaviour
         // 이전 씬 이름 가져오기
         previousSceneName = PlayerPrefs.GetString("PreviousScene", "");
 
+        // 데이터 저장 알림창 비활성화(기본)
+        TempDataCheckWindow.SetActive(false);
 
-        // 1. UI 바꾸기의 경우
-        ChangeHPLevel();
-        ChangeFatigueLevel();
-        ChangeGoldLevel();
-        ChangeDayLevel();
+        Button OkButton = TempDataCheckWindow.transform.Find("OkButton").GetComponent<Button>();  // 두 윈도우 속 ok 버튼 클릭시 창 비활성화 매소드 연결
+        OkButton.onClick.AddListener(ClickOkButton);
+        Button NoButton = TempDataCheckWindow.transform.Find("NoButton").GetComponent<Button>();
+        NoButton.onClick.AddListener(ClickNoButton);
 
+        // UI 초기화
+        UpdateUI();
 
         // 버튼 클릭 이벤트 연결
         StoreButton.onClick.AddListener(() => changeStore());
         InventoryButton.onClick.AddListener(() => changeInventory());
         SettingButton.onClick.AddListener(() => LoadSettingsScene(previousSceneName));
         PartyButton.onClick.AddListener(() => changeParty());
-        Load_Button.onClick.AddListener(() => changeInventory());
+        Load_Button.onClick.AddListener(() => OnTempDataSaveButton());
         Ingame_Button.onClick.AddListener(() => ChangeIngame());
-        
     }
 
-    void Awake()
+    private void OnEnable() {
+        // 데이터 변경 이벤트 구독
+        DataManager.instance.OnDataChanged += UpdateUI;
+    }
+
+    private void OnDisable() {
+        // 데이터 변경 이벤트 구독 해제
+        DataManager.instance.OnDataChanged -= UpdateUI;
+    }
+
+    void UpdateUI()
     {
-        DontDestroyOnLoad(canvas.gameObject); // Canvas 오브젝트 파괴되지 않도록 설정
+        int HPnum = DataManager.instance.nowPlayer.Player_hp;
+        int Fatiguenum = DataManager.instance.nowPlayer.Player_tired;
+        int Gold = DataManager.instance.nowPlayer.Player_money;
+        int Day = DataManager.instance.nowPlayer.Player_day;
+
+        ChangeHPLevel(HPnum);
+        ChangeFatigueLevel(Fatiguenum);
+        ChangeGoldLevel(Gold);
+        ChangeDayLevel(Day);
     }
 
-    
-    void ChangeHPLevel() {
-        // 0. 수치 가지고 오기 / 이건 예지 언니 변수 가지고 오는걸로 생각하면 될 것 같아요.
-        string HPLevel = HPnum_ex.ToString();  // 예지언니 체력 계산 후 체력
-        
-        // 1. 체력바 텍스트 바꾸기
-        HPLevelText.text = "100/" + HPLevel;
+    void ChangeHPLevel(int HPnum) {
+        string HPLevel = HPnum.ToString();  
+        HPLevelText.text = HPLevel + "/100";
 
-        // 2. 체력바 이미지 바꾸기
-        if (80 <= HPnum_ex && HPnum_ex <= 100) {
-            if (HPLevelImage != null)
-            {
-                HPLevelImage.sprite = HPLevelSprites[0];
-            }
-            else{Debug.LogError("HPLevelImage가 연결되지 않았습니다.");}
-        }
-        else if(60 <= HPnum_ex && HPnum_ex < 80) {
-            if (HPLevelImage != null)
-            {
-                HPLevelImage.sprite = HPLevelSprites[1];
-            }
-            else{Debug.LogError("HPLevelImage가 연결되지 않았습니다.");}
-        }
-        else if(40 <= HPnum_ex && HPnum_ex < 80) {
-            if (HPLevelImage != null)
-            {
-                HPLevelImage.sprite = HPLevelSprites[2];
-            }
-            else{Debug.LogError("HPLevelImage가 연결되지 않았습니다.");}
-        }
-        else if(20 <= HPnum_ex && HPnum_ex < 40) {
-            if (HPLevelImage != null)
-            {
-                HPLevelImage.sprite = HPLevelSprites[3];
-            }
-            else{Debug.LogError("HPLevelImage가 연결되지 않았습니다.");}
-        }
-        else if(0 <= HPnum_ex && HPnum_ex < 20) {
-            if (HPLevelImage != null)
-            {
-                HPLevelImage.sprite = HPLevelSprites[4];
-            }
-            else{Debug.LogError("HPLevelImage가 연결되지 않았습니다.");}
+        if (80 <= HPnum && HPnum <= 100) {
+            HPLevelImage.sprite = HPLevelSprites[0];
+        } else if(60 <= HPnum && HPnum < 80) {
+            HPLevelImage.sprite = HPLevelSprites[1];
+        } else if(40 <= HPnum && HPnum < 60) {
+            HPLevelImage.sprite = HPLevelSprites[2];
+        } else if(20 <= HPnum && HPnum < 40) {
+            HPLevelImage.sprite = HPLevelSprites[3];
+        } else if(0 <= HPnum && HPnum < 20) {
+            HPLevelImage.sprite = HPLevelSprites[4];
         }
     }
 
-    void ChangeFatigueLevel() {
-        // 0. 수치 가지고 오기 / 이건 예지 언니 변수 가지고 오는걸로 생각하면 될 것 같아요.
-        string FatigueLevel = Fatiguenum_ex.ToString();  // 예지언니 체력 계산 후 체력
-        
-        // 1. 체력바 텍스트 바꾸기
-        FatigueLevelText.text = "100/" + FatigueLevel;
+    void ChangeFatigueLevel(int Fatiguenum) {
+        string FatigueLevel = Fatiguenum.ToString(); 
+        FatigueLevelText.text = FatigueLevel + "/100";
 
-        // 2. 체력바 이미지 바꾸기
-        if (80 <= Fatiguenum_ex && Fatiguenum_ex <= 100) {
-            if (FatigueLevelImage != null)
-            {
-                FatigueLevelImage.sprite = FatigueLevelSprites[0];
-            }
-            else{Debug.LogError("FatigueLevelImage 연결되지 않았습니다.");}
-        }
-        else if(60 <= Fatiguenum_ex && Fatiguenum_ex < 80) {
-            if (FatigueLevelImage != null)
-            {
-                FatigueLevelImage.sprite = FatigueLevelSprites[1];
-            }
-            else{Debug.LogError("FatigueLevelImage 연결되지 않았습니다.");}
-        }
-        else if(40 <= Fatiguenum_ex && Fatiguenum_ex < 80) {
-            if (FatigueLevelImage != null)
-            {
-                FatigueLevelImage.sprite = FatigueLevelSprites[2];
-            }
-            else{Debug.LogError("FatigueLevelImage 연결되지 않았습니다.");}
-        }
-        else if(20 <= Fatiguenum_ex && Fatiguenum_ex < 40) {
-            if (FatigueLevelImage != null)
-            {
-                FatigueLevelImage.sprite = FatigueLevelSprites[3];
-            }
-            else{Debug.LogError("FatigueLevelImage 연결되지 않았습니다.");}
-        }
-        else if(0 <= Fatiguenum_ex && Fatiguenum_ex < 20) {
-            if (FatigueLevelImage != null)
-            {
-                FatigueLevelImage.sprite = FatigueLevelSprites[4];
-            }
-            else{Debug.LogError("FatigueLevelImage 연결되지 않았습니다.");}
+        if (80 <= Fatiguenum && Fatiguenum <= 100) {
+            FatigueLevelImage.sprite = FatigueLevelSprites[0];
+        } else if(60 <= Fatiguenum && Fatiguenum < 80) {
+            FatigueLevelImage.sprite = FatigueLevelSprites[1];
+        } else if(40 <= Fatiguenum && Fatiguenum < 60) {
+            FatigueLevelImage.sprite = FatigueLevelSprites[2];
+        } else if(20 <= Fatiguenum && Fatiguenum < 40) {
+            FatigueLevelImage.sprite = FatigueLevelSprites[3];
+        } else if(0 <= Fatiguenum && Fatiguenum < 20) {
+            FatigueLevelImage.sprite = FatigueLevelSprites[4];
         }
     }
 
-    void ChangeGoldLevel() 
-    {
-        // 0. 수치 가지고 오기 / 이건 예지 언니 변수 가지고 오는걸로 생각하면 될 것 같아요.
-        int GoldLevel = Gold_ex;  // 예지언니 재화 수치
+     void ChangeGoldLevel(int Gold) {
+        int GoldLevel = Gold;
 
-        // 1. 재화 텍스트 바꾸기 (천 단위 마다 콤마 찍어주는 기능 추가)
-        GoldLevelText.text = GoldLevel.ToString("N0"); // "N0"은 천 단위 구분 기호와 소수점 0자리 형식을 의미합니다.
+        GoldLevelText.text = GoldLevel.ToString("N0");
     }
 
-    void ChangeDayLevel() 
-    {
-        // 0. 수치 가지고 오기 / 이건 예지 언니 변수 가지고 오는걸로 생각하면 될 것 같아요.
-        int DayLevel = Day_ex;  // 예지언니 날짜 수치
+    void ChangeDayLevel(int Day) {
+        int DayLevel = Day;
 
-        // 1. 재화 텍스트 바꾸기 (천 단위 마다 콤마 찍어주는 기능 추가)
         DayLevelText.text = "D-" + DayLevel.ToString();
     }
 
-    // 씬 전환 코드
     public void changeStore() {
         SceneManager.LoadScene("StoreMain");
     }
+
     public void changeInventory() {
         SceneManager.LoadScene("InventoryMain");
     }
+
     public void changeParty() {
         SceneManager.LoadScene("PartyMain");
     }
+
     public void ChangeIngame() {
         SceneManager.LoadScene("IngameEx");
     }
     
+    void OnTempDataSaveButton() {
+        TempDataCheckWindow.SetActive(!TempDataCheckWindow.activeSelf);
+    }
+
+    public void ClickOkButton() {
+        DataManager.instance.SaveData();
+        TempDataCheckWindow.SetActive(false);
+    }
+
+    public void ClickNoButton() {
+        TempDataCheckWindow.SetActive(false);
+    }
+
     public static void LoadSettingsScene(string settingsSceneName)
     {
-        // 현재 씬 이름 저장
         PlayerPrefs.SetString("PreviousScene", SceneManager.GetActiveScene().name);
         PlayerPrefs.Save();
-
-        // 환경 설정 씬 로드
         SceneManager.LoadScene("SettingMain");
     }
 }
