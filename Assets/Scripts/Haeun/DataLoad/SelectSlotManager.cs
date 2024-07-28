@@ -26,7 +26,7 @@ public class SelectSlotManager : MonoBehaviour
                 savefile[i] = true; // 해당 슬롯 번호의 bool 배열을 true로 변환
                 DataManager.instance.nowSlot = i;   // 선택한 슬롯 번호를 저장
                 DataManager.instance.LoadData();    // 해당 슬롯 데이터를 불러옴
-                slotText[i].text = DataManager.instance.nowPlayer.name;  // 버튼에 닉네임 표시
+                slotText[i].text = DataManager.instance.nowPlayer.Player_name;  // 버튼에 닉네임 표시
             }
             else {
             // 해당 슬롯에 존재하는 데이터가 없으면
@@ -81,7 +81,7 @@ public class SelectSlotManager : MonoBehaviour
     // 원하는 파일의 정보를 가지고 게임을 시작하기.
     public void GoIngame() {
         if (!savefile[DataManager.instance.nowSlot]) {
-            DataManager.instance.nowPlayer.name = newPlayername.text;
+            DataManager.instance.nowPlayer.Player_name = newPlayername.text;
             DataManager.instance.SaveData(); // 현재의 정보를 저장함.
         }
         SceneManager.LoadScene("IngameScene");

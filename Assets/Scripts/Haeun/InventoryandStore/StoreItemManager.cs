@@ -16,13 +16,15 @@ public class Serialization_Store<T>
 [System.Serializable]
 public class StoreItem
 {
-    public StoreItem(string _Id, string _Name, string _Description, string _Type, bool _isUsing, string _Price)
+    public StoreItem(string _Id, string _Name, string _Description, string _Type, bool _isUsing, string _Price, bool _isSelling, string _value, string	_quantity)
     {
-        Id = _Id; Name = _Name; Description = _Description; Type = _Type; isUsing = _isUsing; Price = _Price;
+        Id = _Id; Name = _Name; Description = _Description; Type = _Type; isUsing = _isUsing; Price = _Price; 
+        isSelling = _isSelling; value = _value; quantity = _quantity;
     }
 
     public string Id, Name, Description, Type, Price;
-    public bool isUsing;
+    public bool isUsing, isSelling;
+    public string value, quantity;
 }
 
 public class StoreButton : MonoBehaviour
@@ -69,6 +71,7 @@ public class StoreItemManager : MonoBehaviour
 
         SelectItemInfor.SetActive(false); // 설명 창 비활성화
 
+
         // MyItemList의 내용을 확인하기 위한 디버그 로그
         Debug.Log("MyItemList 내용 로드 후:");
         foreach (var item in MyItemList)
@@ -89,15 +92,23 @@ public class StoreItemManager : MonoBehaviour
                 string name = entry["name"].ToString();
                 string description = entry["description"].ToString();
                 string type = entry["type"].ToString();
-                bool isUsing;
+                bool isUsing, isSelling;
                 string price = entry["price"].ToString();
 
                 if (!bool.TryParse(entry["isUsing"].ToString(), out isUsing))
                 {
                     isUsing = false; // 파싱 실패 시 기본값 설정
                 }
+                if (!bool.TryParse(entry["isSelling"].ToString(), out isSelling))
+                {
+                    isSelling = false; // 파싱 실패 시 기본값 설정
+                };
+                string value = entry["value"].ToString();
+                string quantity = entry["quantity"].ToString();
 
-                AllItemList.Add(new StoreItem(id, name, description, type, isUsing, price));
+
+
+                AllItemList.Add(new StoreItem(id, name, description, type, isUsing, price, isSelling, value, quantity));
             }
         }
         else
@@ -206,6 +217,7 @@ public void TapClick(string tabName)
         case "장비": tabNum = 0; break;
         case "물약": tabNum = 1; break;
         case "단서": tabNum = 2; break;
+        case "기타": tabNum = 3; break;
     }
     for (int i = 0; i < TabImage.Length; i++)
     {
@@ -242,7 +254,7 @@ public void TapClick(string tabName)
         StoreItem BasicItem = AllItemList.Find(x => x.Name == "기본템");
         if (BasicItem != null)
         {
-            MyItemList = new List<StoreItem>() { BasicItem };
+            MyItemList = AllItemList;
         }
         else
         {
@@ -268,12 +280,16 @@ public void TapClick(string tabName)
         }
         
         string jdata = File.ReadAllText(filePath);
-        MyItemList = JsonUtility.FromJson<Serialization<StoreItem>>(jdata).target;
+        MyItemList = JsonUtility.FromJson<Serialization_Store<StoreItem>>(jdata).target;
 
         // Inspector에서 리스트가 업데이트되도록 합니다.
         //UnityEditor.EditorUtility.SetDirty(this);
 
         TapClick(curType);
     }
-
 }
+// }{
+//         // 데이터를 내가 원하는 형태로 가지고 올 수 있음. / 현재는 nowPlayer에 저장되어 있음.
+//         string data = File.ReadAllText(path + nowSlot.ToString());
+//         nowPlayer = JsonUtility.FromJson<PlayerData>(data); // 불러온 데이터가 PlayerData 형태로 저장되어 있음.
+//     }
