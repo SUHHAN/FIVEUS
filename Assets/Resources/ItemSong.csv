@@ -1,29 +1,29 @@
-﻿id,name,description,type,isUsing,price,isSelling,value
-0,장검,검사의 상징과도 같은 장검.,장비,TRUE,0,FALSE,0
-1,활,궁수의 상징과도 같은 활.,장비,FALSE,0,FALSE,0
-2,지팡이,마법사의 상징과도 같은 지팡이.,장비,FALSE,0,FALSE,0
-3,수정구,힐러의 상징과도 같은 수정구.,장비,FALSE,0,FALSE,0
-4,방패,탱커의 상징과도 같은 방패.,장비,FALSE,0,FALSE,0
-5,암기,암살자의 상징과도 같은 암기.,장비,FALSE,0,FALSE,0
-6,기본템,사기꾼의 기본템,장비,FALSE,0,FALSE,0
-7,상급 체력 물약,체력을 50 정도 올려주는 물약,물약,FALSE,3000,FALSE,50
-8,중급 체력 물약,체력을 30 정도 올려주는 물약,물약,FALSE,3000,FALSE,30
-9,초급 체력 물약,체력을 10 정도 올려주는 물약,물약,FALSE,1000,FALSE,10
-10,상급 피로도 물약,피로도를 50 정도 내려주는 물약,물약,FALSE,3000,FALSE,50
-11,중급 피로도 물약,피로도를 30 정도 내려주는 물약,물약,FALSE,3000,FALSE,30
-12,초급 피로도 물약,피로도를 10 정도 내려주는 물약,물약,FALSE,1000,FALSE,10
-13,단서 1,,단서,FALSE,0,FALSE,0
-14,단서 2,,단서,FALSE,0,FALSE,0
-15,단서 3,,단서,FALSE,0,FALSE,0
-16,단서 4,,단서,FALSE,0,FALSE,0
-17,단서 5,,단서,FALSE,0,FALSE,0
-18,단서 6,,단서,FALSE,0,FALSE,0
-19,단서 7,,단서,FALSE,0,FALSE,0
-20,단서 8,,단서,FALSE,0,FALSE,0
-21,단서 9,,단서,FALSE,0,FALSE,0
-22,단서 10,,단서,FALSE,0,FALSE,0
-23,단서 11,,단서,FALSE,0,FALSE,0
-24,단서 12,,단서,FALSE,0,FALSE,0
-25,단서 13,,단서,FALSE,0,FALSE,0
-26,단서 14,,단서,FALSE,0,FALSE,0
-27,단서 15,,단서,FALSE,0,FALSE,0
+﻿id,name,description,type,isUsing,price,isSelling,value,quantity
+0,장검,검사의 상징과도 같은 장검.,장비,TRUE,0,FALSE,0,1
+1,활,궁수의 상징과도 같은 활.,장비,FALSE,0,FALSE,0,0
+2,지팡이,마법사의 상징과도 같은 지팡이.,장비,FALSE,0,FALSE,0,0
+3,수정구,힐러의 상징과도 같은 수정구.,장비,FALSE,0,FALSE,0,0
+4,방패,탱커의 상징과도 같은 방패.,장비,FALSE,0,FALSE,0,0
+5,암기,암살자의 상징과도 같은 암기.,장비,FALSE,0,FALSE,0,0
+6,기본템,사기꾼의 기본템,장비,FALSE,0,FALSE,0,0
+7,상급 체력 물약,체력을 50 정도 올려주는 물약,물약,FALSE,3000,FALSE,50,0
+8,중급 체력 물약,체력을 30 정도 올려주는 물약,물약,FALSE,3000,FALSE,30,0
+9,초급 체력 물약,체력을 10 정도 올려주는 물약,물약,FALSE,1000,FALSE,10,0
+10,상급 피로도 물약,피로도를 50 정도 내려주는 물약,물약,FALSE,3000,FALSE,50,0
+11,중급 피로도 물약,피로도를 30 정도 내려주는 물약,물약,FALSE,3000,FALSE,30,0
+12,초급 피로도 물약,피로도를 10 정도 내려주는 물약,물약,FALSE,1000,FALSE,10,0
+13,단서 1,,단서,FALSE,0,FALSE,0,0
+14,단서 2,,단서,FALSE,0,FALSE,0,0
+15,단서 3,,단서,FALSE,0,FALSE,0,0
+16,단서 4,,단서,FALSE,0,FALSE,0,0
+17,단서 5,,단서,FALSE,0,FALSE,0,0
+18,단서 6,,단서,FALSE,0,FALSE,0,0
+19,단서 7,,단서,FALSE,0,FALSE,0,0
+20,단서 8,,단서,FALSE,0,FALSE,0,0
+21,단서 9,,단서,FALSE,0,FALSE,0,0
+22,단서 10,,단서,FALSE,0,FALSE,0,0
+23,단서 11,,단서,FALSE,0,FALSE,0,0
+24,단서 12,,단서,FALSE,0,FALSE,0,0
+25,단서 13,,단서,FALSE,0,FALSE,0,0
+26,단서 14,,단서,FALSE,0,FALSE,0,0
+27,단서 15,,단서,FALSE,0,FALSE,0,0

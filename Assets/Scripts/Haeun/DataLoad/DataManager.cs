@@ -21,10 +21,20 @@ public class DataManager : MonoBehaviour
     public class PlayerData
     {
         // 일단 이런 데이터들을 모아두기
-        public string name;             // 플레이어 이름 저장 변수
-        public string job = "검사";      // 주인공의 전직 직업(기본 : 검사)
-        public int coin;                 // 임시 재화 저장 변수
-        public int item; // 일단 대응되는 무기
+        public string Player_name;             // 플레이어 이름 데이터 변수
+        public string Player_day;              // 날짜 데이터 변수
+        public string Player_team;             // 단합력 데이터 변수
+        public string Player_hp;               // 체력 데이터 변수
+        public string Player_tired;            // 재화 데이터 변수
+        public string Player_hint;            // 재화 데이터 변수
+        public string Player_howtoday;            // 재화 데이터 변수
+        public string Player_howtrain;            // 재화 데이터 변수
+        
+
+        // 캐릭터 관련
+
+        // 아이템 관련
+
     }
 
     public PlayerData nowPlayer = new PlayerData();
@@ -43,7 +53,7 @@ public class DataManager : MonoBehaviour
         }
         DontDestroyOnLoad(this.gameObject); // 게임 오브젝트가 터지지 않도록
         #endregion
-        path = Application.persistentDataPath + "/save"; // 직접 경로를 설정하기 어려운 경우는, 유니티에서 기본적으로 제공하는 path 사용
+        path = Application.persistentDataPath + "/saveData"; // 직접 경로를 설정하기 어려운 경우는, 유니티에서 기본적으로 제공하는 path 사용
     }
 
 
@@ -71,8 +81,8 @@ public class DataManager : MonoBehaviour
     public void ClearData() {
 
         nowSlot = -1;
-
-        // 이렇게 되면 정보값이 모두 사라지게 된다.
+        // 이렇게 되면 현재 플레이어에 담긴 정보값이 모두 사라지게 된다.
         nowPlayer = new PlayerData();
     }
 }
+
