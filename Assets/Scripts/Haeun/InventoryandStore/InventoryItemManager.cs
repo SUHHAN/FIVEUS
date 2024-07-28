@@ -16,13 +16,15 @@ public class Serialization<T>
 [System.Serializable]
 public class GameItem
 {
-    public GameItem(string _Id, string _Name, string _Description, string _Type, bool _isUsing)
+    public GameItem(string _Id, string _Name, string _Description, string _Type, bool _isUsing, string _Price, bool _isSelling, string _value, string	_quantity)
     {
-        Id = _Id; Name = _Name; Description = _Description; Type = _Type; isUsing = _isUsing;
+        Id = _Id; Name = _Name; Description = _Description; Type = _Type; isUsing = _isUsing; Price = _Price; 
+        isSelling = _isSelling; value = _value; quantity = _quantity;
     }
 
-    public string Id, Name, Description, Type;
-    public bool isUsing;
+    public string Id, Name, Description, Type, Price;
+    public bool isUsing, isSelling;
+    public string value, quantity;
 }
 
 public class ItemButton : MonoBehaviour
@@ -107,14 +109,23 @@ public class InventoryItemManager : MonoBehaviour
                 string name = entry["name"].ToString();
                 string description = entry["description"].ToString();
                 string type = entry["type"].ToString();
-                bool isUsing;
+                bool isUsing, isSelling;
+                string price = entry["price"].ToString();
 
                 if (!bool.TryParse(entry["isUsing"].ToString(), out isUsing))
                 {
                     isUsing = false; // 파싱 실패 시 기본값 설정
                 }
+                if (!bool.TryParse(entry["isSelling"].ToString(), out isSelling))
+                {
+                    isSelling = false; // 파싱 실패 시 기본값 설정
+                };
+                string value = entry["value"].ToString();
+                string quantity = entry["quantity"].ToString();
 
-                AllItemList.Add(new GameItem(id, name, description, type, isUsing));
+
+
+                AllItemList.Add(new GameItem(id, name, description, type, isUsing, price, isSelling, value, quantity));
             }
         }
         else
@@ -202,6 +213,7 @@ public class InventoryItemManager : MonoBehaviour
             case "장비": tabNum = 0; break;
             case "물약": tabNum = 1; break;
             case "단서": tabNum = 2; break;
+            case "기타": tabNum = 3; break;
         }
         for (int i = 0; i < TabImage.Length; i++)
         {
@@ -233,14 +245,15 @@ public class InventoryItemManager : MonoBehaviour
     // 리셋 버튼을 눌렀을 경우
     public void ReSetItemClick()
     {
-        GameItem BasicItem = AllItemList.Find(x => x.Name == "기본템");
+        GameItem BasicItem = AllItemList.Find(x => x.Name == "장검");
         if (BasicItem != null)
         {
-            MyItemList = new List<GameItem>() { BasicItem };
+            //MyItemList = new List<GameItem>() { BasicItem };
+            MyItemList = AllItemList;
         }
         else
         {
-            Debug.LogError("Name이 기본템인 아이템을 찾을 수 없습니다.");
+            //Debug.LogError("Name이 기본템인 아이템을 찾을 수 없습니다.");
             MyItemList.Clear(); // 빈 리스트로 설정하여 빈 값을 저장하지 않도록 합니다.
         }
         SaveItem();
