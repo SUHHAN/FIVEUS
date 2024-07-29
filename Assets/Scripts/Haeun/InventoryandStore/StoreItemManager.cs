@@ -24,13 +24,30 @@ public class StoreItemManager : MonoBehaviour
     public Color TabIdleColor = new Color32(255, 255, 255, 255);
 
     // 슬롯 버튼을 누르면 패널을 활성화하기 위함.
+    [Header("#슬롯 설명창 관련")]
     public GameObject SelectItemInfor; // 미니 창 패널
     public Image itemImageText; // 설명창에 아이템 이미지 표시
 
     public TextMeshProUGUI itemNameText; // 설명창에 아이템 이름 표시
     public TextMeshProUGUI itemDescriptionText; // 설명창에 아이템 설명 표시
     public TextMeshProUGUI itemIdText; // 설명창에 아이템 아이디 표시
-    public TextMeshProUGUI itemTypeText; // 설명창에 아이템 타입 표시
+    public TextMeshProUGUI itemPriceText; // 설명창에 아이템 타입 표시
+
+    public Button BuyButton;
+    public Button SaleButton;
+
+
+    [Header("#Quantity 지정")]
+    public TextMeshProUGUI quantityText; // 수량을 표시할 텍스트
+    public TextMeshProUGUI AText; // 수량을 표시할 텍스트
+    public GameObject informationPopup;
+    public Button UpButton;
+    public Button DownButton;
+    public Button YesButton;
+    public Button NoButton;
+    public int minQuantity = 1; // 최소 수량
+    public int maxQuantity = 99; // 최대 수량
+    private int currentQuantity = 1; // 현재 선택된 수량
 
     private string filePath;
 
@@ -158,8 +175,9 @@ public class StoreItemManager : MonoBehaviour
     }
 
     // 슬롯 버튼 클릭 시 아이템 정보 표시
+    // 슬롯 버튼 클릭 시 아이템 정보 표시
     public void SlotClick(Item item)
-    {
+    {   
         int itemId = int.Parse(item.Id);
         if (itemId >= 0 && itemId < itemSprites.Length)
         {
@@ -172,10 +190,85 @@ public class StoreItemManager : MonoBehaviour
 
         itemNameText.text = item.Name;
         itemDescriptionText.text = item.Description;
-        itemTypeText.text = item.Type;
+        itemPriceText.text = item.Price + " 원";
         itemIdText.text = "No. " + item.Id;
 
+        // 구매 및 판매 버튼의 이전 리스너 제거
+        BuyButton.onClick.RemoveAllListeners();
+        SaleButton.onClick.RemoveAllListeners();
+        UpButton.onClick.RemoveAllListeners();
+        DownButton.onClick.RemoveAllListeners();
+        YesButton.onClick.RemoveAllListeners();
+        NoButton.onClick.RemoveAllListeners();
+
+        SaleButton.interactable = true;
+        // 만약 수량이 0이면, 판매할게 없으므로 버튼을 비활성화
+        if(int.Parse(item.quantity) < 1) {
+            SaleButton.interactable = false;
+        }
+
+        // 구매 버튼 설정
+        BuyButton.onClick.AddListener(() => {
+            currentQuantity = 1;
+            maxQuantity = int.MaxValue; // 구매 시 최대 수량을 제한할 필요가 없을 경우
+            UpdateQuantityText(item, "구매");
+            DownButton.onClick.AddListener(() => DecreaseQuantity(item, "구매"));
+            UpButton.onClick.AddListener(() => IncreaseQuantity(item, "구매"));
+            informationPopup.SetActive(true);
+
+            YesButton.onClick.AddListener(() => {
+                ItemManager.instance.ConfirmItemQuantity(item, "구매", currentQuantity);
+                informationPopup.SetActive(false);
+                LoadItem();
+            });
+            NoButton.onClick.AddListener(() => informationPopup.SetActive(false));
+        });
+
+        // 판매 버튼 설정
+        SaleButton.onClick.AddListener(() => {
+            currentQuantity = 1;
+            maxQuantity = int.Parse(item.quantity); // 판매 가능한 최대 수량
+            UpdateQuantityText(item, "판매");
+            DownButton.onClick.AddListener(() => DecreaseQuantity(item, "판매"));
+            UpButton.onClick.AddListener(() => IncreaseQuantity(item, "판매"));
+            informationPopup.SetActive(true);
+
+            YesButton.onClick.AddListener(() => {
+                ItemManager.instance.ConfirmItemQuantity(item, "판매", currentQuantity);
+                informationPopup.SetActive(false);
+                LoadItem();
+            });
+            NoButton.onClick.AddListener(() => informationPopup.SetActive(false));
+        });
+
         SelectItemInfor.SetActive(true); // 설명 창 활성화
+    }
+
+    // 수량 증가 함수
+    public void IncreaseQuantity(Item item, string sort)
+    {
+        if (currentQuantity < maxQuantity)
+        {
+            currentQuantity++;
+            UpdateQuantityText(item, sort);
+        }
+    }
+
+    // 수량 감소 함수
+    public void DecreaseQuantity(Item item, string sort)
+    {
+        if (currentQuantity > minQuantity)
+        {
+            currentQuantity--;
+            UpdateQuantityText(item, sort);
+        }
+    }
+
+    // 수량을 업데이트하고 텍스트에 표시하는 함수
+    void UpdateQuantityText(Item item, string sort)
+    {
+        quantityText.text = currentQuantity.ToString();
+        AText.text = $"{item.Name}을(를) {currentQuantity}개 {sort}하시겠습니까?";
     }
 
     void SaveItem()
