@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement; // 씬 전환
 
 public class NpcScript : MonoBehaviour
 {
@@ -15,12 +16,12 @@ public class NpcScript : MonoBehaviour
     public float interactionRange = 3.0f; // 상호작용 거리
     private GameObject player; // 플레이어 오브젝트
     private bool isTalking = false; // 대화 중인지 여부
-    private NpcDialogue npcDialogue; // NpcDialogue 스크립트 참조
+    private DialogueManager dialogueManager; // DialogueManager 스크립트 참조
 
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player"); // 태그가 "Player"인 오브젝트 찾기
-        npcDialogue = GetComponent<NpcDialogue>(); // NpcDialogue 스크립트 참조 얻기
+        dialogueManager = GetComponent<DialogueManager>(); // DialogueManager 스크립트 참조 얻기
         choiceUI.SetActive(false); // 시작할 때 선택 UI 비활성화
         dialogueUI.SetActive(false); // 시작할 때 대화 UI 비활성화
         talkButton.onClick.AddListener(OnTalkButtonClick); // 대화하기 버튼 클릭 이벤트 연결
@@ -58,7 +59,8 @@ public class NpcScript : MonoBehaviour
     public void OnTalkButtonClick()
     {
         choiceUI.SetActive(false); // 선택 UI 숨기기
-        npcDialogue.StartDialogue(); // 대화 시작
+        dialogueUI.SetActive(true); // 대화 UI 활성화
+        dialogueManager.StartDialogue(); // 대화 시작
         isTalking = true; // 대화 상태 설정
     }
 
@@ -70,7 +72,7 @@ public class NpcScript : MonoBehaviour
 
     public void OnGiftButtonClick()
     {
-        // 선물하기 기능 구현
+        SceneManager.LoadScene("InventoryMain"); // InventoryMain 씬으로 이동
     }
 
     public void HidePersuadeAndGiftButtons()
@@ -82,5 +84,6 @@ public class NpcScript : MonoBehaviour
     public void EndDialogue()
     {
         isTalking = false; // 대화 상태 해제
+        dialogueUI.SetActive(false); // 대화 UI 비활성화
     }
 }

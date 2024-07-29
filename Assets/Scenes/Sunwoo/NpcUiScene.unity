@@ -1350,6 +1350,55 @@ MonoBehaviour:
     mipBias: 0
     varianceClampScale: 0.9
     contrastAdaptiveSharpening: 0
+--- !u!1 &1107239563
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1107239564}
+  - component: {fileID: 1107239565}
+  m_Layer: 0
+  m_Name: DialogueManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1107239564
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1107239563}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.8988947, y: -0.54356056, z: -0.050050817}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1107239565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1107239563}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cff1d2dd9e85294e830393cc15d8d2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogueText: {fileID: 0}
+  choice1Button: {fileID: 0}
+  choice2Button: {fileID: 0}
+  choicePanel: {fileID: 0}
+  dialoguePanel: {fileID: 0}
 --- !u!1001 &1119918532
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1723,16 +1772,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1179748678}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dea49b81777d1c24c914051a37779324, type: 3}
+  m_Script: {fileID: 11500000, guid: 3cff1d2dd9e85294e830393cc15d8d2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueUI: {fileID: 399077125}
-  choiceUI: {fileID: 389974959}
   dialogueText: {fileID: 921075215}
-  nameText: {fileID: 1874397362}
   choice1Button: {fileID: 1812461155}
   choice2Button: {fileID: 1592242328}
-  dialogueCSV: {fileID: 4900000, guid: 8377254522055ad47a8d878ae179cf46, type: 3}
+  choicePanel: {fileID: 389974959}
+  dialoguePanel: {fileID: 399077125}
 --- !u!1 &1205125180
 GameObject:
   m_ObjectHideFlags: 0
@@ -2942,17 +2989,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1812461153}
   m_CullTransparentMesh: 1
---- !u!114 &1874397362 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6668604861092612721, guid: 4413f814da31e0b439b0f936457d25f3, type: 3}
-  m_PrefabInstance: {fileID: 1119918532}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1915538762
 GameObject:
   m_ObjectHideFlags: 0
@@ -3498,3 +3534,4 @@ SceneRoots:
   - {fileID: 1033471733}
   - {fileID: 990517915}
   - {fileID: 1205125183}
+  - {fileID: 1107239564}
