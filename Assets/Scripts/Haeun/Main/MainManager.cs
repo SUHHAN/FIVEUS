@@ -228,7 +228,7 @@ public class MainManager : MonoBehaviour
         if (!savefile[DataManager.instance.nowSlot]) {
             DataManager.instance.nowPlayer.Player_name = newPlayername.text;
             DataManager.instance.LoadCharactersFromCSV("Character", newPlayername.text);
-            DataManager.instance.LoadItemsFromCSV("ItemSong");
+            DataManager.instance.LoadItemsFromCSV("Item");
             DataManager.instance.SaveData(); // 현재의 정보를 저장함.
         }
 
@@ -240,7 +240,7 @@ public class MainManager : MonoBehaviour
         if (!savefile[DataManager.instance.nowSlot]) {
             DataManager.instance.nowPlayer.Player_name = newPlayername.text;
             DataManager.instance.LoadCharactersFromCSV("Character", newPlayername.text);
-            DataManager.instance.LoadItemsFromCSV("ItemSong");
+            DataManager.instance.LoadItemsFromCSV("Item");
             DataManager.instance.SaveData(); // 현재의 정보를 저장함.
         }
         SceneManager.LoadScene("IngameEx");

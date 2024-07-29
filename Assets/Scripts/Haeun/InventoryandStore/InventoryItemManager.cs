@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.IO;
 using System;
 using TMPro;
+using Unity.Burst.CompilerServices;
+using UnityEngine.TextCore.Text;
 
 public class ItemButton : MonoBehaviour
 {
@@ -25,12 +27,16 @@ public class InventoryItemManager : MonoBehaviour
 
     // 슬롯 버튼을 누르면 패널을 활성화하기 위함.
     public GameObject SelectItemInfor; // 미니 창 패널
-    public Image itemImageText; // 설명창에 아이템 이미지 표시
+    public Image itemImage; // 설명창에 아이템 이미지 표시
+    public Image XitemImage; // 설명창에 비활성화 아이템 이미지 표시
 
     public TextMeshProUGUI itemNameText; // 설명창에 아이템 이름 표시
     public TextMeshProUGUI itemDescriptionText; // 설명창에 아이템 설명 표시
     public TextMeshProUGUI itemIdText; // 설명창에 아이템 아이디 표시
     public TextMeshProUGUI itemTypeText; // 설명창에 아이템 타입 표시
+
+    public Button SelectButton; // 탭마다 다른 버튼 형식 만들기
+    
 
     private string filePath;
 
@@ -76,9 +82,15 @@ public class InventoryItemManager : MonoBehaviour
     // 탭에 따른 탭 선택 변경
     public void TapClick(string tabName)
     {
-        // 현재 아이템 리스트에 클릭한 타입만 추가하기
+        // 현재 아이템 리스트에 클릭한 타입 + 양이 1개보다 더 많은 경우 표시
         curType = tabName;
-        CurItemList = AllItemList.FindAll(x => x.Type == tabName);
+        //CurItemList = AllItemList.FindAll(x => x.Type == tabName);
+        // -> 현재 탭이 단서이면, 단서 전부를, 현재 탭이 단서가 아니면 현재탭 이름과 수량이 1 이상인 것만 출력
+        if (tabName == "단서") {
+                CurItemList = AllItemList.FindAll(x => x.Type == tabName);
+        }else{
+            CurItemList = AllItemList.FindAll(x => x.Type == tabName && int.Parse(x.quantity) > 0);
+        }
 
         // 슬롯과 텍스트를 보일 수 있도록 만들기
         for (int i = 0; i < slot.Length; i++)
@@ -93,38 +105,44 @@ public class InventoryItemManager : MonoBehaviour
                 {
                     textComponent.text = CurItemList[i].Name;
                 }
-                else
-                {
-                    Debug.LogError("TextMeshProUGUI component not found in slot's children.");
-                }
 
                 // 이미지 설정
                 Transform imageTransform = slot[i].transform.Find("Image");
+                Transform XimageTransform = slot[i].transform.Find("X Image");
+                
                 if (imageTransform != null)
                 {
                     Image imageComponent = imageTransform.GetComponent<Image>();
-                    if (imageComponent != null)
+                    Image XimageComponent = XimageTransform.GetComponent<Image>();
+
+                    if (imageComponent != null && XimageComponent != null)
                     {
                         // 현재 아이템의 Id를 기준으로 이미지를 설정
                         int itemId = int.Parse(CurItemList[i].Id);
                         if (itemId >= 0 && itemId < itemSprites.Length)
                         {
+                            XimageTransform.gameObject.SetActive(false);
                             imageComponent.sprite = itemSprites[itemId];
+
+                            // 기본적으로는, [비활성화 사진]은 비활성화 / 그러나 단서이고 수량이 0이면 비활성화 사진을 출력
+                            if (curType == "단서" && int.Parse(CurItemList[i].quantity) == 0) 
+                            {
+                                XimageComponent.sprite = itemSprites[itemId];
+                                XimageTransform.gameObject.SetActive(true);
+                            }
                         }
                         else
                         {
                             Debug.LogError($"Item Id {itemId}에 맞는 이미지가 없습니다.");
                         }
                     }
-                    else
-                    {
-                        Debug.LogError("Image component not found in imageTransform's children.");
-                    }
                 }
-                else
-                {
-                    Debug.LogError("Image Transform not found in slot's children.");
-                }
+
+                // 수량 panel 설정
+                Transform quantityTransform = slot[i].transform.Find("Quantity");
+                TextMeshProUGUI quantityText = quantityTransform.GetComponentInChildren<TextMeshProUGUI>();
+                quantityText.text = CurItemList[i].quantity;
+
 
                 // 버튼에 아이템 정보 추가 및 클릭 이벤트 연결
                 ItemButton itemButton = slot[i].GetComponent<ItemButton>();
@@ -162,23 +180,121 @@ public class InventoryItemManager : MonoBehaviour
 
     // 슬롯 버튼 클릭 시 아이템 정보 표시
     public void SlotClick(Item item)
-    {
-        int itemId = int.Parse(item.Id);
-        if (itemId >= 0 && itemId < itemSprites.Length)
-        {
-            itemImageText.sprite = itemSprites[itemId];
+    {   
+        // 선택 버튼의 텍스트를 변경하기 : 선물하기 창착하기 사용하기 등
+        TextMeshProUGUI Buttontext = SelectButton.GetComponentInChildren<TextMeshProUGUI>();
+        
+        // 단서이고, 수량이 0인 경우
+        if(item.Type == "단서" && int.Parse(item.quantity) == 0){
+            int itemId = int.Parse(item.Id);
+            if (itemId >= 0 && itemId < itemSprites.Length)
+            {
+                XitemImage.gameObject.SetActive(false);
+                itemImage.sprite = itemSprites[itemId];
+                if (curType == "단서" && int.Parse(item.quantity) == 0) 
+                {
+                    XitemImage.sprite = itemSprites[itemId];
+                    XitemImage.gameObject.SetActive(true);
+                }
+            }
+
+            itemNameText.text = item.Name;
+            itemDescriptionText.text = "";
+            itemTypeText.text = item.Type;
+            itemIdText.text = "No. " + item.Id;
+            SelectButton.gameObject.SetActive(false);
+
+            SelectItemInfor.SetActive(true); // 설명 창 활성화
         }
-        else
+        else // 그외의 경우
         {
-            Debug.LogError($"Item Id {itemId}에 맞는 이미지가 없습니다.");
+            int itemId = int.Parse(item.Id);
+            if (itemId >= 0 && itemId < itemSprites.Length)
+            {
+                XitemImage.gameObject.SetActive(false);
+                itemImage.sprite = itemSprites[itemId];
+            }
+
+            itemNameText.text = item.Name;
+            itemDescriptionText.text = item.Description;
+            itemTypeText.text = item.Type;
+            itemIdText.text = "No. " + item.Id;
+            if(item.Type == "단서") {
+                SelectButton.gameObject.SetActive(false);
+            }
+            if(item.Type == "기타") {
+                // 근데 이건 물어봐야 할 듯? 기타에 선물하기 말고도 사용하기가 있어야 하니까
+                Buttontext.text = "선물하기";
+                SelectButton.gameObject.SetActive(true);
+                SelectButton.onClick.AddListener(() => {
+                    AudioManager.Instance.PlaySfx(AudioManager.Sfx.ButtonClick);
+                    //UseItem_inv(item);
+                });
+            }
+            if(item.Type == "물약") {
+                Buttontext.text = "사용하기";
+                SelectButton.gameObject.SetActive(true);
+                SelectButton.onClick.AddListener(() => {
+                    AudioManager.Instance.PlaySfx(AudioManager.Sfx.ButtonClick);
+                    //UseItem_inv(item);
+                });
+            }
+            if(item.Type == "장비") {
+                Buttontext.text = "착용하기";
+                SelectButton.gameObject.SetActive(true);
+                SelectButton.onClick.AddListener(() => {
+                    AudioManager.Instance.PlaySfx(AudioManager.Sfx.ButtonClick);
+                    //WearItem_inv(item);
+                });
+            }
+            SelectItemInfor.SetActive(true); // 설명 창 활성화
+        }
+    }
+
+    // public static void GetItem_inv(Item item){
+    //     int itemQuantity = int.Parse(item.quantity);
+    // };
+    // public static void BuyItem_inv(Item item){
+    //     int itemQuantity = int.Parse(item.quantity);
+        
+    // };
+    // public void UseItem_inv(Item item){
+    //     int itemQuantity = int.Parse(item.quantity);
+
+    // };
+    // public void WearItem_inv(Item item){
+    //     int itemQitemQuantityuen = int.Parse(item.quantity);
+        
+    // };
+
+    public static void GetHint_inv() {
+        // AllHint 리스트에 모든 단서를 필터링
+        List<Item> AllHint = DataManager.instance.nowPlayer.Items.FindAll(x => x.quantity == "0" && x.Type == "단서");
+
+        // AllHint 리스트가 비어있는지 확인
+        if (AllHint.Count == 0) {
+            Debug.Log("단서 아이템이 없습니다.");
+            return;
         }
 
-        itemNameText.text = item.Name;
-        itemDescriptionText.text = item.Description;
-        itemTypeText.text = item.Type;
-        itemIdText.text = "No. " + item.Id;
+        // AllHint 리스트에서 랜덤한 아이템 선택
+        int hintRandom = UnityEngine.Random.Range(0, AllHint.Count); // 명시적으로 UnityEngine.Random 사용
+        Item selectedHint = AllHint[hintRandom];
 
-        SelectItemInfor.SetActive(true); // 설명 창 활성화
+        // 선택된 아이템의 quantity를 문자열에서 정수로 변환하여 1 증가시키고 다시 문자열로 변환
+        int currentQuantity;
+        if (int.TryParse(selectedHint.quantity, out currentQuantity)) {
+            currentQuantity += 1;
+            selectedHint.quantity = currentQuantity.ToString();
+        } else {
+            Debug.LogError("다 찾았습니다. 더 찾을 필요가 없어요~");
+            return;
+        }
+
+        // 변경된 내용을 저장
+        DataManager.instance.SaveData();
+
+        Debug.Log($"아이템 {selectedHint.Name}의 quantity가 1증가했습니다 . 현재 quantity: {selectedHint.quantity}");
     }
 
 
