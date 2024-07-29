@@ -14,31 +14,47 @@ public class PartyButton : MonoBehaviour
 
 public class PartyManager : MonoBehaviour
 {
+    [Header("#기본 데이터")]
     [SerializeField] private List<Character> AllCharacterList = new List<Character>();
     [SerializeField] private List<Character> MyCharacterList = new List<Character>();
     [SerializeField] private List<Character> CurCharacterList = new List<Character>();
     public GameObject[] slot;
     
+    [Header("#슬롯마다 참조")]
     public Sprite[] itemSprites;
     public Color SlotSelectColor = new Color32(225, 255, 225, 255);
     public Color SlotIdleColor = new Color32(255, 255, 255, 255);
 
     
+    [Header("#파티원 확인창")]
+    public TextMeshProUGUI playerNameText;
+    public TextMeshProUGUI[] PartyText;
+    public TextMeshProUGUI teamText;
+
+    // 캐릭터 슬롯창 업데이트
+    public GameObject[] PartyChraSlot;
+
+    
+
+    [Header("#설명창")]
     // 설정창 select 패널 연결
     public GameObject SelectCharInfor;
-
-    // 캐릭터 소개 윈도우 뜰 수 있도록 하기
-    public Button DesButton;
-    public GameObject DesWindow;
 
     // 설명창에 캐릭터 정보를 띄우기 위한 변수들.
     public TextMeshProUGUI CharName_T,CharDescription_T;
     public TextMeshProUGUI CharHP_T,CharSTR_T,CharDEX_T,CharINT_T,CharCON_T,CharDEF_T,CharATK_T;
 
+    // 캐릭터 소개 윈도우 뜰 수 있도록 하기
+    public Button DesButton;
+    public GameObject DesWindow;
 
+    // 장착 및 장착 해제를 위한 버튼 연결
+    public Button SelectButton;
+
+
+    [Header("#캐릭터 목록")]
     // 정렬 버튼 연결
     public GameObject SortPanel;
-    private string filePath;
     
 
     void Start()
@@ -46,14 +62,7 @@ public class PartyManager : MonoBehaviour
         // GUI 씬을 위에 추가해주기
         SceneManager.LoadScene("UI", LoadSceneMode.Additive);
 
-        // 나의 캐릭터 보유 목록
-        filePath = Application.persistentDataPath + "/MyCharctertext.txt";
-        print(filePath);
-
-        Debug.Log($"Loaded {AllCharacterList.Count} Charactor.");
-
         LoadCharacter();
-
 
         SelectCharInfor.SetActive(true);
         DesWindow.SetActive(false);
@@ -279,6 +288,27 @@ public class PartyManager : MonoBehaviour
         CharDEF_T.text = "방어 : " + chra.DEF;
         CharATK_T.text = "총 능력치 : " + chra.ATK;
 
+        // 선택 버튼 설정 -> 선택 버튼을 통해서 isUsing 이거 계속 바뀌도록 해야함. -> 그리고 계속 다시 불러와서, 새로운 데이터로 덮어쓰도록
+        ColorBlock buttonColor = SelectButton.colors;
+        TextMeshProUGUI selectText = SelectButton.GetComponentInChildren<TextMeshProUGUI>();
+        if(chra.Id == "0") {
+            SelectButton.enabled = false;
+            selectText.text = "해제불가";
+            buttonColor.normalColor = new Color32(93, 86, 84, 255);
+            buttonColor.disabledColor = new Color32(93, 86, 84, 200);
+        }
+        else if(chra.isUsing == true){
+            SelectButton.gameObject.SetActive(true);
+            selectText.text = "선택해제";
+            buttonColor.normalColor = new Color32(90, 46, 46, 255);
+        }
+        else if(chra.isUsing == false){
+            SelectButton.gameObject.SetActive(true);
+            selectText.text = "선택하기";
+            buttonColor.normalColor = new Color32(36, 66, 35, 255);
+        }
+
+
         // 설명 버튼 누르면, 설명창 상호작용 할 수 있도록
         DesButton.onClick.AddListener(() => OnDesWindow(CharName_T.text,chra.Description));
         Button CloseButton = DesWindow.GetComponentInChildren<Button>();
@@ -295,11 +325,12 @@ public class PartyManager : MonoBehaviour
 
     void LoadCharacter()
     {
+        DataManager.instance.LoadData();
+
         MyCharacterList = DataManager.instance.nowPlayer.characters;
         AllCharacterList = DataManager.instance.nowPlayer.characters;
 
         IdleClick();
 
     }
-
 }
