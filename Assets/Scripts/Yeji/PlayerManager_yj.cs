@@ -73,6 +73,7 @@ public class PlayerManager_yj : MonoBehaviour
         playerNow.hp_py += amount;
         if (playerNow.hp_py > 100)
             playerNow.hp_py = 100; // 최대 체력은 100으로 제한
+
     }
 
     // 플레이어 피로도 증가
@@ -111,11 +112,27 @@ public class PlayerManager_yj : MonoBehaviour
         playerNow.howtoday_py++;
         if (playerNow.howtoday_py > 2)
             playerNow.howtoday_py = 0; // 하루 활동 횟수는 최대 3회로 제한
+
     }
 
     // 플레이어 훈련 횟수 증가
     public void IncreaseTrainingCount()
     {
         playerNow.howtrain_py++;
+        
+    }
+
+
+    void SaveData() {
+        DataManager.instance.nowPlayer.Player_hp = playerNow.hp_py;
+        DataManager.instance.nowPlayer.Player_tired = playerNow.tired_py;
+        DataManager.instance.nowPlayer.Player_money = playerNow.money_py;
+        DataManager.instance.nowPlayer.Player_hint = playerNow.hint_py;
+        DataManager.instance.nowPlayer.Player_team = playerNow.team_py;
+        DataManager.instance.nowPlayer.Player_day = playerNow.day_py;
+        DataManager.instance.nowPlayer.Player_howtoday = playerNow.howtoday_py;
+        DataManager.instance.nowPlayer.Player_howtrain = playerNow.howtrain_py;
+
+        DataManager.instance.SaveData();
     }
 }
