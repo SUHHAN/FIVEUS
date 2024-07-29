@@ -14,6 +14,6 @@ public class IngameManager : MonoBehaviour
 
     public void OnTestButton() {
         // hint 하나 얻기
-        InventoryItemManager.GetHint_inv();
+        ItemManager.instance.GetHint_inv();
     }
 }

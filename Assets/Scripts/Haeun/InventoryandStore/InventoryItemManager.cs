@@ -15,6 +15,7 @@ public class ItemButton : MonoBehaviour
 
 public class InventoryItemManager : MonoBehaviour
 {
+    
     [SerializeField] private List<Item> AllItemList = new List<Item>();
     [SerializeField] private List<Item> MyItemList = new List<Item>();
     [SerializeField] private List<Item> CurItemList = new List<Item>();
@@ -33,12 +34,10 @@ public class InventoryItemManager : MonoBehaviour
     public TextMeshProUGUI itemNameText; // 설명창에 아이템 이름 표시
     public TextMeshProUGUI itemDescriptionText; // 설명창에 아이템 설명 표시
     public TextMeshProUGUI itemIdText; // 설명창에 아이템 아이디 표시
-    public TextMeshProUGUI itemTypeText; // 설명창에 아이템 타입 표시
+    public TextMeshProUGUI itemQuantityText; // 설명창에 아이템 타입 표시
 
     public Button SelectButton; // 탭마다 다른 버튼 형식 만들기
     
-
-    private string filePath;
 
     void Start()
     {
@@ -200,7 +199,7 @@ public class InventoryItemManager : MonoBehaviour
 
             itemNameText.text = item.Name;
             itemDescriptionText.text = "";
-            itemTypeText.text = item.Type;
+            itemQuantityText.text = item.quantity + " 개";
             itemIdText.text = "No. " + item.Id;
             SelectButton.gameObject.SetActive(false);
 
@@ -217,7 +216,7 @@ public class InventoryItemManager : MonoBehaviour
 
             itemNameText.text = item.Name;
             itemDescriptionText.text = item.Description;
-            itemTypeText.text = item.Type;
+            itemQuantityText.text = item.quantity + " 개";
             itemIdText.text = "No. " + item.Id;
             if(item.Type == "단서") {
                 SelectButton.gameObject.SetActive(false);
@@ -251,9 +250,44 @@ public class InventoryItemManager : MonoBehaviour
         }
     }
 
-    // public static void GetItem_inv(Item item){
-    //     int itemQuantity = int.Parse(item.quantity);
-    // };
+    public void GetItem_inv(Item item, int quantity)
+    {
+        Character player = DataManager.instance.nowPlayer.characters.Find(x => x.Id == "0");
+        Item NowItem = DataManager.instance.nowPlayer.Items.Find(x => x.Name == item.Name);
+        
+        // 수량을 더해주기
+        int NowItem_Quantity = int.Parse(NowItem.quantity);
+        NowItem_Quantity += quantity;
+
+        NowItem.quantity = NowItem_Quantity.ToString();
+        
+        // 장비를 구매했다면, 전직을 위해 바로 장착되도록 구현
+        if (item.Type == "장비")
+        {
+            Item changeJobItem = AllItemList.Find(x => x.isUsing == true);
+            NowItem.isUsing = true;
+
+            switch (item.Id)
+            {
+                case "0":
+                    player.Type = "검사"; break;
+                case "1":
+                    player.Type = "궁수"; break;
+                case "2":
+                    player.Type = "마법사"; break;
+                case "3":
+                    player.Type = "힐러"; break;
+                case "4":
+                    player.Type = "방패병"; break;
+                case "5":
+                    player.Type = "암살자"; break;
+                default:
+                    Debug.LogWarning($"Unknown item.Id: {item.Id}"); break;
+            }
+        }
+
+        DataManager.instance.SaveData();
+    }
     // public static void BuyItem_inv(Item item){
     //     int itemQuantity = int.Parse(item.quantity);
         
@@ -267,7 +301,7 @@ public class InventoryItemManager : MonoBehaviour
         
     // };
 
-    public static void GetHint_inv() {
+    public void GetHint_inv() {
         // AllHint 리스트에 모든 단서를 필터링
         List<Item> AllHint = DataManager.instance.nowPlayer.Items.FindAll(x => x.quantity == "0" && x.Type == "단서");
 
