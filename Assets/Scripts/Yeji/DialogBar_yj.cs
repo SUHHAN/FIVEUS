@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class DialogueBar : MonoBehaviour
+public class DialogueBar_yj : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI nameTxt; // 이름 표시할 컴포넌트
     [SerializeField] TypeEffect talk; // 대사 표시할 컴포넌트
@@ -11,7 +11,7 @@ public class DialogueBar : MonoBehaviour
 
     void Start()
     {
-        ActiveDialogue(0, "JPB", ref str); // 대화창 활성화 메서드 호출
+        ActiveDialogue(0, "기사단장", ref str); // 대화창 활성화 메서드 호출
     }
 
     void Update()
@@ -24,7 +24,7 @@ public class DialogueBar : MonoBehaviour
     {
         if (nameData == null && talkData == null)
         {
-            //데이터 안가져와졌으므로 데이터 관리하는 곳에서 해당 부분에 맞는 데이터 가져오기
+            // 데이터를 가져오지 못했을 경우, 필요한 데이터를 관리하는 곳에서 가져옵니다.
         }
 
         nameTxt.text = nameData; // 이름 텍스트 설정

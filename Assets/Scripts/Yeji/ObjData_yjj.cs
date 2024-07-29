@@ -2,14 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjData_yj : MonoBehaviour
+public class ObjData_yjj : MonoBehaviour
 {
-    public int id_yjyj;
-    public bool isNpc_yjyj;
-
-
-
     // Start is called before the first frame update
+
+    public int id_yj;
+    public bool isNpc_yjj;
     void Start()
     {
         
