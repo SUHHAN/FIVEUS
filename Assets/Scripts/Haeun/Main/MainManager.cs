@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
-using UnityEngine.UI; // UI 관련 라이브러리 추가
+using UnityEngine.UI;
+using System.IO;
+using TMPro; // UI 관련 라이브러리 추가
 
 public class MainManager : MonoBehaviour
 {
@@ -10,7 +12,16 @@ public class MainManager : MonoBehaviour
 
     public Button continueButton; // 이어하기 버튼
     public Button newGameButton; // 새로하기 버튼
-    public GameObject warningPopup; // 경고 팝업 프리팹
+    public Button SettingButton; // 설정 버튼
+    public GameObject SettingButtonWarningText;
+
+    public TMP_InputField newPlayername;    // 새로 입력된 플레이어의 닉네임.
+    public bool[] savefile = new bool[3];  // 세이브 파일의 존재 유무 저장
+
+    [Header("#POPUP")]
+    public GameObject warningPopup;         // 경고 팝업 프리팹
+    public GameObject PlayerNamePopup;      // 이름 입력 팝업 프리팹
+
 
     void Start()
     {
@@ -22,33 +33,29 @@ public class MainManager : MonoBehaviour
         // 배경음 시작
         AudioManager.Instance.PlayBgm(true);
 
-        // PlayerPrefs 안에 데이터가 있는지 확인하여 이어하기 버튼 활성화
+        // PlayerPrefs 안에 데이터가 있는지 확인하여 이어하기 버튼 활성화 -> 파일 안에 데이터가 있는지 확인
         CheckDataAlreadyExists();
+        CheckData();
+
         warningPopup.SetActive(false);
 
 
-        // 새로하기 버튼에 이벤트 리스너 추가
-        newGameButton.onClick.AddListener(OnNewGameButtonClick);
+        // 버튼에 이벤트 리스너 추가
+        newGameButton.onClick.AddListener(OnNewGameButtonClick_new);
+        continueButton.onClick.AddListener(OnContinueButtonClick);
+        SettingButton.onClick.AddListener(() => LoadSettingsScene(previousSceneName));
     }
 
-    public void ChangeIngame() {
-        SceneManager.LoadScene("IngameEx");
+    // 이어하기 버튼
+    public void OnContinueButtonClick() {
+        SceneManager.LoadScene("DataSlotScene");
+        AudioManager.Instance.PlaySfx(AudioManager.Sfx.ButtonClick);
     }
     
-    public void ReturnMain() {
-        SceneManager.LoadScene("MainScene");
-    }
-
-    public void changeStore() {
-        SceneManager.LoadScene("StoreMain");
-    }
-
-    public void changeInventory() {
-        SceneManager.LoadScene("InventoryMain");
-    }
-    
+    // 나가기 버튼
     public void OnExitButtonClick()
     {
+        AudioManager.Instance.PlaySfx(AudioManager.Sfx.ButtonClick);
         #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
         #else
@@ -61,41 +68,17 @@ public class MainManager : MonoBehaviour
         bool dataExists = PlayerPrefs.GetInt("isDataExisting", 0) == 1;
 
         continueButton.interactable = dataExists; // 이어하기 버튼 상태 설정
+        SettingButton.interactable = dataExists; // 설정 버튼 상태 설정
+        SettingButtonWarningText.SetActive(!dataExists);
     }
 
-    public void OnNewGameButtonClick()
-    {
-        bool dataExists = PlayerPrefs.GetInt("isDataExisting", 0) == 1;
-
-        if (dataExists) {
-            // 경고 팝업 생성
-            warningPopup.SetActive(true);
-            // 경고 팝업에서 확인 버튼과 취소 버튼 가져오기
-            Button confirmButton = warningPopup.transform.Find("OkButton").GetComponent<Button>();
-            Button cancelButton = warningPopup.transform.Find("NoButton").GetComponent<Button>();
-
-            // 확인 버튼에 이벤트 리스너 추가
-            confirmButton.onClick.AddListener(() => {
-                warningPopup.SetActive(false);
-                StartNewGame(); // 새 게임 시작
-            });
-
-            // 취소 버튼에 이벤트 리스너 추가
-            cancelButton.onClick.AddListener(() => {
-               warningPopup.SetActive(false);
-            });
-        } else {
-            StartNewGame(); // 저장된 데이터가 없으면 바로 새 게임 시작
-        }
-    }
-
-    public void StartNewGame()
-    {
-        // 새 게임 시작 시 PlayerPrefs 초기화 및 isDataExisting 플래그 설정
+    public void ResetGamedata() {
         PlayerPrefs.DeleteAll();
-        PlayerPrefs.SetInt("isDataExisting", 1);
+        PlayerPrefs.SetInt("isDataExisting", 0);
         PlayerPrefs.Save();
-        SceneManager.LoadScene("IngameEx");
+        continueButton.interactable = false;
+        SettingButton.interactable = false; // 설정 버튼 상태 설정
+        SettingButtonWarningText.SetActive(true);
     }
 
     public void BackButtonClick()
@@ -116,7 +99,140 @@ public class MainManager : MonoBehaviour
         PlayerPrefs.SetString("PreviousScene", SceneManager.GetActiveScene().name);
         PlayerPrefs.Save();
 
+        AudioManager.Instance.PlaySfx(AudioManager.Sfx.ButtonClick);
+
         // 환경 설정 씬 로드
         SceneManager.LoadScene("SettingMain");
     }
+
+
+
+    // 여기서 부터는 삭제될 가능성 있음
+    // 슬롯에 데이터가 존재하는지 확인하는 매소드
+    public void CheckData() {
+        for (int i = 0; i < 3; i++) {
+            // 슬롯 별로 저장된 데이터가 존재하는지 판단.
+            if (File.Exists(DataManager.instance.path + $"{i}")) {
+                savefile[i] = true; // 해당 슬롯 번호의 bool 배열을 true로 변환
+            }
+            else {
+                savefile[i] = false; // 해당 슬롯 번호의 bool 배열을 true로 변환
+            }
+            // 불러왔던 게임 데이터는 변수 초기화 시킴. -> 단지 버튼에 닉네임을 표현하기 위해서 가지고 온 것이므로, 변수 초기화를 해줘야 게임 데이터가 섞이지 않음.
+            DataManager.instance.ClearData();
+        }
+    }
+
+
+    // 슬롯 자체 기능 구현
+    public void OnNewGameButtonClick_new() {
+        AudioManager.Instance.PlaySfx(AudioManager.Sfx.ButtonClick);
+        // 일단 3개의 슬롯에 모두 데이터가 꽉차있는지 확인하기
+        bool dataExists = PlayerPrefs.GetInt("isDataExisting", 0) == 1;
+        CheckData();
+        if (dataExists) {
+            if (savefile[0] && savefile[1] && savefile[2] == true) {
+                // 경고 팝업 생성
+                warningPopup.SetActive(true);
+                // 경고 팝업에서 확인 버튼과 취소 버튼 가져오기
+                Button confirmButton = warningPopup.transform.Find("OkButton").GetComponent<Button>();
+                Button cancelButton = warningPopup.transform.Find("NoButton").GetComponent<Button>();
+
+                // 확인 버튼에 이벤트 리스너 추가
+                confirmButton.onClick.AddListener(() => {
+                    AudioManager.Instance.PlaySfx(AudioManager.Sfx.ButtonClick);
+                    warningPopup.SetActive(false);
+                    ResetGamedata_new(); // 새 게임 시작
+                });
+
+                // 취소 버튼에 이벤트 리스너 추가
+                cancelButton.onClick.AddListener(() => {
+                    AudioManager.Instance.PlaySfx(AudioManager.Sfx.ButtonClick);
+                    warningPopup.SetActive(false);
+                });
+            } 
+            else if (savefile[0] == false) {
+                PlayerPrefs.SetInt("isDataExisting", 1);
+                DataManager.instance.nowSlot = 0;
+                
+                if(savefile[0]) {
+                    DataManager.instance.LoadData();
+                    GoIngame();
+                }
+                else {
+                    NewPlayerCreate();
+                }
+            } 
+            else if (savefile[1] == false) {
+                PlayerPrefs.SetInt("isDataExisting", 1);
+                DataManager.instance.nowSlot = 1;
+
+                if(savefile[1]) {
+                    DataManager.instance.LoadData();
+                    GoIngame();
+                }
+                else {
+                    NewPlayerCreate();
+                }
+            } 
+            else if (savefile[2] == false) {
+                PlayerPrefs.SetInt("isDataExisting", 1);
+                DataManager.instance.nowSlot = 2;
+                if(savefile[2]) {
+                    DataManager.instance.LoadData();
+                    GoIngame();
+                }
+                else {
+                    NewPlayerCreate();
+                }
+            }
+        }
+    } 
+
+    void ResetGamedata_new() {
+        bool dataExists = PlayerPrefs.GetInt("isDataExisting", 0) == 1;
+        
+        for (int i = 0; i < 3; i++) {
+            File.Delete(DataManager.instance.path + $"{i}");
+        }
+        continueButton.interactable = false;
+        SettingButton.interactable = false;
+        SettingButtonWarningText.SetActive(true);
+
+    }
+
+    // 플레이어 이름을 입력하는 팝업창을 활성화 시킴
+    public void NewPlayerCreate() { 
+        PlayerNamePopup.gameObject.SetActive(true);
+    }
+
+
+    // 새 플레이어 이름 저장 및 게임 시작 버튼을 누를 때 호출
+    public void OnNewPlayerNameEntered() {
+        if (string.IsNullOrEmpty(newPlayername.text)) {
+            Debug.LogError("플레이어 이름이 입력되지 않았습니다.");
+            return;
+        }
+
+        if (!savefile[DataManager.instance.nowSlot]) {
+            DataManager.instance.nowPlayer.Player_name = newPlayername.text;
+            DataManager.instance.LoadCharactersFromCSV("Character", newPlayername.text);
+            DataManager.instance.LoadItemsFromCSV("ItemSong");
+            DataManager.instance.SaveData(); // 현재의 정보를 저장함.
+        }
+
+        SceneManager.LoadScene("IngameEx");
+    }
+
+    // 원하는 파일의 정보를 가지고 게임을 시작하기.
+    public void GoIngame() {
+        if (!savefile[DataManager.instance.nowSlot]) {
+            DataManager.instance.nowPlayer.Player_name = newPlayername.text;
+            DataManager.instance.LoadCharactersFromCSV("Character", newPlayername.text);
+            DataManager.instance.LoadItemsFromCSV("ItemSong");
+            DataManager.instance.SaveData(); // 현재의 정보를 저장함.
+        }
+        SceneManager.LoadScene("IngameEx");
+    }
 }
+
