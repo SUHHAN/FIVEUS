@@ -68,8 +68,11 @@ public class PlayerAction_bin : MonoBehaviour
         if (Input.GetButtonDown("Jump") && ScanObject_bin != null)
             manager_bin.Action(ScanObject_bin);
 
-        if(collisionInfdoor && Input.GetButtonDown("Jump"))
+        if (collisionInfdoor && Input.GetButtonDown("Jump"))
+        {
             StartCoroutine(LoadSceneCoroutine("inf_guild", 7));
+            collisionInfdoor = false;
+        }
 
     }
 
@@ -120,14 +123,42 @@ public class PlayerAction_bin : MonoBehaviour
             LoadedScene = 3;
             StartCoroutine(LoadSceneCoroutine("main_map", 0));
         }
-        if (collision.gameObject.name == "bighouse_indoor")
+        if (collision.gameObject.name == "hotel_indoor")
         {
-            StartCoroutine(LoadSceneCoroutine("big_house", 4));
+            StartCoroutine(LoadSceneCoroutine("hotel", 4));
         }
-        if (collision.gameObject.name == "bighouse_outdoor")
+        if (collision.gameObject.name == "hotel_outdoor")
         {
             LoadedScene = 4;
             StartCoroutine(LoadSceneCoroutine("main_map", 0));
+        }
+
+        if (collision.gameObject.name == "hotel_hall_indoor")
+        {
+            StartCoroutine(LoadSceneCoroutine("hotel_hall", 11));
+        }
+        if (collision.gameObject.name == "hotel_hall_outdoor")
+        {
+            LoadedScene = 11;
+            StartCoroutine(LoadSceneCoroutine("hotel", 4));
+        }
+        if (collision.gameObject.name == "hotel_room1_indoor")
+        {
+            StartCoroutine(LoadSceneCoroutine("hotel_room1", 12));
+        }
+        if (collision.gameObject.name == "hotel_room1_outdoor")
+        {
+            LoadedScene = 12;
+            StartCoroutine(LoadSceneCoroutine("hotel_hall", 11));
+        }
+        if (collision.gameObject.name == "hotel_room2_indoor")
+        {
+            StartCoroutine(LoadSceneCoroutine("hotel_room2", 13));
+        }
+        if (collision.gameObject.name == "hotel_room2_outdoor")
+        {
+            LoadedScene = 13;
+            StartCoroutine(LoadSceneCoroutine("hotel_hall", 11));
         }
         if (collision.gameObject.name == "sub1house_indoor")
         {
@@ -138,11 +169,11 @@ public class PlayerAction_bin : MonoBehaviour
             LoadedScene = 5;
             StartCoroutine(LoadSceneCoroutine("main_map", 0));
         }
-        if (collision.gameObject.name == "sub2house_indoor")
+        if (collision.gameObject.name == "magichouse_indoor")
         {
-            StartCoroutine(LoadSceneCoroutine("sub2_house", 6));
+            StartCoroutine(LoadSceneCoroutine("magic_house", 6));
         }
-        if (collision.gameObject.name == "sub2house_outdoor")
+        if (collision.gameObject.name == "magichouse_outdoor")
         {
             LoadedScene = 6;
             StartCoroutine(LoadSceneCoroutine("main_map", 0));
@@ -226,13 +257,37 @@ public class PlayerAction_bin : MonoBehaviour
         {
             transform.position = new Vector3(-9, -14, 0);
         }
-        if (scene.name == "big_house")
+        if (scene.name == "hotel")
         {
             transform.position = new Vector3(0, -3, 0);
         }
         if (scene.name == "main_map" && LoadedScene == 4)
         {
             transform.position = new Vector3(17, 9, 0);
+        }
+        if (scene.name == "hotel_hall")
+        {
+            transform.position = new Vector3(1, -1, 0);
+        }
+        if (scene.name == "hotel" && LoadedScene == 11)
+        {
+            transform.position = new Vector3(1, 2, 0);
+        }
+        if (scene.name == "hotel_room1")
+        {
+            transform.position = new Vector3(1, 1, 0);
+        }
+        if (scene.name == "hotel_hall" && LoadedScene == 12)
+        {
+            transform.position = new Vector3(2, 1, 0);
+        }
+        if (scene.name == "hotel_room2")
+        {
+            transform.position = new Vector3(-1, 1, 0);
+        }
+        if (scene.name == "hotel_hall" && LoadedScene == 13)
+        {
+            transform.position = new Vector3(-4, 1, 0);
         }
         if (scene.name == "sub1_house")
         {
@@ -242,7 +297,7 @@ public class PlayerAction_bin : MonoBehaviour
         {
             transform.position = new Vector3(-9, 6, 0);
         }
-        if (scene.name == "sub2_house")
+        if (scene.name == "magic_house")
         {
             transform.position = new Vector3(2, -3, 0);
         }
