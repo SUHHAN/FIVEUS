@@ -8,7 +8,7 @@ public class AudioManager : MonoBehaviour
     // 배경음 변수
     [Header("#BGM")]
     public AudioClip bgmClip;
-    public float bgmVolume = 0.2f;
+    public float bgmVolume = 0.5f;
     AudioSource bgmPlayer;
 
     // 효과음 변수
@@ -29,7 +29,7 @@ public class AudioManager : MonoBehaviour
     public float envVolume = 0.5f;
 
     // 동시다발적으로 많은 효과음을 내기 위해서 channel 분리
-    public int envChannels;
+    public int envChannels = 16;
     AudioSource[] envPlayers;
     int envChannelIndex;
     
@@ -73,7 +73,7 @@ public class AudioManager : MonoBehaviour
         // 3. 환경음 플레이어 초기화
         GameObject envObject = new GameObject("EnvPlayer");
         envObject.transform.parent = transform;
-
+        envChannels = 16;
         envPlayers = new AudioSource[envChannels];
 
         for (int index = 0; index < envPlayers.Length; index++) {
@@ -129,8 +129,8 @@ public class AudioManager : MonoBehaviour
             if (sfxPlayers[loopIndex].isPlaying)
             continue;
 
-            // 랜덤으로 2가지 이상의 효과음을 선택하고 싶을 때
-             int ranIndex = 0;
+            // // 랜덤으로 2가지 이상의 효과음을 선택하고 싶을 때
+            int ranIndex = 0;
             // if (sfx == Sfx.Hit || sfx == Sfx.Hit) {
             //       ranIndex = Random.Range(0,2);
             // }
