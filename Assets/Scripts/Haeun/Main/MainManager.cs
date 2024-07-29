@@ -34,8 +34,8 @@ public class MainManager : MonoBehaviour
         AudioManager.Instance.PlayBgm(true);
 
         // PlayerPrefs 안에 데이터가 있는지 확인하여 이어하기 버튼 활성화 -> 파일 안에 데이터가 있는지 확인
-        CheckDataAlreadyExists();
         CheckData();
+        CheckDataAlreadyExists();
 
         warningPopup.SetActive(false);
 
@@ -65,12 +65,23 @@ public class MainManager : MonoBehaviour
     
     // PlayerPrefs 안에 새게임을 누른적이 있는지 한번 확인하고, 있으면 이어하기 버튼 활성화
     public void CheckDataAlreadyExists() {
-        bool dataExists = PlayerPrefs.GetInt("isDataExisting", 0) == 1;
+    bool dataExists;
 
-        continueButton.interactable = dataExists; // 이어하기 버튼 상태 설정
-        SettingButton.interactable = dataExists; // 설정 버튼 상태 설정
-        SettingButtonWarningText.SetActive(!dataExists);
+    // savefile 배열의 모든 값이 false인 경우
+    if (savefile[0] == false && savefile[1] == false && savefile[2] == false) {
+        dataExists = false;
+    } else {
+        dataExists = true;
     }
+
+    // 이어하기 및 설정 버튼 상태 설정
+    continueButton.interactable = dataExists; 
+    SettingButton.interactable = dataExists;
+
+    // 경고 텍스트 상태 설정
+    SettingButtonWarningText.SetActive(!dataExists);
+    }
+
 
     public void ResetGamedata() {
         PlayerPrefs.DeleteAll();

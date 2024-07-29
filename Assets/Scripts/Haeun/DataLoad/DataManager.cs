@@ -96,11 +96,19 @@ public class DataManager : MonoBehaviour
         OnDataChanged?.Invoke(); // 데이터 저장 시 이벤트 호출
     }
 
-    public void LoadData() 
+    public void LoadData()
     {
-        // 데이터를 내가 원하는 형태로 가지고 올 수 있음. / 현재는 nowPlayer에 저장되어 있음.
+        //nowPlayer = new PlayerData();
         string data = File.ReadAllText(path + nowSlot.ToString());
+        Debug.Log($"Loaded Data: {data}"); // JSON 데이터를 출력
         nowPlayer = JsonUtility.FromJson<PlayerData>(data); // 불러온 데이터가 PlayerData 형태로 저장되어 있음.
+
+        // 중요한 데이터 로그 출력
+        Debug.Log($"Player Name: {nowPlayer.Player_name}");
+        Debug.Log($"Player Day: {nowPlayer.Player_day}");
+        Debug.Log($"Number of Items: {nowPlayer.Items.Count}");
+        Debug.Log($"Number of Characters: {nowPlayer.characters.Count}");
+
         OnDataChanged?.Invoke(); // 데이터 로드 시 이벤트 호출
     }
 
