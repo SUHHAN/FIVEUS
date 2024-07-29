@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class AudioManager : MonoBehaviour
@@ -16,7 +17,7 @@ public class AudioManager : MonoBehaviour
     public float sfxVolume = 0.5f;
 
     // 동시다발적으로 많은 효과음을 내기 위해서 channel 분리
-    public int sfxChannels;
+    public int sfxChannels = 16;
     AudioSource[] sfxPlayers;
     int sfxChannelIndex;
     
@@ -60,7 +61,7 @@ public class AudioManager : MonoBehaviour
         // 2. 효과음 플레이어 초기화
         GameObject sfxObject = new GameObject("SfxPlayer");
         sfxObject.transform.parent = transform;
-
+        sfxChannels = 16;
         sfxPlayers = new AudioSource[sfxChannels];
 
         for (int index = 0; index < sfxPlayers.Length; index++) {
@@ -69,7 +70,7 @@ public class AudioManager : MonoBehaviour
             sfxPlayers[index].volume = sfxVolume;
         }
 
-        // 2. 효과음 플레이어 초기화
+        // 3. 환경음 플레이어 초기화
         GameObject envObject = new GameObject("EnvPlayer");
         envObject.transform.parent = transform;
 
@@ -122,14 +123,44 @@ public class AudioManager : MonoBehaviour
     }
 
     public void PlaySfx(Sfx sfx) {
-        sfxPlayers[sfxChannelIndex].clip = sfxClips[(int)sfx];
-        sfxPlayers[sfxChannelIndex].Play();
-        sfxChannelIndex = (sfxChannelIndex + 1) % sfxChannels;
+        for (int index = 0; index < sfxPlayers.Length; index++) {
+            int loopIndex = (index + sfxChannelIndex) % sfxPlayers.Length;
+
+            if (sfxPlayers[loopIndex].isPlaying)
+            continue;
+
+            // 랜덤으로 2가지 이상의 효과음을 선택하고 싶을 때
+             int ranIndex = 0;
+            // if (sfx == Sfx.Hit || sfx == Sfx.Hit) {
+            //       ranIndex = Random.Range(0,2);
+            // }
+
+            sfxChannelIndex = loopIndex;
+            sfxPlayers[sfxChannelIndex].clip = sfxClips[(int)sfx + ranIndex];
+            sfxPlayers[sfxChannelIndex].Play();
+
+            break;
+        }
     }
 
     public void PlayEnv(Env env) {
-        envPlayers[envChannelIndex].clip = envClips[(int)env];
-        envPlayers[envChannelIndex].Play();
-        envChannelIndex = (envChannelIndex + 1) % envChannels;
+        for (int index = 0; index < envPlayers.Length; index++) {
+            int loopIndex = (index + envChannelIndex) % sfxPlayers.Length;
+
+            if (envPlayers[loopIndex].isPlaying)
+            continue;
+
+            // 랜덤으로 2가지 이상의 효과음을 선택하고 싶을 때
+             int ranIndex = 0;
+            // if (sfx == Sfx.Hit || sfx == Sfx.Hit) {
+            //       ranIndex = Random.Range(0,2);
+            // }
+
+            envChannelIndex = loopIndex;
+            envPlayers[envChannelIndex].clip = sfxClips[(int)env + ranIndex];
+            envPlayers[envChannelIndex].Play();
+
+            break;
+        }
     }
 }

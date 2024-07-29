@@ -6,41 +6,17 @@ using System.IO;
 using System;
 using TMPro;
 
-[System.Serializable]
-public class SerializationParty<T>
-{
-    public SerializationParty(List<T> _target) => target = _target;
-    public List<T> target;
-}
-
-[System.Serializable]
-public class PartyCharacter
-{
-    public PartyCharacter(string _Id, string _Name, string _Description, string _HP, string _STR, string _DEX, string _INT,string _CON, string _DEF,string _ATK, bool _isUsing, string _Type)
-    {
-        Id = _Id; Name = _Name; Description = _Description; 
-        HP = _HP; STR = _STR; DEX = _DEX; 
-        INT = _INT; CON = _CON; DEF = _DEF; ATK = _ATK;
-        isUsing = _isUsing; Type = _Type;
-    }
-
-    
-    // 캐릭터 관련 변수들
-    public string Id, Name, Description, HP, STR, DEX, INT, CON, DEF, ATK;
-    public string Type;
-    public bool isUsing;
-}
 
 public class PartyButton : MonoBehaviour
 {
-    public PartyCharacter Character { get; set; }
+    public Character Character { get; set; }
 }
 
 public class PartyManager : MonoBehaviour
 {
-    [SerializeField] private List<PartyCharacter> AllCharacterList = new List<PartyCharacter>();
-    [SerializeField] private List<PartyCharacter> MyCharacterList = new List<PartyCharacter>();
-    [SerializeField] private List<PartyCharacter> CurCharacterList = new List<PartyCharacter>();
+    [SerializeField] private List<Character> AllCharacterList = new List<Character>();
+    [SerializeField] private List<Character> MyCharacterList = new List<Character>();
+    [SerializeField] private List<Character> CurCharacterList = new List<Character>();
     public GameObject[] slot;
     
     public Sprite[] itemSprites;
@@ -48,7 +24,6 @@ public class PartyManager : MonoBehaviour
     public Color SlotIdleColor = new Color32(255, 255, 255, 255);
 
     
-
     // 설정창 select 패널 연결
     public GameObject SelectCharInfor;
 
@@ -75,11 +50,9 @@ public class PartyManager : MonoBehaviour
         filePath = Application.persistentDataPath + "/MyCharctertext.txt";
         print(filePath);
 
-        LoadItemsFromCSV("CharacterSong"); // CSV 파일 이름, 확장자는 제외
-
         Debug.Log($"Loaded {AllCharacterList.Count} Charactor.");
 
-        LoadItem();
+        LoadCharacter();
 
 
         SelectCharInfor.SetActive(true);
@@ -87,7 +60,7 @@ public class PartyManager : MonoBehaviour
         
 
         // 기본 선택된 캐릭터 설정 (id가 "0"인 캐릭터 - 주인공)
-        PartyCharacter selectedCharacter = AllCharacterList.Find(x => x.Id == "0");
+        Character selectedCharacter = AllCharacterList.Find(x => x.Id == "0");
         if (selectedCharacter != null)
         {
             SlotClick(selectedCharacter);
@@ -104,43 +77,6 @@ public class PartyManager : MonoBehaviour
         foreach (var item in MyCharacterList)
         {
             Debug.Log($"ID: {item.Id}, Name: {item.Name}, Description: {item.Description}, Price: {item.HP}");
-        }
-    }
-
-    void LoadItemsFromCSV(string fileName)
-    {
-        var data = CSVReader.Read(fileName);
-
-        if (data != null)
-        {
-            foreach (var entry in data)
-            {
-                //Id, Name, Description, HP, STR, DEX, INT, CON, DEF, ATK, isUsing, Type;
-                string id = entry["id"].ToString();
-                string name = entry["name"].ToString();
-                string description = entry["description"].ToString();
-                string HP = entry["HP"].ToString();
-                string STR = entry["STR"].ToString();
-                string DEX = entry["DEX"].ToString();
-                string INT = entry["INT"].ToString();
-                string CON = entry["CON"].ToString();
-                string DEF = entry["DEF"].ToString();
-                string ATK = entry["ATK"].ToString();
-                string type = entry["type"].ToString();
-                bool isUsing;
-                
-                if (!bool.TryParse(entry["isUsing"].ToString(), out isUsing))
-                {
-                    isUsing = false; // 파싱 실패 시 기본값 설정
-                }
-                
-
-                AllCharacterList.Add(new PartyCharacter(id, name, description, HP, STR, DEX, INT, CON, DEF, ATK, isUsing, type));
-            }
-        }
-        else
-        {
-            Debug.LogError("CSV 데이터를 불러오지 못했습니다.");
         }
     }
 
@@ -329,7 +265,7 @@ public class PartyManager : MonoBehaviour
 
 
     // 슬롯 버튼 클릭 시 아이템 정보 표시
-    public void SlotClick(PartyCharacter chra)
+    public void SlotClick(Character chra)
     {
         DesWindow.SetActive(false);
     
@@ -351,44 +287,19 @@ public class PartyManager : MonoBehaviour
         SelectCharInfor.SetActive(true); // 설명 창 활성화
     }
 
-    
-    // 리셋 버튼을 눌렀을 경우
-    public void ReSetItemClick()
+
+    void SaveCharacter()
     {
-        PartyCharacter BasicItem = AllCharacterList.Find(x => x.Id == "0");
-        if (BasicItem != null)
-        {
-            MyCharacterList = new List<PartyCharacter>() { BasicItem };
-        }
-        else
-        {
-            Debug.LogError("id가 0인 아이템을 찾을 수 없습니다.");
-            MyCharacterList.Clear();  // 빈 리스트로 설정하여 빈 값을 저장하지 않도록 합니다.
-        }
-        SaveItem();
+        DataManager.instance.SaveData();
     }
 
-    void SaveItem()
+    void LoadCharacter()
     {
-        string jdata = JsonUtility.ToJson(new SerializationParty<PartyCharacter>(MyCharacterList));
-        File.WriteAllText(filePath, jdata);
-    }
-
-    void LoadItem()
-    {
-        if (!File.Exists(filePath))
-        {
-            ReSetItemClick(); // 초기 파일 생성 및 저장
-            return;
-        }
-        
-        string jdata = File.ReadAllText(filePath);
-        MyCharacterList = JsonUtility.FromJson<SerializationParty<PartyCharacter>>(jdata).target;
-
-        // Inspector에서 리스트가 업데이트되도록 합니다.
-        // UnityEditor.EditorUtility.SetDirty(this);
+        MyCharacterList = DataManager.instance.nowPlayer.characters;
+        AllCharacterList = DataManager.instance.nowPlayer.characters;
 
         IdleClick();
+
     }
 
 }

@@ -6,37 +6,16 @@ using System.IO;
 using System;
 using TMPro;
 
-[System.Serializable]
-public class Serialization<T>
-{
-    public Serialization(List<T> _target) => target = _target;
-    public List<T> target;
-}
-
-[System.Serializable]
-public class GameItem
-{
-    public GameItem(string _Id, string _Name, string _Description, string _Type, bool _isUsing, string _Price, bool _isSelling, string _value, string	_quantity)
-    {
-        Id = _Id; Name = _Name; Description = _Description; Type = _Type; isUsing = _isUsing; Price = _Price; 
-        isSelling = _isSelling; value = _value; quantity = _quantity;
-    }
-
-    public string Id, Name, Description, Type, Price;
-    public bool isUsing, isSelling;
-    public string value, quantity;
-}
-
 public class ItemButton : MonoBehaviour
 {
-    public GameItem Item { get; set; }
+    public Item Item { get; set; }
 }
 
 public class InventoryItemManager : MonoBehaviour
 {
-    [SerializeField] private List<GameItem> AllItemList = new List<GameItem>();
-    [SerializeField] private List<GameItem> MyItemList = new List<GameItem>();
-    [SerializeField] private List<GameItem> CurItemList = new List<GameItem>();
+    [SerializeField] private List<Item> AllItemList = new List<Item>();
+    [SerializeField] private List<Item> MyItemList = new List<Item>();
+    [SerializeField] private List<Item> CurItemList = new List<Item>();
     public string curType = "장비"; // 현재 고른 탭의 타입이 무엇인지
     public GameObject[] slot;
     public Image[] TabImage;
@@ -61,14 +40,8 @@ public class InventoryItemManager : MonoBehaviour
         // Additively load the GUI scene
         SceneManager.LoadScene("UI", LoadSceneMode.Additive);
 
-        filePath = Application.persistentDataPath + "/MyItemtext.txt";
-        print(filePath);
-
-        LoadItemsFromCSV("ItemSong"); // CSV 파일 이름, 확장자는 제외
-
-        Debug.Log($"Loaded {AllItemList.Count} items.");
-
         LoadItem();
+        Debug.Log($"Loaded {AllItemList.Count} items.");
 
         if (SelectItemInfor == null || itemNameText == null || itemDescriptionText == null)
         {
@@ -89,48 +62,14 @@ public class InventoryItemManager : MonoBehaviour
 
         SelectItemInfor.SetActive(false); // 설명 창 비활성화
 
+        // 처음 시작할 때 "장비" 탭을 선택하도록 설정
+        TapClick(curType);
+
         // MyItemList의 내용을 확인하기 위한 디버그 로그
         Debug.Log("MyItemList 내용 로드 후:");
         foreach (var item in MyItemList)
         {
             Debug.Log($"ID: {item.Id}, Name: {item.Name}, Description: {item.Description}, isUsing: {item.isUsing}");
-        }
-    }
-
-    void LoadItemsFromCSV(string fileName)
-    {
-        var data = CSVReader.Read(fileName);
-
-        if (data != null)
-        {
-            foreach (var entry in data)
-            {
-                string id = entry["id"].ToString();
-                string name = entry["name"].ToString();
-                string description = entry["description"].ToString();
-                string type = entry["type"].ToString();
-                bool isUsing, isSelling;
-                string price = entry["price"].ToString();
-
-                if (!bool.TryParse(entry["isUsing"].ToString(), out isUsing))
-                {
-                    isUsing = false; // 파싱 실패 시 기본값 설정
-                }
-                if (!bool.TryParse(entry["isSelling"].ToString(), out isSelling))
-                {
-                    isSelling = false; // 파싱 실패 시 기본값 설정
-                };
-                string value = entry["value"].ToString();
-                string quantity = entry["quantity"].ToString();
-
-
-
-                AllItemList.Add(new GameItem(id, name, description, type, isUsing, price, isSelling, value, quantity));
-            }
-        }
-        else
-        {
-            Debug.LogError("CSV 데이터를 불러오지 못했습니다.");
         }
     }
 
@@ -222,7 +161,7 @@ public class InventoryItemManager : MonoBehaviour
     }
 
     // 슬롯 버튼 클릭 시 아이템 정보 표시
-    public void SlotClick(GameItem item)
+    public void SlotClick(Item item)
     {
         int itemId = int.Parse(item.Id);
         if (itemId >= 0 && itemId < itemSprites.Length)
@@ -242,43 +181,15 @@ public class InventoryItemManager : MonoBehaviour
         SelectItemInfor.SetActive(true); // 설명 창 활성화
     }
 
-    // 리셋 버튼을 눌렀을 경우
-    public void ReSetItemClick()
-    {
-        GameItem BasicItem = AllItemList.Find(x => x.Name == "장검");
-        if (BasicItem != null)
-        {
-            //MyItemList = new List<GameItem>() { BasicItem };
-            MyItemList = AllItemList;
-        }
-        else
-        {
-            //Debug.LogError("Name이 기본템인 아이템을 찾을 수 없습니다.");
-            MyItemList.Clear(); // 빈 리스트로 설정하여 빈 값을 저장하지 않도록 합니다.
-        }
-        SaveItem();
-    }
 
     void SaveItem()
     {
-        string jdata = JsonUtility.ToJson(new Serialization<GameItem>(MyItemList));
-        File.WriteAllText(filePath, jdata);
+        DataManager.instance.SaveData();
     }
 
     void LoadItem()
     {
-        if (!File.Exists(filePath))
-        {
-            ReSetItemClick(); // 초기 파일 생성 및 저장
-            return;
-        }
-
-        string jdata = File.ReadAllText(filePath);
-        MyItemList = JsonUtility.FromJson<Serialization<GameItem>>(jdata).target;
-
-        // Inspector에서 리스트가 업데이트되도록 합니다.
-        //UnityEditor.EditorUtility.SetDirty(this);
-
-        TapClick(curType);
+        MyItemList = DataManager.instance.nowPlayer.Items;
+        AllItemList = DataManager.instance.nowPlayer.Items;
     }
 }

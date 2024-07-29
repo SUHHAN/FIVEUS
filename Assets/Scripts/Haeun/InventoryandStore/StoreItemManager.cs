@@ -6,37 +6,16 @@ using System.IO;
 using System;
 using TMPro;
 
-[System.Serializable]
-public class Serialization_Store<T>
-{
-    public Serialization_Store(List<T> _target) => target = _target;
-    public List<T> target;
-}
-
-[System.Serializable]
-public class StoreItem
-{
-    public StoreItem(string _Id, string _Name, string _Description, string _Type, bool _isUsing, string _Price, bool _isSelling, string _value, string	_quantity)
-    {
-        Id = _Id; Name = _Name; Description = _Description; Type = _Type; isUsing = _isUsing; Price = _Price; 
-        isSelling = _isSelling; value = _value; quantity = _quantity;
-    }
-
-    public string Id, Name, Description, Type, Price;
-    public bool isUsing, isSelling;
-    public string value, quantity;
-}
-
 public class StoreButton : MonoBehaviour
 {
-    public StoreItem Item { get; set; }
+    public Item Item { get; set; }
 }
 
 public class StoreItemManager : MonoBehaviour
 {
-    [SerializeField] private List<StoreItem> AllItemList = new List<StoreItem>();
-    [SerializeField] private List<StoreItem> MyItemList = new List<StoreItem>();
-    [SerializeField] private List<StoreItem> CurItemList = new List<StoreItem>();
+    [SerializeField] private List<Item> AllItemList = new List<Item>();
+    [SerializeField] private List<Item> MyItemList = new List<Item>();
+    [SerializeField] private List<Item> CurItemList = new List<Item>();
     public string curType = "장비"; // 현재 고른 탭의 타입이 무엇인지
     public GameObject[] slot;
     public Image[] TabImage;
@@ -60,174 +39,126 @@ public class StoreItemManager : MonoBehaviour
         // Additively load the GUI scene
         SceneManager.LoadScene("UI", LoadSceneMode.Additive);
 
-        filePath = Application.persistentDataPath + "/MyItemtext.txt";
-        print(filePath);
-
-        LoadItemsFromCSV("ItemSong"); // CSV 파일 이름, 확장자는 제외
-
+        // LoadItem 호출
+        LoadItem();
         Debug.Log($"Loaded {AllItemList.Count} items.");
 
-        LoadItem();
-
         SelectItemInfor.SetActive(false); // 설명 창 비활성화
-
 
         // MyItemList의 내용을 확인하기 위한 디버그 로그
         Debug.Log("MyItemList 내용 로드 후:");
         foreach (var item in MyItemList)
         {
-            Debug.Log($"ID: {item.Id}, Name: {item.Name}, Description: {item.Description}, Price: {item.Price}");
+            Debug.Log($"ID: {item.Id}");
         }
-    }
 
-    void LoadItemsFromCSV(string fileName)
-    {
-        var data = CSVReader.Read(fileName);
-
-        if (data != null)
-        {
-            foreach (var entry in data)
-            {
-                string id = entry["id"].ToString();
-                string name = entry["name"].ToString();
-                string description = entry["description"].ToString();
-                string type = entry["type"].ToString();
-                bool isUsing, isSelling;
-                string price = entry["price"].ToString();
-
-                if (!bool.TryParse(entry["isUsing"].ToString(), out isUsing))
-                {
-                    isUsing = false; // 파싱 실패 시 기본값 설정
-                }
-                if (!bool.TryParse(entry["isSelling"].ToString(), out isSelling))
-                {
-                    isSelling = false; // 파싱 실패 시 기본값 설정
-                };
-                string value = entry["value"].ToString();
-                string quantity = entry["quantity"].ToString();
-
-
-
-                AllItemList.Add(new StoreItem(id, name, description, type, isUsing, price, isSelling, value, quantity));
-            }
-        }
-        else
-        {
-            Debug.LogError("CSV 데이터를 불러오지 못했습니다.");
-        }
+        // 처음 시작할 때 "장비" 탭을 선택하도록 설정
+        TapClick(curType);
     }
 
     // 탭에 따른 탭 선택 변경
-public void TapClick(string tabName)
-{
-    // 현재 아이템 리스트에 클릭한 타입만 추가하기
-    curType = tabName;
-    CurItemList = AllItemList.FindAll(x => x.Type == tabName);
-
-    // 슬롯과 텍스트를 보일 수 있도록 만들기
-    for (int i = 0; i < slot.Length; i++)
+    public void TapClick(string tabName)
     {
-        bool active = i < CurItemList.Count;
-        slot[i].SetActive(active);
+        // 현재 아이템 리스트에 클릭한 타입만 추가하기
+        curType = tabName;
+        CurItemList = MyItemList.FindAll(x => x.Type == tabName).FindAll(x => x.isSelling == true);
 
-        if (active)
+        // 슬롯과 텍스트를 보일 수 있도록 만들기
+        for (int i = 0; i < slot.Length; i++)
         {
-            // "Panel" 객체를 찾고 그 내부의 "NameText" 객체를 찾기
-            TextMeshProUGUI nameTextComponent = slot[i].GetComponentInChildren<TextMeshProUGUI>();
-            if (nameTextComponent != null)
+            bool active = i < CurItemList.Count;
+            slot[i].SetActive(active);
+
+            if (active)
             {
-                // 가격 텍스트 변경
+                // "Panel" 객체를 찾고 그 내부의 "NameText" 객체를 찾기
+                TextMeshProUGUI nameTextComponent = slot[i].GetComponentInChildren<TextMeshProUGUI>();
                 if (nameTextComponent != null)
                 {
+                    // 가격 텍스트 변경
                     nameTextComponent.text = CurItemList[i].Name;
-                }
-                else
-                {
-                    Debug.LogError("PriceText component not found in Panel's children.");
-                }
-                Transform panelTransform = slot[i].transform.Find("Panel");
+                    Transform panelTransform = slot[i].transform.Find("Panel");
 
-                // 이름 텍스트 변경
-                TextMeshProUGUI priceTextComponent = panelTransform.Find("NameText").GetComponentInChildren<TextMeshProUGUI>();
-                if (priceTextComponent != null)
-                {
-                    priceTextComponent.text = CurItemList[i].Price + " 원";
-                }
-                else
-                {
-                    Debug.LogError("NameText component not found in Panel's children.");
-                }
-            }
-            else
-            {
-                Debug.LogError("Panel Transform not found in slot's children.");
-            }
-
-            // 이미지 설정
-            Transform imageTransform = slot[i].transform.Find("Image");
-            if (imageTransform != null)
-            {
-                Image imageComponent = imageTransform.GetComponent<Image>();
-                if (imageComponent != null)
-                {
-                    // 현재 아이템의 Id를 기준으로 이미지를 설정
-                    int itemId = int.Parse(CurItemList[i].Id);
-                    if (itemId >= 0 && itemId < itemSprites.Length)
+                    // 이름 텍스트 변경
+                    TextMeshProUGUI priceTextComponent = panelTransform.Find("NameText").GetComponentInChildren<TextMeshProUGUI>();
+                    if (priceTextComponent != null)
                     {
-                        imageComponent.sprite = itemSprites[itemId];
+                        priceTextComponent.text = CurItemList[i].Price + " 원";
                     }
                     else
                     {
-                        Debug.LogError($"Item Id {itemId}에 맞는 이미지가 없습니다.");
+                        Debug.LogError("NameText component not found in Panel's children.");
                     }
                 }
                 else
                 {
-                    Debug.LogError("Image component not found in imageTransform's children.");
+                    Debug.LogError("Panel Transform not found in slot's children.");
+                }
+
+                // 이미지 설정
+                Transform imageTransform = slot[i].transform.Find("Image");
+                if (imageTransform != null)
+                {
+                    Image imageComponent = imageTransform.GetComponent<Image>();
+                    if (imageComponent != null)
+                    {
+                        // 현재 아이템의 Id를 기준으로 이미지를 설정
+                        int itemId = int.Parse(CurItemList[i].Id);
+                        if (itemId >= 0 && itemId < itemSprites.Length)
+                        {
+                            imageComponent.sprite = itemSprites[itemId];
+                        }
+                        else
+                        {
+                            Debug.LogError($"Item Id {itemId}에 맞는 이미지가 없습니다.");
+                        }
+                    }
+                    else
+                    {
+                        Debug.LogError("Image component not found in imageTransform's children.");
+                    }
+                }
+                else
+                {
+                    Debug.LogError("Image Transform not found in slot's children.");
+                }
+
+                // 버튼에 아이템 정보 추가 및 클릭 이벤트 연결
+                StoreButton storeButton = slot[i].GetComponent<StoreButton>();
+                if (storeButton == null)
+                {
+                    storeButton = slot[i].AddComponent<StoreButton>();
+                }
+                storeButton.Item = CurItemList[i];
+                Button button = slot[i].GetComponent<Button>();
+                if (button != null)
+                {
+                    button.onClick.RemoveAllListeners(); // 기존 이벤트 제거
+                    button.onClick.AddListener(() => SlotClick(storeButton.Item));
+                }
+                else
+                {
+                    Debug.LogError("Button component not found in slot.");
                 }
             }
-            else
-            {
-                Debug.LogError("Image Transform not found in slot's children.");
-            }
+        }
 
-            // 버튼에 아이템 정보 추가 및 클릭 이벤트 연결
-            StoreButton storeButton = slot[i].GetComponent<StoreButton>();
-            if (storeButton == null)
-            {
-                storeButton = slot[i].AddComponent<StoreButton>();
-            }
-            storeButton.Item = CurItemList[i];
-            Button button = slot[i].GetComponent<Button>();
-            if (button != null)
-            {
-                button.onClick.RemoveAllListeners(); // 기존 이벤트 제거
-                button.onClick.AddListener(() => SlotClick(storeButton.Item));
-            }
-            else
-            {
-                Debug.LogError("Button component not found in slot.");
-            }
+        int tabNum = 0;
+        switch (tabName)
+        {
+            case "장비": tabNum = 0; break;
+            case "물약": tabNum = 1; break;
+            case "단서": tabNum = 2; break;
+            case "기타": tabNum = 3; break;
+        }
+        for (int i = 0; i < TabImage.Length; i++)
+        {
+            TabImage[i].color = i == tabNum ? TabSelectColor : TabIdleColor;
         }
     }
 
-    int tabNum = 0;
-    switch (tabName)
-    {
-        case "장비": tabNum = 0; break;
-        case "물약": tabNum = 1; break;
-        case "단서": tabNum = 2; break;
-        case "기타": tabNum = 3; break;
-    }
-    for (int i = 0; i < TabImage.Length; i++)
-    {
-        TabImage[i].color = i == tabNum ? TabSelectColor : TabIdleColor;
-    }
-}
-
-
     // 슬롯 버튼 클릭 시 아이템 정보 표시
-    public void SlotClick(StoreItem item)
+    public void SlotClick(Item item)
     {
         int itemId = int.Parse(item.Id);
         if (itemId >= 0 && itemId < itemSprites.Length)
@@ -247,49 +178,14 @@ public void TapClick(string tabName)
         SelectItemInfor.SetActive(true); // 설명 창 활성화
     }
 
-    
-    // 리셋 버튼을 눌렀을 경우
-    public void ReSetItemClick()
-    {
-        StoreItem BasicItem = AllItemList.Find(x => x.Name == "기본템");
-        if (BasicItem != null)
-        {
-            MyItemList = AllItemList;
-        }
-        else
-        {
-            Debug.LogError("Name이 기본템인 아이템을 찾을 수 없습니다.");
-            MyItemList.Clear(); // 빈 리스트로 설정하여 빈 값을 저장하지 않도록 합니다.
-        }
-        SaveItem();
-    }
-
     void SaveItem()
     {
-        string jdata = JsonUtility.ToJson(new Serialization_Store<StoreItem>(MyItemList));
-        File.WriteAllText(filePath, jdata);
-        
+        DataManager.instance.SaveData();
     }
 
     void LoadItem()
     {
-        if (!File.Exists(filePath))
-        {
-            ReSetItemClick(); // 초기 파일 생성 및 저장
-            return;
-        }
-        
-        string jdata = File.ReadAllText(filePath);
-        MyItemList = JsonUtility.FromJson<Serialization_Store<StoreItem>>(jdata).target;
-
-        // Inspector에서 리스트가 업데이트되도록 합니다.
-        //UnityEditor.EditorUtility.SetDirty(this);
-
-        TapClick(curType);
+        MyItemList = DataManager.instance.nowPlayer.Items;
+        AllItemList = DataManager.instance.nowPlayer.Items;
     }
 }
-// }{
-//         // 데이터를 내가 원하는 형태로 가지고 올 수 있음. / 현재는 nowPlayer에 저장되어 있음.
-//         string data = File.ReadAllText(path + nowSlot.ToString());
-//         nowPlayer = JsonUtility.FromJson<PlayerData>(data); // 불러온 데이터가 PlayerData 형태로 저장되어 있음.
-//     }

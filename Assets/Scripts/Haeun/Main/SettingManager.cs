@@ -32,6 +32,7 @@ public class SettingManager : MonoBehaviour
 
     void Start()
     {
+
         // 0. 탭 클릭 시, 활성화 되는 윈도우 설정하기
         TabImage[0].color = TabSelectColor; // 기본적으로 게임 탭의 색상 설정
         TabImage[1].color = TabIdleColor;
