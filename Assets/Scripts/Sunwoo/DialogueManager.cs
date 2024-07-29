@@ -77,7 +77,7 @@ public class DialogueManager : MonoBehaviour
         {
             int id = int.Parse(row["id"].ToString().Trim());
             string name = row["name"].ToString();
-            string dialog = row["dialogue"].ToString();
+            string dialog = row["dialog"].ToString();
             int optional = int.Parse(row["optional"].ToString().Trim());
             string playerDialog = row["playerDialog"].ToString();
             string effect = row["effect"].ToString();
