@@ -45,7 +45,7 @@ public class PartyManager : MonoBehaviour
     public GameObject SelectCharInfor;
 
     // 설명창에 캐릭터 정보를 띄우기 위한 변수들.
-    public TextMeshProUGUI CharName_T,CharDescription_T;
+    public TextMeshProUGUI CharName_T,CharDescription_T,CharLove_T;
     public TextMeshProUGUI CharHP_T,CharSTR_T,CharDEX_T,CharINT_T,CharCON_T,CharDEF_T,CharATK_T;
 
     // 캐릭터 소개 윈도우 뜰 수 있도록 하기
@@ -81,19 +81,8 @@ public class PartyManager : MonoBehaviour
         {
             SlotClick(selectedCharacter);
         }
-        else
-        {
-            Debug.LogError("id가 0인 아이템을 찾을 수 없습니다.");
-        }
 
-        
-
-        // MyItemList의 내용을 확인하기 위한 디버그 로그
-        Debug.Log("MyItemList 내용 로드 후:");
-        foreach (var item in MyCharacterList)
-        {
-            Debug.Log($"ID: {item.Id}, Name: {item.Name}, Description: {item.Description}, Price: {item.HP}");
-        }
+        UpdatePartyInfo();
     }
 
     // 창 생성
@@ -106,8 +95,6 @@ public class PartyManager : MonoBehaviour
         // 정렬 패널의 텍스트 변경
         SortNum();
 
-        // 플레이어 이름 텍스트 변경
-        playerNameText.text = DataManager.instance.nowPlayer.Player_name;
 
         // 슬롯과 텍스트를 보일 수 있도록 만들기
         for (int i = 0; i < slot.Length; i++)
@@ -128,27 +115,16 @@ public class PartyManager : MonoBehaviour
                         // 이거 나중에 Type으로 바꿔주기 -> 직업을 표시해야 함.
                         JobTextComponent.text = CurCharacterList[i].Type;
                     }
-                    else
-                    {
-                        Debug.LogError("JobText가 Panel의 자식 구성원이 아닙니다.");
-                    }
                     
-
                     // 이름 텍스트 변경
                     TextMeshProUGUI NameTextComponent = panelTransform.Find("NameText").GetComponentInChildren<TextMeshProUGUI>();
                     if (NameTextComponent != null)
                     {
                         NameTextComponent.text = CurCharacterList[i].Name;
                     }
-                    else
-                    {
-                        Debug.LogError("NameText가 Panel의 자식 구성원이 아닙니다.");
-                    }
+                    
                 }
-                else
-                {
-                    Debug.LogError("Panel이 Slot의 자식 구성원이 아닙니다.");
-                }
+            
 
                 // 2. 캐릭터의 이미지 설정
                 Transform imageTransform = slot[i].transform.Find("Char Image");
@@ -163,19 +139,7 @@ public class PartyManager : MonoBehaviour
                         {
                             imageComponent.sprite = itemSprites[itemId];
                         }
-                        else
-                        {
-                            Debug.LogError($"Item Id {itemId}에 맞는 이미지가 없습니다.");
-                        }
                     }
-                    else
-                    {
-                        Debug.LogError("Image component not found in imageTransform's children.");
-                    }
-                }
-                else
-                {
-                    Debug.LogError("Image Transform not found in slot's children.");
                 }
 
                 
@@ -197,47 +161,38 @@ public class PartyManager : MonoBehaviour
                         // 추가: 슬롯 자체 이미지 및 패널 이미지 설정
                         if (CurCharacterList[i].isUsing)
                         {
-                            // 선택된 경우의 이미지 및 색상 설정
+                            // 선택된 경우의 이미지 및 색상 설정 => 초록색 설정
                             if (slotimageComponent != null)
                             {
-                                slotimageComponent.color = SlotSelectColor; // 예시로 설정한 흰색
+                                slotimageComponent.color = SlotSelectColor; 
                             }
                             if (slotpanelTransform != null)
                             {
                                 Image panelImageComponent = slotpanelTransform.GetComponent<Image>();
                                 if (panelImageComponent != null)
                                 {
-                                    panelImageComponent.color = SlotSelectColor; // 예시로 설정한 회색
+                                    panelImageComponent.color = SlotSelectColor; 
                                 }
                             }
                         }
                         else
                         {
-                            // 선택되지 않은 경우의 이미지 및 색상 설정
+                            // 선택되지 않은 경우의 이미지 및 색상 설정 => 흰색 설정
                             if (slotimageComponent != null)
                             {
-                                slotimageComponent.color = SlotIdleColor; // 예시로 설정한 반투명 흰색
+                                slotimageComponent.color = SlotIdleColor; 
                             }
                             if (slotpanelTransform != null)
                             {
                                 Image panelImageComponent = slotpanelTransform.GetComponent<Image>();
                                 if (panelImageComponent != null)
                                 {
-                                    panelImageComponent.color = SlotIdleColor; // 예시로 설정한 흰색
+                                    panelImageComponent.color = SlotIdleColor; 
                                 }
                             }
                         }
                     }
-                    else
-                    {
-                        Debug.LogError("Image component not found in checkimageTransform's children.");
-                    }
                 }
-                else
-                {
-                    Debug.LogError("Check Image Transform not found in slot's children.");
-                }
-
 
                 // 버튼에 아이템 정보 추가 및 클릭 이벤트 연결
                 PartyButton partyButton = slot[i].GetComponent<PartyButton>();
@@ -251,10 +206,6 @@ public class PartyManager : MonoBehaviour
                 {
                     button.onClick.RemoveAllListeners(); // 기존 이벤트 제거
                     button.onClick.AddListener(() => SlotClick(partyButton.Character));
-                }
-                else
-                {
-                    Debug.LogError("Button component not found in slot.");
                 }
             }
         }
@@ -298,6 +249,8 @@ public class PartyManager : MonoBehaviour
         CharCON_T.text = "치유 : " + chra.CON;
         CharDEF_T.text = "방어 : " + chra.DEF;
         CharATK_T.text = "총 능력치 : " + chra.ATK;
+
+        CharLove_T.text = chra.Love;
 
         // 선택 버튼 설정
         SelectButton.onClick.RemoveAllListeners();
@@ -349,7 +302,6 @@ public class PartyManager : MonoBehaviour
             Button CloseButton = PopupWindow.GetComponentInChildren<Button>();
             CloseButton.onClick.RemoveAllListeners();
             CloseButton.onClick.AddListener(ClickCloseButton);
-
         }
         else
         {
@@ -358,6 +310,8 @@ public class PartyManager : MonoBehaviour
             UpdateSelectButton(chra);
             UpdateSlotsUI(); // 슬롯 UI 업데이트 호출
         }
+        SaveCharacter();
+        UpdatePartyInfo(); // 캐릭터 변경 시 파티 정보 업데이트
     }
 
     // 슬롯 UI 업데이트 메서드
@@ -380,7 +334,7 @@ public class PartyManager : MonoBehaviour
                     checkimageTransform.gameObject.SetActive(chra.isUsing);
 
                     // 슬롯 배경 및 패널 색상 설정
-                    if (chra.isUsing)
+                    if (chra.isUsing) // 선택되었을 때
                     {
                         if (slotimageComponent != null)
                             slotimageComponent.color = SlotSelectColor;
@@ -392,7 +346,7 @@ public class PartyManager : MonoBehaviour
                                 panelImageComponent.color = SlotSelectColor;
                         }
                     }
-                    else
+                    else    // 선택되지 않았을 때
                     {
                         if (slotimageComponent != null)
                             slotimageComponent.color = SlotIdleColor;
@@ -426,8 +380,81 @@ public class PartyManager : MonoBehaviour
             buttonColor.color = new Color32(36, 66, 35, 255);
         }
     }
+
+    // 파티원 확인창을 업데이트하는 메서드
+    void UpdatePartyInfo()
+    {
+        // 플레이어 이름 텍스트 변경
+        playerNameText.text = $"[{DataManager.instance.nowPlayer.Player_name}]";
+        teamText.text = $"총 단합력 : {DataManager.instance.nowPlayer.Player_team}";
+
+        // isUsing이 true인 캐릭터만 선택
+        List<Character> selectedCharacters = MyCharacterList.FindAll(ch => ch.isUsing && ch.Id != "0");
+
+        // 파티 텍스트 및 이미지 업데이트
+        for (int i = 0; i < PartyText.Length; i++)
+        {
+            Image slotPanelImage = PartyChraSlot[i].GetComponent<Image>();
+            Transform panelTransform = PartyChraSlot[i].transform.Find("Select");
+            panelTransform.gameObject.SetActive(true);
+
+            Transform imageTransform = PartyChraSlot[i].transform.Find("Image");
+            imageTransform.gameObject.SetActive(true);
+
+            Transform textTransform = PartyChraSlot[i].transform.Find("Text");
+
+            if (i < selectedCharacters.Count)
+            {
+                // 슬롯 색상 노란색으로 변경
+                slotPanelImage.color = new Color32(251, 243, 195, 255); // 노란색
+
+                // 파티원 텍스트 변경
+                PartyText[i].text = $"{selectedCharacters[i].Name} ({selectedCharacters[i].Type})";
+
+                // 캐릭터 이미지 설정
+                if (imageTransform != null)
+                {
+                    Image imageComponent = imageTransform.GetComponent<Image>();
+                    if (imageComponent != null)
+                    {
+                        int itemId = int.Parse(selectedCharacters[i].Id);
+                        if (itemId >= 0 && itemId < itemSprites.Length)
+                        {
+                            imageComponent.sprite = itemSprites[itemId];
+                        }
+                    }
+                }
+                // 캐릭터 슬롯 텍스트 설정
+                TextMeshProUGUI textComponent = textTransform.GetComponent<TextMeshProUGUI>();
+                textComponent.text = $"<{selectedCharacters[i].Name}> 선택중";
+            }
+            else
+            {
+                //PartyText[i].text = "선택한 용병" + (i + 1).ToString();
+                PartyText[i].text = "---------";
+
+                // 슬롯 색상 회갈색으로 변경
+                slotPanelImage.color = new Color32(130, 120, 120, 255); // 회갈색
+
+                // 판넬도 비활성화
+                panelTransform.gameObject.SetActive(false);
+
+                // 이미지 비우기 또는 기본 이미지 설정
+                imageTransform.gameObject.SetActive(false);
+
+                // 캐릭터 슬롯 텍스트 설정
+                TextMeshProUGUI textComponent = textTransform.GetComponent<TextMeshProUGUI>();
+                textComponent.text = "";
+            }
+        }
+    }
+
     void SaveCharacter()
     {
+
+        DataManager.instance.nowPlayer.characters = MyCharacterList;
+        DataManager.instance.nowPlayer.characters = AllCharacterList;
+        
         DataManager.instance.SaveData();
     }
 
@@ -439,6 +466,8 @@ public class PartyManager : MonoBehaviour
         AllCharacterList = DataManager.instance.nowPlayer.characters;
 
         IdleClick();
+        UpdatePartyInfo(); // 로드 후 파티 정보 업데이트
+        
 
     }
 }
