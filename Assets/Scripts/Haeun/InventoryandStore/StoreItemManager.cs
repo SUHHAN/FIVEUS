@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 using System.IO;
 using System;
 using TMPro;
+using UnityEditor;
 
 public class StoreButton : MonoBehaviour
 {
@@ -41,6 +42,8 @@ public class StoreItemManager : MonoBehaviour
     public TextMeshProUGUI quantityText; // 수량을 표시할 텍스트
     public TextMeshProUGUI AText; // 수량을 표시할 텍스트
     public GameObject informationPopup;
+    public Image itemImage; // 구매판매창에 아이템 이미지 표시
+
     public Button UpButton;
     public Button DownButton;
     public Button YesButton;
@@ -69,8 +72,7 @@ public class StoreItemManager : MonoBehaviour
             Debug.Log($"ID: {item.Id}");
         }
 
-        // 처음 시작할 때 "장비" 탭을 선택하도록 설정
-        TapClick(curType);
+        
     }
 
     // 탭에 따른 탭 선택 변경
@@ -130,14 +132,6 @@ public class StoreItemManager : MonoBehaviour
                             Debug.LogError($"Item Id {itemId}에 맞는 이미지가 없습니다.");
                         }
                     }
-                    else
-                    {
-                        Debug.LogError("Image component not found in imageTransform's children.");
-                    }
-                }
-                else
-                {
-                    Debug.LogError("Image Transform not found in slot's children.");
                 }
 
                 // 버튼에 아이템 정보 추가 및 클릭 이벤트 연결
@@ -152,10 +146,6 @@ public class StoreItemManager : MonoBehaviour
                 {
                     button.onClick.RemoveAllListeners(); // 기존 이벤트 제거
                     button.onClick.AddListener(() => SlotClick(storeButton.Item));
-                }
-                else
-                {
-                    Debug.LogError("Button component not found in slot.");
                 }
             }
         }
@@ -174,10 +164,13 @@ public class StoreItemManager : MonoBehaviour
         }
     }
 
-    // 슬롯 버튼 클릭 시 아이템 정보 표시
-    // 슬롯 버튼 클릭 시 아이템 정보 표시
     public void SlotClick(Item item)
     {   
+        LoadItem();
+
+        // 구매 및 판매 버튼 활성화 비활성화를 업데이트하기
+        UpdateSaleButtonState(item);
+
         int itemId = int.Parse(item.Id);
         if (itemId >= 0 && itemId < itemSprites.Length)
         {
@@ -193,7 +186,7 @@ public class StoreItemManager : MonoBehaviour
         itemPriceText.text = item.Price + " 원";
         itemIdText.text = "No. " + item.Id;
 
-        // 구매 및 판매 버튼의 이전 리스너 제거
+        // 기존의 모든 이벤트 리스너 제거
         BuyButton.onClick.RemoveAllListeners();
         SaleButton.onClick.RemoveAllListeners();
         UpButton.onClick.RemoveAllListeners();
@@ -201,14 +194,11 @@ public class StoreItemManager : MonoBehaviour
         YesButton.onClick.RemoveAllListeners();
         NoButton.onClick.RemoveAllListeners();
 
-        SaleButton.interactable = true;
-        // 만약 수량이 0이면, 판매할게 없으므로 버튼을 비활성화
-        if(int.Parse(item.quantity) < 1) {
-            SaleButton.interactable = false;
-        }
+        UpdateSaleButtonState(item); // 아이템 수량 변화 후 판매 버튼 상태 업데이트
 
         // 구매 버튼 설정
         BuyButton.onClick.AddListener(() => {
+            UpdateSaleButtonState(item); // 아이템 수량 변화 후 판매 버튼 상태 업데이트
             currentQuantity = 1;
             maxQuantity = int.MaxValue; // 구매 시 최대 수량을 제한할 필요가 없을 경우
             UpdateQuantityText(item, "구매");
@@ -216,31 +206,40 @@ public class StoreItemManager : MonoBehaviour
             UpButton.onClick.AddListener(() => IncreaseQuantity(item, "구매"));
             informationPopup.SetActive(true);
 
+            // "예" 버튼 클릭 시의 로직 추가
             YesButton.onClick.AddListener(() => {
                 ItemManager.instance.ConfirmItemQuantity(item, "구매", currentQuantity);
-                informationPopup.SetActive(false);
                 LoadItem();
+                UpdateSaleButtonState(item); // 아이템 수량 변화 후 판매 버튼 상태 업데이트
+                informationPopup.SetActive(false);
             });
+
             NoButton.onClick.AddListener(() => informationPopup.SetActive(false));
         });
 
         // 판매 버튼 설정
         SaleButton.onClick.AddListener(() => {
-            currentQuantity = 1;
+            UpdateSaleButtonState(item); // 아이템 수량 변화 후 판매 버튼 상태 업데이트
+            currentQuantity = 1; // 판매 최소 수량은 1이어야 함
             maxQuantity = int.Parse(item.quantity); // 판매 가능한 최대 수량
+
             UpdateQuantityText(item, "판매");
             DownButton.onClick.AddListener(() => DecreaseQuantity(item, "판매"));
             UpButton.onClick.AddListener(() => IncreaseQuantity(item, "판매"));
             informationPopup.SetActive(true);
 
+            // "예" 버튼 클릭 시의 로직 추가
             YesButton.onClick.AddListener(() => {
                 ItemManager.instance.ConfirmItemQuantity(item, "판매", currentQuantity);
-                informationPopup.SetActive(false);
                 LoadItem();
+                UpdateSaleButtonState(item); // 아이템 수량 변화 후 판매 버튼 상태 업데이트
+                informationPopup.SetActive(false);
             });
+
             NoButton.onClick.AddListener(() => informationPopup.SetActive(false));
         });
 
+        UpdateSaleButtonState(item); // 초기 버튼 상태 업데이트
         SelectItemInfor.SetActive(true); // 설명 창 활성화
     }
 
@@ -271,6 +270,12 @@ public class StoreItemManager : MonoBehaviour
         AText.text = $"{item.Name}을(를) {currentQuantity}개 {sort}하시겠습니까?";
     }
 
+    // 판매 버튼 상태 업데이트 함수
+    void UpdateSaleButtonState(Item item)
+    {   
+        SaleButton.interactable = int.Parse(item.quantity) > 0;
+    }
+
     void SaveItem()
     {
         DataManager.instance.SaveData();
@@ -280,5 +285,8 @@ public class StoreItemManager : MonoBehaviour
     {
         MyItemList = DataManager.instance.nowPlayer.Items;
         AllItemList = DataManager.instance.nowPlayer.Items;
+
+        // 처음 시작할 때 "장비" 탭을 선택하도록 설정
+        TapClick(curType);
     }
 }

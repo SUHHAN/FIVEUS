@@ -128,10 +128,7 @@ public class PartyManager : MonoBehaviour
                         // 이거 나중에 Type으로 바꿔주기 -> 직업을 표시해야 함.
                         JobTextComponent.text = CurCharacterList[i].Type;
                     }
-                    else
-                    {
-                        Debug.LogError("JobText가 Panel의 자식 구성원이 아닙니다.");
-                    }
+                    
                     
 
                     // 이름 텍스트 변경
@@ -140,15 +137,9 @@ public class PartyManager : MonoBehaviour
                     {
                         NameTextComponent.text = CurCharacterList[i].Name;
                     }
-                    else
-                    {
-                        Debug.LogError("NameText가 Panel의 자식 구성원이 아닙니다.");
-                    }
+                    
                 }
-                else
-                {
-                    Debug.LogError("Panel이 Slot의 자식 구성원이 아닙니다.");
-                }
+            
 
                 // 2. 캐릭터의 이미지 설정
                 Transform imageTransform = slot[i].transform.Find("Char Image");
@@ -168,14 +159,6 @@ public class PartyManager : MonoBehaviour
                             Debug.LogError($"Item Id {itemId}에 맞는 이미지가 없습니다.");
                         }
                     }
-                    else
-                    {
-                        Debug.LogError("Image component not found in imageTransform's children.");
-                    }
-                }
-                else
-                {
-                    Debug.LogError("Image Transform not found in slot's children.");
                 }
 
                 
@@ -197,47 +180,38 @@ public class PartyManager : MonoBehaviour
                         // 추가: 슬롯 자체 이미지 및 패널 이미지 설정
                         if (CurCharacterList[i].isUsing)
                         {
-                            // 선택된 경우의 이미지 및 색상 설정
+                            // 선택된 경우의 이미지 및 색상 설정 => 초록색 설정
                             if (slotimageComponent != null)
                             {
-                                slotimageComponent.color = SlotSelectColor; // 예시로 설정한 흰색
+                                slotimageComponent.color = SlotSelectColor; 
                             }
                             if (slotpanelTransform != null)
                             {
                                 Image panelImageComponent = slotpanelTransform.GetComponent<Image>();
                                 if (panelImageComponent != null)
                                 {
-                                    panelImageComponent.color = SlotSelectColor; // 예시로 설정한 회색
+                                    panelImageComponent.color = SlotSelectColor; 
                                 }
                             }
                         }
                         else
                         {
-                            // 선택되지 않은 경우의 이미지 및 색상 설정
+                            // 선택되지 않은 경우의 이미지 및 색상 설정 => 흰색 설정
                             if (slotimageComponent != null)
                             {
-                                slotimageComponent.color = SlotIdleColor; // 예시로 설정한 반투명 흰색
+                                slotimageComponent.color = SlotIdleColor; 
                             }
                             if (slotpanelTransform != null)
                             {
                                 Image panelImageComponent = slotpanelTransform.GetComponent<Image>();
                                 if (panelImageComponent != null)
                                 {
-                                    panelImageComponent.color = SlotIdleColor; // 예시로 설정한 흰색
+                                    panelImageComponent.color = SlotIdleColor; 
                                 }
                             }
                         }
                     }
-                    else
-                    {
-                        Debug.LogError("Image component not found in checkimageTransform's children.");
-                    }
                 }
-                else
-                {
-                    Debug.LogError("Check Image Transform not found in slot's children.");
-                }
-
 
                 // 버튼에 아이템 정보 추가 및 클릭 이벤트 연결
                 PartyButton partyButton = slot[i].GetComponent<PartyButton>();
@@ -251,10 +225,6 @@ public class PartyManager : MonoBehaviour
                 {
                     button.onClick.RemoveAllListeners(); // 기존 이벤트 제거
                     button.onClick.AddListener(() => SlotClick(partyButton.Character));
-                }
-                else
-                {
-                    Debug.LogError("Button component not found in slot.");
                 }
             }
         }
@@ -349,7 +319,6 @@ public class PartyManager : MonoBehaviour
             Button CloseButton = PopupWindow.GetComponentInChildren<Button>();
             CloseButton.onClick.RemoveAllListeners();
             CloseButton.onClick.AddListener(ClickCloseButton);
-
         }
         else
         {
@@ -358,6 +327,7 @@ public class PartyManager : MonoBehaviour
             UpdateSelectButton(chra);
             UpdateSlotsUI(); // 슬롯 UI 업데이트 호출
         }
+        SaveCharacter();
     }
 
     // 슬롯 UI 업데이트 메서드
@@ -380,7 +350,7 @@ public class PartyManager : MonoBehaviour
                     checkimageTransform.gameObject.SetActive(chra.isUsing);
 
                     // 슬롯 배경 및 패널 색상 설정
-                    if (chra.isUsing)
+                    if (chra.isUsing) // 선택되었을 때
                     {
                         if (slotimageComponent != null)
                             slotimageComponent.color = SlotSelectColor;
@@ -392,7 +362,7 @@ public class PartyManager : MonoBehaviour
                                 panelImageComponent.color = SlotSelectColor;
                         }
                     }
-                    else
+                    else    // 선택되지 않았을 때
                     {
                         if (slotimageComponent != null)
                             slotimageComponent.color = SlotIdleColor;
@@ -428,6 +398,10 @@ public class PartyManager : MonoBehaviour
     }
     void SaveCharacter()
     {
+
+        DataManager.instance.nowPlayer.characters = MyCharacterList;
+        DataManager.instance.nowPlayer.characters = AllCharacterList;
+        
         DataManager.instance.SaveData();
     }
 

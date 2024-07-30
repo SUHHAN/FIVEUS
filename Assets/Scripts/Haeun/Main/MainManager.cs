@@ -12,6 +12,7 @@ public class MainManager : MonoBehaviour
 
     public Button continueButton; // 이어하기 버튼
     public Button newGameButton; // 새로하기 버튼
+    public Button OutGameButton; // 나가기 버튼
     public Button SettingButton; // 설정 버튼
     public GameObject SettingButtonWarningText;
 
@@ -42,6 +43,7 @@ public class MainManager : MonoBehaviour
 
         // 버튼에 이벤트 리스너 추가
         newGameButton.onClick.AddListener(OnNewGameButtonClick_new);
+        OutGameButton.onClick.AddListener(OnExitButtonClick);
         continueButton.onClick.AddListener(OnContinueButtonClick);
         SettingButton.onClick.AddListener(() => LoadSettingsScene(previousSceneName));
     }

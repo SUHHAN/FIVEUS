@@ -1354,19 +1354,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 474954836}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 607910898}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: changeInventory
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &499352452
 GameObject:
   m_ObjectHideFlags: 0
@@ -1737,7 +1725,7 @@ GameObject:
   - component: {fileID: 563677620}
   - component: {fileID: 563677622}
   m_Layer: 5
-  m_Name: Setting Button
+  m_Name: Store Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1845,19 +1833,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 563677620}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 607910898}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: changeStore
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &587743442
 GameObject:
   m_ObjectHideFlags: 0
@@ -1939,20 +1915,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20ba7146402002c49809a0f539658cdf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LoadButton: {fileID: 1934095799}
-  IngameButton: {fileID: 1332007675}
+  canvas: {fileID: 2077700320}
+  TempDataCheckWindow: {fileID: 2046911559}
   StoreButton: {fileID: 563677622}
   InventoryButton: {fileID: 474954838}
   SettingButton: {fileID: 1769257653}
   PartyButton: {fileID: 1727382002}
   Load_Button: {fileID: 1934095801}
   Ingame_Button: {fileID: 1332007677}
-  canvas: {fileID: 2077700320}
-  TempDataCheckWindow: {fileID: 2046911559}
-  HPnum: 0
-  Fatiguenum: 0
-  Gold: 0
-  Day: 0
+  LoadButton: {fileID: 1934095799}
+  IngameButton: {fileID: 1332007675}
   HPLevelText: {fileID: 2009187828}
   FatigueLevelText: {fileID: 1583978795}
   GoldLevelText: {fileID: 112617901}
@@ -3975,7 +3947,7 @@ GameObject:
   - component: {fileID: 1332007678}
   - component: {fileID: 1332007677}
   m_Layer: 5
-  m_Name: Setting button
+  m_Name: Ingame button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4044,19 +4016,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1332007678}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 607910898}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: ChangeIngame
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1332007678
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5370,19 +5330,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1727382000}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 607910898}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: changeParty
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &1768474466
 GameObject:
   m_ObjectHideFlags: 0
@@ -5578,19 +5526,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1769257651}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 607910898}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: LoadSettingsScene
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &1794818909
 GameObject:
   m_ObjectHideFlags: 0
@@ -5999,7 +5935,7 @@ GameObject:
   - component: {fileID: 1934095802}
   - component: {fileID: 1934095801}
   m_Layer: 5
-  m_Name: Setting button
+  m_Name: DataSave button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

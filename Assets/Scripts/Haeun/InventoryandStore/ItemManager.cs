@@ -38,13 +38,16 @@ public class ItemManager : MonoBehaviour
             Debug.LogError("InventoryItemManager.instance is null.");
             return;
         }
-
+        
         if (sort == "구매") {
-            // 예시: PlayerManager_yj.instance.IncreaseMoney(item.Price);
             GetItem_inv(item, currentQuantity);
+            // 예시: PlayerManager_yj.instance.IncreaseMoney(item.Price * currentQuantity);
+
         }
         else if (sort == "판매") {
             GetItem_inv(item, -1 * currentQuantity);
+            // 예시: PlayerManager_yj.instance.IncreaseMoney(item.Price * currentQuantity * 0.8);
+
         }
     }
 
@@ -57,6 +60,11 @@ public class ItemManager : MonoBehaviour
         // 수량을 더해주기
         int NowItem_Quantity = int.Parse(NowItem.quantity);
         NowItem_Quantity += quantity;
+        
+        if (NowItem_Quantity < 0) {
+            //PlayerManager_yj.instance.IncreaseMoney(item.Price * -1 * NowItem_Quantity);
+            NowItem_Quantity = 0;
+        }
 
         NowItem.quantity = NowItem_Quantity.ToString();
         
