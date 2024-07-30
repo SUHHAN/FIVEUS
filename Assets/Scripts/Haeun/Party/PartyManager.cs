@@ -52,6 +52,9 @@ public class PartyManager : MonoBehaviour
     public Button DesButton;
     public GameObject DesWindow;
 
+    // 초과 선택 시 팝업
+    public GameObject PopupWindow;
+
     // 장착 및 장착 해제를 위한 버튼 연결
     public Button SelectButton;
 
@@ -93,7 +96,7 @@ public class PartyManager : MonoBehaviour
         }
     }
 
-
+    // 창 생성
     public void IdleClick()
     {
         // 슬롯에 넣을 현재 아이템 리스트를 입력하기
@@ -102,6 +105,9 @@ public class PartyManager : MonoBehaviour
         //CurCharacterList = AllCharacterList.FindAll(x => x.Type == tabName);
         // 정렬 패널의 텍스트 변경
         SortNum();
+
+        // 플레이어 이름 텍스트 변경
+        playerNameText.text = DataManager.instance.nowPlayer.Player_name;
 
         // 슬롯과 텍스트를 보일 수 있도록 만들기
         for (int i = 0; i < slot.Length; i++)
@@ -173,7 +179,7 @@ public class PartyManager : MonoBehaviour
                 }
 
                 
-            // 3. 선택중/선택 아님 설정 바꾸기 체크 이미지 설정 바꾸기
+                // 3. 선택중/선택 아님 설정 바꾸기 체크 이미지 설정 바꾸기
                 Transform checkimageTransform = slot[i].transform.Find("Check Image");
                 // 슬롯 자체 이미지 변수 slotimageComponent
                 Image slotimageComponent = slot[i].GetComponent<Image>();
@@ -254,7 +260,7 @@ public class PartyManager : MonoBehaviour
         }
     }
 
-    
+    // 정렬 숫자 텍스트 입력해주는 매소드
     void SortNum() {
         TextMeshProUGUI SortTextComponent = SortPanel.GetComponentInChildren<TextMeshProUGUI>();
         SortTextComponent.text = AllCharacterList.Count + "/" + CurCharacterList.Count;
@@ -274,8 +280,54 @@ public class PartyManager : MonoBehaviour
     // 소개창 속 닫기 버튼 누르면, 창 꺼지도록 만들기
     public void ClickCloseButton() {
         DesWindow.SetActive(false);
+        PopupWindow.SetActive(false);
     }
 
+    // 2. 슬롯 클릭 시
+    // 슬롯 클릭 시 호출되는 메서드
+    public void SlotClick(Character chra)
+    {
+        DesWindow.SetActive(false);
+
+        CharName_T.text = chra.Type + " < " + chra.Name + " >";
+        CharDescription_T.text = chra.Description;
+        CharHP_T.text = "체력 : " + chra.HP;
+        CharSTR_T.text = "공격 : " + chra.STR;
+        CharDEX_T.text = "민첩 : " + chra.DEX;
+        CharINT_T.text = "지능 : " + chra.INT;
+        CharCON_T.text = "치유 : " + chra.CON;
+        CharDEF_T.text = "방어 : " + chra.DEF;
+        CharATK_T.text = "총 능력치 : " + chra.ATK;
+
+        // 선택 버튼 설정
+        SelectButton.onClick.RemoveAllListeners();
+        SelectButton.interactable = true;
+
+        // 주인공은 무조건 선택 해제할 수 없도록 설정. -> 그 외에는 선택 및 선택 해제가 가능하도록 함.
+        if(chra.Id == "0")
+        {
+            SelectButton.interactable = false;
+            TextMeshProUGUI selectText = SelectButton.GetComponentInChildren<TextMeshProUGUI>();
+            selectText.text = "해제불가";
+            Image buttonColor = SelectButton.GetComponent<Image>();
+            buttonColor.color = new Color32(93, 86, 84, 255);
+        }
+        else
+        {
+            SelectButton.onClick.AddListener(() => changeIsUsing(chra));
+            UpdateSelectButton(chra);
+        }
+
+        DesButton.onClick.RemoveAllListeners();
+        DesButton.onClick.AddListener(() => OnDesWindow(CharName_T.text, chra.Description));
+        Button CloseButton = DesWindow.GetComponentInChildren<Button>();
+        CloseButton.onClick.RemoveAllListeners();
+        CloseButton.onClick.AddListener(ClickCloseButton);
+
+        SelectCharInfor.SetActive(true);
+    }
+
+    // isUsing 개수 확인하기
     void checkIsUsing() {
         foreach (var ii in MyCharacterList) {
             if(ii.isUsing == true) {
@@ -293,6 +345,11 @@ public class PartyManager : MonoBehaviour
         if (checkSum >= 4 && !chra.isUsing)
         {
             Debug.Log("최대 4명의 캐릭터만 선택할 수 있습니다.");
+            PopupWindow.SetActive(true);
+            Button CloseButton = PopupWindow.GetComponentInChildren<Button>();
+            CloseButton.onClick.RemoveAllListeners();
+            CloseButton.onClick.AddListener(ClickCloseButton);
+
         }
         else
         {
@@ -348,54 +405,8 @@ public class PartyManager : MonoBehaviour
                         }
                     }
                 }
-                else
-                {
-                    Debug.LogError("Check Image Transform not found in slot's children.");
-                }
             }
         }
-    }
-
-    // 슬롯 클릭 시 호출되는 메서드
-    public void SlotClick(Character chra)
-    {
-        DesWindow.SetActive(false);
-
-        CharName_T.text = chra.Type + " < " + chra.Name + " >";
-        CharDescription_T.text = chra.Description;
-        CharHP_T.text = "체력 : " + chra.HP;
-        CharSTR_T.text = "공격 : " + chra.STR;
-        CharDEX_T.text = "민첩 : " + chra.DEX;
-        CharINT_T.text = "지능 : " + chra.INT;
-        CharCON_T.text = "치유 : " + chra.CON;
-        CharDEF_T.text = "방어 : " + chra.DEF;
-        CharATK_T.text = "총 능력치 : " + chra.ATK;
-
-        // 선택 버튼 설정
-        SelectButton.onClick.RemoveAllListeners();
-        SelectButton.interactable = true;
-
-        if(chra.Id == "0")
-        {
-            SelectButton.interactable = false;
-            TextMeshProUGUI selectText = SelectButton.GetComponentInChildren<TextMeshProUGUI>();
-            selectText.text = "해제불가";
-            Image buttonColor = SelectButton.GetComponent<Image>();
-            buttonColor.color = new Color32(93, 86, 84, 255);
-        }
-        else
-        {
-            SelectButton.onClick.AddListener(() => changeIsUsing(chra));
-            UpdateSelectButton(chra);
-        }
-
-        DesButton.onClick.RemoveAllListeners();
-        DesButton.onClick.AddListener(() => OnDesWindow(CharName_T.text, chra.Description));
-        Button CloseButton = DesWindow.GetComponentInChildren<Button>();
-        CloseButton.onClick.RemoveAllListeners();
-        CloseButton.onClick.AddListener(ClickCloseButton);
-
-        SelectCharInfor.SetActive(true);
     }
 
     // 선택 버튼 UI 업데이트 메서드
