@@ -4,185 +4,247 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Unity.VisualScripting; // TextMeshPro ³×ÀÓ½ºÆäÀÌ½º Ãß°¡
+using UnityEngine.SceneManagement;
 
-//
+// ±âº» È°µ¿ ÁøÇàÇÏ´Â ½ºÅ©¸³Æ®
 public class talkwithjjang_yj : MonoBehaviour
 {
-    public GameObject choiceUI_yj; // ¼±ÅÃ UI ÆĞ³Î
-    public GameObject dialogueUI_yj; // ´ëÈ­ UI ÆĞ³Î
+    // ±âº» È°µ¿ ÆĞ³Îµé
+    public GameObject choiceUI1_yj; // ±âº»È°µ¿1 UI ÆĞ³Î
+    public GameObject choiceUI2_yj; // ±âº»È°µ¿2 UI ÆĞ³Î
+    public GameObject choiceUI3_yj; // ±âº»È°µ¿3 UI ÆĞ³Î
+    public GameObject choiceUI4_yj; // ±âº»È°µ¿4 UI ÆĞ³Î
+
+    public GameObject trainingUI_yj; // ÈÆ·Ã Áß ÆĞ³Î
+    public GameObject campingUI_yj; // ´ÜÇÕ Áß ÆĞ³Î
+    public GameObject iaminbedUI_yj; // ÈŞ½Ä UI ÆĞ³Î
     public GameObject resultUI_yj; // °á°ú UI ÆĞ³Î
-    public TextMeshProUGUI dialogueText; // ´ë»ç ÅØ½ºÆ® UI ¿¬°á
-    public TextMeshProUGUI resultText; // °á°ú ÅØ½ºÆ® UI ¿¬°á
-    public Button yesButton; // ¿¹ ¹öÆ° ¿¬°á
-    public Button noButton; // ¾Æ´Ï¿À ¹öÆ° ¿¬°á
+
+    public GameObject Dial_changyj; // ±âº»´ë»ç ¶ç¿ï ´ëÈ­Ã¢
+    public TextMeshProUGUI dialoguename_yj; // name text
+    public TextMeshProUGUI dialogueText_yj; // line text
+
+    public Button noButton1; // ¾Æ´Ï¿À ¹öÆ° ¿¬°á1
+    public Button noButton2; // ¾Æ´Ï¿À ¹öÆ° ¿¬°á2
+    public Button noButton3; // ¾Æ´Ï¿À ¹öÆ° ¿¬°á3
+    public Button noButton4; // ¾Æ´Ï¿À ¹öÆ° ¿¬°á4
 
     // ±âº» È°µ¿ ¹öÆ°µé
-    public Button trainingButton_yj; // 1.ÈÆ·Ã ½Ãµµ ¹öÆ° ¿¬°á
-    public Button togetherButton_yj; // 2.´ÜÇÕ ½Ãµµ ¹öÆ° ¿¬°á
-    public Button findhintButton_yj; // 3.ÈùÆ® È®ÀÎ ¹öÆ° ¿¬°á
+    public Button trainingButton_yj; // 1. ÈÆ·Ã ½Ãµµ ¹öÆ° ¿¬°á
+    public Button campingButton_yj; // 2. ´ÜÇÕ ½Ãµµ ¹öÆ° ¿¬°á
+    public Button findhintButton_yj; // 3. ´Ü¼­ º¸±â ¹öÆ° ¿¬°á
+    public Button laybedButton_yj; // 4. ÈŞ½ÄÇÏ±â ¹öÆ° ¿¬°á
+    public float interactionRange = 1.5f; // »óÈ£ÀÛ¿ë °Å¸®
 
-    public float interactionRange = 3.0f; // »óÈ£ÀÛ¿ë °Å¸®
-    private GameObject player; // ÇÃ·¹ÀÌ¾î ¿ÀºêÁ§Æ®
-    private bool isTalking = false; // ´ëÈ­ ÁßÀÎÁö ¿©ºÎ
+    public GameObject player; // ÇÃ·¹ÀÌ¾î ¿ÀºêÁ§Æ®
+    private GameObject currentNPC; // ÇöÀç »óÈ£ÀÛ¿ëÇÏ´Â NPC ÀúÀå º¯¼ö
+    public GameObject npc1_yj; // ÈÆ·Ã´ÜÀå
+    public GameObject npc2_yj; // Ä·ÇÎÀå
+    public GameObject npc3_yj; // ÈùÆ®
+    public GameObject npc4_yj; // ÈŞ½Ä
 
-    private ProDialogue_yj whatdial_yj;
-    // ±âº» È°µ¿ Á¤µµ´Â ½ºÆ®¸³Æ® ³»¿¡¼­ ÀüºÎ ´ë»ç Ã³¸®(¾îÂ÷ÇÇ 5°³¹Û¿¡ ¾øÀ½)
-    // ¾ÆÀÌµğ ¼³Á¤ ¼³¸í : 6000¹ø´ëºÎÅÍ ½ÃÀÛÇÔ
-    // 6001 : ÈÆ·Ã´ëÀå, 6002 : ±â»ç´ÜÀå, 6003 : ´Ü¼­
-
-    // ±âº»È°µ¿1 : ÈÆ·Ã´ëÀå ±âº» ´ë»ç1
-    ProDialogue_yj serif1_1 = new ProDialogue_yj(6001, "ÈÆ·Ã´ëÀå", "¿©¾î-¸»¶ó²¤ÀÌ! ÈÆ·ÃÇÒ ÁØºñ´Â µÆ³ª?");
-    // ±âº»È°µ¿1 : ÈÆ·Ã´ëÀå ±âº» ´ë»ç2
-    ProDialogue_yj serif1_2 = new ProDialogue_yj(6001, "ÈÆ·Ã´ëÀå", "¾ÈµÇ¸é µÉ¶§±îÁö! ÈÆ·Ã ½ÃÀÛÀÌ´Ù!");
-
-    // ±âº»È°µ¿2 : ±â»ç´ÜÀå ±âº» ´ë»ç1
-    ProDialogue_yj serif2_1 = new ProDialogue_yj(6002, "±â»ç´ÜÀå", "¹¶Ä¡¸é »ì°í Èğ¾îÁö¸é Á×´Â´Ù! \n´ÜÇÕÈÆ·Ã ½ÃÀÛÀÌ´Ù!!");
-    // ±âº»È°µ¿2 : ±â»ç´ÜÀå ±âº» ´ë»ç2
-    ProDialogue_yj serif2_2 = new ProDialogue_yj(6002, "±â»ç´ÜÀå", "3 -1 = 0! ¿ì¸®´Â ÇÏ³ª´Ù!  \n´ÜÇÕÈÆ·Ã ½ÃÀÛÀÌ´Ù!!");
-
-    // ±âº»È°µ¿3 : ´Ü¼­ ¯¾ÒÀ» ¶§ ±âº» ´ë»ç
-    ProDialogue_yj serif3 = new ProDialogue_yj(6003, "´Ü¼­", "´Ü¼­¸¦ Ã£¾Ò´Ù. ³»¿ëÀ» »ìÆìº¸ÀÚ.");
-
+    // ±âº»È°µ¿ ¸î¹ø ÁøÇàÇß´ÂÁö ¼¼¾ß ÇÏ´Ï..ÀÎ¹°À» ºÎ¸£ÀÚ
+    public PlayerNow_yj nowplayer_yj;
 
     // Start is called before the first frame update
     void Start()
     {
+        nowplayer_yj = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerNow_yj>();
+
+        nowplayer_yj.howtoday_py = 0; // ÇÏ·ç¿¡ ±âº»È°µ¿ ¸î¹øÇß´ÂÁö º¯¼ö 0À¸·Î ½ÃÀÛ
+        nowplayer_yj.howtrain_py = 0; // ÀüÃ¼ÀûÀ¸·Î ÈÆ·Ã ¸î¹øÇß´ÂÁö º¯¼ö 0À¸·Î ½ÃÀÛ
         player = GameObject.FindGameObjectWithTag("Player"); // ÅÂ±×°¡ "Player"ÀÎ ¿ÀºêÁ§Æ® Ã£±â
-        choiceUI_yj.SetActive(false); // ½ÃÀÛÇÒ ¶§ ¼±ÅÃ UI ºñÈ°¼ºÈ­       
-        dialogueUI_yj.SetActive(false); // ½ÃÀÛÇÒ ¶§ ´ëÈ­ UI ºñÈ°¼ºÈ­
-        resultUI_yj.SetActive(false); // ½ÃÀÛÇÒ ¶§ °á°ú UI ºñÈ°¼ºÈ­
-
-        //talkButton.onClick.AddListener(OnTalkButtonClick); // ´ëÈ­ÇÏ±â ¹öÆ° Å¬¸¯ ÀÌº¥Æ® ¿¬°á
-        yesButton.onClick.AddListener(OnYesButtonClick); // ¿¹ ¹öÆ° Å¬¸¯ ÀÌº¥Æ® ¿¬°á
-        noButton.onClick.AddListener(OnNoButtonClick); // ¾Æ´Ï¿À ¹öÆ° Å¬¸¯ ÀÌº¥Æ® ¿¬°á
+        HideUI(); // ½ÃÀÛÇÒ ¶§ UI ¼û±â±â
     }
-
-
 
     // Update is called once per frame
     void Update()
     {
-        if (isTalking)
+        CheckNPCInteraction(); // NPC¿ÍÀÇ »óÈ£ÀÛ¿ë Ã¼Å©
+        // ¿£ÅÍÅ° ÀÔ·Â °¨Áö
+        if (currentNPC != null && Input.GetKeyDown(KeyCode.Return))
         {
-            if ((isTalking && Input.GetKeyDown(KeyCode.Return))) // ¿£ÅÍ Å° ÀÔ·Â °¨Áö
-            {
-                EndDialogue(); // ´ëÈ­ Á¾·á
-            }
-            //return;
+            HandleNPCDialogue_yj(currentNPC);
         }
 
-        float distance = Vector3.Distance(player.transform.position, transform.position); // ÇÃ·¹ÀÌ¾î¿Í NPC °£ °Å¸® °è»ê
-        if (distance <= interactionRange) // »óÈ£ÀÛ¿ë °Å¸® ³»¿¡ ÀÖ´ÂÁö È®ÀÎ
-        { 
+    }
+
+    void CheckNPCInteraction()
+    {
+        float distanceNPC1 = Vector3.Distance(player.transform.position, npc1_yj.transform.position);
+        float distanceNPC2 = Vector3.Distance(player.transform.position, npc2_yj.transform.position);
+        float distanceNPC3 = Vector3.Distance(player.transform.position, npc3_yj.transform.position);
+        float distanceNPC4 = Vector3.Distance(player.transform.position, npc4_yj.transform.position);
+
+
+        if (distanceNPC1 <= interactionRange)
+        {
+            currentNPC = npc1_yj;
+        }
+        else if (distanceNPC2 <= interactionRange)
+        {
+            currentNPC = npc2_yj;
+        }
+        else if (distanceNPC3 <= interactionRange)
+        {
+            currentNPC = npc3_yj;
+        }
+        else if (distanceNPC4 <= interactionRange)
+        {
+            currentNPC = npc4_yj;
+        }
+        else
+        {
+            currentNPC = null;
+        }
+
+        //if (currentNPC != null && nowplayer_yj.howtoday_py<3)
+        if (currentNPC != null) // »óÈ£ÀÛ¿ë °Å¸® ³»¿¡ ÀÖ´ÂÁö, ±âº» È°µ¿ È½¼ö È®ÀÎ
+        {
             if (Input.GetKeyDown(KeyCode.Return)) // ¿£ÅÍ Å° ÀÔ·Â °¨Áö
             {
-                // »ó´ë ´©±¸¸¦ ¸¸³µ´ÂÁö ¸ÕÀú ±âº»´ë»ç°¡ ¶ä(TalkManager_yj Âü°í)
-                switch (whatdial_yj.id)
-                {
-                    // ±âº»È°µ¿1 : ÈÆ·Ã´ÜÀåÀÏ ‹š(ÈÆ·Ã)
-                    case 6001:
-                        dialogueText.text = serif1_1.line; // ·£´ıÇÏ°Ô ÈÆ·Ã´ëÀå ±âº» ´ë»ç Ãâ·Â
-                        dialogueText.text = ""; // ´ë»ç ÅØ½ºÆ® ÃÊ±âÈ­
-                        break;
-                    // ±âº»È°µ¿2 : ±â»ç´ÜÀåÀÏ ¶§(´ÜÇÕ)
-                    case 6002:
-                        dialogueText.text = serif2_1.line; // ·£´ıÇÏ°Ô ±â»ç´ÜÀå ±âº» ´ë»ç Ãâ·Â
-                        dialogueText.text = ""; // ´ë»ç ÅØ½ºÆ® ÃÊ±âÈ­
-                        break;
-                    // ±âº»È°µ¿3 : ´Ü¼­ÀÏ ¶§(´Ü¼­)
-                    case 6003:
-                        dialogueText.text = serif3.line; // ÈùÆ® ´ë»ç Ãâ·Â
-                        dialogueText.text = ""; // ´ë»ç ÅØ½ºÆ® ÃÊ±âÈ­
-                        break;
-                }
-
-                ShowChoiceUI_yj(); // ¸¸³ª´Â »ó´ë¿¡ µû¶ó ´Ù¸¥ ¼±ÅÃ UI Ç¥½Ã
-                // °°Àº ¼±ÅÃ UI¸¦ »ç¿ëÇÏ´Âµ¥, ¹®±¸¸¸ ´Ù¸§. yes,noµµ °°À½.
-                // ÈÆ·Ã´ÜÀå(6001)À» ¸¸³µÀ» ‹š´Â "ÈÆ·ÃÇÏ½Ã°Ú½À´Ï±î?" ¼±ÅÃÁö ¶ä
-                // ±â»ç´ÜÀå(6002)À» ¸¸³µÀ» ‹š´Â "´ÜÇÕ ÈÆ·ÃÀ» ÁøÇàÇÏ½Ã°Ú½À´Ï±î?" ¼±ÅÃÁö ¶ä
-                // ÈÆ·Ã´ÜÀå(6001)À» ¸¸³µÀ» ‹š´Â "´Ü¼­¸¦ Á¶»çÇÏ½Ã°Ú°Ú½À´Ï±î?" ¼±ÅÃÁö ¶ä
+                HandleNPCDialogue_yj(currentNPC);
             }
         }
         else
         {
-            choiceUI_yj.SetActive(false); // ¼±ÅÃ UI ¼û±â±â
+            HideUI();
         }
     }
 
-    void ShowChoiceUI_yj()
+    void HandleNPCDialogue_yj(GameObject npc_yjyj)
     {
-        choiceUI_yj.SetActive(true); // ¼±ÅÃ UI È°¼ºÈ­
-
-        switch (whatdial_yj.id)
+        Dial_changyj.SetActive(true);
+        // ÇöÀç NPC¿¡ µû¶ó ´ëÈ­ Ã³¸®
+        if (npc_yjyj == npc1_yj) // ÈÆ·Ã´ÜÀå
         {
-            // ±âº»È°µ¿1 : ÈÆ·Ã´ÜÀåÀÏ‹š(ÈÆ·Ã)
-            case 6001:
-                choiceUI_yj.SetActive(true); // ¼±ÅÃ UI È°¼ºÈ­
-                break;
+            dialoguename_yj.text = "ÈÆ·Ã´ëÀå"; // ÈÆ·Ã´ëÀå ÀÌ¸§ Ãâ·Â 
+            dialogueText_yj.text = "¿©¾î-¸»¶ó²¤ÀÌ! \nÈÆ·ÃÇÒ ÁØºñ´Â µÆ³ª?"; // ÈÆ·Ã´ëÀå ±âº» ´ë»ç Ãâ·Â
+            ShowChoice1UI_yj();
+            
 
-            // ±âº»È°µ¿2 : ±â»ç´ÜÀåÀÏ¶§(´ÜÇÕ)
-            case 6002:
-                dialogueText.text = ""; // ´ë»ç ÅØ½ºÆ® ÃÊ±âÈ­
-                break;
-
-            case 6003:
-                dialogueText.text = ""; // ´ë»ç ÅØ½ºÆ® ÃÊ±âÈ­
-                break;
-        }        
-    }
-
-    public void OnTalkButtonClick()
-    {
-        choiceUI_yj.SetActive(true); // ¼±ÅÃ UI È°¼ºÈ­
-        //choiceUI.SetActive(false); // ¼±ÅÃ UI ¼û±â±â
-        //dialogueUI.SetActive(true); // ´ëÈ­ UI È°¼ºÈ­
-        dialogueText.text = "´ÜÇÕÇÏ½Ã°Ú½À´Ï±î?"; // ´ë»ç Ç¥½Ã
-        isTalking = true; // ´ëÈ­ »óÅÂ ¼³Á¤
-    }
-
-
-    public void OnYesButtonClick()
-    {
-        // TalkManager_yj Å¬·¡½ºÀÇ IncreaseTeamPower È£Ãâ
-        TalkManager_yj talkManager = FindObjectOfType<TalkManager_yj>();
-        if (talkManager != null)
-        {
-            //talkManager.IncreaseTeamPower(10); // ¿¹½Ã·Î 10¸¸Å­ ÆÀ ÆÄ¿ö Áõ°¡
         }
-        else
+        else if (npc_yjyj == npc2_yj) // Ä·ÇÎÀå
+        {            
+            dialoguename_yj.text = "Ä·ÇÎÀå"; // Ä·ÇÎÀå ÀÌ¸§ Ãâ·Â 
+            dialogueText_yj.text = "Ä·ÇÎÀ» ÅëÇÏ¿© ´ÜÇÕÀ» ÁøÇàÇÏ½Ç °Ç°¡¿ä?"; // Ä·ÇÎÀå ±âº» ´ë»ç Ãâ·Â                                      
+            ShowChoice2UI_yj(); // Ä·ÇÎ ¼±ÅÃ UI Ç¥½Ã
+        }
+        else if (npc_yjyj == npc3_yj) // ´Ü¼­
         {
-            Debug.LogError("TalkManager_yj not found in the scene.");
+            dialoguename_yj.text = "´Ü¼­"; // ´Ü¼­ ÀÌ¸§ Ãâ·Â 
+            dialogueText_yj.text = "´Ü¼­¸¦ Ã£¾Ò´Ù.\nÀÎº¥Åä¸®¿¡¼­ ³»¿ëÀ» È®ÀÎÇØ º¸ÀÚ."; // ´Ü¼­ ±âº» ´ë»ç Ãâ·Â                                      
+            ShowChoice3UI_yj(); // Ä·ÇÎ ¼±ÅÃ UI Ç¥½Ã
+        }
+        else if (npc_yjyj == npc4_yj) // Ä§´ë
+        {
+            dialoguename_yj.text = "Ä§´ë"; // ÈÆ·Ã´ëÀå ÀÌ¸§ Ãâ·Â 
+            dialogueText_yj.text = "¾Æ´ÁÇÑ ³» ¹æÀÇ Ä§´ë´Ù.\nÆí¾ÈÈ÷ ÈŞ½ÄÀ» ÃëÇØ º¸ÀÚ."; // ÈÆ·Ã´ëÀå ±âº» ´ë»ç Ãâ·Â                                      
+            ShowChoice4UI_yj(); // Ä·ÇÎ ¼±ÅÃ UI Ç¥½Ã
         }
 
-
-        //AttemptPersuasion(); // ¼³µæ ½Ãµµ
-        dialogueText.text = "´ÜÇÕÀ» ÁøÇàÇß´Ù"; // ¼±ÅÃÁö Ã³¸®
-        // TalkManager_yj¿¡¼­ Ã³¸®ÇÒ ³»¿ëÀ¸·Î ¿¬°á
-        isTalking = false; // ´ëÈ­ »óÅÂ ÇØÁ¦
-        choiceUI_yj.SetActive(false); // ¼±ÅÃ UI ¼û±â±â
+        // ÈÆ·Ã´ÜÀå(6001)À» ¸¸³µÀ» ‹š´Â "ÈÆ·ÃÇÏ½Ã°Ú½À´Ï±î?" ¼±ÅÃÁö ¶ä
+        // ±â»ç´ÜÀå(6002)À» ¸¸³µÀ» ‹š´Â "´ÜÇÕÀ» ÁøÇàÇÏ½Ã°Ú½À´Ï±î?" ¼±ÅÃÁö ¶ä
+        // ´Ü¼­(6003)¸¦ ¸¸³µÀ» ‹š´Â "´Ü¼­¸¦ Á¶»çÇÏ½Ã°Ú½À´Ï±î?" ¼±ÅÃÁö ¶ä
+        // Ä§´ë(6004)¸¦ ¸¸³µÀ» ‹š´Â "ÈŞ½ÄÀ» ÃëÇÏ½Ã°Ú½À´Ï±î?" ¼±ÅÃÁö ¶ä
     }
 
+
+
+
+void ShowChoice1UI_yj()
+{        
+        choiceUI1_yj.SetActive(true);
+}
+
+void ShowChoice2UI_yj()
+{
+    HideUI();
+    choiceUI2_yj.SetActive(true);
+}
+
+void ShowChoice3UI_yj()
+{
+    HideUI();
+    choiceUI3_yj.SetActive(true);
+}
+
+void ShowChoice4UI_yj()
+{
+    HideUI();
+    choiceUI4_yj.SetActive(true);
+}
+
+void HideUI()
+{
+    choiceUI1_yj.SetActive(false);
+    choiceUI2_yj.SetActive(false);
+    choiceUI3_yj.SetActive(false);
+    choiceUI4_yj.SetActive(false);
+    Dial_changyj.SetActive(false);
+}
+   
+    void DisableResultUI_yj()
+    {
+        resultUI_yj.SetActive(false);
+        
+    }
+    void DisabletrainUI_yj()
+    {
+        trainingUI_yj.SetActive(false);
+    }
+    void DisablecampUI_yj()
+    {
+        campingUI_yj.SetActive(false);
+    }
+    void DisablebedUI_yj()
+    {
+        iaminbedUI_yj.SetActive(false);
+    }
+    // ±âº»È°µ¿1 : "ÈÆ·ÃÇÑ´Ù" ¼±ÅÃÇßÀ» ¶§
+    public void OntrainButtonClick()
+    {
+        choiceUI1_yj.SetActive(false); // ¼±ÅÃ UI ºñÈ°¼ºÈ­
+
+        trainingUI_yj.SetActive(true);// ÈÆ·Ã UI Ç¥½Ã(3ÃÊ°£ Áö¼Ó)
+        Invoke("DisabletrainUI_yj", 3f); // 3ÃÊ ÈÄ¿¡ ÈÆ·Ã UI¸¦ ÀÚµ¿À¸·Î ºñÈ°¼ºÈ­ Ã³¸®ÇÏ´Â ¸Ş¼­µå 
+        resultUI_yj.SetActive(true);// °á°ú Ã¢ Ç¥½Ã (¼º°øUI, 1,2 µ¿½Ã »ç¿ë)
+        nowplayer_yj.howtrain_py++;// ÈÆ·Ãº¯¼ö 1 Áõ°¡
+        nowplayer_yj.howtoday_py++;// ÇÏ·ç ±âº» È°µ¿ ¼öÇà È½¼ö 1 Áõ°¡        
+        Invoke("DisableResultUI_yj", 3f); // 3ÃÊ ÈÄ¿¡ °á°ú UI¸¦ ÀÚµ¿À¸·Î ºñÈ°¼ºÈ­ Ã³¸®ÇÏ´Â ¸Ş¼­µå È£Ãâ
+    }
+    // ±âº»È°µ¿2 : ´ÜÇÕÇÑ´Ù ÇßÀ» ¶§
+    public void OncampButtonClick()
+    {
+        choiceUI2_yj.SetActive(false); // ¼±ÅÃ UI ºñÈ°¼ºÈ­
+        campingUI_yj.SetActive(true);// ´ÜÇÕ UI Ç¥½Ã(3ÃÊ°£ Áö¼Ó)
+        Invoke("DisablecampUI_yj", 3f); // 3ÃÊ ÈÄ¿¡ ´ÜÇÕ UI¸¦ ÀÚµ¿À¸·Î ºñÈ°¼ºÈ­ Ã³¸®ÇÏ´Â ¸Ş¼­µå 
+        resultUI_yj.SetActive(true);// °á°ú Ã¢ Ç¥½Ã (¼º°øUI, 1,2 µ¿½Ã »ç¿ë)
+        nowplayer_yj.team_py++; // ´ÜÇÕº¯¼ö 1 Áõ°¡
+        nowplayer_yj.howtoday_py++; // ÇÏ·ç ±âº» È°µ¿ ¼öÇà È½¼ö 1 Áõ°¡
+        Invoke("DisableResultUI_yj", 3f); // 3ÃÊ ÈÄ¿¡ °á°ú UI¸¦ ÀÚµ¿À¸·Î ºñÈ°¼ºÈ­ Ã³¸®ÇÏ´Â ¸Ş¼­µå È£Ãâ
+    }
+    // ±âº»È°µ¿3 : ´Ü¼­ º¸°Ú´Ù ÇßÀ» ¶§
+    public void OnhintButtonClick()
+    { 
+        choiceUI3_yj.SetActive(false);
+        SceneManager.LoadScene("InventoryMain"); // ÀÎº¥Åä¸® ¾ÀÀ¸·Î ÀÌµ¿
+        // Ã£Àº ´Ü¼­ °³¼ö¸¦ ÇÑ °³ ´Ã¸². ÀÌ°Ç ÀÎº¥Åä¸®¶û ¿¬°ü ÈÄ¿¡ »ı°¢ÇØ¾ß ÇÒµí
+    }
+    // ±âº»È°µ¿4 : ÈŞ½Ä ÃëÇÏ°Ú´Ù ÇßÀ» ¶§
+    public void OnbedButtonClick()
+    {
+        choiceUI4_yj.SetActive(false);
+        iaminbedUI_yj.SetActive(true); // ÈŞ½Ä UI ¶ç¿ì±â
+        
+    }
     public void OnNoButtonClick()
      {
-        // persuadeUI.SetActive(false); // ¼³µæ UI ¼û±â±â
-        dialogueText.text = "´ÜÇÕÀ» ÁøÇàÇÏÁö ¾Ê½À´Ï´Ù"; // ¼±ÅÃÁö Ã³¸®
-        isTalking = false; // ´ëÈ­ »óÅÂ ÇØÁ¦
-        choiceUI_yj.SetActive(false); // ¼±ÅÃ UI ¼û±â±â
-    }
-
-
-    /*void HideChoices()
-    {
-        choiceUI.SetActive(false); // ¼±ÅÃ UI ¼û±â±â
-        dialogueUI.SetActive(false); // ´ëÈ­ UI ¼û±â±â
-        persuadeUI.SetActive(false); // ¼³µæ UI ¼û±â±â
-    }*/
-
-    void EndDialogue()
-    {
-        //dialogueUI.SetActive(false); // ´ëÈ­ UI ¼û±â±â
-        isTalking = false; // ´ëÈ­ »óÅÂ ÇØÁ¦
-        choiceUI_yj.SetActive(false); // ¼±ÅÃ UI ¼û±â
+        // ÀÌ°Å ¹¹ ÄÑÁ®ÀÖ´ÂÁö µûÁ®ºÁ¼­ ºñÈ°¼ºÈ­ µû·Î ÇØ¾ß ÇÏ³ª? 
+        choiceUI1_yj.SetActive(false); // ÈÆ·Ã UI ¼±ÅÃÃ¢ ºñÈ°¼ºÈ­
+        choiceUI2_yj.SetActive(false); // ´ÜÇÕ UI ¼±ÅÃÃ¢ ºñÈ°¼ºÈ­
+        choiceUI3_yj.SetActive(false); // ´Ü¼­ UI ¼±ÅÃÃ¢ ºñÈ°¼ºÈ­
+        choiceUI4_yj.SetActive(false); // ÈŞ½Ä UI ¼±ÅÃÃ¢ ºñÈ°¼ºÈ­
     }
 
 }
