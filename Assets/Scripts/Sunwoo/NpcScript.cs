@@ -9,7 +9,9 @@ public class NpcScript : MonoBehaviour
 {
     public GameObject choiceUI; // 선택 UI 패널
     public GameObject dialogueUI; // 대화 UI 패널
+    public GameObject npcAffectionUI; // 호감도 UI 패널
     public TextMeshProUGUI dialogueText; // 대사 텍스트 UI 연결
+    public TextMeshProUGUI affectionText; // 호감도 텍스트 UI 연결
     public Button talkButton; // 대화하기 버튼 연결
     public Button persuadeButton; // 설득하기 버튼 연결
     public Button giftButton; // 선물하기 버튼 연결
@@ -48,13 +50,14 @@ public class NpcScript : MonoBehaviour
         }
         else
         {
-            choiceUI.SetActive(false); // 선택 UI 숨기기
+            choiceUI.SetActive(false); // 선택 UI와 자식 오브젝트들 숨기기
         }
     }
 
     void ShowChoiceUI()
     {
         choiceUI.SetActive(true); // 선택 UI 활성화
+        affectionText.text = $"호감도: {GetComponent<NpcPersuade>().affection}"; // 호감도 텍스트 업데이트
         dialogueText.text = ""; // 대사 텍스트 초기화
     }
 
@@ -87,6 +90,7 @@ public class NpcScript : MonoBehaviour
     {
         isTalking = false; // 대화 상태 해제
         dialogueUI.SetActive(false); // 대화 UI 비활성화
+        choiceUI.SetActive(false); // 선택 UI와 자식 오브젝트들 비활성화
     }
 
     public void UpdatePosition(string timeOfDay)

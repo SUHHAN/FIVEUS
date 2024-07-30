@@ -5,9 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class TimeManager : MonoBehaviour
 {
-    public int day = 1; // 현재 날 수
-    public int activityCount = 0; // 하루의 활동 수
-    private string timeOfDay = "Morning"; // 현재 시간대
+    public int day = 1; // 현재 day 몇인지(1~15)
+    public int activityCount = 0; // 하루 활동 수(3회까지 가능)
+    public string timeOfDay = "Morning"; // 현재 시간(오전, 오후, 저녁)
 
     void Update()
     {
@@ -35,19 +35,20 @@ public class TimeManager : MonoBehaviour
         UpdateNPCPositions(); // NPC 위치 업데이트
     }
 
-    private void AdvanceDay()
+    public void AdvanceDay()
     {
         day++;
         if (day > 15)
         {
-            day = 1; // 15일 이후에는 다시 1일로 돌아감
+            day = 1; // 15일 이후에는 다시 1일로 돌아감(임시)
+                     // 나중에는 엔딩씬으로 연결되게 코드 추가
         }
         activityCount = 0;
         timeOfDay = "Morning"; // 새로운 날의 시작은 아침
         UpdateNPCPositions(); // NPC 위치 업데이트
     }
 
-    private void UpdateNPCPositions()
+    public void UpdateNPCPositions()
     {
         // 현재 시간대에 따라 모든 NPC의 위치를 업데이트
         foreach (var npc in FindObjectsOfType<NpcScript>())
