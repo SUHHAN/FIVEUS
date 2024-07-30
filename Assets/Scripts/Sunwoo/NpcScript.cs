@@ -19,6 +19,8 @@ public class NpcScript : MonoBehaviour
     private DialogueManager dialogueManager; // DialogueManager 스크립트 참조
     public string npcType;
 
+    private InventoryItemManager InventoryItemManager;
+
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player"); // 태그가 "Player"인 오브젝트 찾기
@@ -27,7 +29,7 @@ public class NpcScript : MonoBehaviour
         dialogueUI.SetActive(false); // 시작할 때 대화 UI 비활성화
         talkButton.onClick.AddListener(OnTalkButtonClick); // 대화하기 버튼 클릭 이벤트 연결
         persuadeButton.onClick.AddListener(OnPersuadeButtonClick); // 설득하기 버튼 클릭 이벤트 연결
-        giftButton.onClick.AddListener(OnGiftButtonClick); // 선물하기 버튼 클릭 이벤트 연결
+        //giftButton.onClick.AddListener(OnGiftButtonClick); // 선물하기 버튼 클릭 이벤트 연결
         UpdatePosition(FindObjectOfType<TimeManager>().GetTimeOfDay()); // 초기 위치 설정
     }
 
@@ -72,8 +74,10 @@ public class NpcScript : MonoBehaviour
         GetComponent<NpcPersuade>().ShowPersuadeUI(); // 설득 UI 표시
     }
 
-    public void OnGiftButtonClick()
-    {
+    public void OnGiftButtonClick(string npc)
+    {   
+        npcType = npc;
+        PlayerPrefs.SetString("NpcType", npcType);
         SceneManager.LoadScene("InventoryMain"); // InventoryMain 씬으로 이동
     }
 
