@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 // 예지 코멘트 : 주인공의 상태를 관리하는 창
 // 주인공의 체력+피로도+재화+단서+단합력, 날짜 관리 script
-public class PlayerNow_yj
+public class PlayerNow_yj : MonoBehaviour
 {
     // 참고로 수치 끝에 붙은 py는 player의 약자. 
 
