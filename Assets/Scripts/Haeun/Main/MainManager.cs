@@ -7,7 +7,8 @@ using System.IO;
 using TMPro; // UI 관련 라이브러리 추가
 
 public class MainManager : MonoBehaviour
-{
+{   
+    private PlayerManager_yj PlayerManager_yj;
     private string previousSceneName;
 
     public Button continueButton; // 이어하기 버튼

@@ -6,6 +6,7 @@ using System.IO;
 using System;
 using TMPro;
 using UnityEditor;
+using UnityEditor.Rendering;
 
 public class StoreButton : MonoBehaviour
 {
@@ -52,7 +53,6 @@ public class StoreItemManager : MonoBehaviour
     public int maxQuantity = 99; // 최대 수량
     private int currentQuantity = 1; // 현재 선택된 수량
 
-    private string filePath;
 
     void Start()
     {
@@ -89,7 +89,7 @@ public class StoreItemManager : MonoBehaviour
             slot[i].SetActive(active);
 
             if (active)
-            {
+            {   
                 // "Panel" 객체를 찾고 그 내부의 "NameText" 객체를 찾기
                 TextMeshProUGUI nameTextComponent = slot[i].GetComponentInChildren<TextMeshProUGUI>();
                 if (nameTextComponent != null)
@@ -198,13 +198,20 @@ public class StoreItemManager : MonoBehaviour
 
         // 구매 버튼 설정
         BuyButton.onClick.AddListener(() => {
+            UpButton.onClick.RemoveAllListeners();
+            DownButton.onClick.RemoveAllListeners();
             UpdateSaleButtonState(item); // 아이템 수량 변화 후 판매 버튼 상태 업데이트
             currentQuantity = 1;
             maxQuantity = int.MaxValue; // 구매 시 최대 수량을 제한할 필요가 없을 경우
             UpdateQuantityText(item, "구매");
+            
+            itemImage.sprite = itemSprites[itemId];
+
             DownButton.onClick.AddListener(() => DecreaseQuantity(item, "구매"));
             UpButton.onClick.AddListener(() => IncreaseQuantity(item, "구매"));
             informationPopup.SetActive(true);
+
+            YesButton.onClick.RemoveAllListeners();
 
             // "예" 버튼 클릭 시의 로직 추가
             YesButton.onClick.AddListener(() => {
@@ -219,18 +226,24 @@ public class StoreItemManager : MonoBehaviour
 
         // 판매 버튼 설정
         SaleButton.onClick.AddListener(() => {
+            UpButton.onClick.RemoveAllListeners();
+            DownButton.onClick.RemoveAllListeners();
             UpdateSaleButtonState(item); // 아이템 수량 변화 후 판매 버튼 상태 업데이트
             currentQuantity = 1; // 판매 최소 수량은 1이어야 함
             maxQuantity = int.Parse(item.quantity); // 판매 가능한 최대 수량
+
+            itemImage.sprite = itemSprites[itemId];
 
             UpdateQuantityText(item, "판매");
             DownButton.onClick.AddListener(() => DecreaseQuantity(item, "판매"));
             UpButton.onClick.AddListener(() => IncreaseQuantity(item, "판매"));
             informationPopup.SetActive(true);
 
+            YesButton.onClick.RemoveAllListeners();
+
             // "예" 버튼 클릭 시의 로직 추가
             YesButton.onClick.AddListener(() => {
-                ItemManager.instance.ConfirmItemQuantity(item, "판매", currentQuantity);
+                ItemManager.instance.ConfirmItemQuantity(item, "판매", -1 * currentQuantity);
                 LoadItem();
                 UpdateSaleButtonState(item); // 아이템 수량 변화 후 판매 버튼 상태 업데이트
                 informationPopup.SetActive(false);

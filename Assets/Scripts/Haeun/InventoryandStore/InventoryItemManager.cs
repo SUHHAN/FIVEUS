@@ -15,7 +15,7 @@ public class ItemButton : MonoBehaviour
 
 public class InventoryItemManager : MonoBehaviour
 {
-    
+
     [SerializeField] private List<Item> AllItemList = new List<Item>();
     [SerializeField] private List<Item> MyItemList = new List<Item>();
     [SerializeField] private List<Item> CurItemList = new List<Item>();
@@ -37,45 +37,41 @@ public class InventoryItemManager : MonoBehaviour
     public TextMeshProUGUI itemQuantityText; // 설명창에 아이템 타입 표시
 
     public Button SelectButton; // 탭마다 다른 버튼 형식 만들기
+    public Button SelectButton_gi; // 탭마다 다른 버튼 형식 만들기
+    public Button GiftButton_gi;
     
+    public string npcName;
 
     void Start()
     {
         
-        // Additively load the GUI scene
+        // GUI 씬을 추가로 로드합니다.
         SceneManager.LoadScene("UI", LoadSceneMode.Additive);
 
+        // 씬이 로드된 후 PlayerPrefs 값을 확인
+        if (PlayerPrefs.HasKey("NpcType"))
+        {
+            string npcType = PlayerPrefs.GetString("NpcType");
+            Debug.Log($"NpcType in InventoryMain: {npcType}");
+        }
+        else
+        {
+            Debug.LogWarning("NpcType key not found in PlayerPrefs.");
+        }
+    
         LoadItem();
+
         Debug.Log($"Loaded {AllItemList.Count} items.");
 
-        if (SelectItemInfor == null || itemNameText == null || itemDescriptionText == null)
-        {
-            
-            if (SelectItemInfor == null) {
-                Debug.LogError("SelectItemInfor 연결되지 않았습니다.");
-            }
-            if (itemNameText == null) {
-                Debug.LogError("itemNameText 연결되지 않았습니다.");
-            }
-            if (itemDescriptionText == null)
-            {
-                Debug.LogError("itemDescriptionText 연결되지 않았습니다.");
-            }
-            return;
-            
-        }
-
         SelectItemInfor.SetActive(false); // 설명 창 비활성화
+        
+        // 선물하기 버튼은 일단 비활성화, 그리고 기타 탭에서만 사용되는 두개의 버튼은 일단 비활성화
+        GiftButton_gi.gameObject.SetActive(false);
+        SelectButton_gi.gameObject.SetActive(false);
+
 
         // 처음 시작할 때 "장비" 탭을 선택하도록 설정
         TapClick(curType);
-
-        // MyItemList의 내용을 확인하기 위한 디버그 로그
-        Debug.Log("MyItemList 내용 로드 후:");
-        foreach (var item in MyItemList)
-        {
-            Debug.Log($"ID: {item.Id}, Name: {item.Name}, Description: {item.Description}, isUsing: {item.isUsing}");
-        }
     }
 
     // 탭에 따른 탭 선택 변경
@@ -91,6 +87,26 @@ public class InventoryItemManager : MonoBehaviour
             CurItemList = AllItemList.FindAll(x => x.Type == tabName && int.Parse(x.quantity) > 0);
         }
 
+        // 만약 탭이 "기타" - 두개 버튼 활성화 및 원래 버튼 비활성화
+        if (tabName == "기타") {
+            GiftButton_gi.gameObject.SetActive(true);
+            SelectButton_gi.gameObject.SetActive(true);
+            SelectButton.gameObject.SetActive(false);
+
+            UpdateGiftButton();
+        }
+        else if (tabName == "단서") {
+            GiftButton_gi.gameObject.SetActive(false);
+            SelectButton_gi.gameObject.SetActive(false);
+            SelectButton.gameObject.SetActive(false);
+        }
+        else {
+            GiftButton_gi.gameObject.SetActive(false);
+            SelectButton_gi.gameObject.SetActive(false);
+            SelectButton.gameObject.SetActive(true);
+        }
+
+
         // 슬롯과 텍스트를 보일 수 있도록 만들기
         for (int i = 0; i < slot.Length; i++)
         {
@@ -99,6 +115,16 @@ public class InventoryItemManager : MonoBehaviour
 
             if (active)
             {
+
+                // 체크 이미지 장착 중일때만, 보이도록 설정하기
+                Transform checkImage = slot[i].transform.Find("isUsing");
+                if(CurItemList[i].Type == "장비" && CurItemList[i].isUsing == true) {
+                    checkImage.gameObject.SetActive(true);
+                }else{
+                    checkImage.gameObject.SetActive(false);
+                }
+
+                // 텍스트 변경
                 TextMeshProUGUI textComponent = slot[i].GetComponentInChildren<TextMeshProUGUI>();
                 if (textComponent != null)
                 {
@@ -218,29 +244,33 @@ public class InventoryItemManager : MonoBehaviour
             itemDescriptionText.text = item.Description;
             itemQuantityText.text = item.quantity + " 개";
             itemIdText.text = "No. " + item.Id;
+
+            SelectButton.onClick.RemoveAllListeners();
+            SelectButton_gi.onClick.RemoveAllListeners();
+            GiftButton_gi.onClick.RemoveAllListeners();
+
             if(item.Type == "단서") {
                 SelectButton.gameObject.SetActive(false);
             }
             if(item.Type == "기타") {
-                // 근데 이건 물어봐야 할 듯? 기타에 선물하기 말고도 사용하기가 있어야 하니까
-                Buttontext.text = "선물하기";
-                SelectButton.gameObject.SetActive(true);
-                SelectButton.onClick.AddListener(() => {
+                SelectButton_gi.onClick.AddListener(() => {
                     AudioManager.Instance.PlaySfx(AudioManager.Sfx.ButtonClick);
-                    //UseItem_inv(item);
+                    onUseButtonClick(item);
+                });
+                GiftButton_gi.onClick.AddListener(() => {
+                    AudioManager.Instance.PlaySfx(AudioManager.Sfx.ButtonClick);
+                    onGiftButtonClick(item.Name);
                 });
             }
             if(item.Type == "물약") {
                 Buttontext.text = "사용하기";
-                SelectButton.gameObject.SetActive(true);
                 SelectButton.onClick.AddListener(() => {
                     AudioManager.Instance.PlaySfx(AudioManager.Sfx.ButtonClick);
-                    //UseItem_inv(item);
+                    onUseButtonClick(item);
                 });
             }
             if(item.Type == "장비") {
-                Buttontext.text = "착용하기";
-                SelectButton.gameObject.SetActive(true);
+                Buttontext.text = "장착하기";
                 SelectButton.onClick.AddListener(() => {
                     AudioManager.Instance.PlaySfx(AudioManager.Sfx.ButtonClick);
                     //WearItem_inv(item);
@@ -250,90 +280,55 @@ public class InventoryItemManager : MonoBehaviour
         }
     }
 
-    public void GetItem_inv(Item item, int quantity)
+    // 선물하기
+    public void onGiftButtonClick(string giftName) {
+        npcName = PlayerPrefs.GetString("NpcType");
+        ItemManager.instance.Gift_inv(npcName, giftName);
+        
+        PlayerPrefs.DeleteKey("NpcType");
+        PlayerPrefs.Save();
+
+        LoadItem();
+
+        SceneManager.LoadScene("IngameEx");
+    }
+
+    // 선택 버튼 UI 업데이트 메서드
+    void UpdateGiftButton()
     {
-        Character player = DataManager.instance.nowPlayer.characters.Find(x => x.Id == "0");
-        Item NowItem = DataManager.instance.nowPlayer.Items.Find(x => x.Name == item.Name);
-        
-        // 수량을 더해주기
-        int NowItem_Quantity = int.Parse(NowItem.quantity);
-        NowItem_Quantity += quantity;
-
-        NowItem.quantity = NowItem_Quantity.ToString();
-        
-        // 장비를 구매했다면, 전직을 위해 바로 장착되도록 구현
-        if (item.Type == "장비")
+        if (PlayerPrefs.HasKey("NpcType"))
         {
-            Item changeJobItem = AllItemList.Find(x => x.isUsing == true);
-            NowItem.isUsing = true;
-
-            switch (item.Id)
-            {
-                case "0":
-                    player.Type = "검사"; break;
-                case "1":
-                    player.Type = "궁수"; break;
-                case "2":
-                    player.Type = "마법사"; break;
-                case "3":
-                    player.Type = "힐러"; break;
-                case "4":
-                    player.Type = "방패병"; break;
-                case "5":
-                    player.Type = "암살자"; break;
-                default:
-                    Debug.LogWarning($"Unknown item.Id: {item.Id}"); break;
-            }
+            GiftButton_gi.interactable = true;
         }
-
-        DataManager.instance.SaveData();
-    }
-    // public static void BuyItem_inv(Item item){
-    //     int itemQuantity = int.Parse(item.quantity);
-        
-    // };
-    // public void UseItem_inv(Item item){
-    //     int itemQuantity = int.Parse(item.quantity);
-
-    // };
-    // public void WearItem_inv(Item item){
-    //     int itemQitemQuantityuen = int.Parse(item.quantity);
-        
-    // };
-
-    public void GetHint_inv() {
-        // AllHint 리스트에 모든 단서를 필터링
-        List<Item> AllHint = DataManager.instance.nowPlayer.Items.FindAll(x => x.quantity == "0" && x.Type == "단서");
-
-        // AllHint 리스트가 비어있는지 확인
-        if (AllHint.Count == 0) {
-            Debug.Log("단서 아이템이 없습니다.");
-            return;
+        else
+        {
+            GiftButton_gi.interactable = false;
         }
-
-        // AllHint 리스트에서 랜덤한 아이템 선택
-        int hintRandom = UnityEngine.Random.Range(0, AllHint.Count); // 명시적으로 UnityEngine.Random 사용
-        Item selectedHint = AllHint[hintRandom];
-
-        // 선택된 아이템의 quantity를 문자열에서 정수로 변환하여 1 증가시키고 다시 문자열로 변환
-        int currentQuantity;
-        if (int.TryParse(selectedHint.quantity, out currentQuantity)) {
-            currentQuantity += 1;
-            selectedHint.quantity = currentQuantity.ToString();
-        } else {
-            Debug.LogError("다 찾았습니다. 더 찾을 필요가 없어요~");
-            return;
-        }
-
-        // 변경된 내용을 저장
-        DataManager.instance.SaveData();
-
-        Debug.Log($"아이템 {selectedHint.Name}의 quantity가 1증가했습니다 . 현재 quantity: {selectedHint.quantity}");
     }
 
+
+
+    // 장착하기
+    public void onWearButtonClick(string giftName) {
+        //ItemManager.instance.Wear_inv(npcName, giftName);
+         
+        SceneManager.LoadScene("IngameMain");
+        LoadItem();
+
+    }
+
+
+    // 사용하기
+    public void onUseButtonClick(Item item) {
+        ItemManager.instance.UseItem_inv(item);
+        SaveItem();
+        LoadItem();
+    }
 
     void SaveItem()
     {
+        DataManager.instance.nowPlayer.Items = MyItemList;
+        DataManager.instance.nowPlayer.Items = AllItemList;
         DataManager.instance.SaveData();
     }
 
@@ -341,5 +336,9 @@ public class InventoryItemManager : MonoBehaviour
     {
         MyItemList = DataManager.instance.nowPlayer.Items;
         AllItemList = DataManager.instance.nowPlayer.Items;
+
+        TapClick(curType);
+        UpdateGiftButton();
     }
 }
+
