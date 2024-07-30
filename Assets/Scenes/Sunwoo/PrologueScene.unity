@@ -1445,7 +1445,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a4958597eeeec24c900545ff948144f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  endCursor: {fileID: 0}
+  endCursor: {fileID: 827946820}
   charPerSeconds: 50
   msgText: {fileID: 1619790152}
 --- !u!1660057539 &9223372036854775807
