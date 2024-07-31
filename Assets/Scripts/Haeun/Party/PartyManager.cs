@@ -67,7 +67,7 @@ public class PartyManager : MonoBehaviour
     void Start()
     {
         // GUI 씬을 위에 추가해주기
-        SceneManager.LoadScene("UI", LoadSceneMode.Additive);
+        //SceneManager.LoadScene("UI", LoadSceneMode.Additive);
 
         LoadCharacter();
 

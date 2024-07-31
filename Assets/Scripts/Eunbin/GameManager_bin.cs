@@ -44,11 +44,11 @@ public class GameManager_bin : MonoBehaviour
 
     void Start()
     {
-        // ÃÊ±âÈ­ ÄÚµå
+        // ï¿½Ê±ï¿½È­ ï¿½Úµï¿½
     }
 
     void Update()
     {
-        // ¾÷µ¥ÀÌÆ® ·ÎÁ÷
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
     }
 }

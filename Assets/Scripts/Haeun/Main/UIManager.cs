@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    
     public Canvas canvas; // Canvas 오브젝트를 참조
 
     public GameObject TempDataCheckWindow;
@@ -52,15 +51,18 @@ public class UIManager : MonoBehaviour
         string currentSceneName = SceneManager.GetActiveScene().name;
 
         // 씬 이름에 따라 버튼 활성화 설정
-        if (currentSceneName == "IngameEx")
-        {
-            LoadButton.SetActive(true);
-            IngameButton.SetActive(false);
-        }
-        else
+        if (currentSceneName == "InventoryMain" 
+            || currentSceneName == "StoreMain" 
+            || currentSceneName == "PartyMain")
         {
             LoadButton.SetActive(false);
             IngameButton.SetActive(true);
+        }
+        else
+        {
+            LoadButton.SetActive(true);
+            IngameButton.SetActive(false);
+            
         }
 
         // 이전 씬 이름 가져오기

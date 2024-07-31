@@ -57,7 +57,7 @@ public class StoreItemManager : MonoBehaviour
     void Start()
     {
         // Additively load the GUI scene
-        SceneManager.LoadScene("UI", LoadSceneMode.Additive);
+        //SceneManager.LoadScene("UI", LoadSceneMode.Additive);
 
         // LoadItem 호출
         LoadItem();
