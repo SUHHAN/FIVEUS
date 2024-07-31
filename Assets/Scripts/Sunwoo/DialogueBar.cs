@@ -11,7 +11,7 @@ public class DialogueBar : MonoBehaviour
 
     void Start()
     {
-        ActiveDialogue(0, "", ref str); // 대화창 활성화 메서드 호출
+        ActiveDialogue(0, "JPB", ref str); // 대화창 활성화 메서드 호출
     }
 
     void Update()
