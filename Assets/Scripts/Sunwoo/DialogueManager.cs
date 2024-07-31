@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using System;
 
-// 대화 데이터를 저장할 클래스 정의
 public class DialogueEntry
 {
     public int id; // 대화 ID
@@ -13,11 +11,10 @@ public class DialogueEntry
     public string dialog; // 대화 내용
     public int optional; // 선택지 여부 (0: 일반 대화, 1: 선택지, 2: 특정 ID로 이동)
     public string playerDialog; // 플레이어 선택지 텍스트
-    public string effect; // 효과 (사용하지 않음)
-    public int num; // 기타 번호 (사용하지 않음)
+    public string effect; // 효과 (p: 호감도 증가, m: 호감도 감소)
+    public int num; // 호감도 변화량
     public int next; // 다음 대화 ID (optional이 2일 때 사용)
 
-    // 기본 생성자
     public DialogueEntry(int id, string name, string dialog, int optional, string playerDialog, string effect, int num, int next)
     {
         this.id = id;
@@ -33,28 +30,21 @@ public class DialogueEntry
 
 public class DialogueManager : MonoBehaviour
 {
-    // 대화 데이터를 저장할 리스트
     private List<DialogueEntry> dialogueEntry;
     private int currentDialogueIndex = 0; // 현재 대사 인덱스
     private bool isActivated = false; // DialogueManager가 활성화되었는지 여부
-
-    public GameObject dialogue;
-    public GameObject nameObj; // 이름 요소
-    public TextMeshProUGUI nameText; // TextMeshPro UI 텍스트 요소
-    public TextMeshProUGUI descriptionText; // TextMeshPro UI 텍스트 요소
-
-    public Button choice1Button;
-    public Button choice2Button;
-    public GameObject choicePanel;
+    private NpcScript npcScript; // NpcScript 참조
     public GameObject dialoguePanel;
+    public TextMeshProUGUI nameText; // 캐릭터 이름 텍스트
+    public TextMeshProUGUI descriptionText; // 대사 텍스트
 
     void Awake()
     {
         dialogueEntry = new List<DialogueEntry>();
+        npcScript = GetComponent<NpcScript>(); // NpcScript 참조 얻기
         LoadDialogueFromCSV(); // CSV에서 데이터를 로드하는 함수 호출
     }
 
-    // 초기화
     void Start()
     {
         ActivateTalk(); // 오브젝트 활성화
@@ -64,8 +54,7 @@ public class DialogueManager : MonoBehaviour
     {
         if (isActivated && Input.GetKeyDown(KeyCode.Space))
         {
-            currentDialogueIndex++;
-            PrintDialogueEntry(currentDialogueIndex);
+            ProceedToNextDialogue();
         }
     }
 
@@ -81,16 +70,8 @@ public class DialogueManager : MonoBehaviour
             int optional = int.Parse(row["optional"].ToString().Trim());
             string playerDialog = row["playerDialog"].ToString();
             string effect = row["effect"].ToString();
-            int num = int.Parse(row["num"].ToString().Trim());
+            int num = string.IsNullOrEmpty(row["num"].ToString().Trim()) ? 0 : int.Parse(row["num"].ToString().Trim());
             int next = int.Parse(row["next"].ToString().Trim());
-
-            // 빈 문자열 처리
-            if (string.IsNullOrEmpty(name)) name = "Unknown";
-            if (string.IsNullOrEmpty(dialog)) dialog = "";
-            if (string.IsNullOrEmpty(playerDialog)) playerDialog = "";
-            if (string.IsNullOrEmpty(effect)) effect = "";
-            if (num == 0) num = 0; // 기본 호감도는 0으로 설정
-            if (next == 0) next = -1; // 다음 대화 ID가 없는 경우 -1로 설정
 
             dialogueEntry.Add(new DialogueEntry(id, name, dialog, optional, playerDialog, effect, num, next));
         }
@@ -100,39 +81,59 @@ public class DialogueManager : MonoBehaviour
     {
         if (index >= dialogueEntry.Count)
         {
-            dialogue.SetActive(false);
-            return; // 대사 리스트를 벗어나면 오브젝트 비활성화 후 리턴
+            EndDialogue(); // 대화 종료
+            return;
         }
 
         DialogueEntry currentDialogue = dialogueEntry[index];
         nameText.text = currentDialogue.name;
         descriptionText.text = currentDialogue.dialog;
 
+        ApplyEffect(currentDialogue.effect, currentDialogue.num);
+
         if (currentDialogue.optional == 1)
         {
-            // 선택지가 있는 경우
-            choicePanel.SetActive(true);
-            dialoguePanel.SetActive(false);
-            choice1Button.GetComponentInChildren<TextMeshProUGUI>().text = currentDialogue.playerDialog;
-            choice2Button.GetComponentInChildren<TextMeshProUGUI>().text = dialogueEntry[currentDialogue.next].playerDialog;
-
-            choice1Button.onClick.RemoveAllListeners();
-            choice1Button.onClick.AddListener(() => ChooseOption(currentDialogue.id));
-            choice2Button.onClick.RemoveAllListeners();
-            choice2Button.onClick.AddListener(() => ChooseOption(currentDialogue.next));
+            string choice1Text = currentDialogue.playerDialog;
+            string choice2Text = dialogueEntry[index + 1].playerDialog;
+            npcScript.ShowChoices(choice1Text, choice2Text, () => ChooseOption(index), () => ChooseOption(index + 1));
         }
-        else
+        else if (currentDialogue.optional == 2)
         {
-            // 일반 대사인 경우
-            choicePanel.SetActive(false);
-            dialoguePanel.SetActive(true);
+            currentDialogueIndex = dialogueEntry.FindIndex(dialogue => dialogue.id == currentDialogue.next);
+            PrintDialogueEntry(currentDialogueIndex);
         }
     }
 
-    void ChooseOption(int nextId)
+    void ApplyEffect(string effect, int num)
     {
-        currentDialogueIndex = dialogueEntry.FindIndex(dialogue => dialogue.id == nextId);
+        if (effect == "p")
+        {
+            npcScript.ChangeAffection(num);
+        }
+        else if (effect == "m")
+        {
+            npcScript.ChangeAffection(-num);
+        }
+    }
+
+    void ChooseOption(int index)
+    {
+        npcScript.HideChoices(); // 선택지 숨기기
+        currentDialogueIndex = dialogueEntry.FindIndex(dialogue => dialogue.id == dialogueEntry[index].next);
         PrintDialogueEntry(currentDialogueIndex);
+    }
+
+    void ProceedToNextDialogue()
+    {
+        currentDialogueIndex++;
+        if (currentDialogueIndex >= dialogueEntry.Count || dialogueEntry[currentDialogueIndex].optional != 0)
+        {
+            currentDialogueIndex--;
+        }
+        else
+        {
+            PrintDialogueEntry(currentDialogueIndex);
+        }
     }
 
     public void ActivateTalk()
@@ -143,14 +144,10 @@ public class DialogueManager : MonoBehaviour
         PrintDialogueEntry(currentDialogueIndex);
     }
 
-    public void DeactivateTalk()
+    public void EndDialogue()
     {
-        this.gameObject.SetActive(false);
         isActivated = false;
-    }
-
-    public void StartDialogue()
-    {
-        ActivateTalk();
+        dialoguePanel.SetActive(false);
+        npcScript.EndDialogue(); // NPC 스크립트에서 대화 종료 처리
     }
 }

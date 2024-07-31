@@ -15,16 +15,17 @@ public class NpcScript : MonoBehaviour
     public Button talkButton; // 대화하기 버튼 연결
     public Button persuadeButton; // 설득하기 버튼 연결
     public Button giftButton; // 선물하기 버튼 연결
+    public Button choice1Button; // 선택지 1 버튼
+    public Button choice2Button; // 선택지 2 버튼
     public float interactionRange = 3.0f; // 상호작용 거리
     private GameObject player; // 플레이어 오브젝트
     private bool isTalking = false; // 대화 중인지 여부
-    private DialogueManager dialogueManager; // DialogueManager 스크립트 참조
     public string npcType;
+    public int affection = 0; // NPC 호감도
 
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player"); // 태그가 "Player"인 오브젝트 찾기
-        dialogueManager = GetComponent<DialogueManager>(); // DialogueManager 스크립트 참조 얻기
         choiceUI.SetActive(false); // 시작할 때 선택 UI 비활성화
         dialogueUI.SetActive(false); // 시작할 때 대화 UI 비활성화
         talkButton.onClick.AddListener(OnTalkButtonClick); // 대화하기 버튼 클릭 이벤트 연결
@@ -57,7 +58,7 @@ public class NpcScript : MonoBehaviour
     void ShowChoiceUI()
     {
         choiceUI.SetActive(true); // 선택 UI 활성화
-        affectionText.text = $"호감도: {GetComponent<NpcPersuade>().affection}"; // 호감도 텍스트 업데이트
+        affectionText.text = $"호감도: {affection}"; // 호감도 텍스트 업데이트
         dialogueText.text = ""; // 대사 텍스트 초기화
     }
 
@@ -65,7 +66,7 @@ public class NpcScript : MonoBehaviour
     {
         choiceUI.SetActive(false); // 선택 UI 숨기기
         dialogueUI.SetActive(true); // 대화 UI 활성화
-        dialogueManager.StartDialogue(); // 대화 시작
+        GetComponent<DialogueManager>().ActivateTalk(); // 대화 시작
         isTalking = true; // 대화 상태 설정
     }
 
@@ -76,7 +77,7 @@ public class NpcScript : MonoBehaviour
     }
 
     public void OnGiftButtonClick(string npc)
-    {           
+    {
         SceneManager.LoadScene("InventoryMain"); // InventoryMain 씬으로 이동
     }
 
@@ -145,5 +146,33 @@ public class NpcScript : MonoBehaviour
         }
 
         transform.position = newPosition; // NPC 위치 설정
+    }
+
+    // NPC 호감도 변경
+    public void ChangeAffection(int amount)
+    {
+        affection += amount;
+        affectionText.text = $"호감도: {affection}";
+    }
+
+    // 선택지 UI 버튼 활성화
+    public void ShowChoices(string choice1Text, string choice2Text, UnityEngine.Events.UnityAction choice1Action, UnityEngine.Events.UnityAction choice2Action)
+    {
+        choiceUI.SetActive(true);
+        choice1Button.gameObject.SetActive(true);
+        choice2Button.gameObject.SetActive(true);
+        choice1Button.GetComponentInChildren<TextMeshProUGUI>().text = choice1Text;
+        choice2Button.GetComponentInChildren<TextMeshProUGUI>().text = choice2Text;
+        choice1Button.onClick.RemoveAllListeners();
+        choice1Button.onClick.AddListener(choice1Action);
+        choice2Button.onClick.RemoveAllListeners();
+        choice2Button.onClick.AddListener(choice2Action);
+    }
+
+    // 선택지 UI 버튼 비활성화
+    public void HideChoices()
+    {
+        choice1Button.gameObject.SetActive(false);
+        choice2Button.gameObject.SetActive(false);
     }
 }

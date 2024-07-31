@@ -12,7 +12,6 @@ public class NpcPersuade : MonoBehaviour
     public TextMeshProUGUI resultText; // 결과 텍스트 UI 연결
     public Button yesButton; // 예 버튼 연결
     public Button noButton; // 아니오 버튼 연결
-    public int affection = 50; // 호감도
     private int remainingAttempts = 3; // 남은 설득 시도 횟수
     public bool success = false; // 설득 성공 여부
     private NpcScript npcScript; // NpcScript 스크립트 참조
@@ -48,7 +47,7 @@ public class NpcPersuade : MonoBehaviour
     {
         if (remainingAttempts > 0)
         {
-            int successChance = affection; // 호감도에 비례한 성공 확률
+            int successChance = npcScript.affection; // NpcScript의 affection을 성공 확률로 사용
             int randomValue = Random.Range(0, 100); // 0에서 100 사이의 랜덤 값 생성
             if (randomValue < successChance)
             {
@@ -57,9 +56,8 @@ public class NpcPersuade : MonoBehaviour
                 success = true;
                 npcScript.HidePersuadeAndGiftButtons(); // 설득 성공 시 설득하기와 선물하기 버튼 숨기기
             }
-            else
+            else // 설득 실패
             {
-                // 설득 실패
                 remainingAttempts--; // 남은 시도 횟수 1 감소
                 resultText.text = $"실패했습니다! 남은 기회: {remainingAttempts}";
                 success = false; // 설득 실패 여부 설정
