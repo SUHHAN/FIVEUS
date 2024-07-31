@@ -1,67 +1,64 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
+using UnityEngine.SceneManagement;
 
 public class TimeManager : MonoBehaviour
 {
-    public static TimeManager Instance;
+    public int day = 1; // 현재 day 몇인지(1~15)
+    public int activityCount = 0; // 하루 활동 수(3회까지 가능)
+    public string timeOfDay = "Morning"; // 현재 시간(오전, 오후, 저녁)
 
-    public DateTime currentDateTime;
-    private int mainActivityCount = 0;
-    public int day = 1;
-
-    void Awake()
+    void Update()
     {
-        if (Instance == null)
+        if (activityCount >= 3)
         {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
+            AdvanceDay(); // 활동 수가 3개 이상이면 다음 날로 넘어감
         }
     }
 
-    void Start()
+    public void CompleteActivity()
     {
-        // 날짜와 시간 초기화 (2024년 1월 1일 오전 6시로 시작).
-        currentDateTime = new DateTime(2024, 1, 1, 6, 0, 0);
-    }
-
-    // 메인 활동이 완료될 때 호출되게 하기
-    public void CompleteMainActivity()
-    {
-        mainActivityCount++;
-        if (mainActivityCount >= 3)
+        activityCount++;
+        if (activityCount == 1)
         {
-            mainActivityCount = 0;
-            day++;
-            if (day > 15) day = 1; // 15일을 넘으면 다시 1일로 초기화(나중에는 이벤트 씬으로 전환되게 수정)
-            currentDateTime = currentDateTime.AddDays(1).Date.AddHours(6); // 다음 날 오전 6시로 초기화
+            timeOfDay = "Afternoon"; // 첫 번째 활동 후 오후로 변경
         }
-        else
+        else if (activityCount == 2)
         {
-            currentDateTime = currentDateTime.AddHours(6); // 아침->점심->저녁 순으로 변경
+            timeOfDay = "Evening"; // 두 번째 활동 후 저녁으로 변경
+        }
+        else if (activityCount == 3)
+        {
+            timeOfDay = "Morning"; // 세 번째 활동 후 다시 아침으로 변경
+        }
+        UpdateNPCPositions(); // NPC 위치 업데이트
+    }
+
+    public void AdvanceDay()
+    {
+        day++;
+        if (day > 15)
+        {
+            day = 1; // 15일 이후에는 다시 1일로 돌아감(임시)
+                     // 나중에는 엔딩씬으로 연결되게 코드 추가
+        }
+        activityCount = 0;
+        timeOfDay = "Morning"; // 새로운 날의 시작은 아침
+        UpdateNPCPositions(); // NPC 위치 업데이트
+    }
+
+    public void UpdateNPCPositions()
+    {
+        // 현재 시간대에 따라 모든 NPC의 위치를 업데이트
+        foreach (var npc in FindObjectsOfType<NpcScript>())
+        {
+            npc.UpdatePosition(timeOfDay);
         }
     }
 
-    // 아침인지 확인
-    public bool IsMorning()
+    public string GetTimeOfDay()
     {
-        return currentDateTime.Hour >= 6 && currentDateTime.Hour < 12;
-    }
-
-    // 점심인지 확인
-    public bool IsAfternoon()
-    {
-        return currentDateTime.Hour >= 12 && currentDateTime.Hour < 18;
-    }
-
-    // 저녁인지 확인
-    public bool IsEvening()
-    {
-        return currentDateTime.Hour >= 18 && currentDateTime.Hour < 24;
+        return timeOfDay; // 현재 시간대 반환
     }
 }

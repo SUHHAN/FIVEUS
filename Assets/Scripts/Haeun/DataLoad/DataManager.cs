@@ -24,18 +24,18 @@ public class Item
 [System.Serializable]
 public class Character
 {
-    public Character(string _Id, string _Name, string _Description, string _HP, string _STR, string _DEX, string _INT, string _CON, string _DEF, string _ATK, bool _isUsing, string _Type)
+    public Character(string _Id, string _Name, string _Description, string _HP, string _STR, string _DEX, string _INT, string _CON, string _DEF, string _ATK, bool _isUsing, string _Type, string _Love, bool _Success)
     {
         Id = _Id; Name = _Name; Description = _Description; 
         HP = _HP; STR = _STR; DEX = _DEX; 
         INT = _INT; CON = _CON; DEF = _DEF; ATK = _ATK;
-        isUsing = _isUsing; Type = _Type;
+        isUsing = _isUsing; Type = _Type; Love = _Love; Success = _Success;
     }
 
     // 캐릭터 관련 변수들
     public string Id, Name, Description, HP, STR, DEX, INT, CON, DEF, ATK;
-    public string Type;
-    public bool isUsing;
+    public string Type, Love;
+    public bool isUsing, Success;
 }
 
 [System.Serializable]
@@ -64,6 +64,9 @@ public class DataManager : MonoBehaviour
     public PlayerData nowPlayer = new PlayerData();
     public string path;
     public int nowSlot;
+
+    private PlayerManager_yj PlayerManager_yj; // PlayerManager_yj 스크립트 참조
+
     
     // csv 정보 읽어오기 변수
     [SerializeField] private List<Item> CSVitem = new List<Item>();
@@ -94,6 +97,7 @@ public class DataManager : MonoBehaviour
         print(data);
         File.WriteAllText(path + nowSlot.ToString(), data);
         OnDataChanged?.Invoke(); // 데이터 저장 시 이벤트 호출
+
     }
 
     public void LoadData()
@@ -172,7 +176,7 @@ public class DataManager : MonoBehaviour
                     name = entry["name"].ToString();
                 }
 
-                // Name, Description, HP, STR, DEX, INT, CON, DEF, ATK, isUsing, Type;
+                // Name, Description, HP, STR, DEX, INT, CON, DEF, ATK, isUsing, Type, love, Success;
                 string id = entry["id"].ToString();
                 string description = entry["description"].ToString();
                 string HP = entry["HP"].ToString();
@@ -184,13 +188,19 @@ public class DataManager : MonoBehaviour
                 string ATK = entry["ATK"].ToString();
                 string type = entry["type"].ToString();
                 bool isUsing;
+                bool Success;
+                string love = entry["love"].ToString();
                 
                 if (!bool.TryParse(entry["isUsing"].ToString(), out isUsing))
                 {
                     isUsing = false; // 파싱 실패 시 기본값 설정
                 }
+                if (!bool.TryParse(entry["Success"].ToString(), out Success))
+                {
+                    Success = false; // 파싱 실패 시 기본값 설정
+                }
 
-                var newCharacter = new Character(id, name, description, HP, STR, DEX, INT, CON, DEF, ATK, isUsing, type);
+                var newCharacter = new Character(id, name, description, HP, STR, DEX, INT, CON, DEF, ATK, isUsing, type, love, Success);
                 CSVCharacter.Add(newCharacter);
                 nowPlayer.characters.Add(newCharacter); // nowPlayer의 characters 리스트에 추가
             }
