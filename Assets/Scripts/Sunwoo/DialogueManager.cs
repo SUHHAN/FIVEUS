@@ -30,10 +30,10 @@ public class DialogueEntry
 
 public class DialogueManager : MonoBehaviour
 {
-    private List<DialogueEntry> dialogueEntry;
-    private int currentDialogueIndex = 0; // 현재 대사 인덱스
-    private bool isActivated = false; // DialogueManager가 활성화되었는지 여부
-    private NpcScript npcScript; // NpcScript 참조
+    public List<DialogueEntry> dialogueEntry;
+    public int currentDialogueIndex = 0; // 현재 대사 인덱스
+    public bool isActivated = false; // DialogueManager가 활성화되었는지 여부
+    public NpcScript npcScript; // NpcScript 참조
     public GameObject dialoguePanel;
     public TextMeshProUGUI nameText; // 캐릭터 이름 텍스트
     public TextMeshProUGUI descriptionText; // 대사 텍스트
@@ -114,7 +114,7 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    void PrintDialogueEntry(int index)
+    public void PrintDialogueEntry(int index)
     {
         if (index >= dialogueEntry.Count)
         {
@@ -130,9 +130,21 @@ public class DialogueManager : MonoBehaviour
 
         if (currentDialogue.optional == 1)
         {
-            string choice1Text = currentDialogue.playerDialog;
-            string choice2Text = dialogueEntry[index + 1].playerDialog;
-            npcScript.ShowChoices(choice1Text, choice2Text, () => ChooseOption(index), () => ChooseOption(index + 1));
+            if (index + 1 < dialogueEntry.Count && !string.IsNullOrEmpty(dialogueEntry[index + 1].playerDialog))
+            {
+                string choice1Text = dialogueEntry[index + 1].playerDialog;
+                string choice2Text = dialogueEntry[index + 2].playerDialog;
+
+                if (!string.IsNullOrEmpty(choice1Text))
+                {
+                    npcScript.ShowChoices(choice1Text, choice2Text, () => ChooseOption(index + 1), () => ChooseOption(index + 2));
+                }
+            }
+        }
+        else if (currentDialogue.optional == 0 && index + 1 < dialogueEntry.Count)
+        {
+            // 다음 대화 출력
+            PrintDialogueEntry(index + 1);
         }
         else if (currentDialogue.optional == 2)
         {
@@ -141,7 +153,7 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    void ApplyEffect(string effect, int num)
+    public void ApplyEffect(string effect, int num)
     {
         if (effect == "p")
         {
@@ -153,14 +165,14 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    void ChooseOption(int index)
+    public void ChooseOption(int index)
     {
         npcScript.HideChoices(); // 선택지 숨기기
         currentDialogueIndex = dialogueEntry.FindIndex(dialogue => dialogue.id == dialogueEntry[index].next);
         PrintDialogueEntry(currentDialogueIndex);
     }
 
-    void ProceedToNextDialogue()
+    public void ProceedToNextDialogue()
     {
         currentDialogueIndex++;
         if (currentDialogueIndex >= dialogueEntry.Count || dialogueEntry[currentDialogueIndex].optional != 0)
