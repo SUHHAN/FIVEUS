@@ -213,6 +213,7 @@ GameObject:
   - component: {fileID: 30451415}
   - component: {fileID: 30451414}
   - component: {fileID: 30451417}
+  - component: {fileID: 30451418}
   m_Layer: 9
   m_Name: "\uD6C8\uB828\uB2E8\uC7A5_1"
   m_TagString: npc
@@ -353,6 +354,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &30451418
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 30451413}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2f493637c599fd4cba576c4158e9b8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &74802334
 GameObject:
   m_ObjectHideFlags: 0
@@ -596,7 +609,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &260411265
 RectTransform:
   m_ObjectHideFlags: 0
@@ -991,7 +1004,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 200, y: 50}
+  m_SizeDelta: {x: 400, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &337960986
 MonoBehaviour:
@@ -1013,7 +1026,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uCEA0\uD551\uC911..."
+  m_text: "\uCEA0\uD551\uC911...\n(\uC2A4\uD398\uC774\uC2A4\uBC14\uB97C \uB20C\uB7EC
+    \uC9C4\uD589\uD558\uC138\uC694) "
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1081da9c05927e5449374bba4dfe6e0a, type: 2}
   m_sharedMaterial: {fileID: -5688345821406835934, guid: 1081da9c05927e5449374bba4dfe6e0a, type: 2}
@@ -5406,21 +5420,9 @@ MonoBehaviour:
   choiceUI2_yj: {fileID: 17730700}
   choiceUI3_yj: {fileID: 532550760}
   choiceUI4_yj: {fileID: 674233972}
-  trainingUI_yj: {fileID: 549940672}
-  campingUI_yj: {fileID: 1729299137}
-  iaminbedUI_yj: {fileID: 995390118}
-  resultUI_yj: {fileID: 1317813150}
   Dial_changyj: {fileID: 260411264}
   dialoguename_yj: {fileID: 1692212906}
   dialogueText_yj: {fileID: 1397473668}
-  noButton1: {fileID: 885885025}
-  noButton2: {fileID: 867675734}
-  noButton3: {fileID: 660846968}
-  noButton4: {fileID: 1823105107}
-  trainingButton_yj: {fileID: 1435952556}
-  campingButton_yj: {fileID: 1104525810}
-  findhintButton_yj: {fileID: 1292505340}
-  laybedButton_yj: {fileID: 939572203}
   interactionRange: 1.5
   player: {fileID: 1821850491}
   npc1_yj: {fileID: 30451413}
@@ -5644,9 +5646,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1900325784}
-        m_TargetAssemblyTypeName: eightbuttons_yj, Assembly-CSharp
-        m_MethodName: OnNoButtonClick
+      - m_Target: {fileID: 1900325786}
+        m_TargetAssemblyTypeName: newbuttoncontrol, Assembly-CSharp
+        m_MethodName: OnNo3ButtonClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6155,9 +6157,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1900325784}
-        m_TargetAssemblyTypeName: eightbuttons_yj, Assembly-CSharp
-        m_MethodName: OnNoButtonClick
+      - m_Target: {fileID: 1900325786}
+        m_TargetAssemblyTypeName: newbuttoncontrol, Assembly-CSharp
+        m_MethodName: OnNo2ButtonClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6288,9 +6290,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1900325784}
-        m_TargetAssemblyTypeName: eightbuttons_yj, Assembly-CSharp
-        m_MethodName: OnNoButtonClick
+      - m_Target: {fileID: 1900325786}
+        m_TargetAssemblyTypeName: newbuttoncontrol, Assembly-CSharp
+        m_MethodName: OnNo1ButtonClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6555,9 +6557,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1900325784}
-        m_TargetAssemblyTypeName: eightbuttons_yj, Assembly-CSharp
-        m_MethodName: OnBedButtonClick
+      - m_Target: {fileID: 1900325786}
+        m_TargetAssemblyTypeName: newbuttoncontrol, Assembly-CSharp
+        m_MethodName: OnbedButtonClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6640,7 +6642,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 200, y: 50}
+  m_SizeDelta: {x: 400, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &941553961
 MonoBehaviour:
@@ -6662,7 +6664,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uD6C8\uB828\uC911..."
+  m_text: "\uD6C8\uB828\uC911...\n(\uC2A4\uD398\uC774\uC2A4\uBC14\uB97C \uB20C\uB7EC
+    \uC9C4\uD589\uD558\uC138\uC694) "
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1081da9c05927e5449374bba4dfe6e0a, type: 2}
   m_sharedMaterial: {fileID: -5688345821406835934, guid: 1081da9c05927e5449374bba4dfe6e0a, type: 2}
@@ -7078,9 +7081,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1900325784}
-        m_TargetAssemblyTypeName: eightbuttons_yj, Assembly-CSharp
-        m_MethodName: OnCampButtonClick
+      - m_Target: {fileID: 1900325786}
+        m_TargetAssemblyTypeName: newbuttoncontrol, Assembly-CSharp
+        m_MethodName: OncampButtonClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7185,7 +7188,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uD6C8\uB828\uB2E8\uC7A5\n(\uAE30\uBCF8\uD65C\uB3D92)\n"
+  m_text: "\uCEA0\uD551\uC7A5 \uC8FC\uC778\n(\uAE30\uBCF8\uD65C\uB3D92)\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1081da9c05927e5449374bba4dfe6e0a, type: 2}
   m_sharedMaterial: {fileID: -5688345821406835934, guid: 1081da9c05927e5449374bba4dfe6e0a, type: 2}
@@ -7650,9 +7653,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1900325784}
-        m_TargetAssemblyTypeName: eightbuttons_yj, Assembly-CSharp
-        m_MethodName: OnHintButtonClick
+      - m_Target: {fileID: 1900325786}
+        m_TargetAssemblyTypeName: newbuttoncontrol, Assembly-CSharp
+        m_MethodName: OnhintButtonClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7870,9 +7873,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1900325784}
-        m_TargetAssemblyTypeName: eightbuttons_yj, Assembly-CSharp
-        m_MethodName: OnTrainButtonClick
+      - m_Target: {fileID: 1900325786}
+        m_TargetAssemblyTypeName: newbuttoncontrol, Assembly-CSharp
+        m_MethodName: OntrainButtonClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -9435,7 +9438,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1729299138
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9918,9 +9921,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1900325784}
-        m_TargetAssemblyTypeName: eightbuttons_yj, Assembly-CSharp
-        m_MethodName: OnNoButtonClick
+      - m_Target: {fileID: 1900325786}
+        m_TargetAssemblyTypeName: newbuttoncontrol, Assembly-CSharp
+        m_MethodName: OnNo4ButtonClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -10105,6 +10108,10 @@ PrefabInstance:
       value: 0.5568628
       objectReference: {fileID: 0}
     - target: {fileID: 5472057876251699214, guid: 4413f814da31e0b439b0f936457d25f3, type: 3}
+      propertyPath: m_fontSize
+      value: 28
+      objectReference: {fileID: 0}
+    - target: {fileID: 5472057876251699214, guid: 4413f814da31e0b439b0f936457d25f3, type: 3}
       propertyPath: m_fontColor.b
       value: 0
       objectReference: {fileID: 0}
@@ -10115,6 +10122,10 @@ PrefabInstance:
     - target: {fileID: 5472057876251699214, guid: 4413f814da31e0b439b0f936457d25f3, type: 3}
       propertyPath: m_fontColor.r
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5472057876251699214, guid: 4413f814da31e0b439b0f936457d25f3, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 28
       objectReference: {fileID: 0}
     - target: {fileID: 5472057876251699214, guid: 4413f814da31e0b439b0f936457d25f3, type: 3}
       propertyPath: m_fontColor32.rgba
@@ -10191,7 +10202,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1900325785}
-  - component: {fileID: 1900325784}
+  - component: {fileID: 1900325786}
   m_Layer: 0
   m_Name: eightbuttons
   m_TagString: Untagged
@@ -10199,27 +10210,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1900325784
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1900325783}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b2f493637c599fd4cba576c4158e9b8e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  talkScript_yj: {fileID: 632388870}
-  trainingButton_yj: {fileID: 1435952556}
-  campingButton_yj: {fileID: 1104525810}
-  findhintButton_yj: {fileID: 1292505340}
-  laybedButton_yj: {fileID: 939572203}
-  noButton1: {fileID: 885885025}
-  noButton2: {fileID: 867675734}
-  noButton3: {fileID: 660846968}
-  noButton4: {fileID: 1823105107}
 --- !u!4 &1900325785
 Transform:
   m_ObjectHideFlags: 0
@@ -10235,6 +10225,31 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1900325786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1900325783}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b52966e84f389b49a9687c6f3f74293, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  talkScript_yj: {fileID: 632388870}
+  noButton1: {fileID: 885885025}
+  noButton2: {fileID: 867675734}
+  noButton3: {fileID: 660846968}
+  noButton4: {fileID: 1823105107}
+  trainingButton_yj: {fileID: 1435952556}
+  campingButton_yj: {fileID: 1104525810}
+  findhintButton_yj: {fileID: 1292505340}
+  laybedButton_yj: {fileID: 939572203}
+  trainingUI_yj: {fileID: 549940672}
+  campingUI_yj: {fileID: 1729299137}
+  iaminbedUI_yj: {fileID: 995390118}
+  resultUI_yj: {fileID: 1317813150}
 --- !u!1 &1943913837
 GameObject:
   m_ObjectHideFlags: 0
@@ -10698,8 +10713,8 @@ SceneRoots:
   - {fileID: 1535282901}
   - {fileID: 1213441426}
   - {fileID: 632388869}
+  - {fileID: 1900325785}
   - {fileID: 1540104406}
   - {fileID: 407881901}
   - {fileID: 762081300}
   - {fileID: 2128042290}
-  - {fileID: 1900325785}
