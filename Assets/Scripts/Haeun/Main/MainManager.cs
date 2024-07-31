@@ -7,11 +7,13 @@ using System.IO;
 using TMPro; // UI 관련 라이브러리 추가
 
 public class MainManager : MonoBehaviour
-{
+{   
+    private PlayerManager_yj PlayerManager_yj;
     private string previousSceneName;
 
     public Button continueButton; // 이어하기 버튼
     public Button newGameButton; // 새로하기 버튼
+    public Button OutGameButton; // 나가기 버튼
     public Button SettingButton; // 설정 버튼
     public GameObject SettingButtonWarningText;
 
@@ -34,14 +36,15 @@ public class MainManager : MonoBehaviour
         AudioManager.Instance.PlayBgm(true);
 
         // PlayerPrefs 안에 데이터가 있는지 확인하여 이어하기 버튼 활성화 -> 파일 안에 데이터가 있는지 확인
-        CheckDataAlreadyExists();
         CheckData();
+        CheckDataAlreadyExists();
 
         warningPopup.SetActive(false);
 
 
         // 버튼에 이벤트 리스너 추가
         newGameButton.onClick.AddListener(OnNewGameButtonClick_new);
+        OutGameButton.onClick.AddListener(OnExitButtonClick);
         continueButton.onClick.AddListener(OnContinueButtonClick);
         SettingButton.onClick.AddListener(() => LoadSettingsScene(previousSceneName));
     }
@@ -65,12 +68,23 @@ public class MainManager : MonoBehaviour
     
     // PlayerPrefs 안에 새게임을 누른적이 있는지 한번 확인하고, 있으면 이어하기 버튼 활성화
     public void CheckDataAlreadyExists() {
-        bool dataExists = PlayerPrefs.GetInt("isDataExisting", 0) == 1;
+    bool dataExists;
 
-        continueButton.interactable = dataExists; // 이어하기 버튼 상태 설정
-        SettingButton.interactable = dataExists; // 설정 버튼 상태 설정
-        SettingButtonWarningText.SetActive(!dataExists);
+    // savefile 배열의 모든 값이 false인 경우
+    if (savefile[0] == false && savefile[1] == false && savefile[2] == false) {
+        dataExists = false;
+    } else {
+        dataExists = true;
     }
+
+    // 이어하기 및 설정 버튼 상태 설정
+    continueButton.interactable = dataExists; 
+    SettingButton.interactable = dataExists;
+
+    // 경고 텍스트 상태 설정
+    SettingButtonWarningText.SetActive(!dataExists);
+    }
+
 
     public void ResetGamedata() {
         PlayerPrefs.DeleteAll();
@@ -217,7 +231,7 @@ public class MainManager : MonoBehaviour
         if (!savefile[DataManager.instance.nowSlot]) {
             DataManager.instance.nowPlayer.Player_name = newPlayername.text;
             DataManager.instance.LoadCharactersFromCSV("Character", newPlayername.text);
-            DataManager.instance.LoadItemsFromCSV("ItemSong");
+            DataManager.instance.LoadItemsFromCSV("Item");
             DataManager.instance.SaveData(); // 현재의 정보를 저장함.
         }
 
@@ -229,7 +243,7 @@ public class MainManager : MonoBehaviour
         if (!savefile[DataManager.instance.nowSlot]) {
             DataManager.instance.nowPlayer.Player_name = newPlayername.text;
             DataManager.instance.LoadCharactersFromCSV("Character", newPlayername.text);
-            DataManager.instance.LoadItemsFromCSV("ItemSong");
+            DataManager.instance.LoadItemsFromCSV("Item");
             DataManager.instance.SaveData(); // 현재의 정보를 저장함.
         }
         SceneManager.LoadScene("IngameEx");

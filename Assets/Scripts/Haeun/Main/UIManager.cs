@@ -6,21 +6,24 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    public GameObject LoadButton; 
-    public GameObject IngameButton;
+    
+    public Canvas canvas; // Canvas 오브젝트를 참조
 
+    public GameObject TempDataCheckWindow;
+
+    private string previousSceneName;
+    
+    [Header("#상단바 버튼 모음")]    
     public Button StoreButton;
     public Button InventoryButton;
     public Button SettingButton;
     public Button PartyButton;
     public Button Load_Button;
     public Button Ingame_Button;
+    public GameObject LoadButton; 
+    public GameObject IngameButton;
 
-    public Canvas canvas; // Canvas 오브젝트를 참조
-
-    public GameObject TempDataCheckWindow;
-
-    private string previousSceneName;
+    
 
     [Header("#TextChange")]
     public TextMeshProUGUI HPLevelText;      // 체력 수치 관련 텍스트

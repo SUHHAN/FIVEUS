@@ -48,7 +48,6 @@ public class NpcPersuade : MonoBehaviour
     {
         if (remainingAttempts > 0)
         {
-            remainingAttempts--; // 남은 시도 횟수 1 감소
             int successChance = affection; // 호감도에 비례한 성공 확률
             int randomValue = Random.Range(0, 100); // 0에서 100 사이의 랜덤 값 생성
             if (randomValue < successChance)
@@ -61,6 +60,7 @@ public class NpcPersuade : MonoBehaviour
             else
             {
                 // 설득 실패
+                remainingAttempts--; // 남은 시도 횟수 1 감소
                 resultText.text = $"실패했습니다! 남은 기회: {remainingAttempts}";
                 success = false; // 설득 실패 여부 설정
             }

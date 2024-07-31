@@ -24,17 +24,17 @@ public class Item
 [System.Serializable]
 public class Character
 {
-    public Character(string _Id, string _Name, string _Description, string _HP, string _STR, string _DEX, string _INT, string _CON, string _DEF, string _ATK, bool _isUsing, string _Type)
+    public Character(string _Id, string _Name, string _Description, string _HP, string _STR, string _DEX, string _INT, string _CON, string _DEF, string _ATK, bool _isUsing, string _Type, string _Love)
     {
         Id = _Id; Name = _Name; Description = _Description; 
         HP = _HP; STR = _STR; DEX = _DEX; 
         INT = _INT; CON = _CON; DEF = _DEF; ATK = _ATK;
-        isUsing = _isUsing; Type = _Type;
+        isUsing = _isUsing; Type = _Type; Love = _Love;
     }
 
     // 캐릭터 관련 변수들
     public string Id, Name, Description, HP, STR, DEX, INT, CON, DEF, ATK;
-    public string Type;
+    public string Type, Love;
     public bool isUsing;
 }
 
@@ -94,13 +94,22 @@ public class DataManager : MonoBehaviour
         print(data);
         File.WriteAllText(path + nowSlot.ToString(), data);
         OnDataChanged?.Invoke(); // 데이터 저장 시 이벤트 호출
+
     }
 
-    public void LoadData() 
+    public void LoadData()
     {
-        // 데이터를 내가 원하는 형태로 가지고 올 수 있음. / 현재는 nowPlayer에 저장되어 있음.
+        //nowPlayer = new PlayerData();
         string data = File.ReadAllText(path + nowSlot.ToString());
+        Debug.Log($"Loaded Data: {data}"); // JSON 데이터를 출력
         nowPlayer = JsonUtility.FromJson<PlayerData>(data); // 불러온 데이터가 PlayerData 형태로 저장되어 있음.
+
+        // 중요한 데이터 로그 출력
+        Debug.Log($"Player Name: {nowPlayer.Player_name}");
+        Debug.Log($"Player Day: {nowPlayer.Player_day}");
+        Debug.Log($"Number of Items: {nowPlayer.Items.Count}");
+        Debug.Log($"Number of Characters: {nowPlayer.characters.Count}");
+
         OnDataChanged?.Invoke(); // 데이터 로드 시 이벤트 호출
     }
 
@@ -176,13 +185,14 @@ public class DataManager : MonoBehaviour
                 string ATK = entry["ATK"].ToString();
                 string type = entry["type"].ToString();
                 bool isUsing;
+                string love = entry["love"].ToString();
                 
                 if (!bool.TryParse(entry["isUsing"].ToString(), out isUsing))
                 {
                     isUsing = false; // 파싱 실패 시 기본값 설정
                 }
 
-                var newCharacter = new Character(id, name, description, HP, STR, DEX, INT, CON, DEF, ATK, isUsing, type);
+                var newCharacter = new Character(id, name, description, HP, STR, DEX, INT, CON, DEF, ATK, isUsing, type, love);
                 CSVCharacter.Add(newCharacter);
                 nowPlayer.characters.Add(newCharacter); // nowPlayer의 characters 리스트에 추가
             }
