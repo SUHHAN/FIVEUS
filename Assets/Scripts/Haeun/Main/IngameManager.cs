@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class IngameManager : MonoBehaviour
 {
     private NpcScript NpcScript;
+    
     void Start()
     {
         // Additively load the GUI scene
@@ -34,8 +35,19 @@ public class IngameManager : MonoBehaviour
         DataManager.instance.nowPlayer.Player_tired = 99;
         DataManager.instance.nowPlayer.Player_hp = 1;
 
+        List<Character> charac = DataManager.instance.nowPlayer.characters;
+        foreach(var ii in charac) {
+            ii.Success = true;
+        }
+
         DataManager.instance.SaveData();
     }
+
+    public void OnTestTeamButton()
+    {   
+        CharacterManager.instance.Team_Activity();
+    }
+
 
     public void OnTestLoveButton() {
         // 암살자 선물하기 버튼 생성

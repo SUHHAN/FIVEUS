@@ -23,7 +23,6 @@ public class UIManager : MonoBehaviour
     public GameObject IngameButton;
 
     
-
     [Header("#TextChange")]
     public TextMeshProUGUI HPLevelText;      // 체력 수치 관련 텍스트
     public TextMeshProUGUI FatigueLevelText; // 피로도 수치 관련 텍스트

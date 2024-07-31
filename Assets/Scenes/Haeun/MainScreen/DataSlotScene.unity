@@ -3087,8 +3087,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: MainClick, Assembly-CSharp
+      - m_Target: {fileID: 1395304532}
+        m_TargetAssemblyTypeName: SelectSlotManager, Assembly-CSharp
         m_MethodName: ReturnMain
         m_Mode: 1
         m_Arguments:
