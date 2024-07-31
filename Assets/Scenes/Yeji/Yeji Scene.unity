@@ -9438,7 +9438,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1729299138
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9654,8 +9654,8 @@ GameObject:
   - component: {fileID: 1821850493}
   - component: {fileID: 1821850498}
   - component: {fileID: 1821850495}
-  - component: {fileID: 1821850496}
   - component: {fileID: 1821850497}
+  - component: {fileID: 1821850496}
   m_Layer: 0
   m_Name: Player_yj
   m_TagString: Player
