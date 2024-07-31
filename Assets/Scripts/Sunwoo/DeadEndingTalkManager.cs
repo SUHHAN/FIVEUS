@@ -14,31 +14,22 @@ public class DeadEndingTalkManager : MonoBehaviour
     public GameObject narration;
     public TextMeshProUGUI narrationText; // TextMeshPro UI 텍스트
 
-    private PlayerNow_yj playerNow; // PlayerNow_yj 참조
     private int dialogueState = 0; // 대사 진행 상태
 
     // Start is called before the first frame update
     void Start()
     {
-        playerNow = FindObjectOfType<PlayerNow_yj>(); // PlayerNow_yj 객체 찾기
+        dialogue.SetActive(true); // 대화 시작 시 활성화
+        nameText.text = ""; // 이름 텍스트 초기화
+        descriptionText.text = ""; // 설명 텍스트 초기화
     }
 
     // Update is called once per frame
     void Update()
     {
-        CheckPlayerHealth();
-
         if (Input.GetKeyDown(KeyCode.Space))
         {
             ProgressDialogue();
-        }
-    }
-
-    void CheckPlayerHealth()
-    {
-        if (playerNow.hp_py <= 0)
-        {
-            dialogue.SetActive(true);
         }
     }
 
