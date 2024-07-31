@@ -273,7 +273,7 @@ public class InventoryItemManager : MonoBehaviour
                 Buttontext.text = "장착하기";
                 SelectButton.onClick.AddListener(() => {
                     AudioManager.Instance.PlaySfx(AudioManager.Sfx.ButtonClick);
-                    onWearButtonClick(item);
+                                    onWearButtonClick(item);
                     TapClick(curType);
                 });
             }
@@ -308,10 +308,12 @@ public class InventoryItemManager : MonoBehaviour
     }
     
 
+
     // 장착하기
     public void onWearButtonClick(Item item) {
         ItemManager.instance.WearItem_inv(item);
         SaveItem();
+
         LoadItem();
 
         // UI 즉시 업데이트

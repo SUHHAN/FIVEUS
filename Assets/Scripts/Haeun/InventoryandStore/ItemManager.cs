@@ -270,9 +270,6 @@ public class ItemManager : MonoBehaviour
 
         // 변경된 내용을 저장
         SaveData();
-
-        // 변경된 내용을 저장
-        SaveData();
     }
 
     // 플레이어 체력 증가

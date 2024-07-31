@@ -24,17 +24,18 @@ public class Item
 [System.Serializable]
 public class Character
 {
-    public Character(string _Id, string _Name, string _Description, string _HP, string _STR, string _DEX, string _INT, string _CON, string _DEF, string _ATK, bool _isUsing, string _Type, string _Love, bool _Success)
+    public Character(string _Id, string _Name, string _Description, string _HP, string _STR, string _DEX, string _INT, string _CON, string _DEF, string _ATK, bool _isUsing, string _Type, string _Love, bool _Success, string _TeamCount)
     {
         Id = _Id; Name = _Name; Description = _Description; 
         HP = _HP; STR = _STR; DEX = _DEX; 
         INT = _INT; CON = _CON; DEF = _DEF; ATK = _ATK;
         isUsing = _isUsing; Type = _Type; Love = _Love; Success = _Success;
+        TeamCount = _TeamCount;
     }
 
     // 캐릭터 관련 변수들
     public string Id, Name, Description, HP, STR, DEX, INT, CON, DEF, ATK;
-    public string Type, Love;
+    public string Type, Love, TeamCount;
     public bool isUsing, Success;
 }
 
@@ -190,6 +191,7 @@ public class DataManager : MonoBehaviour
                 bool isUsing;
                 bool Success;
                 string love = entry["love"].ToString();
+                string TeamCount = entry["TeamCount"].ToString();
                 
                 if (!bool.TryParse(entry["isUsing"].ToString(), out isUsing))
                 {
@@ -200,7 +202,7 @@ public class DataManager : MonoBehaviour
                     Success = false; // 파싱 실패 시 기본값 설정
                 }
 
-                var newCharacter = new Character(id, name, description, HP, STR, DEX, INT, CON, DEF, ATK, isUsing, type, love, Success);
+                var newCharacter = new Character(id, name, description, HP, STR, DEX, INT, CON, DEF, ATK, isUsing, type, love, Success, TeamCount);
                 CSVCharacter.Add(newCharacter);
                 nowPlayer.characters.Add(newCharacter); // nowPlayer의 characters 리스트에 추가
             }

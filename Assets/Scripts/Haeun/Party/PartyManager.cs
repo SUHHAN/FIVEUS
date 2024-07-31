@@ -6,6 +6,8 @@ using System.IO;
 using System;
 using TMPro;
 using UnityEditor.VersionControl;
+using UnityEngine.AdaptivePerformance.VisualScripting;
+using Unity.VisualScripting;
 
 
 public class PartyButton : MonoBehaviour
@@ -33,19 +35,17 @@ public class PartyManager : MonoBehaviour
     [Header("#파티원 확인창")]
     public TextMeshProUGUI playerNameText;
     public TextMeshProUGUI[] PartyText;
-    public TextMeshProUGUI teamText;
+    public TextMeshProUGUI Team_text, ATK_text;
 
     // 캐릭터 슬롯창 업데이트
     public GameObject[] PartyChraSlot;
-
     
-
     [Header("#설명창")]
     // 설정창 select 패널 연결
     public GameObject SelectCharInfor;
 
     // 설명창에 캐릭터 정보를 띄우기 위한 변수들.
-    public TextMeshProUGUI CharName_T,CharDescription_T,CharLove_T;
+    public TextMeshProUGUI CharName_T,CharDescription_T,CharLove_T, CharTeamCount_T;
     public TextMeshProUGUI CharHP_T,CharSTR_T,CharDEX_T,CharINT_T,CharCON_T,CharDEF_T,CharATK_T;
 
     // 캐릭터 소개 윈도우 뜰 수 있도록 하기
@@ -122,9 +122,7 @@ public class PartyManager : MonoBehaviour
                     {
                         NameTextComponent.text = CurCharacterList[i].Name;
                     }
-                    
                 }
-            
 
                 // 2. 캐릭터의 이미지 설정
                 Transform imageTransform = slot[i].transform.Find("Char Image");
@@ -141,7 +139,6 @@ public class PartyManager : MonoBehaviour
                         }
                     }
                 }
-
                 
                 // 3. 선택중/선택 아님 설정 바꾸기 체크 이미지 설정 바꾸기
                 Transform checkimageTransform = slot[i].transform.Find("Check Image");
@@ -181,7 +178,6 @@ public class PartyManager : MonoBehaviour
                                 slotimageComponent.color = SlotIdleColor; 
                                 Image panelImageComponent = slotpanelTransform.GetComponent<Image>();
                                 panelImageComponent.color = SlotIdleColor; 
-                                    
                             }
                         }
                         else
@@ -190,10 +186,11 @@ public class PartyManager : MonoBehaviour
                             slotimageComponent.color = new Color32(201,199,199,255); 
                             Image panelImageComponent = slotpanelTransform.GetComponent<Image>();
                             panelImageComponent.color = new Color32(201,199,199,255); 
+
                         }
                     } 
                 }
-            
+
 
                 // 버튼에 아이템 정보 추가 및 클릭 이벤트 연결
                 PartyButton partyButton = slot[i].GetComponent<PartyButton>();
@@ -255,6 +252,7 @@ public class PartyManager : MonoBehaviour
             CharATK_T.text = "총 능력치 : " + chra.ATK;
 
             CharLove_T.text = chra.Love;
+            CharTeamCount_T.text = chra.TeamCount;
 
             // 선택 버튼 설정
             SelectButton.onClick.RemoveAllListeners();
@@ -281,6 +279,10 @@ public class PartyManager : MonoBehaviour
             CloseButton.onClick.RemoveAllListeners();
             CloseButton.onClick.AddListener(ClickCloseButton);
 
+
+
+
+
             SelectCharInfor.SetActive(true);
         }
         else {
@@ -297,6 +299,8 @@ public class PartyManager : MonoBehaviour
             CharATK_T.text = "총 능력치 : .";
 
             CharLove_T.text = chra.Love;
+            CharTeamCount_T.text = chra.TeamCount;
+
 
             // 선택 버튼 설정
             SelectButton.onClick.RemoveAllListeners();
@@ -324,7 +328,10 @@ public class PartyManager : MonoBehaviour
             CloseButton.onClick.AddListener(ClickCloseButton);
 
             SelectCharInfor.SetActive(true);
+
+
         }
+
     }
 
     // isUsing 개수 확인하기
@@ -381,6 +388,9 @@ public class PartyManager : MonoBehaviour
                 {
                     Image checkimageComponent = checkimageTransform.GetComponent<Image>();
                     if (checkimageComponent != null)
+
+
+
                     {
                         // isUsing이 true이면 체크 이미지를 활성화하고, false이면 비활성화
                         checkimageTransform.gameObject.SetActive(CurCharacterList[i].isUsing);
@@ -417,6 +427,7 @@ public class PartyManager : MonoBehaviour
                             slotimageComponent.color = new Color32(201,199,199,255); 
                             Image panelImageComponent = slotpanelTransform.GetComponent<Image>();
                             panelImageComponent.color = new Color32(201,199,199,255); 
+
                         }
                     } 
                 }
@@ -456,8 +467,33 @@ public class PartyManager : MonoBehaviour
     void UpdatePartyInfo()
     {
         // 플레이어 이름 텍스트 변경
-        playerNameText.text = $"[{DataManager.instance.nowPlayer.Player_name}]";
-        teamText.text = $"총 단합력 : {DataManager.instance.nowPlayer.Player_team}";
+        playerNameText.text = $"{DataManager.instance.nowPlayer.Player_name}";
+
+        // 파티 총 단합력 계산 후 텍스트 변경
+        List<Character> temp_Characters = MyCharacterList.FindAll(ch => ch.isUsing);
+        Character playerTC = temp_Characters.Find(x=> x.Id == "0");
+        
+        int ATK_Sum = 0;
+        int Team_Sum = 0;
+        int one_team = 0;
+
+        foreach(var ii in temp_Characters) 
+        { 
+            ATK_Sum += int.Parse(ii.ATK);
+
+            one_team = (int)( int.Parse(ii.TeamCount) * int.Parse(ii.ATK) * 0.2 );
+            Team_Sum += one_team;
+        }
+
+        Team_Sum -= (int)( int.Parse(playerTC.TeamCount) * int.Parse(playerTC.ATK) * 0.2 ); // 플레이어의 단합력은 단합력 계산에 버리기
+
+        // 팀의 총 단합력 계산 후 저장, 및 텍스트 변경
+        DataManager.instance.nowPlayer.Player_team = Team_Sum;
+
+        Team_text.text = $"{DataManager.instance.nowPlayer.Player_team}";
+
+        // 파티 총 능력치 계산 후 텍스트 변경
+        ATK_text.text = $"{ATK_Sum}";
 
         // isUsing이 true인 캐릭터만 선택
         List<Character> selectedCharacters = MyCharacterList.FindAll(ch => ch.isUsing && ch.Id != "0");
