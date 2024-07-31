@@ -57,7 +57,7 @@ public class StoreItemManager : MonoBehaviour
     void Start()
     {
         // Additively load the GUI scene
-        //SceneManager.LoadScene("UI", LoadSceneMode.Additive);
+        SceneManager.LoadScene("UI", LoadSceneMode.Additive);
 
         // LoadItem 호출
         LoadItem();
@@ -203,6 +203,9 @@ public class StoreItemManager : MonoBehaviour
             UpdateSaleButtonState(item); // 아이템 수량 변화 후 판매 버튼 상태 업데이트
             currentQuantity = 1;
             maxQuantity = int.MaxValue; // 구매 시 최대 수량을 제한할 필요가 없을 경우
+            if(curType == "장비") {
+                maxQuantity = 1;
+            }
             UpdateQuantityText(item, "구매");
             
             itemImage.sprite = itemSprites[itemId];
@@ -287,6 +290,13 @@ public class StoreItemManager : MonoBehaviour
     void UpdateSaleButtonState(Item item)
     {   
         SaleButton.interactable = int.Parse(item.quantity) > 0;
+        BuyButton.interactable = true;
+        if (item.Type == "장비") {
+            SaleButton.interactable = false;
+        }
+        if(item.Type == "장비" && item.quantity == "1") {
+            BuyButton.interactable = false;
+        }
     }
 
     void SaveItem()

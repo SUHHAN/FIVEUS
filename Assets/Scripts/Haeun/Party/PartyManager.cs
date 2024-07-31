@@ -67,7 +67,7 @@ public class PartyManager : MonoBehaviour
     void Start()
     {
         // GUI 씬을 위에 추가해주기
-        //SceneManager.LoadScene("UI", LoadSceneMode.Additive);
+        SceneManager.LoadScene("UI", LoadSceneMode.Additive);
 
         LoadCharacter();
 
@@ -122,9 +122,7 @@ public class PartyManager : MonoBehaviour
                     {
                         NameTextComponent.text = CurCharacterList[i].Name;
                     }
-                    
                 }
-            
 
                 // 2. 캐릭터의 이미지 설정
                 Transform imageTransform = slot[i].transform.Find("Char Image");
@@ -141,7 +139,6 @@ public class PartyManager : MonoBehaviour
                         }
                     }
                 }
-
                 
                 // 3. 선택중/선택 아님 설정 바꾸기 체크 이미지 설정 바꾸기
                 Transform checkimageTransform = slot[i].transform.Find("Check Image");
@@ -158,41 +155,42 @@ public class PartyManager : MonoBehaviour
                         // isUsing이 true이면 체크 이미지를 활성화하고, false이면 비활성화
                         checkimageTransform.gameObject.SetActive(CurCharacterList[i].isUsing);
 
-                        // 추가: 슬롯 자체 이미지 및 패널 이미지 설정
-                        if (CurCharacterList[i].isUsing)
-                        {
-                            // 선택된 경우의 이미지 및 색상 설정 => 초록색 설정
-                            if (slotimageComponent != null)
+                        if(CurCharacterList[i].Success){    // 추가: 슬롯 자체 이미지 및 패널 이미지 설정
+                            if (CurCharacterList[i].isUsing)
                             {
-                                slotimageComponent.color = SlotSelectColor; 
-                            }
-                            if (slotpanelTransform != null)
-                            {
-                                Image panelImageComponent = slotpanelTransform.GetComponent<Image>();
-                                if (panelImageComponent != null)
+                                // 선택된 경우의 이미지 및 색상 설정 => 초록색 설정
+                                if (slotimageComponent != null)
                                 {
-                                    panelImageComponent.color = SlotSelectColor; 
+                                    slotimageComponent.color = SlotSelectColor; 
                                 }
+                                if (slotpanelTransform != null)
+                                {
+                                    Image panelImageComponent = slotpanelTransform.GetComponent<Image>();
+                                    if (panelImageComponent != null)
+                                    {
+                                        panelImageComponent.color = SlotSelectColor; 
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                // 선택되지 않은 경우의 이미지 및 색상 설정 => 흰색 설정
+                                slotimageComponent.color = SlotIdleColor; 
+                                Image panelImageComponent = slotpanelTransform.GetComponent<Image>();
+                                panelImageComponent.color = SlotIdleColor; 
                             }
                         }
                         else
                         {
                             // 선택되지 않은 경우의 이미지 및 색상 설정 => 흰색 설정
-                            if (slotimageComponent != null)
-                            {
-                                slotimageComponent.color = SlotIdleColor; 
-                            }
-                            if (slotpanelTransform != null)
-                            {
-                                Image panelImageComponent = slotpanelTransform.GetComponent<Image>();
-                                if (panelImageComponent != null)
-                                {
-                                    panelImageComponent.color = SlotIdleColor; 
-                                }
-                            }
+                            slotimageComponent.color = new Color32(201,199,199,255); 
+                            Image panelImageComponent = slotpanelTransform.GetComponent<Image>();
+                            panelImageComponent.color = new Color32(201,199,199,255); 
+
                         }
-                    }
+                    } 
                 }
+
 
                 // 버튼에 아이템 정보 추가 및 클릭 이벤트 연결
                 PartyButton partyButton = slot[i].GetComponent<PartyButton>();
@@ -213,8 +211,9 @@ public class PartyManager : MonoBehaviour
 
     // 정렬 숫자 텍스트 입력해주는 매소드
     void SortNum() {
+        List<Character> SuccessCharacterList = AllCharacterList.FindAll(x => x.Success == true);
         TextMeshProUGUI SortTextComponent = SortPanel.GetComponentInChildren<TextMeshProUGUI>();
-        SortTextComponent.text = AllCharacterList.Count + "/" + CurCharacterList.Count;
+        SortTextComponent.text = SuccessCharacterList.Count + "/" + AllCharacterList.Count;
 
     }
 
@@ -238,46 +237,98 @@ public class PartyManager : MonoBehaviour
     // 슬롯 클릭 시 호출되는 메서드
     public void SlotClick(Character chra)
     {
-        DesWindow.SetActive(false);
-
-        CharName_T.text = chra.Type + " < " + chra.Name + " >";
-        CharDescription_T.text = chra.Description;
-        CharHP_T.text = "체력 : " + chra.HP;
-        CharSTR_T.text = "공격 : " + chra.STR;
-        CharDEX_T.text = "민첩 : " + chra.DEX;
-        CharINT_T.text = "지능 : " + chra.INT;
-        CharCON_T.text = "치유 : " + chra.CON;
-        CharDEF_T.text = "방어 : " + chra.DEF;
-        CharATK_T.text = "총 능력치 : " + chra.ATK;
-
-        CharLove_T.text = chra.Love;
-
-        // 선택 버튼 설정
-        SelectButton.onClick.RemoveAllListeners();
-        SelectButton.interactable = true;
-
-        // 주인공은 무조건 선택 해제할 수 없도록 설정. -> 그 외에는 선택 및 선택 해제가 가능하도록 함.
-        if(chra.Id == "0")
+        if(chra.Success == true)
         {
+            DesWindow.SetActive(false);
+
+            CharName_T.text = chra.Type + " < " + chra.Name + " >";
+            CharDescription_T.text = chra.Description;
+            CharHP_T.text = "체력 : " + chra.HP;
+            CharSTR_T.text = "공격 : " + chra.STR;
+            CharDEX_T.text = "민첩 : " + chra.DEX;
+            CharINT_T.text = "지능 : " + chra.INT;
+            CharCON_T.text = "치유 : " + chra.CON;
+            CharDEF_T.text = "방어 : " + chra.DEF;
+            CharATK_T.text = "총 능력치 : " + chra.ATK;
+
+            CharLove_T.text = chra.Love;
+
+            // 선택 버튼 설정
+            SelectButton.onClick.RemoveAllListeners();
+            SelectButton.interactable = true;
+
+            // 주인공은 무조건 선택 해제할 수 없도록 설정. -> 그 외에는 선택 및 선택 해제가 가능하도록 함.
+            if(chra.Id == "0")
+            {
+                SelectButton.interactable = false;
+                TextMeshProUGUI selectText = SelectButton.GetComponentInChildren<TextMeshProUGUI>();
+                selectText.text = "해제불가";
+                Image buttonColor = SelectButton.GetComponent<Image>();
+                buttonColor.color = new Color32(93, 86, 84, 255);
+            }
+            else
+            {
+                SelectButton.onClick.AddListener(() => changeIsUsing(chra));
+                UpdateSelectButton(chra);
+            }
+
+            DesButton.onClick.RemoveAllListeners();
+            DesButton.onClick.AddListener(() => OnDesWindow(CharName_T.text, chra.Description));
+            Button CloseButton = DesWindow.GetComponentInChildren<Button>();
+            CloseButton.onClick.RemoveAllListeners();
+            CloseButton.onClick.AddListener(ClickCloseButton);
+
+
+
+
+
+            SelectCharInfor.SetActive(true);
+        }
+        else {
+            DesWindow.SetActive(false);
+
+            CharName_T.text = chra.Type + " < " + chra.Name + " >";
+            CharDescription_T.text = "...";
+            CharHP_T.text = "체력 : .";
+            CharSTR_T.text = "공격 : .";
+            CharDEX_T.text = "민첩 : .";
+            CharINT_T.text = "지능 : .";
+            CharCON_T.text = "치유 : .";
+            CharDEF_T.text = "방어 : .";
+            CharATK_T.text = "총 능력치 : .";
+
+            CharLove_T.text = chra.Love;
+
+            // 선택 버튼 설정
+            SelectButton.onClick.RemoveAllListeners();
             SelectButton.interactable = false;
-            TextMeshProUGUI selectText = SelectButton.GetComponentInChildren<TextMeshProUGUI>();
-            selectText.text = "해제불가";
-            Image buttonColor = SelectButton.GetComponent<Image>();
-            buttonColor.color = new Color32(93, 86, 84, 255);
-        }
-        else
-        {
-            SelectButton.onClick.AddListener(() => changeIsUsing(chra));
-            UpdateSelectButton(chra);
+
+            // 주인공은 무조건 선택 해제할 수 없도록 설정. -> 그 외에는 선택 및 선택 해제가 가능하도록 함.
+            if(chra.Id == "0")
+            {
+                SelectButton.interactable = false;
+                TextMeshProUGUI selectText = SelectButton.GetComponentInChildren<TextMeshProUGUI>();
+                selectText.text = "해제불가";
+                Image buttonColor = SelectButton.GetComponent<Image>();
+                buttonColor.color = new Color32(93, 86, 84, 255);
+            }
+            else
+            {
+                SelectButton.onClick.AddListener(() => changeIsUsing(chra));
+                UpdateSelectButton(chra);
+            }
+
+            DesButton.onClick.RemoveAllListeners();
+            DesButton.onClick.AddListener(() => OnDesWindow(CharName_T.text, chra.Description));
+            Button CloseButton = DesWindow.GetComponentInChildren<Button>();
+            CloseButton.onClick.RemoveAllListeners();
+            CloseButton.onClick.AddListener(ClickCloseButton);
+
+            SelectCharInfor.SetActive(true);
+
+
         }
 
-        DesButton.onClick.RemoveAllListeners();
-        DesButton.onClick.AddListener(() => OnDesWindow(CharName_T.text, chra.Description));
-        Button CloseButton = DesWindow.GetComponentInChildren<Button>();
-        CloseButton.onClick.RemoveAllListeners();
-        CloseButton.onClick.AddListener(ClickCloseButton);
-
-        SelectCharInfor.SetActive(true);
     }
 
     // isUsing 개수 확인하기
@@ -323,41 +374,65 @@ public class PartyManager : MonoBehaviour
             {
                 Character chra = CurCharacterList[i];
 
-                // 슬롯의 선택 상태를 반영
+                // 3. 선택중/선택 아님 설정 바꾸기 체크 이미지 설정 바꾸기
                 Transform checkimageTransform = slot[i].transform.Find("Check Image");
+                // 슬롯 자체 이미지 변수 slotimageComponent
                 Image slotimageComponent = slot[i].GetComponent<Image>();
+                // 슬롯 속 패널의 이미지
                 Transform slotpanelTransform = slot[i].transform.Find("Panel");
 
                 if (checkimageTransform != null)
                 {
                     Image checkimageComponent = checkimageTransform.GetComponent<Image>();
-                    checkimageTransform.gameObject.SetActive(chra.isUsing);
+                    if (checkimageComponent != null)
 
-                    // 슬롯 배경 및 패널 색상 설정
-                    if (chra.isUsing) // 선택되었을 때
+
+
                     {
-                        if (slotimageComponent != null)
-                            slotimageComponent.color = SlotSelectColor;
+                        // isUsing이 true이면 체크 이미지를 활성화하고, false이면 비활성화
+                        checkimageTransform.gameObject.SetActive(CurCharacterList[i].isUsing);
 
-                        if (slotpanelTransform != null)
-                        {
-                            Image panelImageComponent = slotpanelTransform.GetComponent<Image>();
-                            if (panelImageComponent != null)
-                                panelImageComponent.color = SlotSelectColor;
+                        if(CurCharacterList[i].Success){    // 추가: 슬롯 자체 이미지 및 패널 이미지 설정
+                            if (CurCharacterList[i].isUsing)
+                            {
+                                // 선택된 경우의 이미지 및 색상 설정 => 초록색 설정
+                                if (slotimageComponent != null)
+                                {
+                                    slotimageComponent.color = SlotSelectColor; 
+                                }
+                                if (slotpanelTransform != null)
+                                {
+                                    Image panelImageComponent = slotpanelTransform.GetComponent<Image>();
+                                    if (panelImageComponent != null)
+                                    {
+                                        panelImageComponent.color = SlotSelectColor; 
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                // 선택되지 않은 경우의 이미지 및 색상 설정 => 흰색 설정
+                                slotimageComponent.color = SlotIdleColor; 
+                                Image panelImageComponent = slotpanelTransform.GetComponent<Image>();
+                                panelImageComponent.color = SlotIdleColor; 
+                                    
+                            }
                         }
-                    }
-                    else    // 선택되지 않았을 때
-                    {
-                        if (slotimageComponent != null)
-                            slotimageComponent.color = SlotIdleColor;
+                        else
 
-                        if (slotpanelTransform != null)
+
+
+
+
+
                         {
+                            // 선택되지 않은 경우의 이미지 및 색상 설정 => 흰색 설정
+                            slotimageComponent.color = new Color32(201,199,199,255); 
                             Image panelImageComponent = slotpanelTransform.GetComponent<Image>();
-                            if (panelImageComponent != null)
-                                panelImageComponent.color = SlotIdleColor;
+                            panelImageComponent.color = new Color32(201,199,199,255); 
+
                         }
-                    }
+                    } 
                 }
             }
         }
@@ -369,15 +444,25 @@ public class PartyManager : MonoBehaviour
         Image buttonColor = SelectButton.GetComponent<Image>();
         TextMeshProUGUI selectText = SelectButton.GetComponentInChildren<TextMeshProUGUI>();
 
-        if (chra.isUsing)
-        {
-            selectText.text = "선택해제";
-            buttonColor.color = new Color32(90, 46, 46, 255);
+        SelectButton.interactable = true;
+
+        if(chra.Success == true){    
+            if (chra.isUsing)
+            {
+                selectText.text = "선택해제";
+                buttonColor.color = new Color32(90, 46, 46, 255);
+            }
+            else
+            {
+                selectText.text = "선택하기";
+                buttonColor.color = new Color32(36, 66, 35, 255);
+            }
         }
         else
         {
-            selectText.text = "선택하기";
-            buttonColor.color = new Color32(36, 66, 35, 255);
+            SelectButton.interactable = false;
+            selectText.text = "선택불가";
+            buttonColor.color = new Color32(93, 86, 84, 255);
         }
     }
 

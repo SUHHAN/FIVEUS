@@ -13,6 +13,16 @@ public class IngameManager : MonoBehaviour
     }
 
 
+    public void ReturnMain() {
+        SceneManager.LoadScene("MainScene");
+    }
+    public void changeStore() {
+        SceneManager.LoadScene("StoreMain");
+    }
+    public void changeInventory() {
+        SceneManager.LoadScene("InventoryMain");
+    }
+
     public void OnTestButton() {
         // hint 하나 얻기
         ItemManager.instance.GetHint_inv();
