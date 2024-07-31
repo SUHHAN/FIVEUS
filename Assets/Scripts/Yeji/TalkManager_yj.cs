@@ -4,247 +4,37 @@ using UnityEngine;
 using TMPro; // TextMeshPro ³×ÀÓ½ºÆäÀÌ½º Ãß°¡
 using UnityEngine.UI; // UI ¿ä¼Ò »ç¿ëÀ» À§ÇÑ ³×ÀÓ½ºÆäÀÌ½º Ãß°¡
 
-// ProDialogue Å¬·¡½º Á¤ÀÇ (ÇÁ·Ñ·Î±× ´ë»ç ÀúÀå)
-public class ProDialogue_yj
-{
-    public int id; // ¹øÈ£
-    public string name; // ÀÎ¹°
-    public string line; // ´ë»ç
-
-    public ProDialogue_yj(int id, string name, string line)
-    {
-        this.id = id;
-        this.name = name;
-        this.line = line;
-    }
-}
+// ³¯Â¥ ¹Ù²Ù´Â ÇÔ¼ö·Î ÀçÈ°¿ë
 
 
 public class TalkManager_yj : MonoBehaviour
 {
-    /*   Dictionary<int, string[]> talkData_yj;
-       Dictionary<int, Sprite> portraitData_yj;
+    private int todaydate_yj = 1; // ³¯Â¥ ³ªÅ¸³»´Â º¯¼ö
+    public TextMeshProUGUI dayText_yj; // TextMeshPro UI ÅØ½ºÆ® ¿ä¼Ò ¿¬°á
+    public GameObject dayandnight_yj;   // ³¯Â¥ ¹Ù²ğ¶§¸¶´Ù È­¸é ±î¸Ä°Ô ÇÏ´Â image
 
-       public Sprite[] portraitArr_yj;
-       // Start is called before the first frame update
-       void Awake()
-       {
-           talkData_yj = new Dictionary<int, string[]>();
-           portraitData_yj = new Dictionary<int, Sprite>();
-           GenerateData();
-       }
-
-       void GenerateData()
-       {
-           // ÈùÆ® ¾ÆÀÌÅÛ(¾ø¾îÁú ¼öµµ ÀÖÀ½. »ç½Ç ¿Ö ¸¸µé¾ú´ÂÁö ³ªµµ¸ô·ç°Ú´Ù)
-           talkData_yj.Add(100, new string[] { "´Ü¼­´Ù. Á¶»çÇØ º¸ÀÚ()" });
-           // ÈÆ·Ã´ÜÀå ¸¸³µÀ» ¶§
-           talkData_yj.Add(1000, new string[] { "Hello?:0", "It's your first time here, right?:1" });
-           // ±â»ç´ÜÀå ¸¸³µÀ» ¶§
-           talkData_yj.Add(2000, new string[] { "Let's exercise!:1", "Muscle! hustle!:2" });
-
-           // quest talk
-           talkData_yj.Add(10 + 1000, new string[] { "Welcome!:0", "Talk to KightsJJang! :1" });
-           talkData_yj.Add(11 + 2000, new string[] { "Hey!:0", "Give me THAT coin! :1" });
-           talkData_yj.Add(20 + 1000, new string[] { "coin?:0", "I found it! :3" });
-           talkData_yj.Add(20 + 5000, new string[] { "I found THAT coin! :1" });
-           talkData_yj.Add(21 + 2000, new string[] { "Thanks! :2"});
-
-           portraitData_yj.Add(1000 + 0, portraitArr_yj[0]);
-           portraitData_yj.Add(1000 + 1, portraitArr_yj[1]);
-           portraitData_yj.Add(1000 + 2, portraitArr_yj[2]);
-           portraitData_yj.Add(1000 + 3, portraitArr_yj[3]);
-
-           portraitData_yj.Add(2000 + 0, portraitArr_yj[4]);
-           portraitData_yj.Add(2000 + 1, portraitArr_yj[5]);
-           portraitData_yj.Add(2000 + 2, portraitArr_yj[6]);
-           portraitData_yj.Add(2000 + 3, portraitArr_yj[7]);
-       }
-
-       public string GetTalk_yj(int id_yj, int talkIndex_yj)
-       {
-           if (talkIndex_yj == talkData_yj[id_yj].Length)
-               return null;
-           else
-               return talkData_yj[id_yj][talkIndex_yj];
-       }
-
-       public Sprite GetPortait_yj(int id_yj, int portraitIndex_yj)
-       {
-           return portraitData_yj[id_yj + portraitIndex_yj];
-       }
-       void Start()
-       {
-
-       }
-
-       // Update is called once per frame
-       void Update()
-       {
-
-       }
-   }
-   */
-    // ±âº» È°µ¿ Á¤µµ´Â ½ºÆ®¸³Æ® ³»¿¡¼­ ÀüºÎ ´ë»ç Ã³¸®(¾îÂ÷ÇÇ 5°³¹Û¿¡ ¾øÀ½)
-    // ¾ÆÀÌµğ ¼³Á¤ ¼³¸í : 6000¹ø´ëºÎÅÍ ½ÃÀÛÇÔ
-    // 6001 : ÈÆ·Ã´ëÀå, 6002 : ±â»ç´ÜÀå, 6003 : ´Ü¼­
-
-
-    // ±âº»È°µ¿1 : ÈÆ·Ã´ëÀå ±âº» ´ë»ç1
-    ProDialogue_yj serif1_1 = new ProDialogue_yj(6001, "ÈÆ·Ã´ëÀå","¿©¾î-¸»¶ó²¤ÀÌ! ÈÆ·ÃÇÒ ÁØºñ´Â µÆ³ª?");
-    // ±âº»È°µ¿1 : ÈÆ·Ã´ëÀå ±âº» ´ë»ç2
-    ProDialogue_yj serif1_2 = new ProDialogue_yj(6001, "ÈÆ·Ã´ëÀå", "¾ÈµÇ¸é µÉ¶§±îÁö! ÈÆ·Ã ½ÃÀÛÀÌ´Ù!");
-
-    // ±âº»È°µ¿2 : ±â»ç´ÜÀå ±âº» ´ë»ç1
-    ProDialogue_yj serif2_1 = new ProDialogue_yj(6002, "±â»ç´ÜÀå", "¹¶Ä¡¸é »ì°í Èğ¾îÁö¸é Á×´Â´Ù! \n´ÜÇÕÈÆ·Ã ½ÃÀÛÀÌ´Ù!!");
-    // ±âº»È°µ¿2 : ±â»ç´ÜÀå ±âº» ´ë»ç2
-    ProDialogue_yj serif2_2 = new ProDialogue_yj(6002, "±â»ç´ÜÀå", "3 -1 = 0! ¿ì¸®´Â ÇÏ³ª´Ù!  \n´ÜÇÕÈÆ·Ã ½ÃÀÛÀÌ´Ù!!");
-
-    // ±âº»È°µ¿3 : ´Ü¼­ ¯¾ÒÀ» ¶§ ±âº» ´ë»ç
-    ProDialogue_yj serif3 = new ProDialogue_yj(6003, "´Ü¼­", "´Ü¼­¸¦ Ã£¾Ò´Ù. ³»¿ëÀ» »ìÆìº¸ÀÚ.");
-
-    // ´ë»çµéÀ» ÀúÀåÇÒ ¸®½ºÆ®
-    private List<ProDialogue> proDialogue;
-
-    public GameObject opening;
-    public TextMeshProUGUI openingText; // TextMeshPro UI ÅØ½ºÆ® ¿ä¼Ò
-
-    public GameObject narration;
-    public TextMeshProUGUI narrationText; // TextMeshPro UI ÅØ½ºÆ® ¿ä¼Ò
-
-    public GameObject dialogue;
-    public GameObject nameObj; // ÀÌ¸§ ¿ä¼Ò
-    public TextMeshProUGUI nameText; // TextMeshPro UI ÅØ½ºÆ® ¿ä¼Ò
-    public TextMeshProUGUI descriptionText; // TextMeshPro UI ÅØ½ºÆ® ¿ä¼Ò
-
-    //public GameObject resultPanel; // ´ÜÇÕ °á°ú¸¦ Ç¥½ÃÇÒ ÆĞ³Î
-
-    //public GameObject home; // Áı ¹è°æ È­¸é
-
-    private int currentDialogueIndex = 0; // ÇöÀç ´ë»ç ÀÎµ¦½º
-    private bool isActivated = false; // TalkManager°¡ È°¼ºÈ­µÇ¾ú´ÂÁö ¿©ºÎ
-
-    void Awake()
-    {
-        proDialogue = new List<ProDialogue>();
-        // LoadDialogueFromCSV(); // CSV¿¡¼­ µ¥ÀÌÅÍ¸¦ ·ÎµåÇÏ´Â ÇÔ¼ö È£Ãâ
-        LoadDialogueManually(); // CSV ¿¬°á ¾øÀÌ ´ëÈ­ ¼öµ¿ ÀÔ·Â
-    }
 
     void Start()
     {
-        ActivateTalk(); // ¿ÀºêÁ§Æ® È°¼ºÈ­
+        SetDay(1);
+        UpdateDayText(); // ½ÃÀÛÇÒ ¶§ ÅØ½ºÆ® ¾÷µ¥ÀÌÆ®
+    }
+
+    void UpdateDayText()
+    {
+        // dayText¿¡ ÅØ½ºÆ® ¼³Á¤
+        dayText_yj.text = todaydate_yj + "ÀÏÂ÷ ÀÏ°ú ½ÃÀÛ";
+    }
+
+    public void SetDay(int dayday_yj)
+    {
+        todaydate_yj = dayday_yj;
+        UpdateDayText(); // ÅØ½ºÆ® ¾÷µ¥ÀÌÆ®
     }
 
     void Update()
     {
-        /*if (isActivated && currentDialogueIndex == 0)
-        {
-            PrintProDialogue(currentDialogueIndex);
-        }*/
-        if (isActivated && Input.GetKeyDown(KeyCode.Space))
-        {
-            currentDialogueIndex++;
-            PrintProDialogue(currentDialogueIndex);
-        }
+
     }
 
-    // ´ëÈ­ ¼öµ¿ ÀÔ·Â
-    void LoadDialogueManually()
-    {
-        // ¼öµ¿À¸·Î ´ëÈ­ ÀÔ·Â
-        proDialogue.Add(new ProDialogue(0, "±â»ç´ÜÀå", "´ÜÇÕÇÏ½Ã°Ú½À´Ï±î?"));
-    }
-
-    void PrintProDialogue(int index)
-    {
-        if (index >= proDialogue.Count)
-        {
-            narration.SetActive(false);
-            dialogue.SetActive(false);
-            return; // ´ë»ç ¸®½ºÆ®¸¦ ¹ş¾î³ª¸é ¿ÀºêÁ§Æ® ºñÈ°¼ºÈ­ ÈÄ ¸®ÅÏ
-        }
-
-        ProDialogue currentDialogue = proDialogue[index];
-
-        dialogue.SetActive(true);
-        nameText.text = currentDialogue.name;
-        descriptionText.text = currentDialogue.line;
-
-        // ÀÎ¹°¿¡ µû¶ó ´ë»ç/³ª·¹ÀÌ¼Ç/ÅØ½ºÆ® Ã¢ È°¼ºÈ­
-
-        // ±âº»È°µ¿ 1 : ÈÆ·Ã´ÜÀå -> ÈÆ·ÃÇÏ±â
-        if (currentDialogue.name == "ÈÆ·Ã´ÜÀå")
-        {
-            narration.SetActive(true);
-            dialogue.SetActive(false);
-            opening.SetActive(false);
-            narrationText.text = currentDialogue.line;
-            //ShowConfirmationPanel(); // "¿¹" ¶Ç´Â "¾Æ´Ï¿À" ¼±ÅÃ ÆĞ³Î Ç¥½Ã
-        }
-        // ±âº»È°µ¿ 2 : ±â»ç´ÜÀå -> ´ÜÇÕÇÏ±â
-        else if (currentDialogue.name == "±â»ç´ÜÀå")
-        {
-            narration.SetActive(true);
-            dialogue.SetActive(false);
-            opening.SetActive(false);
-            narrationText.text = currentDialogue.line;
-            //ShowConfirmationPanel(); // "¿¹" ¶Ç´Â "¾Æ´Ï¿À" ¼±ÅÃ ÆĞ³Î Ç¥½Ã
-        }
-        // ±âº»È°µ¿ 3 : Á¤º¸¼öÁı -> ±æ¿¡ Á¤º¸ ¶³¾îÁ® ÀÖÀ½
-        else if (currentDialogue.name == "information")
-        {
-            narration.SetActive(true);
-            dialogue.SetActive(false);
-            opening.SetActive(false);
-            narrationText.text = currentDialogue.line;
-            //ShowConfirmationPanel(); // "¿¹" ¶Ç´Â "¾Æ´Ï¿À" ¼±ÅÃ ÆĞ³Î Ç¥½Ã
-        }
-        // ¾Æ¸¶ ½ºÅ©¸³Æ® ³»¿¡¼­ Ã³¸®ÇÒ °Å´Ï±î ¾ÆÀÌµğ Ã¼Å© ¾ÈÇØµµ µÉ °Å °°±ä ÇÔ
-        // CheckTalk(currentDialogue.id);
-    }
-
-    // ¼±ÅÃ ÆĞ³ÎÀº ´Ù¸¥ Å¬·¡½º¿¡¼­ ¹Ş¾Æ¿Ã °Å °°À¸´Ï Áö¿ïµí
-    void ShowConfirmationPanel()
-    {
-        // ¿¹ ¶Ç´Â ¾Æ´Ï¿À ¼±ÅÃ ÆĞ³ÎÀ» Ç¥½ÃÇÏ°í ¹öÆ° ÀÌº¥Æ® ¼³Á¤
-        //resultPanel.SetActive(true);
-
-        // ¿¹ ¹öÆ° Å¬¸¯ ½Ã Ã³¸®
-        /*resultPanel.transform.Find("YesButton").GetComponent<Button>().onClick.AddListener(() => {
-            HandleAffiliation(true); // ´ÜÇÕÇÏ±â Ã³¸®
-        });
-
-        // ¾Æ´Ï¿À ¹öÆ° Å¬¸¯ ½Ã Ã³¸®
-        resultPanel.transform.Find("NoButton").GetComponent<Button>().onClick.AddListener(() => {
-            HandleAffiliation(false); // ´ÜÇÕ ¾ÈÇÏ±â Ã³¸®
-        });*/
-    }
-
-    public void ActivateTalk()
-    {
-        this.gameObject.SetActive(true);
-        isActivated = true;
-    }
-
-    void DeactivateTalk()
-    {
-        this.gameObject.SetActive(false);
-        isActivated = false;
-    }
-
-    // ´ÜÇÕ·Â Áõ°¡ ÇÔ¼ö
-   /*
-    public void IncreaseTeamPower(int amount)
-    {
-        PlayerManager_yj playerManager = FindObjectOfType<PlayerManager_yj>();
-        if (playerManager != null)
-        {
-            playerManager.IncreaseTeamPower(amount);
-        }
-        else
-        {
-            Debug.LogError("PlayerManager_yj not found in the scene.");
-        }
-    }*/
 }
