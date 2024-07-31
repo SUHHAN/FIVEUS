@@ -273,8 +273,7 @@ public class InventoryItemManager : MonoBehaviour
                 Buttontext.text = "장착하기";
                 SelectButton.onClick.AddListener(() => {
                     AudioManager.Instance.PlaySfx(AudioManager.Sfx.ButtonClick);
-                    onWearButtonClick(item);
-                    TapClick(curType);
+                    //WearItem_inv(item);
                 });
             }
             SelectItemInfor.SetActive(true); // 설명 창 활성화
@@ -306,16 +305,16 @@ public class InventoryItemManager : MonoBehaviour
             GiftButton_gi.interactable = false;
         }
     }
-    
+
+
 
     // 장착하기
-    public void onWearButtonClick(Item item) {
-        ItemManager.instance.WearItem_inv(item);
-        SaveItem();
+    public void onWearButtonClick(string giftName) {
+        //ItemManager.instance.Wear_inv(npcName, giftName);
+         
+        SceneManager.LoadScene("IngameMain");
         LoadItem();
 
-        // UI 즉시 업데이트
-        TapClick(curType);
     }
 
 
