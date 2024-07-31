@@ -472,19 +472,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 321505168}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1179748683}
-        m_TargetAssemblyTypeName: NpcScript, Assembly-CSharp
-        m_MethodName: OnGiftButtonClick
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &321505168
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1031,17 +1019,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &952963343 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7737705012858392437, guid: 4413f814da31e0b439b0f936457d25f3, type: 3}
-  m_PrefabInstance: {fileID: 1119918532}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &990517911
@@ -1606,7 +1583,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2770903894461473044, guid: 4413f814da31e0b439b0f936457d25f3, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 77.351
+      value: 80
       objectReference: {fileID: 0}
     - target: {fileID: 2770903894461473044, guid: 4413f814da31e0b439b0f936457d25f3, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -1614,19 +1591,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2770903894461473044, guid: 4413f814da31e0b439b0f936457d25f3, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 82.88
-      objectReference: {fileID: 0}
-    - target: {fileID: 3468170874586274575, guid: 4413f814da31e0b439b0f936457d25f3, type: 3}
-      propertyPath: m_Color.b
-      value: 0.76212883
-      objectReference: {fileID: 0}
-    - target: {fileID: 3468170874586274575, guid: 4413f814da31e0b439b0f936457d25f3, type: 3}
-      propertyPath: m_Color.g
-      value: 0.9861302
-      objectReference: {fileID: 0}
-    - target: {fileID: 3468170874586274575, guid: 4413f814da31e0b439b0f936457d25f3, type: 3}
-      propertyPath: m_Color.r
-      value: 0.9924528
+      value: 85
       objectReference: {fileID: 0}
     - target: {fileID: 3684321965157083346, guid: 4413f814da31e0b439b0f936457d25f3, type: 3}
       propertyPath: m_Pivot.x
@@ -1641,16 +1606,12 @@ PrefabInstance:
       value: -460
       objectReference: {fileID: 0}
     - target: {fileID: 3684321965157083346, guid: 4413f814da31e0b439b0f936457d25f3, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 36.6495
-      objectReference: {fileID: 0}
-    - target: {fileID: 3684321965157083346, guid: 4413f814da31e0b439b0f936457d25f3, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 160
       objectReference: {fileID: 0}
     - target: {fileID: 3684321965157083346, guid: 4413f814da31e0b439b0f936457d25f3, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 124.00516
+      value: 120
       objectReference: {fileID: 0}
     - target: {fileID: 4363168225960902690, guid: 4413f814da31e0b439b0f936457d25f3, type: 3}
       propertyPath: m_Pivot.x
@@ -1732,14 +1693,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5472057876251699214, guid: 4413f814da31e0b439b0f936457d25f3, type: 3}
-      propertyPath: m_fontSize
-      value: 24
-      objectReference: {fileID: 0}
-    - target: {fileID: 5472057876251699214, guid: 4413f814da31e0b439b0f936457d25f3, type: 3}
-      propertyPath: m_fontSizeBase
-      value: 24
-      objectReference: {fileID: 0}
     - target: {fileID: 6479636486231394893, guid: 4413f814da31e0b439b0f936457d25f3, type: 3}
       propertyPath: m_SizeDelta.x
       value: 120
@@ -1751,14 +1704,6 @@ PrefabInstance:
     - target: {fileID: 6479636486231394893, guid: 4413f814da31e0b439b0f936457d25f3, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 80
-      objectReference: {fileID: 0}
-    - target: {fileID: 6668604861092612721, guid: 4413f814da31e0b439b0f936457d25f3, type: 3}
-      propertyPath: m_fontSize
-      value: 26
-      objectReference: {fileID: 0}
-    - target: {fileID: 6668604861092612721, guid: 4413f814da31e0b439b0f936457d25f3, type: 3}
-      propertyPath: m_fontSizeBase
-      value: 26
       objectReference: {fileID: 0}
     - target: {fileID: 7531262320507655663, guid: 4413f814da31e0b439b0f936457d25f3, type: 3}
       propertyPath: m_SizeDelta.x
@@ -1776,22 +1721,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 20
       objectReference: {fileID: 0}
-    - target: {fileID: 7737705012858392437, guid: 4413f814da31e0b439b0f936457d25f3, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: -1242039463, guid: bb7f1fb7ff23bf943af797b97ae496f1, type: 3}
-    - target: {fileID: 7737705012858392437, guid: 4413f814da31e0b439b0f936457d25f3, type: 3}
-      propertyPath: m_Color.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7737705012858392437, guid: 4413f814da31e0b439b0f936457d25f3, type: 3}
-      propertyPath: m_Color.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7737705012858392437, guid: 4413f814da31e0b439b0f936457d25f3, type: 3}
-      propertyPath: m_Color.r
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 7800439282503515259, guid: 4413f814da31e0b439b0f936457d25f3, type: 3}
       propertyPath: m_Name
       value: DialogueBar
@@ -1806,12 +1735,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 4363168225960902690, guid: 4413f814da31e0b439b0f936457d25f3, type: 3}
   m_PrefabInstance: {fileID: 1119918532}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1119918534 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7857659087151205056, guid: 4413f814da31e0b439b0f936457d25f3, type: 3}
+  m_PrefabInstance: {fileID: 1119918532}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1119918535 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6668604861092612721, guid: 4413f814da31e0b439b0f936457d25f3, type: 3}
   m_PrefabInstance: {fileID: 1119918532}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1119918534}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
@@ -1989,12 +1923,7 @@ MonoBehaviour:
   persuadeButton: {fileID: 430457492}
   giftButton: {fileID: 321505167}
   interactionRange: 2
-  isTalking: 0
-  choice1Button: {fileID: 1812461155}
-  choice2Button: {fileID: 1592242328}
-  npcType: 4
-  npcName: "\uB9AC\uC544"
-  npcImage: {fileID: -1242039463, guid: bb7f1fb7ff23bf943af797b97ae496f1, type: 3}
+  npcType: "\uC554\uC0B4\uC790"
 --- !u!114 &1179748684
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2024,12 +1953,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 1179748678}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 538a83cace3142344b86b2b866552fd9, type: 3}
+  m_Script: {fileID: 11500000, guid: 3cff1d2dd9e85294e830393cc15d8d2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueText: {fileID: 921075215}
-  npcNameText: {fileID: 1119918535}
-  npcImageView: {fileID: 952963343}
+  dialogue: {fileID: 399077125}
+  nameObj: {fileID: 1119918534}
+  nameText: {fileID: 1119918535}
+  descriptionText: {fileID: 921075215}
+  choice1Button: {fileID: 1812461155}
+  choice2Button: {fileID: 1592242328}
+  choicePanel: {fileID: 389974959}
+  dialoguePanel: {fileID: 399077125}
 --- !u!1 &1205125180
 GameObject:
   m_ObjectHideFlags: 0
@@ -2689,7 +2623,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 237, y: -15}
+  m_AnchoredPosition: {x: 100, y: 0}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1592242328
@@ -2735,19 +2669,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1592242329}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1179748683}
-        m_TargetAssemblyTypeName: NpcScript, Assembly-CSharp
-        m_MethodName: OnChoice2ButtonClick
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1592242329
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2870,8 +2792,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 20
-  m_fontSizeBase: 20
+  m_fontSize: 24
+  m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -3004,8 +2926,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 20
-  m_fontSizeBase: 20
+  m_fontSize: 24
+  m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -3166,7 +3088,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 237.00003, y: 30}
+  m_AnchoredPosition: {x: -100, y: 0}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1812461155
@@ -3212,19 +3134,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1812461156}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1179748683}
-        m_TargetAssemblyTypeName: NpcScript, Assembly-CSharp
-        m_MethodName: OnChoice1ButtonClick
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1812461156
 MonoBehaviour:
   m_ObjectHideFlags: 0
