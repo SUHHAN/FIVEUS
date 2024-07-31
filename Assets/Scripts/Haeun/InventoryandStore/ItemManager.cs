@@ -99,10 +99,7 @@ public class ItemManager : MonoBehaviour
                 case "5":
                     player.Type = "암살자"; break;
                 default:
-                    player.Type = "검사"; 
-                    NowItem.isUsing = false;
-                    AllJobItem.Find(x => x.Name == "장검").isUsing = true;
-                    break;
+                    player.Type = "검사"; break;
             }
         }
 
@@ -215,10 +212,10 @@ public class ItemManager : MonoBehaviour
 
         if (item.Type == "물약")
         {
-            if (item.Id == "6" || item.Id == "7" || item.Id == "8") {
+            if (item.Id == "7" || item.Id == "8" || item.Id == "9") {
                 IncreaseHealth(int.Parse(item.value));
             }
-            else if (item.Id == "9" || item.Id == "10" || item.Id == "11") {
+            else if (item.Id == "10" || item.Id == "11" || item.Id == "12") {
                 DecreaseTiredness(int.Parse(item.value));
             }
         }
@@ -226,50 +223,6 @@ public class ItemManager : MonoBehaviour
             // 에시로 아무거나
             IncreaseHealth(0);
         }
-
-        // 변경된 내용을 저장
-        SaveData();
-    }
-
-    // 착용하기
-    public void WearItem_inv(Item item)
-    {
-        Character player = DataManager.instance.nowPlayer.characters.Find(x => x.Id == "0");
-        Item NowItem = DataManager.instance.nowPlayer.Items.Find(x => x.Name == item.Name);
-         
-        if (item.Type == "장비")
-        {
-            // 전직템 구매시, 구매한 전직템과 관련된 직업으로 바로 변경 및 장착됨.
-            List<Item> AllJobItem = DataManager.instance.nowPlayer.Items.FindAll(x => x.Type == "장비");
-            foreach(var ii in AllJobItem) {
-                    ii.isUsing = false;
-            } 
-            NowItem.isUsing = true;
-
-            switch (item.Id)
-            {
-                case "0":
-                    player.Type = "검사"; break;
-                case "1":
-                    player.Type = "궁수"; break;
-                case "2":
-                    player.Type = "마법사"; break;
-                case "3":
-                    player.Type = "힐러"; break;
-                case "4":
-                    player.Type = "방패병"; break;
-                case "5":
-                    player.Type = "암살자"; break;
-                default:
-                    player.Type = "검사"; 
-                    NowItem.isUsing = false;
-                    AllJobItem.Find(x => x.Name == "장검").isUsing = true;
-                    break;
-            }
-        }
-
-        // 변경된 내용을 저장
-        SaveData();
 
         // 변경된 내용을 저장
         SaveData();
