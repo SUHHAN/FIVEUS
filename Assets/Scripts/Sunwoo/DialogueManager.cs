@@ -11,11 +11,11 @@ public class DialogueEntry
     public int id; // 대화 ID
     public string name; // 대화하는 캐릭터 이름
     public string dialog; // 대화 내용
-    public int optional; // 선택지 여부 (0: 일반 대화, 1: 선택지, -1: 특정 ID로 이동)
+    public int optional; // 선택지 여부 (0: 일반 대화, 1: 선택지, 2: 특정 ID로 이동)
     public string playerDialog; // 플레이어 선택지 텍스트
     public string effect; // 효과 (사용하지 않음)
     public int num; // 기타 번호 (사용하지 않음)
-    public int next; // 다음 대화 ID (optional이 -1일 때 사용)
+    public int next; // 다음 대화 ID (optional이 2일 때 사용)
 
     // 기본 생성자
     public DialogueEntry(int id, string name, string dialog, int optional, string playerDialog, string effect, int num, int next)
@@ -71,7 +71,7 @@ public class DialogueManager : MonoBehaviour
 
     void LoadDialogueFromCSV()
     {
-        List<Dictionary<string, object>> data_Dialog = CSVReader.Read("Dialogue_Ria");
+        List<Dictionary<string, object>> data_Dialog = CSVReader.Read("SwDialogue_Callis");
 
         foreach (var row in data_Dialog)
         {
@@ -83,6 +83,14 @@ public class DialogueManager : MonoBehaviour
             string effect = row["effect"].ToString();
             int num = int.Parse(row["num"].ToString().Trim());
             int next = int.Parse(row["next"].ToString().Trim());
+
+            // 빈 문자열 처리
+            if (string.IsNullOrEmpty(name)) name = "Unknown";
+            if (string.IsNullOrEmpty(dialog)) dialog = "";
+            if (string.IsNullOrEmpty(playerDialog)) playerDialog = "";
+            if (string.IsNullOrEmpty(effect)) effect = "";
+            if (num == 0) num = 0; // 기본 호감도는 0으로 설정
+            if (next == 0) next = -1; // 다음 대화 ID가 없는 경우 -1로 설정
 
             dialogueEntry.Add(new DialogueEntry(id, name, dialog, optional, playerDialog, effect, num, next));
         }
