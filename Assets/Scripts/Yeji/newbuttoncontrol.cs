@@ -31,15 +31,6 @@ public class newbuttoncontrol : MonoBehaviour
 
     public void Start()
     {
-
-        //talkScript_yj = GetComponent<talkwithjjang_yj>();
-
-        if (talkScript_yj == null)
-        {
-            Debug.LogError("talkwithjjang_yj component not found or not initialized properly.");
-            return;
-        }
-
         trainingButton_yj.onClick.AddListener(OntrainButtonClick);
         campingButton_yj.onClick.AddListener(OncampButtonClick);
         findhintButton_yj.onClick.AddListener(OnhintButtonClick);
@@ -55,31 +46,14 @@ public class newbuttoncontrol : MonoBehaviour
     public void OntrainButtonClick()
     {
         talkScript_yj.choiceUI1_yj.SetActive(false); // 선택 UI 비활성화
-                                                     // 스페이스바를 누르면 UI 전환
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            if (trainingUI_yj.activeSelf)
-            {
-                trainingUI_yj.SetActive(false);
-                resultUI_yj.SetActive(true);
-                // 결과 처리 로직 (훈련 변수 증가 등)
-                talkScript_yj.nowplayer_yj.howtrain_py++;
-                talkScript_yj.nowplayer_yj.howtoday_py++;
-            }
-            else if (resultUI_yj.activeSelf)
-            {
-                resultUI_yj.SetActive(false);
-            }
-        }
-        /*
-        if (!isworking_yj)
+        if (!isworking_yj && Input.GetKeyDown(KeyCode.Space))
         {
             resultUI_yj.SetActive(false);
             trainingUI_yj.SetActive(true);// 훈련 UI 표시(3초간 지속)
             Invoke("DisabletrainUI_yj", 3f); // 3초 후에 훈련 UI를 자동으로 비활성화 처리하는 메서드 
             isworking_yj2 = true;
         }
-        if (isworking_yj2)
+        if (isworking_yj2 && Input.GetKeyDown(KeyCode.Space))
         {
             trainingUI_yj.SetActive(false);// 훈련 UI 미표시
             resultUI_yj.SetActive(true);// 결과 창 표시 (성공UI, 1,2 동시 사용)
@@ -87,7 +61,7 @@ public class newbuttoncontrol : MonoBehaviour
             talkScript_yj.nowplayer_yj.howtoday_py++;// 하루 기본 활동 수행 횟수 1 증가        
             Invoke("DisableResultUI_yj", 3f); // 3초 후에 결과 UI를 자동으로 비활성화 처리하는 메서드 호출
         }
-        isworking_yj2  = false;*/
+        isworking_yj2  = false;
     }
     // 기본활동2 : 단합한다 했을 때
     public void OncampButtonClick()
