@@ -472,7 +472,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 321505168}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1179748683}
+        m_TargetAssemblyTypeName: NpcScript, Assembly-CSharp
+        m_MethodName: OnGiftButtonClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &321505168
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1735,22 +1747,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 4363168225960902690, guid: 4413f814da31e0b439b0f936457d25f3, type: 3}
   m_PrefabInstance: {fileID: 1119918532}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1119918534 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7857659087151205056, guid: 4413f814da31e0b439b0f936457d25f3, type: 3}
-  m_PrefabInstance: {fileID: 1119918532}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1119918535 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6668604861092612721, guid: 4413f814da31e0b439b0f936457d25f3, type: 3}
-  m_PrefabInstance: {fileID: 1119918532}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1119918534}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1179748678
 GameObject:
   m_ObjectHideFlags: 0
@@ -1765,7 +1761,6 @@ GameObject:
   - component: {fileID: 1179748679}
   - component: {fileID: 1179748683}
   - component: {fileID: 1179748684}
-  - component: {fileID: 1179748685}
   m_Layer: 0
   m_Name: NPC
   m_TagString: npc
@@ -1923,7 +1918,6 @@ MonoBehaviour:
   persuadeButton: {fileID: 430457492}
   giftButton: {fileID: 321505167}
   interactionRange: 2
-  npcType: "\uC554\uC0B4\uC790"
 --- !u!114 &1179748684
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1944,26 +1938,6 @@ MonoBehaviour:
   noButton: {fileID: 1331580253}
   affection: 25
   success: 0
---- !u!114 &1179748685
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1179748678}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3cff1d2dd9e85294e830393cc15d8d2d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dialogue: {fileID: 399077125}
-  nameObj: {fileID: 1119918534}
-  nameText: {fileID: 1119918535}
-  descriptionText: {fileID: 921075215}
-  choice1Button: {fileID: 1812461155}
-  choice2Button: {fileID: 1592242328}
-  choicePanel: {fileID: 389974959}
-  dialoguePanel: {fileID: 399077125}
 --- !u!1 &1205125180
 GameObject:
   m_ObjectHideFlags: 0

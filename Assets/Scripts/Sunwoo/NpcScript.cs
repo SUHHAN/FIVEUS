@@ -18,21 +18,14 @@ public class NpcScript : MonoBehaviour
     public float interactionRange = 3.0f; // 상호작용 거리
     private GameObject player; // 플레이어 오브젝트
     private bool isTalking = false; // 대화 중인지 여부
-    private DialogueManager dialogueManager; // DialogueManager 스크립트 참조
-    public string npcType;
-
-    private InventoryItemManager InventoryItemManager;
 
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player"); // 태그가 "Player"인 오브젝트 찾기
-        dialogueManager = GetComponent<DialogueManager>(); // DialogueManager 스크립트 참조 얻기
         choiceUI.SetActive(false); // 시작할 때 선택 UI 비활성화
         dialogueUI.SetActive(false); // 시작할 때 대화 UI 비활성화
         talkButton.onClick.AddListener(OnTalkButtonClick); // 대화하기 버튼 클릭 이벤트 연결
         persuadeButton.onClick.AddListener(OnPersuadeButtonClick); // 설득하기 버튼 클릭 이벤트 연결
-        giftButton.onClick.AddListener(() => OnGiftButtonClick(npcType)); // 선물하기 버튼 클릭 이벤트 연결
-        UpdatePosition(FindObjectOfType<TimeManager>().GetTimeOfDay()); // 초기 위치 설정
     }
 
     void Update()
@@ -67,7 +60,6 @@ public class NpcScript : MonoBehaviour
     {
         choiceUI.SetActive(false); // 선택 UI 숨기기
         dialogueUI.SetActive(true); // 대화 UI 활성화
-        dialogueManager.StartDialogue(); // 대화 시작
         isTalking = true; // 대화 상태 설정
     }
 
@@ -78,10 +70,7 @@ public class NpcScript : MonoBehaviour
     }
 
     public void OnGiftButtonClick(string npc)
-    {   
-        PlayerPrefs.SetString("NpcType", npc);
-        PlayerPrefs.Save(); 
-        
+    {  
         SceneManager.LoadScene("InventoryMain"); // InventoryMain 씬으로 이동
     }
 
@@ -96,48 +85,5 @@ public class NpcScript : MonoBehaviour
         isTalking = false; // 대화 상태 해제
         dialogueUI.SetActive(false); // 대화 UI 비활성화
         choiceUI.SetActive(false); // 선택 UI와 자식 오브젝트들 비활성화
-    }
-
-    public void UpdatePosition(string timeOfDay)
-    {
-        switch (npcType)
-        {
-            case "검사":
-            case "힐러":
-                if (timeOfDay == "Morning" || timeOfDay == "Afternoon")
-                {
-                    SceneManager.LoadScene("main_map");
-                }
-                else
-                {
-                    SceneManager.LoadScene("big_house");
-                }
-                break;
-            case "탱커":
-                if (timeOfDay == "Morning" || timeOfDay == "Afternoon")
-                {
-                    SceneManager.LoadScene("training");
-                }
-                else
-                {
-                    SceneManager.LoadScene("big_house");
-                }
-                break;
-            case "마법사":
-                SceneManager.LoadScene("sub2_house");
-                break;
-            case "암살자":
-                if (timeOfDay == "Evening")
-                {
-                    SceneManager.LoadScene("bar");
-                }
-                break;
-            case "궁수":
-                if (timeOfDay == "Evening")
-                {
-                    SceneManager.LoadScene("training");
-                }
-                break;
-        }
     }
 }
