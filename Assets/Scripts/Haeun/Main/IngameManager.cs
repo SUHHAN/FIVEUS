@@ -12,6 +12,16 @@ public class IngameManager : MonoBehaviour
         SceneManager.LoadScene("UI", LoadSceneMode.Additive);
     }
 
+    public void ReturnMain() {
+        SceneManager.LoadScene("MainScene");
+    }
+    public void changeStore() {
+        SceneManager.LoadScene("StoreMain");
+    }
+    public void changeInventory() {
+        SceneManager.LoadScene("InventoryMain");
+    }
+
 
     public void OnTestButton() {
         // hint 하나 얻기
@@ -37,7 +47,6 @@ public class IngameManager : MonoBehaviour
         PlayerPrefs.SetString("NpcType", npc);
         PlayerPrefs.Save(); 
         
-        print(PlayerPrefs.GetString("NpcType"));
         SceneManager.LoadScene("InventoryMain"); // InventoryMain 씬으로 이동
     }
 }
