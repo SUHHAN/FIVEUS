@@ -1735,17 +1735,12 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 4363168225960902690, guid: 4413f814da31e0b439b0f936457d25f3, type: 3}
   m_PrefabInstance: {fileID: 1119918532}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1119918534 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7857659087151205056, guid: 4413f814da31e0b439b0f936457d25f3, type: 3}
-  m_PrefabInstance: {fileID: 1119918532}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1119918535 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6668604861092612721, guid: 4413f814da31e0b439b0f936457d25f3, type: 3}
   m_PrefabInstance: {fileID: 1119918532}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1119918534}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
@@ -1922,8 +1917,11 @@ MonoBehaviour:
   talkButton: {fileID: 169533229}
   persuadeButton: {fileID: 430457492}
   giftButton: {fileID: 321505167}
+  choice1Button: {fileID: 0}
+  choice2Button: {fileID: 0}
   interactionRange: 2
-  npcType: "\uC554\uC0B4\uC790"
+  npcType: "\uAC80\uC0AC"
+  affection: 30
 --- !u!114 &1179748684
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1942,7 +1940,6 @@ MonoBehaviour:
   resultText: {fileID: 2040740807}
   yesButton: {fileID: 792935015}
   noButton: {fileID: 1331580253}
-  affection: 25
   success: 0
 --- !u!114 &1179748685
 MonoBehaviour:
@@ -1956,14 +1953,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cff1d2dd9e85294e830393cc15d8d2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogue: {fileID: 399077125}
-  nameObj: {fileID: 1119918534}
+  dialoguePanel: {fileID: 399077125}
   nameText: {fileID: 1119918535}
   descriptionText: {fileID: 921075215}
-  choice1Button: {fileID: 1812461155}
-  choice2Button: {fileID: 1592242328}
-  choicePanel: {fileID: 389974959}
-  dialoguePanel: {fileID: 399077125}
 --- !u!1 &1205125180
 GameObject:
   m_ObjectHideFlags: 0

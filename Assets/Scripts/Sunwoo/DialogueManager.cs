@@ -1,8 +1,8 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 public class DialogueEntry
 {
@@ -13,7 +13,7 @@ public class DialogueEntry
     public string playerDialog; // 플레이어 선택지 텍스트
     public string effect; // 효과 (p: 호감도 증가, m: 호감도 감소)
     public int num; // 호감도 변화량
-    public int next; // 다음 대화 ID (optional이 2일 때 사용)
+    public int next; // 다음 대화 ID (optional이 "2"일 때 사용)
 
     public DialogueEntry(int id, string name, string dialog, int optional, string playerDialog, string effect, int num, int next)
     {
@@ -64,14 +64,51 @@ public class DialogueManager : MonoBehaviour
 
         foreach (var row in data_Dialog)
         {
-            int id = int.Parse(row["id"].ToString().Trim());
+            int id;
+            int num;
+            int next;
+            int optional;
+
+            try
+            {
+                id = int.Parse(row["id"].ToString().Trim());
+            }
+            catch (Exception)
+            {
+                continue; // id가 문자열인 경우 건너뛰기
+            }
+
+            try
+            {
+                num = int.Parse(row["num"].ToString().Trim());
+            }
+            catch (Exception)
+            {
+                continue; // num이 문자열인 경우 건너뛰기
+            }
+
+            try
+            {
+                next = int.Parse(row["next"].ToString().Trim());
+            }
+            catch (Exception)
+            {
+                continue; // next가 문자열인 경우 건너뛰기
+            }
+
+            try
+            {
+                optional = int.Parse(row["optional"].ToString().Trim());
+            }
+            catch (Exception)
+            {
+                optional = 0; // optional이 문자열인 경우 기본값 0으로 설정
+            }
+
             string name = row["name"].ToString();
             string dialog = row["dialog"].ToString();
-            int optional = int.Parse(row["optional"].ToString().Trim());
             string playerDialog = row["playerDialog"].ToString();
             string effect = row["effect"].ToString();
-            int num = string.IsNullOrEmpty(row["num"].ToString().Trim()) ? 0 : int.Parse(row["num"].ToString().Trim());
-            int next = int.Parse(row["next"].ToString().Trim());
 
             dialogueEntry.Add(new DialogueEntry(id, name, dialog, optional, playerDialog, effect, num, next));
         }
