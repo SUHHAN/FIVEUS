@@ -6,11 +6,12 @@ public class PlayerAction_yj : MonoBehaviour
 {
     // Start is called before the first frame update
     public float Speed_yj;
-    public bool isAction_yj;
+    public GameManager_yj manager_yj;
 
     Rigidbody2D rigid_yj;
     Animator play_anim_yj;
     Vector3 dirVec_yj;
+    GameObject ScanObject_yj;
 
     float h_yj;
     float v_yj;
@@ -29,13 +30,13 @@ public class PlayerAction_yj : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        h_yj = isAction_yj ? 0 : Input.GetAxisRaw("Horizontal");
-        v_yj = isAction_yj ? 0 : Input.GetAxisRaw("Vertical");
+        h_yj = manager_yj.isAction_yj ? 0 : Input.GetAxisRaw("Horizontal");
+        v_yj = manager_yj.isAction_yj ? 0 : Input.GetAxisRaw("Vertical");
 
-        bool hDown_yj = isAction_yj ? false : Input.GetButtonDown("Horizontal");
-        bool vDown_yj = isAction_yj ? false : Input.GetButtonDown("Vertical");
-        bool hUp_yj = isAction_yj ? false : Input.GetButtonUp("Horizontal");
-        bool vUp_yj = isAction_yj ? false : Input.GetButtonUp("Vertical");
+        bool hDown_yj = manager_yj.isAction_yj ? false : Input.GetButtonDown("Horizontal");
+        bool vDown_yj = manager_yj.isAction_yj ? false : Input.GetButtonDown("Vertical");
+        bool hUp_yj = manager_yj.isAction_yj ? false : Input.GetButtonUp("Horizontal");
+        bool vUp_yj = manager_yj.isAction_yj ? false : Input.GetButtonUp("Vertical");
 
         if (hDown_yj)
             isHorizonMove_yj = true;
@@ -66,7 +67,9 @@ public class PlayerAction_yj : MonoBehaviour
         else if (hDown_yj && h_yj == 1)
             dirVec_yj = Vector3.right;
 
-        
+        // scan object
+        if (Input.GetButtonDown("Jump") && ScanObject_yj != null)
+            manager_yj.Action(ScanObject_yj);
     }
 
     void FixedUpdate()
@@ -74,6 +77,13 @@ public class PlayerAction_yj : MonoBehaviour
         Vector2 moveVec = isHorizonMove_yj ? new Vector2(h_yj,0) : new Vector2(0,v_yj);
         rigid_yj.velocity = moveVec* Speed_yj;
 
-        
+        //ray
+        Debug.DrawRay(rigid_yj.position, dirVec_yj * 0.7f, new Color(0, 1, 0));
+        RaycastHit2D rayHit_yj = Physics2D.Raycast(rigid_yj.position, dirVec_yj, 0.7f, LayerMask.GetMask("Object"));
+
+        if (rayHit_yj.collider != null)
+            ScanObject_yj = rayHit_yj.collider.gameObject;
+        else
+            ScanObject_yj = null;
     }
 }

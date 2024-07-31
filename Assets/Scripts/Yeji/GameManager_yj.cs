@@ -11,16 +11,16 @@ public class GameManager_yj : MonoBehaviour
     public GameObject talkPanel_yj;
     public Image portrait_yj;
     public TextMeshProUGUI talkText_yj;
-    //public GameObject scanObject_yj;
+    public GameObject scanObject_yj;
     public bool isAction_yj;
     public int talkIndex_yj;
     public void Action(GameObject scanObj_yy)
     {
             isAction_yj = true;           
-            //scanObject_yj = scanObj_yy;
-            //ObjData_yjj objData_yj= scanObject_yj.GetComponent<ObjData_yjj>();
+            scanObject_yj = scanObj_yy;
+            ObjData_yjj objData_yj= scanObject_yj.GetComponent<ObjData_yjj>();
             // talkText_yj.text = "Hello!" + scanObject_yj.name;
-            //Talkyj(objData_yj.id_yj, objData_yj.isNpc_yjj);
+            Talkyj(objData_yj.id_yj, objData_yj.isNpc_yjj);
            
         talkPanel_yj.SetActive(isAction_yj);
     }
