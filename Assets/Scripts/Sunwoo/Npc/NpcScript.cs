@@ -56,6 +56,11 @@ public class NpcScript : MonoBehaviour
             choice1Button.GetComponentInChildren<TextMeshProUGUI>().text = "너무 아름다우셔서요.";
             choice2Button.GetComponentInChildren<TextMeshProUGUI>().text = "혹시 활 쏘는 법 가르쳐줄 수 있으신가요?";
         }
+        else if (npcType == "탱커")
+        {
+            choice1Button.GetComponentInChildren<TextMeshProUGUI>().text = "안녕하세요. 오늘 날씨가 참 좋네요!";
+            choice2Button.GetComponentInChildren<TextMeshProUGUI>().text = "안녕하세요. 탱커님.";
+        }
     }
 
     void Update()
@@ -142,6 +147,11 @@ public class NpcScript : MonoBehaviour
             npcNameText.text = "???";
             dialogues.Add("...뭐야. 나한테 볼일 있어?");
         }
+        else if (type == "탱커")
+        {
+            npcNameText.text = "???";
+            dialogues.Add("......");
+        }
     }
 
     void ShowNextDialogue()
@@ -157,6 +167,11 @@ public class NpcScript : MonoBehaviour
                 choice2Button.gameObject.SetActive(true); // 선택지 2 버튼 활성화
             }
             else if(dialogueText.text== "...뭐야. 나한테 볼일 있어?")
+            {
+                choice1Button.gameObject.SetActive(true); // 선택지 1 버튼 활성화
+                choice2Button.gameObject.SetActive(true); // 선택지 2 버튼 활성화
+            }
+            else if (dialogueText.text == "......")
             {
                 choice1Button.gameObject.SetActive(true); // 선택지 1 버튼 활성화
                 choice2Button.gameObject.SetActive(true); // 선택지 2 버튼 활성화
@@ -193,6 +208,16 @@ public class NpcScript : MonoBehaviour
             };
             ChangeAffection(-5); // 호감도 -10
         }
+        else if (npcType == "탱커")
+        {
+            choice1Dialogues = new List<string>
+            {
+                "펜릭,아.안녕하시오.",
+                "펜릭,...그렇군. 날씨가 좋은 줄도 모르고 지나갈 뻔 했소.",
+                "펜릭,다정한 인사를 건네줘서 고맙네. 청년."
+            };
+            ChangeAffection(2.5); // 호감도 +5
+        }
         choice1DialogueIndex = 0;
         isTalking = true; // 대화 상태 유지
         choice1Button.gameObject.SetActive(false); // 선택지 1 버튼 비활성화
@@ -218,6 +243,16 @@ public class NpcScript : MonoBehaviour
                 "에릴란,가르쳐주는 건 모르겠지만 가끔 봐줄 순 있어."
             };
             ChangeAffection(2.5); // 호감도 +5
+        }
+        else if (npcType == "탱커")
+        {
+            choice1Dialogues = new List<string>
+            {
+                "펜릭,...날 알고 있는가?",
+                "펜릭,미안하지만 탱커 역할을 기대하고 온 거라면 돌아가게.",
+                "펜릭, 나는 다른 사람과 함께 일하지 않아."
+            };
+            ChangeAffection(-2.5); // 호감도 -5
         }
         choice1DialogueIndex = 0;
         isTalking = true; // 대화 상태 유지
