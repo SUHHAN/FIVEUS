@@ -58,6 +58,10 @@ public class IngameManager : MonoBehaviour
     {   
         PlayerPrefs.SetString("NpcType", npc);
         PlayerPrefs.Save(); 
+
+        // 다른 씬에서 curType을 저장
+        PlayerPrefs.SetString("CurType", "기타"); // "장비" 대신 원하는 탭 이름 사용
+        PlayerPrefs.Save();
         
         print(PlayerPrefs.GetString("NpcType"));
         SceneManager.LoadScene("InventoryMain"); // InventoryMain 씬으로 이동

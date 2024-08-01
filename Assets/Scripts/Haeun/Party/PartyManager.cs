@@ -63,7 +63,6 @@ public class PartyManager : MonoBehaviour
     // 정렬 버튼 연결
     public GameObject SortPanel;
     
-
     void Start()
     {
         // GUI 씬을 위에 추가해주기
@@ -473,27 +472,49 @@ public class PartyManager : MonoBehaviour
         List<Character> temp_Characters = MyCharacterList.FindAll(ch => ch.isUsing);
         Character playerTC = temp_Characters.Find(x=> x.Id == "0");
         
-        int ATK_Sum = 0;
-        int Team_Sum = 0;
-        int one_team = 0;
+        // int Team_Sum = 0;
+        // int TeamATK_Sum = 0;
+        
+        // foreach(var ii in temp_Characters) 
+        // { 
+        //     Team_Sum += int.Parse(ii.TeamCount);
+        //     TeamATK_Sum += int.Parse(ii.ATK);
+        // }
 
+        // // 팀의 총 단합력 계산
+        // Team_Sum -= int.Parse(playerTC.TeamCount);
+
+        // int PartyTeam = Team_Sum * TeamATK_Sum/10;
+        // int PartyATK = PartyTeam + TeamATK_Sum;
+        
+        // DataManager.instance.nowPlayer.Player_team = PartyTeam;
+        // DataManager.instance.nowPlayer.Party_ATK = PartyATK;
+
+        int Team_Sum = 0;
+        int TeamATK_Sum = 0;
+        
         foreach(var ii in temp_Characters) 
         { 
-            ATK_Sum += int.Parse(ii.ATK);
+            Team_Sum += (int)(int.Parse(ii.TeamCount) * 0.1 * int.Parse(ii.ATK));
 
-            one_team = (int)( int.Parse(ii.TeamCount) * int.Parse(ii.ATK) * 0.2 );
-            Team_Sum += one_team;
+            TeamATK_Sum += int.Parse(ii.ATK);
         }
 
-        Team_Sum -= (int)( int.Parse(playerTC.TeamCount) * int.Parse(playerTC.ATK) * 0.2 ); // 플레이어의 단합력은 단합력 계산에 버리기
+        // 팀의 총 단합력 계산
+        Team_Sum -= (int)(int.Parse(playerTC.TeamCount) * 0.1 * int.Parse(playerTC.ATK));
 
-        // 팀의 총 단합력 계산 후 저장, 및 텍스트 변경
-        DataManager.instance.nowPlayer.Player_team = Team_Sum;
+        int PartyTeam = Team_Sum;
+        int PartyATK = PartyTeam + TeamATK_Sum;
+        
+        DataManager.instance.nowPlayer.Player_team = PartyTeam;
+        DataManager.instance.nowPlayer.Party_ATK = PartyATK;
+
+        SaveCharacter();
 
         Team_text.text = $"{DataManager.instance.nowPlayer.Player_team}";
 
         // 파티 총 능력치 계산 후 텍스트 변경
-        ATK_text.text = $"{ATK_Sum}";
+        ATK_text.text = $"{DataManager.instance.nowPlayer.Party_ATK}";
 
         // isUsing이 true인 캐릭터만 선택
         List<Character> selectedCharacters = MyCharacterList.FindAll(ch => ch.isUsing && ch.Id != "0");
