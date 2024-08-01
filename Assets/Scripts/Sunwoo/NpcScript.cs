@@ -19,11 +19,13 @@ public class NpcScript : MonoBehaviour
     public Button giftButton; // 선물하기 버튼 연결
     public Button choice1Button; // 선택지 1 버튼
     public Button choice2Button; // 선택지 2 버튼
+    public TextMeshProUGUI choice1Text; // 선택지 1 텍스트
+    public TextMeshProUGUI choice2Text; // 선택지 2 텍스트
     public float interactionRange = 3.0f; // 상호작용 거리
     public GameObject player; // 플레이어 오브젝트
     public bool isTalking = false; // 대화 중인지 여부
     public string npcType; // NPC 타입
-    public int affection; // NPC 호감도
+    public double affection = 0; // NPC 호감도
 
     private int currentDialogueIndex = 0; // 현재 대화 인덱스
     private List<string> dialogues = new List<string>(); // 대사 목록
@@ -42,6 +44,18 @@ public class NpcScript : MonoBehaviour
 
         choice1Button.onClick.AddListener(OnChoice1ButtonClick); // 선택지 1 버튼 클릭 이벤트 연결
         choice2Button.onClick.AddListener(OnChoice2ButtonClick); // 선택지 2 버튼 클릭 이벤트 연결
+
+        // 선택지 버튼 텍스트 설정
+        if (npcType == "검사")
+        {
+            choice1Button.GetComponentInChildren<TextMeshProUGUI>().text = "당신이 그 유명한 용병 칼리스 맞죠?";
+            choice2Button.GetComponentInChildren<TextMeshProUGUI>().text = "아뇨, 볼일은 딱히 없는데...";
+        }
+        else if (npcType == "궁수")
+        {
+            choice1Button.GetComponentInChildren<TextMeshProUGUI>().text = "너무 아름다우셔서요.";
+            choice2Button.GetComponentInChildren<TextMeshProUGUI>().text = "혹시 활 쏘는 법 가르쳐줄 수 있으신가요?";
+        }
     }
 
     void Update()
@@ -119,11 +133,15 @@ public class NpcScript : MonoBehaviour
 
         if (type == "검사")
         {
-            npcNameText.text = "Callis";
+            npcNameText.text = "???";
             dialogues.Add("음, 처음 보는 얼굴 같은데.");
             dialogues.Add("나한테 무슨 볼일이라도?");
         }
-        // 다른 NPC 타입의 대사 추가 가능
+        else if(type=="궁수")
+        {
+            npcNameText.text = "???";
+            dialogues.Add("...뭐야. 나한테 볼일 있어?");
+        }
     }
 
     void ShowNextDialogue()
@@ -138,7 +156,11 @@ public class NpcScript : MonoBehaviour
                 choice1Button.gameObject.SetActive(true); // 선택지 1 버튼 활성화
                 choice2Button.gameObject.SetActive(true); // 선택지 2 버튼 활성화
             }
-
+            else if(dialogueText.text== "...뭐야. 나한테 볼일 있어?")
+            {
+                choice1Button.gameObject.SetActive(true); // 선택지 1 버튼 활성화
+                choice2Button.gameObject.SetActive(true); // 선택지 2 버튼 활성화
+            }
             currentDialogueIndex++; // 인덱스 증가
         }
         else
@@ -149,16 +171,28 @@ public class NpcScript : MonoBehaviour
 
     public void OnChoice1ButtonClick()
     {
-        choice1Dialogues = new List<string>
+        if (npcType == "검사")
         {
-            "Callis,하하. 내가 칼리스 맞지.",
-            "Callis,날 아는 사람이었구나. 반가워.",
-            "Callis,보아하니 당신도 용병 같은데... 이 마을에 속한 용병인가?",
-            "player,아뇨. 볼일이 있어서 잠시 머무르고 있습니다",
-            "Callis,아. 그렇구나",
-            "Callis,나도 이 마을에 좋은 의뢰가 잘 들어온다길래 잠시 이곳에 머무르고 있어",
-            "Callis,앞으로 잘 지내보자고!"
-        };
+            choice1Dialogues = new List<string>
+            {
+                "칼리스,하하, 내가 칼리스 맞지.",
+                "칼리스,날 아는 사람이었구나, 반가워.",
+                "칼리스,보아하니 당신도 용병 같은데... 이 마을에 속한 용병인가?",
+                "player,아뇨, 볼일이 있어서 잠시 머무르고 있습니다",
+                "칼리스,아, 그렇구나",
+                "칼리스,나도 이 마을에 좋은 의뢰가 잘 들어온다길래 잠시 이곳에 머무르고 있어",
+                "칼리스,앞으로 잘 지내보자고!"
+            };
+            ChangeAffection(2.5); // 호감도 +5
+        }
+        else if (npcType == "궁수")
+        {
+            choice1Dialogues = new List<string>
+            {
+                "에릴란,으... 뭐래."
+            };
+            ChangeAffection(-5); // 호감도 -10
+        }
         choice1DialogueIndex = 0;
         isTalking = true; // 대화 상태 유지
         choice1Button.gameObject.SetActive(false); // 선택지 1 버튼 비활성화
@@ -168,9 +202,28 @@ public class NpcScript : MonoBehaviour
 
     public void OnChoice2ButtonClick()
     {
-        dialogueText.text = "...그럼 왜 말을 건 거지?"; // 선택지 2에 대한 대사
+        if (npcType == "검사")
+        {
+            dialogueText.text = "...그럼 왜 말을 건 거지?"; // 선택지 2에 대한 대사
+            npcNameText.text = "칼리스";
+            ChangeAffection(-2.5); // 호감도 -5
+        }
+        else if (npcType == "궁수")
+        {
+            choice1Dialogues = new List<string>
+            {
+                "에릴란,활이라고?",
+                "에릴란,음... 당신 용병이구나.",
+                "에릴란,...활은 집중력이 중요하지.",
+                "에릴란,가르쳐주는 건 모르겠지만 가끔 봐줄 순 있어."
+            };
+            ChangeAffection(2.5); // 호감도 +5
+        }
+        choice1DialogueIndex = 0;
+        isTalking = true; // 대화 상태 유지
         choice1Button.gameObject.SetActive(false); // 선택지 1 버튼 비활성화
         choice2Button.gameObject.SetActive(false); // 선택지 2 버튼 비활성화
+        ShowNextChoice1Dialogue(); // 첫 번째 대사 출력
     }
 
     void ShowNextChoice1Dialogue()
@@ -198,7 +251,7 @@ public class NpcScript : MonoBehaviour
     }
 
     // NPC 호감도 변경
-    void ChangeAffection(int amount)
+    void ChangeAffection(double amount)
     {
         affection += amount;
         affectionText.text = $"호감도: {affection}";

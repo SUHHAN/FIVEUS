@@ -1939,10 +1939,12 @@ MonoBehaviour:
   giftButton: {fileID: 321505167}
   choice1Button: {fileID: 1812461155}
   choice2Button: {fileID: 1592242328}
+  choice1Text: {fileID: 1656280858}
+  choice2Text: {fileID: 1733970613}
   interactionRange: 2
   player: {fileID: 1033471729}
   isTalking: 0
-  npcType: "\uAC80\uC0AC"
+  npcType: "\uAD81\uC218"
   affection: 30
 --- !u!114 &1179748684
 MonoBehaviour:
@@ -2776,8 +2778,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uB2F9\uC2E0\uC774 \uADF8 \uC720\uBA85\uD55C \uC6A9\uBCD1 \uCE7C\uB9AC\uC2A4
-    \uB9DE\uC8E0?"
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1081da9c05927e5449374bba4dfe6e0a, type: 2}
   m_sharedMaterial: {fileID: -5688345821406835934, guid: 1081da9c05927e5449374bba4dfe6e0a, type: 2}
@@ -2911,7 +2912,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uC544\uB1E8, \uBCFC\uC77C\uC740 \uB531\uD788 \uC5C6\uB294\uB370..."
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1081da9c05927e5449374bba4dfe6e0a, type: 2}
   m_sharedMaterial: {fileID: -5688345821406835934, guid: 1081da9c05927e5449374bba4dfe6e0a, type: 2}
