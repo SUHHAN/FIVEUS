@@ -820,7 +820,7 @@ MonoBehaviour:
   SettingButtonWarningText: {fileID: 374769125}
   newPlayername: {fileID: 1198786686}
   savefile: 000000
-  warningPopup: {fileID: 340652662}
+  warningPopup: {fileID: 1652493246}
   PlayerNamePopup: {fileID: 575491836}
 --- !u!4 &340652664
 Transform:
@@ -3336,6 +3336,7 @@ MonoBehaviour:
     Player_name: 
     Player_day: 0
     Player_team: 0
+    Party_ATK: 0
     Player_hp: 0
     Player_tired: 0
     Player_money: 0
