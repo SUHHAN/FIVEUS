@@ -45,31 +45,26 @@ public class NpcPersuade : MonoBehaviour
 
     public void AttemptPersuasion()
     {
-        if (remainingAttempts > 0)
+        remainingAttempts -= 0.5; // 시도 후 남은 기회 1 감소
+        if (remainingAttempts >= 0)
         {
             double successChance = npcScript.affection; // NpcScript의 affection을 성공 확률로 사용
             double randomValue = Random.Range(0, 100); // 0에서 100 사이의 랜덤 값 생성
+
             if (randomValue < successChance)
             {
                 // 설득 성공
                 resultText.text = "성공했습니다!";
                 success = true;
-                npcScript.HidePersuadeAndGiftButtons(); // 설득 성공 시 설득하기와 선물하기 버튼 숨기기
             }
             else // 설득 실패
             {
-                remainingAttempts-=1; // 남은 시도 횟수 1 감소
-                resultText.text = $"실패했습니다! 남은 기회: {remainingAttempts}";
+                resultText.text = $"실패했습니다!";
                 success = false; // 설득 실패 여부 설정
             }
             persuadeUI.SetActive(false); // 설득 UI 숨기기
             resultUI.SetActive(true); // 결과 UI 표시
             StartCoroutine(HideResultUIAfterDelay(2f)); // 2초 뒤 결과 UI 숨기기
-
-            if (remainingAttempts == 0 && !success)
-            {
-                npcScript.HidePersuadeAndGiftButtons(); // 설득 시도 기회 모두 소진 시 버튼 숨기기
-            }
         }
         else
         {
@@ -77,7 +72,6 @@ public class NpcPersuade : MonoBehaviour
             persuadeUI.SetActive(false); // 설득 UI 숨기기
             resultUI.SetActive(true); // 결과 UI 표시
             StartCoroutine(HideResultUIAfterDelay(3f)); // 3초 뒤 결과 UI 숨기기
-            npcScript.HidePersuadeAndGiftButtons(); // 설득 시도 기회 모두 소진 시 버튼 숨기기
         }
     }
 
