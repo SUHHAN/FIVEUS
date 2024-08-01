@@ -97,20 +97,19 @@ public class CharacterManager : MonoBehaviour
         
         foreach(var ii in PartyCharacters) 
         { 
-            Team_Sum += int.Parse(ii.TeamCount) / 10 * int.Parse(ii.ATK);
+            Team_Sum += int.Parse(ii.TeamCount) * int.Parse(ii.ATK) / 10;
 
             TeamATK_Sum += int.Parse(ii.ATK);
         }
 
         // 팀의 총 단합력 계산
-        Team_Sum -= int.Parse(playerTC.TeamCount) / 10 * int.Parse(playerTC.ATK);
+        Team_Sum -= int.Parse(playerTC.TeamCount) * int.Parse(playerTC.ATK) / 10;
 
         int PartyTeam = Team_Sum;
         int PartyATK = PartyTeam + TeamATK_Sum;
         
         DataManager.instance.nowPlayer.Player_team = PartyTeam;
         DataManager.instance.nowPlayer.Party_ATK = PartyATK;
-
 
         SaveCharacter();
     }

@@ -292,10 +292,14 @@ public class InventoryItemManager : MonoBehaviour
                 SelectButton_gi.onClick.AddListener(() => {
                     AudioManager.Instance.PlaySfx(AudioManager.Sfx.ButtonClick);
                     onUseButtonClick(item);
+                    LoadItem();
+
                 });
                 GiftButton_gi.onClick.AddListener(() => {
                     AudioManager.Instance.PlaySfx(AudioManager.Sfx.ButtonClick);
                     onGiftButtonClick(item.Name);
+                    LoadItem();
+
                 });
             }
             if(item.Type == "물약") {
@@ -303,14 +307,16 @@ public class InventoryItemManager : MonoBehaviour
                 SelectButton.onClick.AddListener(() => {
                     AudioManager.Instance.PlaySfx(AudioManager.Sfx.ButtonClick);
                     onUseButtonClick(item);
+                    LoadItem();
+
                 });
             }
             if(item.Type == "장비") {
                 Buttontext.text = "장착하기";
                 SelectButton.onClick.AddListener(() => {
                     AudioManager.Instance.PlaySfx(AudioManager.Sfx.ButtonClick);
-                                    onWearButtonClick(item);
-                    TapClick(curType);
+                    onWearButtonClick(item);
+                    LoadItem();
                 });
             }
             SelectItemInfor.SetActive(true); // 설명 창 활성화
@@ -347,7 +353,6 @@ public class InventoryItemManager : MonoBehaviour
     public void onWearButtonClick(Item item) {
         ItemManager.instance.WearItem_inv(item);
         SaveItem();
-
         LoadItem();
 
         // UI 즉시 업데이트
