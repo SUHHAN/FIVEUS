@@ -58,7 +58,7 @@ public class NpcPersuade : MonoBehaviour
             }
             else // 설득 실패
             {
-                remainingAttempts-=0.5; // 남은 시도 횟수 1 감소
+                remainingAttempts-=1; // 남은 시도 횟수 1 감소
                 resultText.text = $"실패했습니다! 남은 기회: {remainingAttempts}";
                 success = false; // 설득 실패 여부 설정
             }

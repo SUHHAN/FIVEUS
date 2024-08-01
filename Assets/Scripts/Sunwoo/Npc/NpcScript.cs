@@ -61,6 +61,21 @@ public class NpcScript : MonoBehaviour
             choice1Button.GetComponentInChildren<TextMeshProUGUI>().text = "안녕하세요. 오늘 날씨가 참 좋네요!";
             choice2Button.GetComponentInChildren<TextMeshProUGUI>().text = "안녕하세요. 탱커님.";
         }
+        else if (npcType == "마법사")
+        {
+            choice1Button.GetComponentInChildren<TextMeshProUGUI>().text = "마법은 참 위대한 것 같아요.";
+            choice2Button.GetComponentInChildren<TextMeshProUGUI>().text = "안녕하세요. 날씨가 참 좋네요!";
+        }
+        else if (npcType == "힐러")
+        {
+            choice1Button.GetComponentInChildren<TextMeshProUGUI>().text = "신의 가호라뇨?";
+            choice2Button.GetComponentInChildren<TextMeshProUGUI>().text = "감사합니다, 사제님.";
+        }
+        else if (npcType == "암살자")
+        {
+            choice1Button.GetComponentInChildren<TextMeshProUGUI>().text = "심심해요?";
+            choice2Button.GetComponentInChildren<TextMeshProUGUI>().text = "(가만히 지켜본다)";
+        }
     }
 
     void Update()
@@ -152,6 +167,22 @@ public class NpcScript : MonoBehaviour
             npcNameText.text = "???";
             dialogues.Add("......");
         }
+        else if (type == "마법사")
+        {
+            npcNameText.text = "???";
+            dialogues.Add(".......");
+        }
+        else if (type == "힐러")
+        {
+            npcNameText.text = "???";
+            dialogues.Add("안녕하세요, 용병님!");
+            dialogues.Add("만나서 반갑습니다. 신의 가호가 함께 하시길..");
+        }
+        else if (type == "암살자")
+        {
+            npcNameText.text = "???";
+            dialogues.Add("흠흠흠~");
+        }
     }
 
     void ShowNextDialogue()
@@ -172,6 +203,21 @@ public class NpcScript : MonoBehaviour
                 choice2Button.gameObject.SetActive(true); // 선택지 2 버튼 활성화
             }
             else if (dialogueText.text == "......")
+            {
+                choice1Button.gameObject.SetActive(true); // 선택지 1 버튼 활성화
+                choice2Button.gameObject.SetActive(true); // 선택지 2 버튼 활성화
+            }
+            else if (dialogueText.text == ".......")
+            {
+                choice1Button.gameObject.SetActive(true); // 선택지 1 버튼 활성화
+                choice2Button.gameObject.SetActive(true); // 선택지 2 버튼 활성화
+            }
+            else if (dialogueText.text == "만나서 반갑습니다. 신의 가호가 함께 하시길..")
+            {
+                choice1Button.gameObject.SetActive(true); // 선택지 1 버튼 활성화
+                choice2Button.gameObject.SetActive(true); // 선택지 2 버튼 활성화
+            }
+            else if (dialogueText.text == "흠흠흠~")
             {
                 choice1Button.gameObject.SetActive(true); // 선택지 1 버튼 활성화
                 choice2Button.gameObject.SetActive(true); // 선택지 2 버튼 활성화
@@ -218,6 +264,36 @@ public class NpcScript : MonoBehaviour
             };
             ChangeAffection(2.5); // 호감도 +5
         }
+        else if (npcType == "마법사")
+        {
+            choice1Dialogues = new List<string>
+            {
+                "크레이글,오. 안녕하세요.",
+                "크레이글, 저도 그렇게 생각해요! 마법은 참 위대하죠!",
+                "크레이글, 그리고 그 위대한 마법의 발전을 위해 다양한 연구와 실험은 불가피해요.",
+                "크레이글, 그렇지 않나요?"
+            };
+            ChangeAffection(2.5); // 호감도 +5
+        }
+        else if (npcType == "힐러")
+        {
+            choice1Dialogues = new List<string>
+            {
+                "마르셀라, 음.. 신을 믿지 않으시나요?",
+                "마르셀라, 그렇다면 참 아쉽네요.."
+            };
+            ChangeAffection(-2.5); // 호감도 -5
+        }
+        else if (npcType == "암살자")
+        {
+            choice1Dialogues = new List<string>
+            {
+                "리아, 네! 어떻게 알았지~?",
+                "리아, 뭔가 재밌는 일이 생겼으면 좋겠어요~",
+                "리아, 당신은 좀 재밌어 보이긴 하네요!"
+            };
+            ChangeAffection(+2.5); // 호감도 +5
+        }
         choice1DialogueIndex = 0;
         isTalking = true; // 대화 상태 유지
         choice1Button.gameObject.SetActive(false); // 선택지 1 버튼 비활성화
@@ -251,6 +327,35 @@ public class NpcScript : MonoBehaviour
                 "펜릭,...날 알고 있는가?",
                 "펜릭,미안하지만 탱커 역할을 기대하고 온 거라면 돌아가게.",
                 "펜릭, 나는 다른 사람과 함께 일하지 않아."
+            };
+            ChangeAffection(-2.5); // 호감도 -5
+        }
+        else if (npcType == "마법사")
+        {
+            choice1Dialogues = new List<string>
+            {
+                "크레이글, 아 네. 그렇네요.",
+                "크레이글, ...",
+                "크레이글, 뭐... 더 하실 말씀이라도?"
+            };
+            ChangeAffection(-2.5); // 호감도 -5
+        }
+        else if (npcType == "힐러")
+        {
+            choice1Dialogues = new List<string>
+            {
+                "마르셀라, 하하하. 오랜만에 듣는 칭호네요.",
+                "마르셀라, 비록 지금은 사제가 아니지만...",
+                "마르셀라, 그래도 여전히 신을 섬기고 있답니다~"
+            };
+            ChangeAffection(2.5); // 호감도 +5
+        }
+        else if (npcType == "암살자")
+        {
+            choice1Dialogues = new List<string>
+            {
+                "리아, 랄랄라~",
+                "리아, (계속해서 노래를 흥얼거린다)"
             };
             ChangeAffection(-2.5); // 호감도 -5
         }
