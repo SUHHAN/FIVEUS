@@ -40,47 +40,82 @@ public class InventoryItemManager : MonoBehaviour
     public Button SelectButton_gi; // 탭마다 다른 버튼 형식 만들기
     public Button GiftButton_gi;
     
+    private string currentTab;
+    private string targetTab;
+
+    public GameObject confirmationPopup; // 팝업창 GameObject
+    public Button yesButton; // "예" 버튼
+    public Button noButton; // "아니오" 버튼
+
     public string npcName;
 
     void Start()
     {
-        
-        // GUI 씬을 추가로 로드합니다.
+        // GUI 씬을 추가로 로드
         SceneManager.LoadScene("UI", LoadSceneMode.Additive);
 
-        // 씬이 로드된 후 PlayerPrefs 값을 확인
-        if (PlayerPrefs.HasKey("NpcType"))
+        // 초기화 및 기본 설정
+        currentTab = curType;
+        confirmationPopup.SetActive(false);
+
+        // curType 설정
+        if (PlayerPrefs.HasKey("CurType"))
         {
-            string npcType = PlayerPrefs.GetString("NpcType");
-            Debug.Log($"NpcType in InventoryMain: {npcType}");
+            curType = PlayerPrefs.GetString("CurType");
         }
         else
         {
-            Debug.LogWarning("NpcType key not found in PlayerPrefs.");
+            curType = "장비"; // 기본 탭 설정
         }
-    
-        LoadItem();
 
+        // 예 버튼 리스너 설정
+        yesButton.onClick.AddListener(() => {
+            confirmationPopup.SetActive(false);
+            PlayerPrefs.DeleteKey("CurType"); // 이후 필요없다면 삭제
+            PlayerPrefs.DeleteKey("NpcType");
+            PlayerPrefs.Save();
+
+            SwitchTab(targetTab);
+        });
+
+        // 아니오 버튼 리스너 설정
+        noButton.onClick.AddListener(() => {
+            confirmationPopup.SetActive(false);
+        });
+
+        LoadItem();
         Debug.Log($"Loaded {AllItemList.Count} items.");
 
         SelectItemInfor.SetActive(false); // 설명 창 비활성화
         
-        // 선물하기 버튼은 일단 비활성화, 그리고 기타 탭에서만 사용되는 두개의 버튼은 일단 비활성화
         GiftButton_gi.gameObject.SetActive(false);
         SelectButton_gi.gameObject.SetActive(false);
 
-
-        // 처음 시작할 때 "장비" 탭을 선택하도록 설정
+        // 처음 시작할 때 저장된 curType 탭을 선택하도록 설정
         TapClick(curType);
     }
 
     // 탭에 따른 탭 선택 변경
     public void TapClick(string tabName)
     {
-        // 현재 아이템 리스트에 클릭한 타입 + 양이 1개보다 더 많은 경우 표시
+        // 만약 현재 탭이 "기타" 탭이고, 다른 탭으로 이동하려고 한다면
+        if (currentTab == "기타" && tabName != "기타" && PlayerPrefs.HasKey("NpcType"))
+        {
+            targetTab = tabName; // 이동하려는 탭 저장
+            confirmationPopup.SetActive(true); // 팝업창 띄우기
+
+            return; // 팝업창에서 "예" 버튼이 클릭되기 전에는 탭 변경을 하지 않음
+        }
+
+        SwitchTab(tabName); // 직접 탭 전환 수행
+    }
+
+    private void SwitchTab(string tabName)
+    {
+        // curType을 업데이트하고 TapClick 로직을 수행
         curType = tabName;
-        //CurItemList = AllItemList.FindAll(x => x.Type == tabName);
-        // -> 현재 탭이 단서이면, 단서 전부를, 현재 탭이 단서가 아니면 현재탭 이름과 수량이 1 이상인 것만 출력
+        currentTab = tabName;
+
         if (tabName == "단서") {
                 CurItemList = AllItemList.FindAll(x => x.Type == tabName);
         }else{
@@ -203,6 +238,7 @@ public class InventoryItemManager : MonoBehaviour
         }
     }
 
+
     // 슬롯 버튼 클릭 시 아이템 정보 표시
     public void SlotClick(Item item)
     {   
@@ -256,10 +292,14 @@ public class InventoryItemManager : MonoBehaviour
                 SelectButton_gi.onClick.AddListener(() => {
                     AudioManager.Instance.PlaySfx(AudioManager.Sfx.ButtonClick);
                     onUseButtonClick(item);
+                    LoadItem();
+
                 });
                 GiftButton_gi.onClick.AddListener(() => {
                     AudioManager.Instance.PlaySfx(AudioManager.Sfx.ButtonClick);
                     onGiftButtonClick(item.Name);
+                    LoadItem();
+
                 });
             }
             if(item.Type == "물약") {
@@ -267,14 +307,16 @@ public class InventoryItemManager : MonoBehaviour
                 SelectButton.onClick.AddListener(() => {
                     AudioManager.Instance.PlaySfx(AudioManager.Sfx.ButtonClick);
                     onUseButtonClick(item);
+                    LoadItem();
+
                 });
             }
             if(item.Type == "장비") {
                 Buttontext.text = "장착하기";
                 SelectButton.onClick.AddListener(() => {
                     AudioManager.Instance.PlaySfx(AudioManager.Sfx.ButtonClick);
-                                    onWearButtonClick(item);
-                    TapClick(curType);
+                    onWearButtonClick(item);
+                    LoadItem();
                 });
             }
             SelectItemInfor.SetActive(true); // 설명 창 활성화
@@ -307,13 +349,10 @@ public class InventoryItemManager : MonoBehaviour
         }
     }
     
-
-
     // 장착하기
     public void onWearButtonClick(Item item) {
         ItemManager.instance.WearItem_inv(item);
         SaveItem();
-
         LoadItem();
 
         // UI 즉시 업데이트
@@ -326,6 +365,18 @@ public class InventoryItemManager : MonoBehaviour
         ItemManager.instance.UseItem_inv(item);
         SaveItem();
         LoadItem();
+    }
+
+    void OnDestroy()
+    {
+        // 특정 씬으로부터의 전환 시 PlayerPrefs 키 삭제
+        if (SceneManager.GetActiveScene().name != "InventoryEx")
+        {
+            PlayerPrefs.DeleteKey("CurType"); 
+            PlayerPrefs.DeleteKey("NpcType"); 
+
+            PlayerPrefs.Save(); // 변경사항 저장
+        }
     }
 
     void SaveItem()

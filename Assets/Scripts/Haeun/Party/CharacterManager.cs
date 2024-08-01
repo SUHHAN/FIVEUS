@@ -30,43 +30,45 @@ public class CharacterManager : MonoBehaviour
     }
 
 
-    // 각 속성의 새 값을 계산하는 메서드
-    private string CalculateNewValue(string originalValue, string teamCount)
-    {
-        // 각 능력치는 [ (원래 능력치 * 0.1 * 팀 단합력) + 원래 능력치 ]로 바꿔서 저장하기 -> 임의로 정함.
-        int originalIntValue = int.Parse(originalValue);
-        int teamCountInt = int.Parse(teamCount);
-        int newValue = (int)(originalIntValue * 0.1 * teamCountInt) + originalIntValue;
-        return newValue.ToString();
-    }
+    // // 각 속성의 새 값을 계산하는 메서드
+    // private string CalculateNewValue(string originalValue, string teamCount)
+    // {
+    //     // 각 능력치는 [ (원래 능력치 * 0.1 * 팀 단합력) + 원래 능력치 ]로 바꿔서 저장하기 -> 임의로 정함.
+    //     int originalIntValue = int.Parse(originalValue);
+    //     int teamCountInt = int.Parse(teamCount);
+    //     int newValue = (int)(originalIntValue * 0.05 * teamCountInt) + originalIntValue;
+    //     return newValue.ToString();
+    // }
 
-    public void abilityChange()
-    {
-        List<Character> PartyCharacters = DataManager.instance.nowPlayer.characters.FindAll(x => x.isUsing == true);
+    // public void abilityChange()
+    // {
+    //     List<Character> PartyCharacters = DataManager.instance.nowPlayer.characters.FindAll(x => x.isUsing == true);
 
-        foreach (var ii in PartyCharacters)
-        {
-            // 각 속성에 대해 계산을 수행하고 결과를 string으로 다시 저장
-            ii.CON = CalculateNewValue(ii.CON, ii.TeamCount);
-            ii.DEF = CalculateNewValue(ii.DEF, ii.TeamCount);
-            ii.DEX = CalculateNewValue(ii.DEX, ii.TeamCount);
-            ii.INT = CalculateNewValue(ii.INT, ii.TeamCount);
-            ii.STR = CalculateNewValue(ii.STR, ii.TeamCount);
+    //     foreach (var ii in PartyCharacters)
+    //     {
+    //         // 각 속성에 대해 계산을 수행하고 결과를 string으로 다시 저장
+    //         ii.CON = CalculateNewValue(ii.CON, ii.TeamCount);
+    //         ii.DEF = CalculateNewValue(ii.DEF, ii.TeamCount);
+    //         ii.DEX = CalculateNewValue(ii.DEX, ii.TeamCount);
+    //         ii.INT = CalculateNewValue(ii.INT, ii.TeamCount);
+    //         ii.STR = CalculateNewValue(ii.STR, ii.TeamCount);
 
-            // 최종 ATK 값을 계산하여 string으로 저장
-            int totalATK = int.Parse(ii.CON) + int.Parse(ii.DEF) + int.Parse(ii.DEX) + int.Parse(ii.INT) + int.Parse(ii.STR);
+    //         // 최종 ATK 값을 계산하여 string으로 저장
+    //         int totalATK = int.Parse(ii.CON) + int.Parse(ii.DEF) + int.Parse(ii.DEX) + int.Parse(ii.INT) + int.Parse(ii.STR);
 
-            ii.ATK = totalATK.ToString();
-        }
-    }
+    //         ii.ATK = totalATK.ToString();
+    //     }
+    // }
 
     
     public void Team_Activity() {
         List<Character> PartyCharacters = DataManager.instance.nowPlayer.characters.FindAll(x=> x.isUsing == true); 
+        Character playerTC = DataManager.instance.nowPlayer.characters.Find(x=> x.Id == "0");
+
         int teamSum = DataManager.instance.nowPlayer.Player_team;
 
         int Team_Sum = 0;
-        int one_team = 0;
+        int TeamATK_Sum = 0;
         
         // 플레이어 제외 단합 횟수 구하기
         // 각각 팀원의 단합 횟수 +1 
@@ -76,18 +78,38 @@ public class CharacterManager : MonoBehaviour
             TeamCount += 1;
             ii.TeamCount = TeamCount.ToString();
 
-            one_team = (int)( int.Parse(ii.TeamCount) * int.Parse(ii.ATK) * 0.2 );
-            Team_Sum += one_team;
+        }
+
+        // foreach(var ii in PartyCharacters) 
+        // { 
+        //     Team_Sum += int.Parse(ii.TeamCount);
+        //     TeamATK_Sum += int.Parse(ii.ATK);
+        // }
+
+        // // 팀의 총 단합력 계산
+        // Team_Sum -= int.Parse(playerTC.TeamCount);
+
+        // int PartyTeam = Team_Sum * TeamATK_Sum/10;
+        // int PartyATK = PartyTeam + TeamATK_Sum;
+        
+        // DataManager.instance.nowPlayer.Player_team = PartyTeam;
+        // DataManager.instance.nowPlayer.Party_ATK = PartyATK;
+        
+        foreach(var ii in PartyCharacters) 
+        { 
+            Team_Sum += int.Parse(ii.TeamCount) * int.Parse(ii.ATK) / 10;
+
+            TeamATK_Sum += int.Parse(ii.ATK);
         }
 
         // 팀의 총 단합력 계산
-        Character playerTC= PartyCharacters.Find(x=> x.Id == "0");
-        Team_Sum -= (int)( int.Parse(playerTC.TeamCount) * int.Parse(playerTC.ATK) * 0.2 ); // 플레이어의 단합력은 단합력 계산에 버리기
+        Team_Sum -= int.Parse(playerTC.TeamCount) * int.Parse(playerTC.ATK) / 10;
 
-        // 파티원의 능력치 상승
-        abilityChange();
-
-        DataManager.instance.nowPlayer.Player_team = teamSum;
+        int PartyTeam = Team_Sum;
+        int PartyATK = PartyTeam + TeamATK_Sum;
+        
+        DataManager.instance.nowPlayer.Player_team = PartyTeam;
+        DataManager.instance.nowPlayer.Party_ATK = PartyATK;
 
         SaveCharacter();
     }
