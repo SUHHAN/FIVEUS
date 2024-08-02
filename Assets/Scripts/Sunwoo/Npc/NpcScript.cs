@@ -150,7 +150,6 @@ public class NpcScript : MonoBehaviour
     void SetDialogue(string type)
     {
         dialogues.Clear(); // 기존 대사 초기화
-
         if (type == "검사")
         {
             npcNameText.text = "???";

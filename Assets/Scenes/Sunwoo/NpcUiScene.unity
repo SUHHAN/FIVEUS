@@ -1345,7 +1345,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1030724884
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2115,6 +2115,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: -4827201375843143100, guid: 1c9bc0d104c01934da10d4333b9dc48b, type: 3}
+    - target: {fileID: 4924426954507576897, guid: 4413f814da31e0b439b0f936457d25f3, type: 3}
+      propertyPath: m_Color.a
+      value: 0.78431374
+      objectReference: {fileID: 0}
     - target: {fileID: 5472057876251699214, guid: 4413f814da31e0b439b0f936457d25f3, type: 3}
       propertyPath: m_fontSize
       value: 42
@@ -2220,7 +2224,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!50 &1179748679
 Rigidbody2D:
   serializedVersion: 4
@@ -2565,7 +2569,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1259132718
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3508,7 +3512,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1680242351
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4184,7 +4188,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1931643829
 MonoBehaviour:
   m_ObjectHideFlags: 0
