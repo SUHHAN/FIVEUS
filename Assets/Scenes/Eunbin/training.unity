@@ -997,10 +997,10 @@ MonoBehaviour:
   choice1Text: {fileID: 2043927005}
   choice2Text: {fileID: 359440161}
   interactionRange: 1
-  player: {fileID: 2110751163}
+  player: {fileID: 0}
   isTalking: 0
   npcType: "\uD0F1\uCEE4"
-  affection: 30
+  affection: 15
 --- !u!50 &248019788
 Rigidbody2D:
   serializedVersion: 4
