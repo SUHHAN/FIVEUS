@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement; // SceneManager
 using TMPro; // TextMeshPro
+using UnityEngine.UI; // Button
 
 public class HappyEndingTalkManager : MonoBehaviour
 {
@@ -16,14 +17,15 @@ public class HappyEndingTalkManager : MonoBehaviour
     public TextMeshProUGUI narrationText; // TextMeshPro UI 텍스트
 
     private int dialogueState = 0; // 대사 진행 상태
+    private bool isYesEndingActive = false; // Yes 버튼 대사 진행 여부
+    private bool isNoEndingActive = false;  // No 버튼 대사 진행 여부
 
     // 추가된 변수들
     public GameObject image1; // 주인공 이미지
     public GameObject princessImage; // 공주 이미지
-    public GameObject yesButton; // yes 버튼
-    public GameObject noButton; // no 버튼
+    public Button yesButton; // yes 버튼
+    public Button noButton; // no 버튼
 
-    // Start is called before the first frame update
     void Start()
     {
         dialogue.SetActive(true); // 대화 시작 시 활성화
@@ -33,16 +35,30 @@ public class HappyEndingTalkManager : MonoBehaviour
         // 추가된 변수 초기화
         image1.SetActive(false); // 주인공 이미지 비활성화
         princessImage.SetActive(false); // 공주 이미지 비활성화
-        yesButton.SetActive(false); // yes 버튼 비활성화
-        noButton.SetActive(false); // no 버튼 비활성화
+        yesButton.gameObject.SetActive(false); // yes 버튼 비활성화
+        noButton.gameObject.SetActive(false); // no 버튼 비활성화
+
+        // 버튼 클릭 이벤트 연결
+        yesButton.onClick.AddListener(OnYesButtonClicked);
+        noButton.onClick.AddListener(OnNoButtonClicked);
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            ProgressDialogue();
+            if (isYesEndingActive)
+            {
+                ProgressYesEndingDialogue();
+            }
+            else if (isNoEndingActive)
+            {
+                ProgressNoEndingDialogue();
+            }
+            else
+            {
+                ProgressDialogue();
+            }
         }
     }
 
@@ -98,30 +114,79 @@ public class HappyEndingTalkManager : MonoBehaviour
             case 7:
                 // yes버튼과 no버튼 활성화
                 narrationText.text = "공주를 왕국으로 데려가시겠습니까?";
-                yesButton.SetActive(true); // yes 버튼 활성화
-                noButton.SetActive(true); // no 버튼 활성화
+                yesButton.gameObject.SetActive(true);
+                yesButton.interactable = true;
+
+                noButton.gameObject.SetActive(true);
+                noButton.interactable = true;
                 dialogueState++;
-                break;
-            case 8:
-                SceneManager.LoadScene("MainScene"); // MainScene으로 씬 전환
                 break;
         }
     }
 
-    // 추가된 메서드
     public void OnYesButtonClicked()
     {
         // Yes 버튼을 누를 경우의 로직 구현
         ending.SetActive(true);
-        narrationText.text = "주인공은 공주를 왕국으로 데려갔고, 결국 전쟁이 발발하고 말았다.";
-        dialogueState = 8;
+        isYesEndingActive = true; // Yes 버튼 엔딩 대사 활성화
+        dialogueState = 0; // 엔딩 대사 진행 상태 초기화
+        narrationText.text = "주인공 일행은 공주의 사정을 무시하고 왕국으로 데려가고, 화가난 마왕은 전쟁을 선포한다.";
+    }
+
+    void ProgressYesEndingDialogue()
+    {
+        switch (dialogueState)
+        {
+            case 0:
+                narrationText.text = "주인공 일행은 공주의 사정을 무시하고 왕국으로 데려가고, 화가난 마왕은 전쟁을 선포한다.";
+                dialogueState++;
+                break;
+            case 1:
+                narrationText.text = "준비가 되지 않았던 왕국은 처참히 무너져 많은 국민이 사망한다.";
+                dialogueState++;
+                break;
+            case 2:
+                narrationText.text = "주인공과 동료들도 사망하고, 공주는 마왕과 함께 마계로 돌아갔다.";
+                dialogueState++;
+                break;
+            case 3:
+                narrationText.text = "~Bad Ending~";
+                dialogueState++;
+                break;
+            case 4:
+                SceneManager.LoadScene("MainScene"); // MainScene으로 씬 전환
+                break;
+        }
     }
 
     public void OnNoButtonClicked()
     {
         // No 버튼을 누를 경우의 로직 구현
         ending.SetActive(true);
+        isNoEndingActive = true; // No 버튼 엔딩 대사 활성화
+        dialogueState = 0; // 엔딩 대사 진행 상태 초기화
         narrationText.text = "주인공은 공주의 편지를 왕에게 전했고, 왕은 그들의 선택을 존중했다.";
-        dialogueState = 8;
+    }
+
+    void ProgressNoEndingDialogue()
+    {
+        switch (dialogueState)
+        {
+            case 0:
+                narrationText.text = "주인공은 공주의 편지를 왕에게 전했고, 왕은 그들의 선택을 존중했다.";
+                dialogueState++;
+                break;
+            case 1:
+                narrationText.text = "주인공 일행은 후한 보상을 받았고, 주인공은 사기꾼으로서의 삶 대신 본인이 원했던 삶을 살 수 있게 되었다.";
+                dialogueState++;
+                break;
+            case 2:
+                narrationText.text = "~Happy Ending~";
+                dialogueState++;
+                break;
+            case 3:
+                SceneManager.LoadScene("MainScene"); // MainScene으로 씬 전환
+                break;
+        }
     }
 }
