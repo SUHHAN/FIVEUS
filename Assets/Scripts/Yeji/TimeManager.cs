@@ -9,19 +9,22 @@ public class TimeManager : MonoBehaviour
 {
     public int day = 1; // 현재 day 몇인지(1~15)
     public int activityCount =0; // 하루 활동 수(3회까지 가능)
-    public string timeOfDay = "아침"; // 현재 시간(아침, 점심, 저녁)
-
+    private string timeOfDay = "아침"; // 현재 시간(아침, 점심, 저녁)
+    public talkwithjjang_yj talkwithjjang;
 
     // 날짜 표시하는 패널
     public GameObject whatisdate_yj; // 날짜 시작할 때 어두워지는 화면(검정색)(조상님드래그)
     public TextMeshProUGUI todayiswhat_yj; // 오늘 며칠인지 텍스트 매일 바뀜
+    /*
     public GameObject whatistime1_yj; // 현재 시간(오전) 화면
     public GameObject whatistime2_yj; // 현재 시간(점심) 화면
     public GameObject whatistime3_yj; // 현재 시간(저녁) 화면
     // public TextMeshProUGUI mornluneve_yj; //  현재 시간(오전, 오후, 저녁) 텍스트
+    */
 
     public void Start()
     {
+        activityCount = 0;
         Getday();
         GetTimeOfDay();
         todayiswhat_yj.text = $"{day.ToString()}일차 {timeOfDay}";
@@ -31,7 +34,7 @@ public class TimeManager : MonoBehaviour
     }
     void Update()
     {
-        if (activityCount >= 3)
+        if (activityCount >= 6)
         {
             AdvanceDay(); // 활동 수가 3개 이상이면 다음 날로 넘어감
         }
@@ -40,22 +43,45 @@ public class TimeManager : MonoBehaviour
     public void CompleteActivity()
     {
         activityCount++;
-        if (activityCount == 1)
+        if (activityCount == 0)
         {
-            timeOfDay = "점심 "; // 첫 번째 활동 후 오후로 변경
+            timeOfDay = "아침"; 
         }
-        else if (activityCount == 2)
+        else if (activityCount > 0 && activityCount <= 2)
         {
-            timeOfDay = "저녁 "; // 두 번째 활동 후 저녁으로 변경
+            timeOfDay = "점심"; 
         }
-        else if (activityCount == 3)
+        else if (activityCount > 2 && activityCount <= 4)
         {
-            timeOfDay = "아침 "; // 세 번째 활동 후 다시 아침으로 변경
+            timeOfDay = "저녁"; 
         }
-        //UpdateNPCPositions(); // NPC 위치 업데이트
+        else if (activityCount > 4 && activityCount <= 6)
+        {
+            timeOfDay = "아침 "; 
+        }
     }
 
-    public void AdvanceDay()
+    public void UpdateDateAndTimeDisplay()
+    {
+        Getday();
+        GetTimeOfDay();
+        todayiswhat_yj.text = $"{day.ToString()}일차 {timeOfDay}";
+        talkwithjjang.choiceUI1_yj.SetActive(false);
+        talkwithjjang.choiceUI2_yj.SetActive(false);
+        talkwithjjang.choiceUI3_yj.SetActive(false);
+        talkwithjjang.choiceUI4_yj.SetActive(false);
+        talkwithjjang.Dial_changyj.SetActive(false);
+/*
+        if (talkwithjjang.resultUI_yj.activeSelf) {
+            talkwithjjang.resultUI_yj.SetActive(false);
+        }
+*/
+        // talkwithjjang.OnNo5ButtonClick();
+        whatisdate_yj.SetActive(true);
+        Invoke("HideWhatIsDatePanel", 2f);
+    }
+
+        public void AdvanceDay()
     {
         day++;
         if (day > 15)
@@ -65,17 +91,10 @@ public class TimeManager : MonoBehaviour
         }
         activityCount = 0;
         timeOfDay = "아침 "; // 새로운 날의 시작은 아침
-        //UpdateNPCPositions(); // NPC 위치 업데이트
+        //  여기에 넣는 게 맞긴 한데, 다시 침대 들어가야 하니까 어디다 위치 옮겨야 하나
+       // UpdateDateAndTimeDisplay();
     }
 
-    /*public void UpdateNPCPositions()
-    {
-        // 현재 시간대에 따라 모든 NPC의 위치를 업데이트
-        foreach (var npc in FindObjectsOfType<NpcScript>())
-        {
-            npc.UpdatePosition(timeOfDay);
-        }
-    }*/
 
     public string GetTimeOfDay()
     {
