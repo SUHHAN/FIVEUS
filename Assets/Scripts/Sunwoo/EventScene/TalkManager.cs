@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro; // TextMeshPro 네임스페이스 추가
-using UnityEngine.UI; // UI 네임스페이스 추가
+using TMPro;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement; // 씬 관리를 위한 네임스페이스 추가
 
 // ProDialogue 클래스 정의 (프롤로그 대사 저장)
 public class ProDialogue
@@ -86,6 +87,7 @@ public class TalkManager : MonoBehaviour
         {
             narration.SetActive(false);
             dialogue.SetActive(false);
+            LoadMainMapScene(); // 마지막 대사 이후 메인 맵 씬으로 이동
             return; // 대사 리스트를 벗어나면 오브젝트 비활성화 후 리턴
         }
 
@@ -156,7 +158,12 @@ public class TalkManager : MonoBehaviour
 
         if (currentDialogueIndex >= proDialogue.Count)
         {
-            DeactivateTalk();
+            LoadMainMapScene(); // 모든 대사를 출력 후 메인 맵 씬으로 이동
         }
+    }
+
+    void LoadMainMapScene()
+    {
+        SceneManager.LoadScene("main_map"); // 메인 맵 씬 로드
     }
 }
