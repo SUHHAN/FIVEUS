@@ -1456,7 +1456,7 @@ GameObject:
   - component: {fileID: 355665477}
   - component: {fileID: 355665476}
   m_Layer: 5
-  m_Name: NoButton1
+  m_Name: NoButton5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2246,7 +2246,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 632388870}
         m_TargetAssemblyTypeName: talkwithjjang_yj, Assembly-CSharp
-        m_MethodName: OnNo1ButtonClick
+        m_MethodName: OngobedButtonClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6217,7 +6217,7 @@ MonoBehaviour:
   campingButton_yj: {fileID: 1104525810}
   findhintButton_yj: {fileID: 1292505340}
   laybedButton_yj: {fileID: 939572203}
-  gotobedButton_yj: {fileID: 0}
+  gotobedButton_yj: {fileID: 414640601}
   iaminbedUI_yj: {fileID: 995390118}
   resultUI_yj: {fileID: 1317813150}
   resultUI2_yj: {fileID: 631004733}
@@ -9705,8 +9705,8 @@ RectTransform:
   - {fileID: 549940673}
   - {fileID: 1729299138}
   - {fileID: 995390119}
-  - {fileID: 631004734}
   - {fileID: 1317813151}
+  - {fileID: 631004734}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -11106,8 +11106,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1821850494}
   - component: {fileID: 1821850493}
-  - component: {fileID: 1821850498}
   - component: {fileID: 1821850495}
+  - component: {fileID: 1821850498}
   - component: {fileID: 1821850497}
   - component: {fileID: 1821850496}
   m_Layer: 0
@@ -12116,11 +12116,11 @@ SceneRoots:
   - {fileID: 276053985}
   - {fileID: 1753480489}
   - {fileID: 1535282901}
+  - {fileID: 2128042290}
   - {fileID: 1213441426}
   - {fileID: 632388869}
   - {fileID: 1540104406}
   - {fileID: 762081300}
-  - {fileID: 2128042290}
   - {fileID: 407881901}
   - {fileID: 1720156399}
   - {fileID: 1349394501}
