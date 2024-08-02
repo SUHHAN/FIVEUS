@@ -131,12 +131,12 @@ public class NpcScript : MonoBehaviour
     public void OnGiftButtonClick()
     {
         PlayerPrefs.SetString("NpcType", npcType);
-        PlayerPrefs.Save(); 
+        PlayerPrefs.Save();
 
         // 다른 씬에서 curType을 저장
         PlayerPrefs.SetString("CurType", "기타"); // "장비" 대신 원하는 탭 이름 사용
         PlayerPrefs.Save();
-        
+
         print(PlayerPrefs.GetString("NpcType"));
         SceneManager.LoadScene("InventoryMain"); // InventoryMain 씬으로 이동
     }
@@ -165,7 +165,7 @@ public class NpcScript : MonoBehaviour
             dialogues.Add("음, 처음 보는 얼굴 같은데.");
             dialogues.Add("나한테 무슨 볼일이라도?");
         }
-        else if(type=="궁수")
+        else if (type == "궁수")
         {
             npcNameText.text = "???";
             dialogues.Add("...뭐야. 나한테 볼일 있어?");
@@ -205,7 +205,7 @@ public class NpcScript : MonoBehaviour
                 choice1Button.gameObject.SetActive(true); // 선택지 1 버튼 활성화
                 choice2Button.gameObject.SetActive(true); // 선택지 2 버튼 활성화
             }
-            else if(dialogueText.text== "...뭐야. 나한테 볼일 있어?")
+            else if (dialogueText.text == "...뭐야. 나한테 볼일 있어?")
             {
                 choice1Button.gameObject.SetActive(true); // 선택지 1 버튼 활성화
                 choice2Button.gameObject.SetActive(true); // 선택지 2 버튼 활성화
@@ -414,69 +414,140 @@ public class NpcScript : MonoBehaviour
         dialogueText.text = description; // 대화 내용 설정
         npcNameText.text = npcName; // NPC 이름 설정
     }
+
+    void UpdatePosition(string timeOfDay)
+    {
+        Vector3 newPosition = Vector3.zero;
+        string currentScene = SceneManager.GetActiveScene().name;
+        bool shouldBeActive = false;
+
+        switch (npcType)
+        {
+            case "검사":
+                if (currentScene == "main_map")
+                {
+                    if (timeOfDay == "Morning" || timeOfDay == "Afternoon")
+                    {
+                        newPosition = new Vector3(-6, -0.5f, 0);
+                        shouldBeActive = true; // main_map에 있을 때만 활성화
+                    }
+                    else
+                    {
+                        shouldBeActive = false; // 저녁에는 main_map에서 비활성화
+                    }
+                }
+                else if (currentScene == "hotel")
+                {
+                    if (timeOfDay == "Evening")
+                    {
+                        newPosition = new Vector3(-2, 0, 0);
+                        shouldBeActive = true; // hotel에 있을 때만 활성화
+                    }
+                    else
+                    {
+                        shouldBeActive = false; // 아침과 점심에는 hotel에서 비활성화
+                    }
+                }
+                break;
+
+            case "힐러":
+                if (currentScene == "main_map")
+                {
+                    if (timeOfDay == "Morning" || timeOfDay == "Afternoon")
+                    {
+                        newPosition = new Vector3(14.68f, 7.29f, 0);
+                        shouldBeActive = true; // main_map에 있을 때만 활성화
+                    }
+                    else
+                    {
+                        shouldBeActive = false; // 저녁에는 main_map에서 비활성화
+                    }
+                }
+                else if (currentScene == "hotel_hall")
+                {
+                    if (timeOfDay == "Evening")
+                    {
+                        newPosition = new Vector3(2, 0.85f, 0);
+                        shouldBeActive = true; // hotel_hall에 있을 때만 활성화
+                    }
+                    else
+                    {
+                        shouldBeActive = false; // 아침과 점심에는 hotel_hall에서 비활성화
+                    }
+                }
+                break;
+
+            case "탱커":
+                if (currentScene == "training")
+                {
+                    if (timeOfDay == "Morning" || timeOfDay == "Afternoon")
+                    {
+                        newPosition = new Vector3(-4, 3.36f, 0);
+                        shouldBeActive = true; // training에 있을 때만 활성화
+                    }
+                    else
+                    {
+                        shouldBeActive = false; // 저녁에는 training에서 비활성화
+                    }
+                }
+                else if (currentScene == "hotel_room1")
+                {
+                    if (timeOfDay == "Evening")
+                    {
+                        newPosition = new Vector3(0.4f, 3.5f, 0);
+                        shouldBeActive = true; // hotel_room1에 있을 때만 활성화
+                    }
+                    else
+                    {
+                        shouldBeActive = false; // 아침과 점심에는 hotel_room1에서 비활성화
+                    }
+                }
+                break;
+
+            case "마법사":
+                if (currentScene == "magic_house")
+                {
+                    newPosition = new Vector3(1.73f, 0.63f, 0);
+                    shouldBeActive = true; // magic_house에서 항상 활성화
+                }
+                break;
+
+            case "암살자":
+                if (currentScene == "bar")
+                {
+                    if (timeOfDay == "Evening")
+                    {
+                        newPosition = new Vector3(-2.23f, -0.59f, 0);
+                        shouldBeActive = true; // bar에 있을 때만 활성화
+                    }
+                    else
+                    {
+                        shouldBeActive = false; // 저녁 이외의 시간에는 bar에서 비활성화
+                    }
+                }
+                break;
+
+            case "궁수":
+                if (currentScene == "training")
+                {
+                    if (timeOfDay == "Evening")
+                    {
+                        newPosition = new Vector3(4.2f, -1.74f, 0);
+                        shouldBeActive = true; // training에 있을 때만 활성화
+                    }
+                    else
+                    {
+                        shouldBeActive = false; // 저녁 이외의 시간에는 training에서 비활성화
+                    }
+                }
+                break;
+        }
+
+        // NPC 활성화 여부에 따라 게임 오브젝트 활성화/비활성화
+        gameObject.SetActive(shouldBeActive);
+        if (shouldBeActive)
+        {
+            transform.position = newPosition; // NPC 위치 설정
+        }
+    }
 }
-
-// public void UpdatePosition(string timeOfDay)
-// {
-//     Vector3 newPosition = Vector3.zero;
-
-//     switch (npcType)
-//     {
-//         case "검사":
-//             if (timeOfDay == "Morning" || timeOfDay == "Afternoon")
-//             {
-//                 SceneManager.LoadScene("main_map");
-//                 newPosition = new Vector3(-6, -0.5, 0); // main_map 내 위치 설정
-//             }
-//             else
-//             {
-//                 SceneManager.LoadScene("hotel");
-//                 newPosition = new Vector3(5, 0, 10);
-//             }
-//             break;
-//         case "힐러":
-//             if (timeOfDay == "Morning" || timeOfDay == "Afternoon")
-//             {
-//                 SceneManager.LoadScene("main_map");
-//                 newPosition = new Vector3(14.68, 7.29, 0); // main_map 내 위치 설정
-//             }
-//             else
-//             {
-//                 SceneManager.LoadScene("hotel_hall");
-//                 newPosition = new Vector3(5, 0, 10);
-//             }
-//             break;
-//         case "탱커":
-//             if (timeOfDay == "Morning" || timeOfDay == "Afternoon")
-//             {
-//                 SceneManager.LoadScene("training");
-//                 newPosition = new Vector3(-4, 3.36, 0); // training 내 위치 설정
-//             }
-//             else
-//             {
-//                 SceneManager.LoadScene("hotel_room1");
-//                 newPosition = new Vector3(5, 0, 10);
-//             }
-//             break;
-//         case "마법사":
-//             SceneManager.LoadScene("magic_house");
-//             newPosition = new Vector3(1.73, 063, 0);
-//             break;
-//         case "암살자":
-//             if (timeOfDay == "Evening")
-//             {
-//                 SceneManager.LoadScene("bar");
-//                 newPosition = new Vector3(-2.23, -0.59, 0); // bar 내 위치 설정
-//             }
-//             break;
-//         case "궁수":
-//             if (timeOfDay == "Evening")
-//             {
-//                 SceneManager.LoadScene("training");
-//                 newPosition = new Vector3(4.2, -1.74, 0); // training 내 위치 설정
-//             }
-//             break;
-//     }
-
-//     transform.position = newPosition; // NPC 위치 설정
-// }
