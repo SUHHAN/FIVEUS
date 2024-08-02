@@ -9,8 +9,10 @@ using UnityEngine.SceneManagement;
 // 기본 활동 진행하는 스크립트
 public class talkwithjjang_yj : MonoBehaviour
 {
-    //private eightbuttons_yj eightbuttons_yjyj;
+    public newbuttoncontrol newbuttoncon_yj;
     private bool isbasicdial_yj = false; // 대사 치고 있는지 여부
+    private bool isResultActive_yj = false; // 결과 UI가 활성화 되어 있는지 여부
+
 
     // 기본 활동 패널들
     public GameObject choiceUI1_yj; // 기본활동1 UI 패널
@@ -30,13 +32,16 @@ public class talkwithjjang_yj : MonoBehaviour
     public GameObject npc3_yj; // 힌트
     public GameObject npc4_yj; // 휴식
 
-    // 기본활동 몇번 진행했는지 세야 하니..인물을 부르자
+    // 기본활동 몇번 진행했는지 세야 하니..플레이어를 부르자
     public PlayerNow_yj nowplayer_yj;
+
+    private bool iswquestion_yj = true; // 제발 선택지 패널이 뜨지 않게 해주세요
 
     // Start is called before the first frame update
     void Start()
     {
-        nowplayer_yj = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerNow_yj>();
+        //newbuttoncon_yj = GetComponent<newbuttoncontrol>(); 
+        //nowplayer_yj = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerNow_yj>();
 
         nowplayer_yj.howtoday_py = 0; // 하루에 기본활동 몇번했는지 변수 0으로 시작
         nowplayer_yj.howtrain_py = 0; // 전체적으로 훈련 몇번했는지 변수 0으로 시작
@@ -47,40 +52,67 @@ public class talkwithjjang_yj : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isbasicdial_yj)
+        CheckNPCInteraction();
+        HandleUserInput();
+        // 이곳에 코드를 입력하시오. 필요하다면 다른 메소드를 채워도 됩니다. 
+
+    }
+
+    void HandleUserInput()
+    {
+        if (currentNPC != null)
         {
-            if (Input.GetKeyDown(KeyCode.Space)) // 스페이스 키 입력 감지
+            if (Input.GetKeyDown(KeyCode.Space))
             {
-                EndDialogue(); // 대화 종료
+                if (!isbasicdial_yj && !Dial_changyj.activeSelf && !isResultActive_yj)
+                {
+                    // Step 1: No action for space key press
+                    // According to step 1 requirements
+                    // Do nothing on space key
+                }
+                else if (Dial_changyj.activeSelf)
+                {
+                    // According to step 2 requirements
+                    Dial_changyj.SetActive(false);
+                    choiceUI1_yj.SetActive(true);
+                    newbuttoncon_yj.resultUI_yj.SetActive(false);
+                    isbasicdial_yj = false;
+                    isResultActive_yj = false;
+                }
+                else if (newbuttoncon_yj.resultUI_yj.activeSelf)
+                {
+                    // Step 4: Hide result UI on space key press
+                    HideUI();
+                    isResultActive_yj = false;
+                }
             }
-            return;
-        }
-
-        CheckNPCInteraction(); // NPC와의 상호작용 체크
-        // 엔터키 입력 감지
-        if (currentNPC != null && Input.GetKeyDown(KeyCode.Return))
-        {
-            HandleNPCDialogue_yj(currentNPC);
-        }
-        if (!isbasicdial_yj && Input.GetKeyDown(KeyCode.Space))
-        {
-            if (currentNPC == npc1_yj) {
-                //  ShowChoice1UI_yj();
-                choiceUI1_yj.SetActive(true);
-            }
-            else if (currentNPC == npc2_yj) {
-                // ShowChoice2UI_yj();
-                choiceUI2_yj.SetActive(true);
-            }
-                
-            else if (currentNPC == npc3_yj) {
-                // ShowChoice3UI_yj();
-                choiceUI3_yj.SetActive(true);
-            }
-
-            else if (currentNPC == npc4_yj) {
-                // ShowChoice4UI_yj();
-                choiceUI4_yj.SetActive(true);
+            else if (Input.GetKeyDown(KeyCode.Return))
+            {
+                if (isbasicdial_yj)
+                {
+                    HandleNPCDialogue_yj(currentNPC);
+                    // According to step 1 requirements
+                    Dial_changyj.SetActive(true);
+                    choiceUI1_yj.SetActive(false);
+                    newbuttoncon_yj.resultUI_yj.SetActive(false);
+                    isResultActive_yj = false;
+                }
+                else if (Dial_changyj.activeSelf)
+                {
+                    // According to step 2 requirements
+                    Dial_changyj.SetActive(false);
+                    choiceUI1_yj.SetActive(true);
+                    newbuttoncon_yj.resultUI_yj.SetActive(false);
+                    isResultActive_yj = false;
+                }
+                else if (choiceUI1_yj.activeSelf)
+                {
+                    // According to step 3 requirements
+                    Dial_changyj.SetActive(false);
+                    choiceUI1_yj.SetActive(false);
+                    newbuttoncon_yj.resultUI_yj.SetActive(true);
+                    isResultActive_yj = true;
+                }
             }
         }
     }
@@ -115,7 +147,7 @@ public class talkwithjjang_yj : MonoBehaviour
         }
 
         //if (currentNPC != null && nowplayer_yj.howtoday_py<3)
-        if (currentNPC != null) // 상호작용 거리 내에 있는지, 기본 활동 횟수 확인
+        /*if (currentNPC != null) // 상호작용 거리 내에 있는지, 기본 활동 횟수 확인
         {
             if (Input.GetKeyDown(KeyCode.Return)) // 엔터 키 입력 감지
             {
@@ -125,7 +157,7 @@ public class talkwithjjang_yj : MonoBehaviour
         else
         {
             HideUI();
-        }
+        }*/
     }
 
     void HandleNPCDialogue_yj(GameObject npc_yjyj)
@@ -135,30 +167,27 @@ public class talkwithjjang_yj : MonoBehaviour
         if (npc_yjyj == npc1_yj) // 훈련단장
         {
             dialoguename_yj.text = "훈련대장"; // 훈련대장 이름 출력 
-            dialogueText_yj.text = "여어-말라깽이! \n훈련할 준비는 됐나? \n [스페이스바를 눌러 훈련을 진행하세요]"; // 훈련대장 기본 대사 출력
-            isbasicdial_yj = true; // 기본대사 치고 있는 중
+            dialogueText_yj.text = "여어-말라깽이! \n훈련할 준비는 됐나? \n [스페이스바를 두 번 눌러 훈련을 진행하세요]"; // 훈련대장 기본 대사 출력
+            //isbasicdial_yj = true; // 기본대사 치고 있는 중
             
         }
         else if (npc_yjyj == npc2_yj) // 캠핑장
         {            
             dialoguename_yj.text = "캠핑장 주인"; // 캠핑장 이름 출력 
-            dialogueText_yj.text = "어서오세요~캠핑장입니다. \n캠핑을 통하여 단합을 진행하실 건가요? \n [스페이스바를 눌러 단합을 진행하세요]"; // 캠핑장 기본 대사 출력
-            isbasicdial_yj = true; // 기본대사 치고 있는 중
-            //ShowChoice2UI_yj(); // 캠핑 선택 UI 표시
+            dialogueText_yj.text = "어서오세요~캠핑장입니다. \n캠핑을 통하여 단합을 진행하실 건가요? \n [스페이스바를 두 번 눌러 단합을 진행하세요]"; // 캠핑장 기본 대사 출력
+            //isbasicdial_yj = true; // 기본대사 치고 있는 중
         }
         else if (npc_yjyj == npc3_yj) // 단서
         {
             dialoguename_yj.text = "단서"; // 단서 이름 출력 
-            dialogueText_yj.text = "단서를 찾았다.\n인벤토리에서 내용을 확인해 보자. \n [스페이스바를 눌러 인벤토리 씬으로 이동하세요]"; // 단서 기본 대사 출력                                      
-            isbasicdial_yj = true; // 기본대사 치고 있는 중
-            //ShowChoice3UI_yj(); // 캠핑 선택 UI 표시
+            dialogueText_yj.text = "단서를 찾았다.\n인벤토리에서 내용을 확인해 보자."; // 단서 기본 대사 출력                                      
+            //isbasicdial_yj = true; // 기본대사 치고 있는 중
         }
         else if (npc_yjyj == npc4_yj) // 침대
         {
             dialoguename_yj.text = "침대"; // 훈련대장 이름 출력 
             dialogueText_yj.text = "아늑한 내 방의 침대다.\n편안히 휴식을 취해 보자. \n [스페이스바를 눌러 휴식을 진행하세요]"; // 훈련대장 기본 대사 출력                                      
-            isbasicdial_yj = true; // 기본대사 치고 있는 중
-            //ShowChoice4UI_yj(); // 캠핑 선택 UI 표시
+            //isbasicdial_yj = true; // 기본대사 치고 있는 중
         }
     }
 
@@ -169,11 +198,23 @@ void HideUI()
     choiceUI3_yj.SetActive(false);
     choiceUI4_yj.SetActive(false);
     Dial_changyj.SetActive(false);
+    newbuttoncon_yj.resultUI_yj.SetActive(false);
 }
     void EndDialogue()
     {
         Dial_changyj.SetActive(false); // 대화 UI 숨기기
-        isbasicdial_yj = false; // 대화 상태 해제
+        //isbasicdial_yj = false; // 대화 상태 해제
     }
 
+    public void ActivateChoiceUI1()
+    {
+        if (Dial_changyj.activeSelf)
+        {
+            Dial_changyj.SetActive(false);
+            choiceUI1_yj.SetActive(true);
+            newbuttoncon_yj.resultUI_yj.SetActive(false);
+            isbasicdial_yj = false;
+            isResultActive_yj = false;
+        }
+    }
 }
