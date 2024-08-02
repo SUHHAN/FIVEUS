@@ -115,7 +115,12 @@ public class TalkManager : MonoBehaviour
             narration.SetActive(false);
             dialogue.SetActive(true);
             opening.SetActive(false);
-            nameText.text = currentDialogue.name;
+            
+            if (currentDialogue.name != "{player_name}")
+                nameText.text = currentDialogue.name;
+            else
+                nameText.text = DataManager.instance.nowPlayer.Player_name;
+
             descriptionText.text = currentDialogue.line;
 
             // '샐리'의 경우 두 번째 이미지 오브젝트를 활성화
@@ -168,9 +173,8 @@ public class TalkManager : MonoBehaviour
 
     void LoadMainMapScene()
     { 
-
         isPlayed = true;
-        DataManager.instance.nowPlayer.isPlaying = isPlayed;
+        DataManager.instance.nowPlayer.isPlayed = isPlayed;
         DataManager.instance.SaveData();
 
         SceneManager.LoadScene("main_map"); // 메인 맵 씬 로드
