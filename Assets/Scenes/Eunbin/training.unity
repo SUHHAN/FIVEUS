@@ -1062,9 +1062,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   choiceUI: {fileID: 525618460}
   dialogueUI: {fileID: 1907024070}
-  npcAffectionUI: {fileID: 0}
+  npcAffectionUI: {fileID: 1114825050}
   dialogueText: {fileID: 382933972}
-  affectionText: {fileID: 0}
+  affectionText: {fileID: 1036997303}
   npcNameText: {fileID: 382933973}
   talkButton: {fileID: 1970919513}
   persuadeButton: {fileID: 936538532}
@@ -9578,9 +9578,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   choiceUI: {fileID: 1609852254}
   dialogueUI: {fileID: 801268251}
-  npcAffectionUI: {fileID: 0}
+  npcAffectionUI: {fileID: 66627259}
   dialogueText: {fileID: 1415815272}
-  affectionText: {fileID: 0}
+  affectionText: {fileID: 1089992354}
   npcNameText: {fileID: 1355484882}
   talkButton: {fileID: 252265148}
   persuadeButton: {fileID: 1633196886}
