@@ -762,6 +762,7 @@ MonoBehaviour:
   home: {fileID: 1045549815}
   firstImageObject: {fileID: 445426114}
   secondImageObject: {fileID: 1220087805}
+  isPlayed: 0
 --- !u!4 &1196852275
 Transform:
   m_ObjectHideFlags: 0
@@ -1418,6 +1419,10 @@ PrefabInstance:
       propertyPath: m_HorizontalAlignment
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5785286743113580370, guid: 4413f814da31e0b439b0f936457d25f3, type: 3}
+      propertyPath: endCursor
+      value: 
+      objectReference: {fileID: 1800385820}
     - target: {fileID: 5876351550150144190, guid: 4413f814da31e0b439b0f936457d25f3, type: 3}
       propertyPath: m_Name
       value: Image(1)
@@ -1530,6 +1535,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1800385820 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3433164337862000459, guid: 4413f814da31e0b439b0f936457d25f3, type: 3}
+  m_PrefabInstance: {fileID: 1800385815}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2003215392
 GameObject:
   m_ObjectHideFlags: 0
