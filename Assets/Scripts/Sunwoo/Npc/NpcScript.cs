@@ -409,11 +409,22 @@ public class NpcScript : MonoBehaviour
 //     switch (npcType)
 //     {
 //         case "검사":
+//             if (timeOfDay == "Morning" || timeOfDay == "Afternoon")
+//             {
+//                 SceneManager.LoadScene("main_map");
+//                 newPosition = new Vector3(-6, -0.5, 0); // main_map 내 위치 설정
+//             }
+//             else
+//             {
+//                 SceneManager.LoadScene("big_house");
+//                 newPosition = new Vector3(5, 0, 10); // big_house 내 위치 설정
+//             }
+//             break;
 //         case "힐러":
 //             if (timeOfDay == "Morning" || timeOfDay == "Afternoon")
 //             {
 //                 SceneManager.LoadScene("main_map");
-//                 newPosition = new Vector3(10, 0, 20); // main_map 내 위치 설정
+//                 newPosition = new Vector3(14.68, 7.29, 0); // main_map 내 위치 설정
 //             }
 //             else
 //             {
