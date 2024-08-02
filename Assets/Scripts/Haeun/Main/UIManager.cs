@@ -11,7 +11,8 @@ public class UIManager : MonoBehaviour
     public GameObject TempDataCheckWindow;
 
     private string previousSceneName;
-    
+    private string previousIngameSceneName;
+
     [Header("#상단바 버튼 모음")]    
     public Button StoreButton;
     public Button InventoryButton;
@@ -22,7 +23,6 @@ public class UIManager : MonoBehaviour
     public GameObject LoadButton; 
     public GameObject IngameButton;
 
-    
     [Header("#TextChange")]
     public TextMeshProUGUI HPLevelText;      // 체력 수치 관련 텍스트
     public TextMeshProUGUI FatigueLevelText; // 피로도 수치 관련 텍스트
@@ -40,7 +40,6 @@ public class UIManager : MonoBehaviour
         //DontDestroyOnLoad(canvas.gameObject); // Canvas 오브젝트 파괴되지 않도록 설정
     }
 
-    // Start is called before the first frame update
     void Start()
     {
         // 데이터 로드
@@ -48,6 +47,10 @@ public class UIManager : MonoBehaviour
 
         // 현재 씬 이름 가져오기
         string currentSceneName = SceneManager.GetActiveScene().name;
+
+        // 이전 씬 이름 및 인게임 씬 이름 가져오기
+        previousSceneName = PlayerPrefs.GetString("PreviousScene", "");
+        previousIngameSceneName = PlayerPrefs.GetString("PreviousIngameScene", "");
 
         // 씬 이름에 따라 버튼 활성화 설정
         if (currentSceneName == "InventoryMain" 
@@ -61,16 +64,19 @@ public class UIManager : MonoBehaviour
         {
             LoadButton.SetActive(true);
             IngameButton.SetActive(false);
-            
-        }
 
-        // 이전 씬 이름 가져오기
-        previousSceneName = PlayerPrefs.GetString("PreviousScene", "");
+            // 인게임 씬이 변경되었을 때만 저장
+            if (currentSceneName.StartsWith("Ingame"))
+            {
+                PlayerPrefs.SetString("PreviousIngameScene", currentSceneName);
+                PlayerPrefs.Save();
+            }
+        }
 
         // 데이터 저장 알림창 비활성화(기본)
         TempDataCheckWindow.SetActive(false);
 
-        Button OkButton = TempDataCheckWindow.transform.Find("OkButton").GetComponent<Button>();  // 두 윈도우 속 ok 버튼 클릭시 창 비활성화 매소드 연결
+        Button OkButton = TempDataCheckWindow.transform.Find("OkButton").GetComponent<Button>();  // 두 윈도우 속 ok 버튼 클릭시 창 비활성화 메소드 연결
         OkButton.onClick.AddListener(ClickOkButton);
         Button NoButton = TempDataCheckWindow.transform.Find("NoButton").GetComponent<Button>();
         NoButton.onClick.AddListener(ClickNoButton);
@@ -144,15 +150,13 @@ public class UIManager : MonoBehaviour
         }
     }
 
-     void ChangeGoldLevel(int Gold) {
+    void ChangeGoldLevel(int Gold) {
         int GoldLevel = Gold;
-
         GoldLevelText.text = GoldLevel.ToString("N0");
     }
 
     void ChangeDayLevel(int Day) {
         int DayLevel = Day;
-
         DayLevelText.text = "D-" + DayLevel.ToString();
     }
 
@@ -169,7 +173,14 @@ public class UIManager : MonoBehaviour
     }
 
     public void ChangeIngame() {
-        SceneManager.LoadScene("IngameEx");
+        if (!string.IsNullOrEmpty(previousIngameSceneName))
+        {
+            SceneManager.LoadScene(previousIngameSceneName);
+        }
+        else
+        {
+            SceneManager.LoadScene("IngameEx"); // 기본 인게임 씬으로 이동
+        }
     }
     
     void OnTempDataSaveButton() {
