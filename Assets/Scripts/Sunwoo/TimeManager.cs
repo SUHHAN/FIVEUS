@@ -32,7 +32,7 @@ public class TimeManager : MonoBehaviour
         {
             timeOfDay = "Morning"; // 세 번째 활동 후 다시 아침으로 변경
         }
-        UpdateNPCPositions(); // NPC 위치 업데이트
+        //UpdateNPCPositions(); // NPC 위치 업데이트
     }
 
     public void AdvanceDay()
@@ -45,17 +45,17 @@ public class TimeManager : MonoBehaviour
         }
         activityCount = 0;
         timeOfDay = "Morning"; // 새로운 날의 시작은 아침
-        UpdateNPCPositions(); // NPC 위치 업데이트
+        //UpdateNPCPositions(); // NPC 위치 업데이트
     }
 
-    public void UpdateNPCPositions()
+    /*public void UpdateNPCPositions()
     {
         // 현재 시간대에 따라 모든 NPC의 위치를 업데이트
         foreach (var npc in FindObjectsOfType<NpcScript>())
         {
             npc.UpdatePosition(timeOfDay);
         }
-    }
+    }*/
 
     public string GetTimeOfDay()
     {
