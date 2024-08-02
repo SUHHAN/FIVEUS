@@ -8,7 +8,7 @@ public class PlayerManager_yj : MonoBehaviour
 {
 
     // 현재 플레이어의 상태를 나타내는 객체
-    private PlayerNow_yj playerNow;
+    public PlayerNow_yj playerNow;
 
     // Start is called before the first frame update
     void Start()

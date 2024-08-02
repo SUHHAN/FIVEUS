@@ -5,11 +5,11 @@ using UnityEngine.UI;
 using TMPro;
 using Unity.VisualScripting; // TextMeshPro 네임스페이스 추가
 using UnityEngine.SceneManagement;
+using System.Xml.Serialization;
 
 // 기본 활동 진행하는 스크립트
 public class talkwithjjang_yj : MonoBehaviour
 {
-    public newbuttoncontrol newbuttoncon_yj;
     private bool isbasicdial_yj = false; // 대사 치고 있는지 여부
     private bool isResultActive_yj = false; // 결과 UI가 활성화 되어 있는지 여부
 
@@ -32,19 +32,54 @@ public class talkwithjjang_yj : MonoBehaviour
     public GameObject npc3_yj; // 힌트
     public GameObject npc4_yj; // 휴식
 
-    // 기본활동 몇번 진행했는지 세야 하니..플레이어를 부르자
-    public PlayerNow_yj nowplayer_yj;
+    public Button noButton1; // 아니오 버튼 연결1
+    public Button noButton2; // 아니오 버튼 연결2
+    public Button noButton3; // 아니오 버튼 연결3
+    public Button noButton4; // 아니오 버튼 연결4
 
-    private bool iswquestion_yj = true; // 제발 선택지 패널이 뜨지 않게 해주세요
+    public Button noButton5; // 결과창 닫기 버튼 연결5
+
+    // 기본 활동 버튼들
+    public Button trainingButton_yj; // 1. 훈련 시도 버튼 연결
+    public Button campingButton_yj; // 2. 단합 시도 버튼 연결
+    public Button findhintButton_yj; // 3. 단서 보기 버튼 연결
+    public Button laybedButton_yj; // 4. 휴식하기 버튼 연결4
+
+    // 버튼 누르면 각각 나오는 패널들 
+    public GameObject trainingUI_yj; // 훈련 중 패널
+    public GameObject campingUI_yj; // 단합 중 패널
+    public GameObject iaminbedUI_yj; // 휴식 UI 패널
+
+    public GameObject resultUI_yj; // 결과 UI 패널
+    public TextMeshProUGUI resuedit_yj; // result edit text
+
+    // 기본활동 몇번 진행했는지 세야 하니..플레이어를 부르자
+   // public PlayerNow_yj nowplayer_yj;
+    public PlayerManager_yj playermanager_yj; // 기본활동 덧뺄셈용
+
 
     // Start is called before the first frame update
     void Start()
     {
+        // 버튼 연결
+        trainingButton_yj.onClick.AddListener(OntrainButtonClick);
+        campingButton_yj.onClick.AddListener(OncampButtonClick);
+        findhintButton_yj.onClick.AddListener(OnhintButtonClick);
+        laybedButton_yj.onClick.AddListener(OnbedButtonClick);
+
+        noButton1.onClick.AddListener(OnNo1ButtonClick);
+        noButton2.onClick.AddListener(OnNo2ButtonClick);
+        noButton3.onClick.AddListener(OnNo3ButtonClick);
+        noButton4.onClick.AddListener(OnNo4ButtonClick);
+        noButton5.onClick.AddListener(OnNo5ButtonClick);
         //newbuttoncon_yj = GetComponent<newbuttoncontrol>(); 
         //nowplayer_yj = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerNow_yj>();
 
-        nowplayer_yj.howtoday_py = 0; // 하루에 기본활동 몇번했는지 변수 0으로 시작
-        nowplayer_yj.howtrain_py = 0; // 전체적으로 훈련 몇번했는지 변수 0으로 시작
+        isbasicdial_yj = false;
+        playermanager_yj.playerNow.howtoday_py = 0;
+        //nowplayer_yj.howtoday_py = 0; // 하루에 기본활동 몇번했는지 변수 0으로 시작
+        playermanager_yj.playerNow.howtrain_py = 0;
+        //nowplayer_yj.howtrain_py = 0; // 전체적으로 훈련 몇번했는지 변수 0으로 시작
         player = GameObject.FindGameObjectWithTag("Player"); // 태그가 "Player"인 오브젝트 찾기
         HideUI(); // 시작할 때 UI 숨기기
     }
@@ -55,63 +90,26 @@ public class talkwithjjang_yj : MonoBehaviour
         CheckNPCInteraction();
         HandleUserInput();
         // 이곳에 코드를 입력하시오. 필요하다면 다른 메소드를 채워도 됩니다. 
-
     }
 
     void HandleUserInput()
     {
         if (currentNPC != null)
         {
+            HandleNPCDialogue_yj(currentNPC); // npc한테 가까이 가면 대화창이 뜬다
+
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                if (!isbasicdial_yj && !Dial_changyj.activeSelf && !isResultActive_yj)
-                {
-                    // Step 1: No action for space key press
-                    // According to step 1 requirements
-                    // Do nothing on space key
-                }
-                else if (Dial_changyj.activeSelf)
-                {
-                    // According to step 2 requirements
-                    Dial_changyj.SetActive(false);
-                    choiceUI1_yj.SetActive(true);
-                    newbuttoncon_yj.resultUI_yj.SetActive(false);
-                    isbasicdial_yj = false;
-                    isResultActive_yj = false;
-                }
-                else if (newbuttoncon_yj.resultUI_yj.activeSelf)
-                {
-                    // Step 4: Hide result UI on space key press
-                    HideUI();
-                    isResultActive_yj = false;
-                }
-            }
-            else if (Input.GetKeyDown(KeyCode.Return))
-            {
+                
+                //Dial_changyj.SetActive(false);
                 if (isbasicdial_yj)
                 {
-                    HandleNPCDialogue_yj(currentNPC);
-                    // According to step 1 requirements
-                    Dial_changyj.SetActive(true);
-                    choiceUI1_yj.SetActive(false);
-                    newbuttoncon_yj.resultUI_yj.SetActive(false);
-                    isResultActive_yj = false;
+                    //Debug.Log("isbasic true");
+                    HandleNPCchoice_yj(currentNPC);
                 }
-                else if (Dial_changyj.activeSelf)
+                else
                 {
-                    // According to step 2 requirements
-                    Dial_changyj.SetActive(false);
-                    choiceUI1_yj.SetActive(true);
-                    newbuttoncon_yj.resultUI_yj.SetActive(false);
-                    isResultActive_yj = false;
-                }
-                else if (choiceUI1_yj.activeSelf)
-                {
-                    // According to step 3 requirements
-                    Dial_changyj.SetActive(false);
-                    choiceUI1_yj.SetActive(false);
-                    newbuttoncon_yj.resultUI_yj.SetActive(true);
-                    isResultActive_yj = true;
+                    //Debug.Log("isbasic false");
                 }
             }
         }
@@ -145,60 +143,184 @@ public class talkwithjjang_yj : MonoBehaviour
         {
             currentNPC = null;
         }
-
-        //if (currentNPC != null && nowplayer_yj.howtoday_py<3)
-        /*if (currentNPC != null) // 상호작용 거리 내에 있는지, 기본 활동 횟수 확인
-        {
-            if (Input.GetKeyDown(KeyCode.Return)) // 엔터 키 입력 감지
-            {
-                HandleNPCDialogue_yj(currentNPC); // npc별로 다르게 알려주기
-            }
-        }
-        else
-        {
-            HideUI();
-        }*/
     }
 
     void HandleNPCDialogue_yj(GameObject npc_yjyj)
-    {
-        Dial_changyj.SetActive(true);
+    {   
+        if(isbasicdial_yj == false)
+            Dial_changyj.SetActive(true);
+        else if(choiceUI1_yj.activeSelf || choiceUI2_yj.activeSelf || choiceUI3_yj.activeSelf || choiceUI4_yj.activeSelf)
+            Dial_changyj.SetActive(false);
         // 현재 NPC에 따라 대화 처리
         if (npc_yjyj == npc1_yj) // 훈련단장
         {
             dialoguename_yj.text = "훈련대장"; // 훈련대장 이름 출력 
-            dialogueText_yj.text = "여어-말라깽이! \n훈련할 준비는 됐나? \n [스페이스바를 두 번 눌러 훈련을 진행하세요]"; // 훈련대장 기본 대사 출력
-            //isbasicdial_yj = true; // 기본대사 치고 있는 중
+            dialogueText_yj.text = "여어-말라깽이! \n훈련할 준비는 됐나? \n[스페이스바를 눌러 훈련을 진행하세요]"; // 훈련대장 기본 대사 출력
+            isbasicdial_yj = true; // 기본대사 치고 있는 중
             
         }
         else if (npc_yjyj == npc2_yj) // 캠핑장
         {            
             dialoguename_yj.text = "캠핑장 주인"; // 캠핑장 이름 출력 
-            dialogueText_yj.text = "어서오세요~캠핑장입니다. \n캠핑을 통하여 단합을 진행하실 건가요? \n [스페이스바를 두 번 눌러 단합을 진행하세요]"; // 캠핑장 기본 대사 출력
-            //isbasicdial_yj = true; // 기본대사 치고 있는 중
+            dialogueText_yj.text = "어서오세요~캠핑장입니다. \n캠핑을 통하여 단합을 진행하실 건가요? \n[스페이스바를 눌러 단합을 진행하세요]"; // 캠핑장 기본 대사 출력
+            isbasicdial_yj = true; // 기본대사 치고 있는 중
         }
         else if (npc_yjyj == npc3_yj) // 단서
         {
             dialoguename_yj.text = "단서"; // 단서 이름 출력 
-            dialogueText_yj.text = "단서를 찾았다.\n인벤토리에서 내용을 확인해 보자."; // 단서 기본 대사 출력                                      
-            //isbasicdial_yj = true; // 기본대사 치고 있는 중
+            dialogueText_yj.text = "단서를 찾았다.\n인벤토리에서 내용을 확인해 보자.\n\n[스페이스바를 누르세요]"; // 단서 기본 대사 출력                                      
+            isbasicdial_yj = true; // 기본대사 치고 있는 중
         }
         else if (npc_yjyj == npc4_yj) // 침대
         {
             dialoguename_yj.text = "침대"; // 훈련대장 이름 출력 
-            dialogueText_yj.text = "아늑한 내 방의 침대다.\n편안히 휴식을 취해 보자. \n [스페이스바를 눌러 휴식을 진행하세요]"; // 훈련대장 기본 대사 출력                                      
-            //isbasicdial_yj = true; // 기본대사 치고 있는 중
+            dialogueText_yj.text = "아늑한 내 방의 침대다.\n편안히 휴식을 취해 보자. \n[스페이스바를 눌러 휴식을 진행하세요]"; // 훈련대장 기본 대사 출력                                      
+            isbasicdial_yj = true; // 기본대사 치고 있는 중
         }
     }
 
-void HideUI()
+    void HandleNPCchoice_yj(GameObject npc_yjyj)
+    {
+        // 현재 NPC에 따라 선택지처리
+        if (npc_yjyj == npc1_yj) // 훈련단장
+        {           
+            //Debug.Log("훈련단장이랑 얘기중");
+            Dial_changyj.SetActive(false);
+            isbasicdial_yj = false;
+            choiceUI1_yj.SetActive(true);
+
+        }
+        else if (npc_yjyj == npc2_yj) // 캠핑장
+        {
+            Dial_changyj.SetActive(false);
+            isbasicdial_yj = false;
+            choiceUI2_yj.SetActive(true);
+        }
+        else if (npc_yjyj == npc3_yj) // 단서
+        {
+            Dial_changyj.SetActive(false);
+            isbasicdial_yj = false;
+            choiceUI3_yj.SetActive(true);
+        }
+        else if (npc_yjyj == npc4_yj) // 침대
+        {
+
+            Dial_changyj.SetActive(false);
+            isbasicdial_yj = false;
+            choiceUI4_yj.SetActive(true);
+        }
+    }
+    // 버튼 이벤트 연결
+    // 기본활동1 : "훈련한다" 선택했을 때
+    public void OntrainButtonClick()
+    {
+        //Debug.Log("1기본활동 횟수 변수 : " + nowplayer_yj.howtoday_py);
+        Debug.Log("1기본활동 횟수 변수 : " + playermanager_yj.playerNow.howtoday_py);
+
+        Dial_changyj.SetActive(false);
+        choiceUI1_yj.SetActive(false);
+        
+        // 변수 계산
+        playermanager_yj.IncreaseTrainingCount();// 하루 훈련 활동 횟수 1 증가
+        //nowplayer_yj.howtrain_py ++; // 훈련 횟수 변수 1 증가
+
+        playermanager_yj.IncreaseTiredness(10);
+        playermanager_yj.playerNow.tired_py += 10; // 피로도 10 증가
+
+        //nowplayer_yj.tired_py +=10; // 피로도 10 증가
+
+        playermanager_yj.IncreaseDailyActivityCount();
+        // nowplayer_yj.howtoday_py++; // 하루 기본 활동 수행 횟수 1 증가
+
+        resuedit_yj.text = $"기본활동 횟수: {playermanager_yj.playerNow.howtoday_py} / 3"; // 기본 활동 텍스트 업데이트
+        //resuedit_yj.text = $"기본활동 횟수: {nowplayer_yj.howtoday_py} / 3"; // 기본 활동 텍스트 업데이트
+        //Debug.Log("훈련 횟수 변수 : " + nowplayer_yj.howtrain_py);
+        resultUI_yj.SetActive(true);
+    }
+
+    // 기본활동2 : 단합한다 했을 때
+    public void OncampButtonClick()
+    {
+        //Debug.Log("2기본활동 횟수 변수 : " + nowplayer_yj.howtoday_py);
+        Debug.Log("2기본활동 횟수 변수 : " + playermanager_yj.playerNow.howtoday_py);
+        Dial_changyj.SetActive(false);
+        choiceUI2_yj.SetActive(false); // 선택 UI 비활성화
+
+        // 변수 계산
+        playermanager_yj.IncreaseTeamPower(1);// 하루 단합 활동 횟수 1 증가
+        //nowplayer_yj.team_py++; // 단합변수 1 증가
+        playermanager_yj.IncreaseDailyActivityCount();
+        //nowplayer_yj.howtoday_py++; // 하루 기본 활동 수행 횟수 1 증가
+
+        // 결과창 업데이트
+        resuedit_yj.text = $"기본활동 횟수: {playermanager_yj.playerNow.howtoday_py} / 3"; // 기본 활동 텍스트 업데이트
+        //resuedit_yj.text = $"기본활동 횟수: {nowplayer_yj.howtoday_py} / 3"; // 기본 활동 텍스트 업데이트
+        resultUI_yj.SetActive(true);
+   
+       
+    }
+    // 기본활동3 : 단서 보겠다 했을 때
+    public void OnhintButtonClick()
+    {
+        //Debug.Log("3기본활동 횟수 변수 : " + nowplayer_yj.howtoday_py);
+        Debug.Log("3기본활동 횟수 변수 : " + playermanager_yj.playerNow.howtoday_py);
+        choiceUI3_yj.SetActive(false);
+        SceneManager.LoadScene("InventoryMain"); // 인벤토리 씬으로 이동
+        // 찾은 단서 개수를 한 개 늘림. 이건 인벤토리랑 연관 후에 생각해야 할듯
+    }
+    // 기본활동4 : 휴식 취하겠다 했을 때
+    public void OnbedButtonClick()
+    {
+        Debug.Log("4기본활동 횟수 변수 : " + playermanager_yj.playerNow.howtoday_py);
+        //Debug.Log("4기본활동 횟수 변수 : " + nowplayer_yj.howtoday_py);
+        Dial_changyj.SetActive(false);
+        choiceUI4_yj.SetActive(false);
+        resultUI_yj.SetActive(true);
+
+        playermanager_yj.IncreaseDailyActivityCount();
+        //nowplayer_yj.howtoday_py++; // 하루 기본 활동 수행 횟수 1 증가
+        // 결과창 업데이트
+        resuedit_yj.text = $"기본활동 횟수: {playermanager_yj.playerNow.howtoday_py} / 3"; // 기본 활동 텍스트 업데이트
+
+        //resuedit_yj.text = $"기본활동 횟수: {nowplayer_yj.howtoday_py} / 3"; // 기본 활동 텍스트 업데이트
+        resultUI_yj.SetActive(true);
+    }
+
+    public void OnNo1ButtonClick()
+    {
+        choiceUI1_yj.SetActive(false); // 훈련 UI 선택창 비활성화
+        isbasicdial_yj = false;
+    }
+    public void OnNo2ButtonClick()
+    {
+        choiceUI2_yj.SetActive(false); // 단합 UI 선택창 비활성화
+        isbasicdial_yj = false;
+    }
+    public void OnNo3ButtonClick()
+    {
+        choiceUI3_yj.SetActive(false); // 단서 UI 선택창 비활성화
+        isbasicdial_yj = false;
+    }
+    public void OnNo4ButtonClick()
+    {
+        choiceUI4_yj.SetActive(false); // 휴식 UI 선택창 비활성화
+        isbasicdial_yj = false;
+    }
+    public void OnNo5ButtonClick()
+    {
+        resultUI_yj.SetActive(false); // 결과 UI 선택창 비활성화
+        isbasicdial_yj = false;
+    }
+
+
+    void HideUI()
 {
     choiceUI1_yj.SetActive(false);
     choiceUI2_yj.SetActive(false);
     choiceUI3_yj.SetActive(false);
     choiceUI4_yj.SetActive(false);
     Dial_changyj.SetActive(false);
-    newbuttoncon_yj.resultUI_yj.SetActive(false);
+    resultUI_yj.SetActive(false);
 }
     void EndDialogue()
     {
@@ -212,7 +334,10 @@ void HideUI()
         {
             Dial_changyj.SetActive(false);
             choiceUI1_yj.SetActive(true);
-            newbuttoncon_yj.resultUI_yj.SetActive(false);
+            choiceUI2_yj.SetActive(true);
+            choiceUI3_yj.SetActive(true);
+            choiceUI4_yj.SetActive(true);
+            resultUI_yj.SetActive(false);
             isbasicdial_yj = false;
             isResultActive_yj = false;
         }
