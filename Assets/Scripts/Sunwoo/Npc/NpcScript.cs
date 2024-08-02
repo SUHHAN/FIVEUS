@@ -398,7 +398,12 @@ public class NpcScript : MonoBehaviour
     // NPC 호감도 변경
     void ChangeAffection(double amount)
     {
+        Character character = DataManager.instance.nowPlayer.characters.Find(x => x.Type == npcType);
         affection += amount;
+        character.Love = affection.ToString();
+
+        DataManager.instance.SaveData();
+
         affectionText.text = $"호감도: {affection}";
     }
 
