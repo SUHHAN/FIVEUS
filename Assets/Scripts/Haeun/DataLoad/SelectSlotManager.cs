@@ -87,7 +87,7 @@ public class SelectSlotManager : MonoBehaviour
             DataManager.instance.SaveData(); // 현재의 정보를 저장함.
         }
 
-        SceneManager.LoadScene("IngameEx");
+        SceneManager.LoadScene("main_map");
     }
 
     // 원하는 파일의 정보를 가지고 게임을 시작하기.
@@ -98,7 +98,7 @@ public class SelectSlotManager : MonoBehaviour
             DataManager.instance.LoadItemsFromCSV("Item");
             DataManager.instance.SaveData(); // 현재의 정보를 저장함.
         }
-        SceneManager.LoadScene("IngameEx");
+        SceneManager.LoadScene("main_map");
     }
 
     public void ReturnMain() {

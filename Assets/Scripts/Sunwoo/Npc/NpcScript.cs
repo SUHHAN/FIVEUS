@@ -40,7 +40,7 @@ public class NpcScript : MonoBehaviour
         persuadeButton.onClick.AddListener(OnPersuadeButtonClick); // 설득하기 버튼 클릭 이벤트 연결
         choice1Button.gameObject.SetActive(false); // 선택지 1 버튼 비활성화
         choice2Button.gameObject.SetActive(false); // 선택지 2 버튼 비활성화
-        giftButton.onClick.AddListener(() => OnGiftButtonClick(npcType)); // 선물하기 버튼 클릭 이벤트 연결
+        giftButton.onClick.AddListener(OnGiftButtonClick); // 선물하기 버튼 클릭 이벤트 연결
 
         choice1Button.onClick.AddListener(OnChoice1ButtonClick); // 선택지 1 버튼 클릭 이벤트 연결
         choice2Button.onClick.AddListener(OnChoice2ButtonClick); // 선택지 2 버튼 클릭 이벤트 연결
@@ -127,8 +127,16 @@ public class NpcScript : MonoBehaviour
         GetComponent<NpcPersuade>().ShowPersuadeUI(); // 설득 UI 표시
     }
 
-    public void OnGiftButtonClick(string npc)
+    public void OnGiftButtonClick()
     {
+        PlayerPrefs.SetString("NpcType", npcType);
+        PlayerPrefs.Save(); 
+
+        // 다른 씬에서 curType을 저장
+        PlayerPrefs.SetString("CurType", "기타"); // "장비" 대신 원하는 탭 이름 사용
+        PlayerPrefs.Save();
+        
+        print(PlayerPrefs.GetString("NpcType"));
         SceneManager.LoadScene("InventoryMain"); // InventoryMain 씬으로 이동
     }
 

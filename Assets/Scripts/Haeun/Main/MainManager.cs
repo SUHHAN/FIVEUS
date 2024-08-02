@@ -32,6 +32,7 @@ public class MainManager : MonoBehaviour
         // 이전 씬 이름 가져오기
         previousSceneName = PlayerPrefs.GetString("PreviousScene", "");
 
+
         // 배경음 시작
         AudioManager.Instance.PlayBgm(true);
 
@@ -228,7 +229,7 @@ public class MainManager : MonoBehaviour
             DataManager.instance.SaveData(); // 현재의 정보를 저장함.
         }
 
-        SceneManager.LoadScene("IngameEx");
+        SceneManager.LoadScene("main_map");
     }
 
     // 원하는 파일의 정보를 가지고 게임을 시작하기.
@@ -239,7 +240,7 @@ public class MainManager : MonoBehaviour
             DataManager.instance.LoadItemsFromCSV("Item");
             DataManager.instance.SaveData(); // 현재의 정보를 저장함.
         }
-        SceneManager.LoadScene("IngameEx");
+        SceneManager.LoadScene("main_map");
     }
 }
 
