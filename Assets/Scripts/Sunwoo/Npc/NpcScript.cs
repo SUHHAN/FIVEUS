@@ -452,14 +452,14 @@ public class NpcScript : MonoBehaviour
 //             if (timeOfDay == "Evening")
 //             {
 //                 SceneManager.LoadScene("bar");
-//                 newPosition = new Vector3(2, 0, 6); // bar 내 위치 설정
+//                 newPosition = new Vector3(-2.23, -0.59, 0); // bar 내 위치 설정
 //             }
 //             break;
 //         case "궁수":
 //             if (timeOfDay == "Evening")
 //             {
 //                 SceneManager.LoadScene("training");
-//                 newPosition = new Vector3(7, 0, 3); // training 내 위치 설정
+//                 newPosition = new Vector3(4.2, -1.74, 0); // training 내 위치 설정
 //             }
 //             break;
 //     }
