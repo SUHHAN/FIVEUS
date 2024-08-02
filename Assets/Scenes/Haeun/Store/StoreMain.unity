@@ -2069,7 +2069,6 @@ MonoBehaviour:
   - {fileID: 21300000, guid: ed93b6316a0eec14d989ddb7cac17ec1, type: 3}
   - {fileID: 21300000, guid: 2875a07e749a0744aa830b911304712c, type: 3}
   - {fileID: 21300000, guid: fbc079707e66d714b85e315979ce0806, type: 3}
-  - {fileID: 21300000, guid: 6242cff010a325e4081dc4f4b52bab6f, type: 3}
   - {fileID: -96512867, guid: d05e85137a3ca9d41a21c63c6a36d2c4, type: 3}
   - {fileID: -96512867, guid: d05e85137a3ca9d41a21c63c6a36d2c4, type: 3}
   - {fileID: -96512867, guid: d05e85137a3ca9d41a21c63c6a36d2c4, type: 3}
@@ -13803,19 +13802,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1842380514}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: MainClick, Assembly-CSharp
-        m_MethodName: ChangeIngame
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1842380514
 MonoBehaviour:
   m_ObjectHideFlags: 0

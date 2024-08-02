@@ -87,9 +87,11 @@ public class MainManager : MonoBehaviour
 
 
     public void ResetGamedata() {
-        PlayerPrefs.DeleteAll();
+        PlayerPrefs.DeleteKey("isDataExisting");
+        PlayerPrefs.DeleteKey("PreviousScene");
         PlayerPrefs.SetInt("isDataExisting", 0);
         PlayerPrefs.Save();
+
         continueButton.interactable = false;
         SettingButton.interactable = false; // 설정 버튼 상태 설정
         SettingButtonWarningText.SetActive(true);
@@ -138,70 +140,61 @@ public class MainManager : MonoBehaviour
     }
 
 
-    // 슬롯 자체 기능 구현
-    public void OnNewGameButtonClick_new() {
+    public void OnNewGameButtonClick_new() 
+    {
         AudioManager.Instance.PlaySfx(AudioManager.Sfx.ButtonClick);
-        // 일단 3개의 슬롯에 모두 데이터가 꽉차있는지 확인하기
+
+        CheckData(); // savefile 배열 업데이트
         bool dataExists = PlayerPrefs.GetInt("isDataExisting", 0) == 1;
-        CheckData();
+
         if (dataExists) {
-            if (savefile[0] && savefile[1] && savefile[2] == true) {
-                // 경고 팝업 생성
+            if (savefile[0] && savefile[1] && savefile[2]) {
+                // 모든 슬롯이 차있을 경우 경고 팝업
                 warningPopup.SetActive(true);
-                // 경고 팝업에서 확인 버튼과 취소 버튼 가져오기
                 Button confirmButton = warningPopup.transform.Find("OkButton").GetComponent<Button>();
                 Button cancelButton = warningPopup.transform.Find("NoButton").GetComponent<Button>();
 
-                // 확인 버튼에 이벤트 리스너 추가
                 confirmButton.onClick.AddListener(() => {
                     AudioManager.Instance.PlaySfx(AudioManager.Sfx.ButtonClick);
                     warningPopup.SetActive(false);
-                    ResetGamedata_new(); // 새 게임 시작
+                    ResetGamedata_new();
                 });
 
-                // 취소 버튼에 이벤트 리스너 추가
                 cancelButton.onClick.AddListener(() => {
                     AudioManager.Instance.PlaySfx(AudioManager.Sfx.ButtonClick);
                     warningPopup.SetActive(false);
                 });
             } 
-            else if (savefile[0] == false) {
-                PlayerPrefs.SetInt("isDataExisting", 1);
-                DataManager.instance.nowSlot = 0;
-                
-                if(savefile[0]) {
-                    DataManager.instance.LoadData();
-                    GoIngame();
-                }
-                else {
-                    NewPlayerCreate();
-                }
-            } 
-            else if (savefile[1] == false) {
-                PlayerPrefs.SetInt("isDataExisting", 1);
-                DataManager.instance.nowSlot = 1;
-
-                if(savefile[1]) {
-                    DataManager.instance.LoadData();
-                    GoIngame();
-                }
-                else {
-                    NewPlayerCreate();
-                }
-            } 
-            else if (savefile[2] == false) {
-                PlayerPrefs.SetInt("isDataExisting", 1);
-                DataManager.instance.nowSlot = 2;
-                if(savefile[2]) {
-                    DataManager.instance.LoadData();
-                    GoIngame();
-                }
-                else {
-                    NewPlayerCreate();
+            else {
+                // 데이터가 없는 슬롯이 있을 때
+                if (!savefile[0]) {
+                    StartNewGame(0);
+                } 
+                else if (!savefile[1]) {
+                    StartNewGame(1);
+                } 
+                else if (!savefile[2]) {
+                    StartNewGame(2);
                 }
             }
+        } else {
+            // isDataExisting이 0인 경우, 새 게임 시작
+            StartNewGame(0);
         }
-    } 
+    }
+
+    private void StartNewGame(int slot) {
+        PlayerPrefs.SetInt("isDataExisting", 1);
+        DataManager.instance.nowSlot = slot;
+
+        if (savefile[slot]) {
+            DataManager.instance.LoadData();
+            GoIngame();
+        } else {
+            NewPlayerCreate();
+        }
+    }
+
 
     void ResetGamedata_new() {
         bool dataExists = PlayerPrefs.GetInt("isDataExisting", 0) == 1;

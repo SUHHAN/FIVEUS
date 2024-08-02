@@ -10,9 +10,8 @@ public class HintInteraction : MonoBehaviour
 
     void Start()
     {
-       // PlayerPrefs 초기화
-        PlayerPrefs.DeleteAll();
-        PlayerPrefs.Save();
+        // PlayerPrefs 초기화(이 코드로 게임을 한 번 실행해서 저장해야 게임 재시작할 때 단서가 초기화됩니다)
+       //DeleteHintKey();
         LoadHintState();
 
         gameObject.SetActive(isHintVisible);
@@ -42,4 +41,13 @@ public class HintInteraction : MonoBehaviour
         }
         else isHintVisible = true;
     }
+
+void DeleteHintKey()
+{
+    if (PlayerPrefs.HasKey(hintKey))
+    {
+        PlayerPrefs.DeleteKey(hintKey);
+        PlayerPrefs.Save();
+    }
+}
 }

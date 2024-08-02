@@ -100,4 +100,8 @@ public class SelectSlotManager : MonoBehaviour
         }
         SceneManager.LoadScene("IngameEx");
     }
+
+    public void ReturnMain() {
+        SceneManager.LoadScene("MainScene");
+    }
 }
