@@ -4,185 +4,342 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Unity.VisualScripting; // TextMeshPro ³×ÀÓ½ºÆäÀÌ½º Ãß°¡
+using UnityEngine.SceneManagement;
+using System.Xml.Serialization;
 
-//
+// ±âº» È°µ¿ ÁøÇàÇÏ´Â ½ºÅ©¸³Æ®
 public class talkwithjjang_yj : MonoBehaviour
 {
-    public GameObject choiceUI_yj; // ¼±ÅÃ UI ÆĞ³Î
-    public GameObject dialogueUI_yj; // ´ëÈ­ UI ÆĞ³Î
-    public GameObject resultUI_yj; // °á°ú UI ÆĞ³Î
-    public TextMeshProUGUI dialogueText; // ´ë»ç ÅØ½ºÆ® UI ¿¬°á
-    public TextMeshProUGUI resultText; // °á°ú ÅØ½ºÆ® UI ¿¬°á
-    public Button yesButton; // ¿¹ ¹öÆ° ¿¬°á
-    public Button noButton; // ¾Æ´Ï¿À ¹öÆ° ¿¬°á
+    private bool isbasicdial_yj = false; // ´ë»ç Ä¡°í ÀÖ´ÂÁö ¿©ºÎ
+    private bool isResultActive_yj = false; // °á°ú UI°¡ È°¼ºÈ­ µÇ¾î ÀÖ´ÂÁö ¿©ºÎ
+
+
+    // ±âº» È°µ¿ ÆĞ³Îµé
+    public GameObject choiceUI1_yj; // ±âº»È°µ¿1 UI ÆĞ³Î
+    public GameObject choiceUI2_yj; // ±âº»È°µ¿2 UI ÆĞ³Î
+    public GameObject choiceUI3_yj; // ±âº»È°µ¿3 UI ÆĞ³Î
+    public GameObject choiceUI4_yj; // ±âº»È°µ¿4 UI ÆĞ³Î
+
+    public GameObject Dial_changyj; // ±âº»´ë»ç ¶ç¿ï ´ëÈ­Ã¢
+    public TextMeshProUGUI dialoguename_yj; // name text
+    public TextMeshProUGUI dialogueText_yj; // line text
+    public float interactionRange = 1.5f; // »óÈ£ÀÛ¿ë °Å¸®
+
+    public GameObject player; // ÇÃ·¹ÀÌ¾î ¿ÀºêÁ§Æ®
+    private GameObject currentNPC; // ÇöÀç »óÈ£ÀÛ¿ëÇÏ´Â NPC ÀúÀå º¯¼ö
+    public GameObject npc1_yj; // ÈÆ·Ã´ÜÀå
+    public GameObject npc2_yj; // Ä·ÇÎÀå
+    public GameObject npc3_yj; // ÈùÆ®
+    public GameObject npc4_yj; // ÈŞ½Ä
+
+    public Button noButton1; // ¾Æ´Ï¿À ¹öÆ° ¿¬°á1
+    public Button noButton2; // ¾Æ´Ï¿À ¹öÆ° ¿¬°á2
+    public Button noButton3; // ¾Æ´Ï¿À ¹öÆ° ¿¬°á3
+    public Button noButton4; // ¾Æ´Ï¿À ¹öÆ° ¿¬°á4
+
+    public Button noButton5; // °á°úÃ¢ ´İ±â ¹öÆ° ¿¬°á5
 
     // ±âº» È°µ¿ ¹öÆ°µé
-    public Button trainingButton_yj; // 1.ÈÆ·Ã ½Ãµµ ¹öÆ° ¿¬°á
-    public Button togetherButton_yj; // 2.´ÜÇÕ ½Ãµµ ¹öÆ° ¿¬°á
-    public Button findhintButton_yj; // 3.ÈùÆ® È®ÀÎ ¹öÆ° ¿¬°á
+    public Button trainingButton_yj; // 1. ÈÆ·Ã ½Ãµµ ¹öÆ° ¿¬°á
+    public Button campingButton_yj; // 2. ´ÜÇÕ ½Ãµµ ¹öÆ° ¿¬°á
+    public Button findhintButton_yj; // 3. ´Ü¼­ º¸±â ¹öÆ° ¿¬°á
+    public Button laybedButton_yj; // 4. ÈŞ½ÄÇÏ±â ¹öÆ° ¿¬°á4
 
-    public float interactionRange = 3.0f; // »óÈ£ÀÛ¿ë °Å¸®
-    private GameObject player; // ÇÃ·¹ÀÌ¾î ¿ÀºêÁ§Æ®
-    private bool isTalking = false; // ´ëÈ­ ÁßÀÎÁö ¿©ºÎ
+    // ¹öÆ° ´©¸£¸é °¢°¢ ³ª¿À´Â ÆĞ³Îµé 
+    public GameObject trainingUI_yj; // ÈÆ·Ã Áß ÆĞ³Î
+    public GameObject campingUI_yj; // ´ÜÇÕ Áß ÆĞ³Î
+    public GameObject iaminbedUI_yj; // ÈŞ½Ä UI ÆĞ³Î
 
-    private ProDialogue_yj whatdial_yj;
-    // ±âº» È°µ¿ Á¤µµ´Â ½ºÆ®¸³Æ® ³»¿¡¼­ ÀüºÎ ´ë»ç Ã³¸®(¾îÂ÷ÇÇ 5°³¹Û¿¡ ¾øÀ½)
-    // ¾ÆÀÌµğ ¼³Á¤ ¼³¸í : 6000¹ø´ëºÎÅÍ ½ÃÀÛÇÔ
-    // 6001 : ÈÆ·Ã´ëÀå, 6002 : ±â»ç´ÜÀå, 6003 : ´Ü¼­
+    public GameObject resultUI_yj; // °á°ú UI ÆĞ³Î
+    public TextMeshProUGUI resuedit_yj; // result edit text
 
-    // ±âº»È°µ¿1 : ÈÆ·Ã´ëÀå ±âº» ´ë»ç1
-    ProDialogue_yj serif1_1 = new ProDialogue_yj(6001, "ÈÆ·Ã´ëÀå", "¿©¾î-¸»¶ó²¤ÀÌ! ÈÆ·ÃÇÒ ÁØºñ´Â µÆ³ª?");
-    // ±âº»È°µ¿1 : ÈÆ·Ã´ëÀå ±âº» ´ë»ç2
-    ProDialogue_yj serif1_2 = new ProDialogue_yj(6001, "ÈÆ·Ã´ëÀå", "¾ÈµÇ¸é µÉ¶§±îÁö! ÈÆ·Ã ½ÃÀÛÀÌ´Ù!");
-
-    // ±âº»È°µ¿2 : ±â»ç´ÜÀå ±âº» ´ë»ç1
-    ProDialogue_yj serif2_1 = new ProDialogue_yj(6002, "±â»ç´ÜÀå", "¹¶Ä¡¸é »ì°í Èğ¾îÁö¸é Á×´Â´Ù! \n´ÜÇÕÈÆ·Ã ½ÃÀÛÀÌ´Ù!!");
-    // ±âº»È°µ¿2 : ±â»ç´ÜÀå ±âº» ´ë»ç2
-    ProDialogue_yj serif2_2 = new ProDialogue_yj(6002, "±â»ç´ÜÀå", "3 -1 = 0! ¿ì¸®´Â ÇÏ³ª´Ù!  \n´ÜÇÕÈÆ·Ã ½ÃÀÛÀÌ´Ù!!");
-
-    // ±âº»È°µ¿3 : ´Ü¼­ ¯¾ÒÀ» ¶§ ±âº» ´ë»ç
-    ProDialogue_yj serif3 = new ProDialogue_yj(6003, "´Ü¼­", "´Ü¼­¸¦ Ã£¾Ò´Ù. ³»¿ëÀ» »ìÆìº¸ÀÚ.");
+    // ±âº»È°µ¿ ¸î¹ø ÁøÇàÇß´ÂÁö ¼¼¾ß ÇÏ´Ï..ÇÃ·¹ÀÌ¾î¸¦ ºÎ¸£ÀÚ
+   // public PlayerNow_yj nowplayer_yj;
+    public PlayerManager_yj playermanager_yj; // ±âº»È°µ¿ µ¡»¬¼À¿ë
 
 
     // Start is called before the first frame update
     void Start()
     {
+        // ¹öÆ° ¿¬°á
+        trainingButton_yj.onClick.AddListener(OntrainButtonClick);
+        campingButton_yj.onClick.AddListener(OncampButtonClick);
+        findhintButton_yj.onClick.AddListener(OnhintButtonClick);
+        laybedButton_yj.onClick.AddListener(OnbedButtonClick);
+
+        noButton1.onClick.AddListener(OnNo1ButtonClick);
+        noButton2.onClick.AddListener(OnNo2ButtonClick);
+        noButton3.onClick.AddListener(OnNo3ButtonClick);
+        noButton4.onClick.AddListener(OnNo4ButtonClick);
+        noButton5.onClick.AddListener(OnNo5ButtonClick);
+        //newbuttoncon_yj = GetComponent<newbuttoncontrol>(); 
+        //nowplayer_yj = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerNow_yj>();
+
+        isbasicdial_yj = false;
+        playermanager_yj.playerNow.howtoday_py = 0;
+        //nowplayer_yj.howtoday_py = 0; // ÇÏ·ç¿¡ ±âº»È°µ¿ ¸î¹øÇß´ÂÁö º¯¼ö 0À¸·Î ½ÃÀÛ
+        playermanager_yj.playerNow.howtrain_py = 0;
+        //nowplayer_yj.howtrain_py = 0; // ÀüÃ¼ÀûÀ¸·Î ÈÆ·Ã ¸î¹øÇß´ÂÁö º¯¼ö 0À¸·Î ½ÃÀÛ
         player = GameObject.FindGameObjectWithTag("Player"); // ÅÂ±×°¡ "Player"ÀÎ ¿ÀºêÁ§Æ® Ã£±â
-        choiceUI_yj.SetActive(false); // ½ÃÀÛÇÒ ¶§ ¼±ÅÃ UI ºñÈ°¼ºÈ­       
-        dialogueUI_yj.SetActive(false); // ½ÃÀÛÇÒ ¶§ ´ëÈ­ UI ºñÈ°¼ºÈ­
-        resultUI_yj.SetActive(false); // ½ÃÀÛÇÒ ¶§ °á°ú UI ºñÈ°¼ºÈ­
-
-        //talkButton.onClick.AddListener(OnTalkButtonClick); // ´ëÈ­ÇÏ±â ¹öÆ° Å¬¸¯ ÀÌº¥Æ® ¿¬°á
-        yesButton.onClick.AddListener(OnYesButtonClick); // ¿¹ ¹öÆ° Å¬¸¯ ÀÌº¥Æ® ¿¬°á
-        noButton.onClick.AddListener(OnNoButtonClick); // ¾Æ´Ï¿À ¹öÆ° Å¬¸¯ ÀÌº¥Æ® ¿¬°á
+        HideUI(); // ½ÃÀÛÇÒ ¶§ UI ¼û±â±â
     }
-
-
 
     // Update is called once per frame
     void Update()
     {
-        if (isTalking)
-        {
-            if ((isTalking && Input.GetKeyDown(KeyCode.Return))) // ¿£ÅÍ Å° ÀÔ·Â °¨Áö
-            {
-                EndDialogue(); // ´ëÈ­ Á¾·á
-            }
-            //return;
-        }
+        CheckNPCInteraction();
+        HandleUserInput();
+        // ÀÌ°÷¿¡ ÄÚµå¸¦ ÀÔ·ÂÇÏ½Ã¿À. ÇÊ¿äÇÏ´Ù¸é ´Ù¸¥ ¸Ş¼Òµå¸¦ Ã¤¿öµµ µË´Ï´Ù. 
+    }
 
-        float distance = Vector3.Distance(player.transform.position, transform.position); // ÇÃ·¹ÀÌ¾î¿Í NPC °£ °Å¸® °è»ê
-        if (distance <= interactionRange) // »óÈ£ÀÛ¿ë °Å¸® ³»¿¡ ÀÖ´ÂÁö È®ÀÎ
-        { 
-            if (Input.GetKeyDown(KeyCode.Return)) // ¿£ÅÍ Å° ÀÔ·Â °¨Áö
+    void HandleUserInput()
+    {
+        if (currentNPC != null)
+        {
+            HandleNPCDialogue_yj(currentNPC); // npcÇÑÅ× °¡±îÀÌ °¡¸é ´ëÈ­Ã¢ÀÌ ¶á´Ù
+
+            if (Input.GetKeyDown(KeyCode.Space))
             {
-                // »ó´ë ´©±¸¸¦ ¸¸³µ´ÂÁö ¸ÕÀú ±âº»´ë»ç°¡ ¶ä(TalkManager_yj Âü°í)
-                switch (whatdial_yj.id)
+                
+                //Dial_changyj.SetActive(false);
+                if (isbasicdial_yj)
                 {
-                    // ±âº»È°µ¿1 : ÈÆ·Ã´ÜÀåÀÏ ‹š(ÈÆ·Ã)
-                    case 6001:
-                        dialogueText.text = serif1_1.line; // ·£´ıÇÏ°Ô ÈÆ·Ã´ëÀå ±âº» ´ë»ç Ãâ·Â
-                        dialogueText.text = ""; // ´ë»ç ÅØ½ºÆ® ÃÊ±âÈ­
-                        break;
-                    // ±âº»È°µ¿2 : ±â»ç´ÜÀåÀÏ ¶§(´ÜÇÕ)
-                    case 6002:
-                        dialogueText.text = serif2_1.line; // ·£´ıÇÏ°Ô ±â»ç´ÜÀå ±âº» ´ë»ç Ãâ·Â
-                        dialogueText.text = ""; // ´ë»ç ÅØ½ºÆ® ÃÊ±âÈ­
-                        break;
-                    // ±âº»È°µ¿3 : ´Ü¼­ÀÏ ¶§(´Ü¼­)
-                    case 6003:
-                        dialogueText.text = serif3.line; // ÈùÆ® ´ë»ç Ãâ·Â
-                        dialogueText.text = ""; // ´ë»ç ÅØ½ºÆ® ÃÊ±âÈ­
-                        break;
+                    //Debug.Log("isbasic true");
+                    HandleNPCchoice_yj(currentNPC);
                 }
-
-                ShowChoiceUI_yj(); // ¸¸³ª´Â »ó´ë¿¡ µû¶ó ´Ù¸¥ ¼±ÅÃ UI Ç¥½Ã
-                // °°Àº ¼±ÅÃ UI¸¦ »ç¿ëÇÏ´Âµ¥, ¹®±¸¸¸ ´Ù¸§. yes,noµµ °°À½.
-                // ÈÆ·Ã´ÜÀå(6001)À» ¸¸³µÀ» ‹š´Â "ÈÆ·ÃÇÏ½Ã°Ú½À´Ï±î?" ¼±ÅÃÁö ¶ä
-                // ±â»ç´ÜÀå(6002)À» ¸¸³µÀ» ‹š´Â "´ÜÇÕ ÈÆ·ÃÀ» ÁøÇàÇÏ½Ã°Ú½À´Ï±î?" ¼±ÅÃÁö ¶ä
-                // ÈÆ·Ã´ÜÀå(6001)À» ¸¸³µÀ» ‹š´Â "´Ü¼­¸¦ Á¶»çÇÏ½Ã°Ú°Ú½À´Ï±î?" ¼±ÅÃÁö ¶ä
+                else
+                {
+                    //Debug.Log("isbasic false");
+                }
             }
         }
-        else
+    }
+
+    void CheckNPCInteraction()
+    {
+        float distanceNPC1 = Vector3.Distance(player.transform.position, npc1_yj.transform.position);
+        float distanceNPC2 = Vector3.Distance(player.transform.position, npc2_yj.transform.position);
+        float distanceNPC3 = Vector3.Distance(player.transform.position, npc3_yj.transform.position);
+        float distanceNPC4 = Vector3.Distance(player.transform.position, npc4_yj.transform.position);
+
+
+        if (distanceNPC1 <= interactionRange)
         {
-            choiceUI_yj.SetActive(false); // ¼±ÅÃ UI ¼û±â±â
+            currentNPC = npc1_yj;
         }
-    }
-
-    void ShowChoiceUI_yj()
-    {
-        choiceUI_yj.SetActive(true); // ¼±ÅÃ UI È°¼ºÈ­
-
-        switch (whatdial_yj.id)
+        else if (distanceNPC2 <= interactionRange)
         {
-            // ±âº»È°µ¿1 : ÈÆ·Ã´ÜÀåÀÏ‹š(ÈÆ·Ã)
-            case 6001:
-                choiceUI_yj.SetActive(true); // ¼±ÅÃ UI È°¼ºÈ­
-                break;
-
-            // ±âº»È°µ¿2 : ±â»ç´ÜÀåÀÏ¶§(´ÜÇÕ)
-            case 6002:
-                dialogueText.text = ""; // ´ë»ç ÅØ½ºÆ® ÃÊ±âÈ­
-                break;
-
-            case 6003:
-                dialogueText.text = ""; // ´ë»ç ÅØ½ºÆ® ÃÊ±âÈ­
-                break;
-        }        
-    }
-
-    public void OnTalkButtonClick()
-    {
-        choiceUI_yj.SetActive(true); // ¼±ÅÃ UI È°¼ºÈ­
-        //choiceUI.SetActive(false); // ¼±ÅÃ UI ¼û±â±â
-        //dialogueUI.SetActive(true); // ´ëÈ­ UI È°¼ºÈ­
-        dialogueText.text = "´ÜÇÕÇÏ½Ã°Ú½À´Ï±î?"; // ´ë»ç Ç¥½Ã
-        isTalking = true; // ´ëÈ­ »óÅÂ ¼³Á¤
-    }
-
-
-    public void OnYesButtonClick()
-    {
-        // TalkManager_yj Å¬·¡½ºÀÇ IncreaseTeamPower È£Ãâ
-        TalkManager_yj talkManager = FindObjectOfType<TalkManager_yj>();
-        if (talkManager != null)
+            currentNPC = npc2_yj;
+        }
+        else if (distanceNPC3 <= interactionRange)
         {
-            //talkManager.IncreaseTeamPower(10); // ¿¹½Ã·Î 10¸¸Å­ ÆÀ ÆÄ¿ö Áõ°¡
+            currentNPC = npc3_yj;
+        }
+        else if (distanceNPC4 <= interactionRange)
+        {
+            currentNPC = npc4_yj;
         }
         else
         {
-            Debug.LogError("TalkManager_yj not found in the scene.");
+            currentNPC = null;
         }
-
-
-        //AttemptPersuasion(); // ¼³µæ ½Ãµµ
-        dialogueText.text = "´ÜÇÕÀ» ÁøÇàÇß´Ù"; // ¼±ÅÃÁö Ã³¸®
-        // TalkManager_yj¿¡¼­ Ã³¸®ÇÒ ³»¿ëÀ¸·Î ¿¬°á
-        isTalking = false; // ´ëÈ­ »óÅÂ ÇØÁ¦
-        choiceUI_yj.SetActive(false); // ¼±ÅÃ UI ¼û±â±â
     }
 
-    public void OnNoButtonClick()
-     {
-        // persuadeUI.SetActive(false); // ¼³µæ UI ¼û±â±â
-        dialogueText.text = "´ÜÇÕÀ» ÁøÇàÇÏÁö ¾Ê½À´Ï´Ù"; // ¼±ÅÃÁö Ã³¸®
-        isTalking = false; // ´ëÈ­ »óÅÂ ÇØÁ¦
-        choiceUI_yj.SetActive(false); // ¼±ÅÃ UI ¼û±â±â
+    void HandleNPCDialogue_yj(GameObject npc_yjyj)
+    {   
+        if(isbasicdial_yj == false)
+            Dial_changyj.SetActive(true);
+        else if(choiceUI1_yj.activeSelf || choiceUI2_yj.activeSelf || choiceUI3_yj.activeSelf || choiceUI4_yj.activeSelf)
+            Dial_changyj.SetActive(false);
+        // ÇöÀç NPC¿¡ µû¶ó ´ëÈ­ Ã³¸®
+        if (npc_yjyj == npc1_yj) // ÈÆ·Ã´ÜÀå
+        {
+            dialoguename_yj.text = "ÈÆ·Ã´ëÀå"; // ÈÆ·Ã´ëÀå ÀÌ¸§ Ãâ·Â 
+            dialogueText_yj.text = "¿©¾î-¸»¶ó²¤ÀÌ! \nÈÆ·ÃÇÒ ÁØºñ´Â µÆ³ª? \n[½ºÆäÀÌ½º¹Ù¸¦ ´­·¯ ÈÆ·ÃÀ» ÁøÇàÇÏ¼¼¿ä]"; // ÈÆ·Ã´ëÀå ±âº» ´ë»ç Ãâ·Â
+            isbasicdial_yj = true; // ±âº»´ë»ç Ä¡°í ÀÖ´Â Áß
+            
+        }
+        else if (npc_yjyj == npc2_yj) // Ä·ÇÎÀå
+        {            
+            dialoguename_yj.text = "Ä·ÇÎÀå ÁÖÀÎ"; // Ä·ÇÎÀå ÀÌ¸§ Ãâ·Â 
+            dialogueText_yj.text = "¾î¼­¿À¼¼¿ä~Ä·ÇÎÀåÀÔ´Ï´Ù. \nÄ·ÇÎÀ» ÅëÇÏ¿© ´ÜÇÕÀ» ÁøÇàÇÏ½Ç °Ç°¡¿ä? \n[½ºÆäÀÌ½º¹Ù¸¦ ´­·¯ ´ÜÇÕÀ» ÁøÇàÇÏ¼¼¿ä]"; // Ä·ÇÎÀå ±âº» ´ë»ç Ãâ·Â
+            isbasicdial_yj = true; // ±âº»´ë»ç Ä¡°í ÀÖ´Â Áß
+        }
+        else if (npc_yjyj == npc3_yj) // ´Ü¼­
+        {
+            dialoguename_yj.text = "´Ü¼­"; // ´Ü¼­ ÀÌ¸§ Ãâ·Â 
+            dialogueText_yj.text = "´Ü¼­¸¦ Ã£¾Ò´Ù.\nÀÎº¥Åä¸®¿¡¼­ ³»¿ëÀ» È®ÀÎÇØ º¸ÀÚ.\n\n[½ºÆäÀÌ½º¹Ù¸¦ ´©¸£¼¼¿ä]"; // ´Ü¼­ ±âº» ´ë»ç Ãâ·Â                                      
+            isbasicdial_yj = true; // ±âº»´ë»ç Ä¡°í ÀÖ´Â Áß
+        }
+        else if (npc_yjyj == npc4_yj) // Ä§´ë
+        {
+            dialoguename_yj.text = "Ä§´ë"; // ÈÆ·Ã´ëÀå ÀÌ¸§ Ãâ·Â 
+            dialogueText_yj.text = "¾Æ´ÁÇÑ ³» ¹æÀÇ Ä§´ë´Ù.\nÆí¾ÈÈ÷ ÈŞ½ÄÀ» ÃëÇØ º¸ÀÚ. \n[½ºÆäÀÌ½º¹Ù¸¦ ´­·¯ ÈŞ½ÄÀ» ÁøÇàÇÏ¼¼¿ä]"; // ÈÆ·Ã´ëÀå ±âº» ´ë»ç Ãâ·Â                                      
+            isbasicdial_yj = true; // ±âº»´ë»ç Ä¡°í ÀÖ´Â Áß
+        }
     }
 
-
-    /*void HideChoices()
+    void HandleNPCchoice_yj(GameObject npc_yjyj)
     {
-        choiceUI.SetActive(false); // ¼±ÅÃ UI ¼û±â±â
-        dialogueUI.SetActive(false); // ´ëÈ­ UI ¼û±â±â
-        persuadeUI.SetActive(false); // ¼³µæ UI ¼û±â±â
-    }*/
+        // ÇöÀç NPC¿¡ µû¶ó ¼±ÅÃÁöÃ³¸®
+        if (npc_yjyj == npc1_yj) // ÈÆ·Ã´ÜÀå
+        {           
+            //Debug.Log("ÈÆ·Ã´ÜÀåÀÌ¶û ¾ê±âÁß");
+            Dial_changyj.SetActive(false);
+            isbasicdial_yj = false;
+            choiceUI1_yj.SetActive(true);
 
+        }
+        else if (npc_yjyj == npc2_yj) // Ä·ÇÎÀå
+        {
+            Dial_changyj.SetActive(false);
+            isbasicdial_yj = false;
+            choiceUI2_yj.SetActive(true);
+        }
+        else if (npc_yjyj == npc3_yj) // ´Ü¼­
+        {
+            Dial_changyj.SetActive(false);
+            isbasicdial_yj = false;
+            choiceUI3_yj.SetActive(true);
+        }
+        else if (npc_yjyj == npc4_yj) // Ä§´ë
+        {
+
+            Dial_changyj.SetActive(false);
+            isbasicdial_yj = false;
+            choiceUI4_yj.SetActive(true);
+        }
+    }
+    // ¹öÆ° ÀÌº¥Æ® ¿¬°á
+    // ±âº»È°µ¿1 : "ÈÆ·ÃÇÑ´Ù" ¼±ÅÃÇßÀ» ¶§
+    public void OntrainButtonClick()
+    {
+        //Debug.Log("1±âº»È°µ¿ È½¼ö º¯¼ö : " + nowplayer_yj.howtoday_py);
+        Debug.Log("1±âº»È°µ¿ È½¼ö º¯¼ö : " + playermanager_yj.playerNow.howtoday_py);
+
+        Dial_changyj.SetActive(false);
+        choiceUI1_yj.SetActive(false);
+        
+        // º¯¼ö °è»ê
+        playermanager_yj.IncreaseTrainingCount();// ÇÏ·ç ÈÆ·Ã È°µ¿ È½¼ö 1 Áõ°¡
+        //nowplayer_yj.howtrain_py ++; // ÈÆ·Ã È½¼ö º¯¼ö 1 Áõ°¡
+
+        playermanager_yj.IncreaseTiredness(10);
+        playermanager_yj.playerNow.tired_py += 10; // ÇÇ·Îµµ 10 Áõ°¡
+
+        //nowplayer_yj.tired_py +=10; // ÇÇ·Îµµ 10 Áõ°¡
+
+        playermanager_yj.IncreaseDailyActivityCount();
+        // nowplayer_yj.howtoday_py++; // ÇÏ·ç ±âº» È°µ¿ ¼öÇà È½¼ö 1 Áõ°¡
+
+        resuedit_yj.text = $"±âº»È°µ¿ È½¼ö: {playermanager_yj.playerNow.howtoday_py} / 3"; // ±âº» È°µ¿ ÅØ½ºÆ® ¾÷µ¥ÀÌÆ®
+        //resuedit_yj.text = $"±âº»È°µ¿ È½¼ö: {nowplayer_yj.howtoday_py} / 3"; // ±âº» È°µ¿ ÅØ½ºÆ® ¾÷µ¥ÀÌÆ®
+        //Debug.Log("ÈÆ·Ã È½¼ö º¯¼ö : " + nowplayer_yj.howtrain_py);
+        resultUI_yj.SetActive(true);
+    }
+
+    // ±âº»È°µ¿2 : ´ÜÇÕÇÑ´Ù ÇßÀ» ¶§
+    public void OncampButtonClick()
+    {
+        //Debug.Log("2±âº»È°µ¿ È½¼ö º¯¼ö : " + nowplayer_yj.howtoday_py);
+        Debug.Log("2±âº»È°µ¿ È½¼ö º¯¼ö : " + playermanager_yj.playerNow.howtoday_py);
+        Dial_changyj.SetActive(false);
+        choiceUI2_yj.SetActive(false); // ¼±ÅÃ UI ºñÈ°¼ºÈ­
+
+        // º¯¼ö °è»ê
+        playermanager_yj.IncreaseTeamPower(1);// ÇÏ·ç ´ÜÇÕ È°µ¿ È½¼ö 1 Áõ°¡
+        //nowplayer_yj.team_py++; // ´ÜÇÕº¯¼ö 1 Áõ°¡
+        playermanager_yj.IncreaseDailyActivityCount();
+        //nowplayer_yj.howtoday_py++; // ÇÏ·ç ±âº» È°µ¿ ¼öÇà È½¼ö 1 Áõ°¡
+
+        // °á°úÃ¢ ¾÷µ¥ÀÌÆ®
+        resuedit_yj.text = $"±âº»È°µ¿ È½¼ö: {playermanager_yj.playerNow.howtoday_py} / 3"; // ±âº» È°µ¿ ÅØ½ºÆ® ¾÷µ¥ÀÌÆ®
+        //resuedit_yj.text = $"±âº»È°µ¿ È½¼ö: {nowplayer_yj.howtoday_py} / 3"; // ±âº» È°µ¿ ÅØ½ºÆ® ¾÷µ¥ÀÌÆ®
+        resultUI_yj.SetActive(true);
+   
+       
+    }
+    // ±âº»È°µ¿3 : ´Ü¼­ º¸°Ú´Ù ÇßÀ» ¶§
+    public void OnhintButtonClick()
+    {
+        //Debug.Log("3±âº»È°µ¿ È½¼ö º¯¼ö : " + nowplayer_yj.howtoday_py);
+        Debug.Log("3±âº»È°µ¿ È½¼ö º¯¼ö : " + playermanager_yj.playerNow.howtoday_py);
+        choiceUI3_yj.SetActive(false);
+        SceneManager.LoadScene("InventoryMain"); // ÀÎº¥Åä¸® ¾ÀÀ¸·Î ÀÌµ¿
+        // Ã£Àº ´Ü¼­ °³¼ö¸¦ ÇÑ °³ ´Ã¸². ÀÌ°Ç ÀÎº¥Åä¸®¶û ¿¬°ü ÈÄ¿¡ »ı°¢ÇØ¾ß ÇÒµí
+    }
+    // ±âº»È°µ¿4 : ÈŞ½Ä ÃëÇÏ°Ú´Ù ÇßÀ» ¶§
+    public void OnbedButtonClick()
+    {
+        Debug.Log("4±âº»È°µ¿ È½¼ö º¯¼ö : " + playermanager_yj.playerNow.howtoday_py);
+        //Debug.Log("4±âº»È°µ¿ È½¼ö º¯¼ö : " + nowplayer_yj.howtoday_py);
+        Dial_changyj.SetActive(false);
+        choiceUI4_yj.SetActive(false);
+        resultUI_yj.SetActive(true);
+
+        playermanager_yj.IncreaseDailyActivityCount();
+        //nowplayer_yj.howtoday_py++; // ÇÏ·ç ±âº» È°µ¿ ¼öÇà È½¼ö 1 Áõ°¡
+        // °á°úÃ¢ ¾÷µ¥ÀÌÆ®
+        resuedit_yj.text = $"±âº»È°µ¿ È½¼ö: {playermanager_yj.playerNow.howtoday_py} / 3"; // ±âº» È°µ¿ ÅØ½ºÆ® ¾÷µ¥ÀÌÆ®
+
+        //resuedit_yj.text = $"±âº»È°µ¿ È½¼ö: {nowplayer_yj.howtoday_py} / 3"; // ±âº» È°µ¿ ÅØ½ºÆ® ¾÷µ¥ÀÌÆ®
+        resultUI_yj.SetActive(true);
+    }
+
+    public void OnNo1ButtonClick()
+    {
+        choiceUI1_yj.SetActive(false); // ÈÆ·Ã UI ¼±ÅÃÃ¢ ºñÈ°¼ºÈ­
+        isbasicdial_yj = false;
+    }
+    public void OnNo2ButtonClick()
+    {
+        choiceUI2_yj.SetActive(false); // ´ÜÇÕ UI ¼±ÅÃÃ¢ ºñÈ°¼ºÈ­
+        isbasicdial_yj = false;
+    }
+    public void OnNo3ButtonClick()
+    {
+        choiceUI3_yj.SetActive(false); // ´Ü¼­ UI ¼±ÅÃÃ¢ ºñÈ°¼ºÈ­
+        isbasicdial_yj = false;
+    }
+    public void OnNo4ButtonClick()
+    {
+        choiceUI4_yj.SetActive(false); // ÈŞ½Ä UI ¼±ÅÃÃ¢ ºñÈ°¼ºÈ­
+        isbasicdial_yj = false;
+    }
+    public void OnNo5ButtonClick()
+    {
+        resultUI_yj.SetActive(false); // °á°ú UI ¼±ÅÃÃ¢ ºñÈ°¼ºÈ­
+        isbasicdial_yj = false;
+    }
+
+
+    void HideUI()
+{
+    choiceUI1_yj.SetActive(false);
+    choiceUI2_yj.SetActive(false);
+    choiceUI3_yj.SetActive(false);
+    choiceUI4_yj.SetActive(false);
+    Dial_changyj.SetActive(false);
+    resultUI_yj.SetActive(false);
+}
     void EndDialogue()
     {
-        //dialogueUI.SetActive(false); // ´ëÈ­ UI ¼û±â±â
-        isTalking = false; // ´ëÈ­ »óÅÂ ÇØÁ¦
-        choiceUI_yj.SetActive(false); // ¼±ÅÃ UI ¼û±â
+        Dial_changyj.SetActive(false); // ´ëÈ­ UI ¼û±â±â
+        //isbasicdial_yj = false; // ´ëÈ­ »óÅÂ ÇØÁ¦
     }
 
+    public void ActivateChoiceUI1()
+    {
+        if (Dial_changyj.activeSelf)
+        {
+            Dial_changyj.SetActive(false);
+            choiceUI1_yj.SetActive(true);
+            choiceUI2_yj.SetActive(true);
+            choiceUI3_yj.SetActive(true);
+            choiceUI4_yj.SetActive(true);
+            resultUI_yj.SetActive(false);
+            isbasicdial_yj = false;
+            isResultActive_yj = false;
+        }
+    }
 }
