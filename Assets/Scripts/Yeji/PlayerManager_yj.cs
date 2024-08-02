@@ -38,6 +38,11 @@ public class PlayerManager_yj : MonoBehaviour
             playerNow.hp_py = 100; // 최대 체력은 100으로 제한
 
     }
+    // 플레이어 훈련 횟수 증가
+    public void IncreaseTrainingCount()
+    {
+        playerNow.howtrain_py++;
+    }
 
     // 플레이어 피로도 증가
     public void IncreaseTiredness(int amount)
@@ -63,27 +68,24 @@ public class PlayerManager_yj : MonoBehaviour
         playerNow.team_py += amount;
     }
 
+    // timeManager로 넘길게 그냐앙...그래서 주석 처리
     // 플레이어 오늘 날짜 설정
-    public void SetDay(int day)
+     /*public void SetDay(int day)
     {
         playerNow.day_py = day;
     }
 
     // 플레이어 하루 활동 횟수 증가
-    public void IncreaseDailyActivityCount()
+
+   public void IncreaseDailyActivityCount()
     {
         playerNow.howtoday_py++;
         if (playerNow.howtoday_py > 2)
             playerNow.howtoday_py = 0; // 하루 활동 횟수는 최대 3회로 제한
 
-    }
+    }*/
 
-    // 플레이어 훈련 횟수 증가
-    public void IncreaseTrainingCount()
-    {
-        playerNow.howtrain_py++;
-        
-    }
+    
 
 
     void SaveData() {
