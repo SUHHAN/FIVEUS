@@ -6,12 +6,23 @@ using UnityEngine.SceneManagement;
 public class IngameManager : MonoBehaviour
 {
     private NpcScript NpcScript;
+    
     void Start()
     {
         // Additively load the GUI scene
         SceneManager.LoadScene("UI", LoadSceneMode.Additive);
     }
 
+
+    public void ReturnMain() {
+        SceneManager.LoadScene("MainScene");
+    }
+    public void changeStore() {
+        SceneManager.LoadScene("StoreMain");
+    }
+    public void changeInventory() {
+        SceneManager.LoadScene("InventoryMain");
+    }
 
     public void OnTestButton() {
         // hint 하나 얻기
@@ -24,8 +35,19 @@ public class IngameManager : MonoBehaviour
         DataManager.instance.nowPlayer.Player_tired = 99;
         DataManager.instance.nowPlayer.Player_hp = 1;
 
+        List<Character> charac = DataManager.instance.nowPlayer.characters;
+        foreach(var ii in charac) {
+            ii.Success = true;
+        }
+
         DataManager.instance.SaveData();
     }
+
+    public void OnTestTeamButton()
+    {   
+        CharacterManager.instance.Team_Activity();
+    }
+
 
     public void OnTestLoveButton() {
         // 암살자 선물하기 버튼 생성
@@ -36,6 +58,10 @@ public class IngameManager : MonoBehaviour
     {   
         PlayerPrefs.SetString("NpcType", npc);
         PlayerPrefs.Save(); 
+
+        // 다른 씬에서 curType을 저장
+        PlayerPrefs.SetString("CurType", "기타"); // "장비" 대신 원하는 탭 이름 사용
+        PlayerPrefs.Save();
         
         print(PlayerPrefs.GetString("NpcType"));
         SceneManager.LoadScene("InventoryMain"); // InventoryMain 씬으로 이동
