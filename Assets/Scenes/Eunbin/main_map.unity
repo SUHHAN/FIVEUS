@@ -690,7 +690,7 @@ MonoBehaviour:
   player: {fileID: 1261792004}
   isTalking: 0
   npcType: "\uD790\uB7EC"
-  affection: 30
+  affection: 15
 --- !u!50 &208590406
 Rigidbody2D:
   serializedVersion: 4
@@ -3738,7 +3738,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 42.690735, y: 1.5277}
+  m_AnchoredPosition: {x: 42.690735, y: 1.52771}
   m_SizeDelta: {x: -85.3816, y: -3.0553}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &358892929
@@ -7004,7 +7004,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &715212781
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27397,7 +27397,7 @@ MonoBehaviour:
   player: {fileID: 1261792004}
   isTalking: 0
   npcType: "\uAC80\uC0AC"
-  affection: 30
+  affection: 25
 --- !u!50 &1074312530
 Rigidbody2D:
   serializedVersion: 4

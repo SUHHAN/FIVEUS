@@ -14,8 +14,6 @@ public class MainClick : MonoBehaviour
         // 이전 씬 이름 가져오기
         previousSceneName = PlayerPrefs.GetString("PreviousScene", "");
 
-
-        
         
     }
 

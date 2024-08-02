@@ -5292,7 +5292,7 @@ MonoBehaviour:
   player: {fileID: 0}
   isTalking: 0
   npcType: "\uB9C8\uBC95\uC0AC"
-  affection: 30
+  affection: 15
 --- !u!50 &1099234942
 Rigidbody2D:
   serializedVersion: 4

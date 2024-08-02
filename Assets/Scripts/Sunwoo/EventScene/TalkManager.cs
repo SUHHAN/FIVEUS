@@ -43,6 +43,8 @@ public class TalkManager : MonoBehaviour
     private int currentDialogueIndex = 0; // 현재 대사 인덱스
     private bool isActivated = false; // TalkManager가 활성화되었는지 여부
 
+    public bool isPlayed = false; // 프롤로그씬이 한번 재생됐었는지
+
     void Awake()
     {
         proDialogue = new List<ProDialogue>();
@@ -113,7 +115,12 @@ public class TalkManager : MonoBehaviour
             narration.SetActive(false);
             dialogue.SetActive(true);
             opening.SetActive(false);
-            nameText.text = currentDialogue.name;
+            
+            if (currentDialogue.name != "{player_name}")
+                nameText.text = currentDialogue.name;
+            else
+                nameText.text = DataManager.instance.nowPlayer.Player_name;
+
             descriptionText.text = currentDialogue.line;
 
             // '샐리'의 경우 두 번째 이미지 오브젝트를 활성화
@@ -158,12 +165,18 @@ public class TalkManager : MonoBehaviour
 
         if (currentDialogueIndex >= proDialogue.Count)
         {
+            
+
             LoadMainMapScene(); // 모든 대사를 출력 후 메인 맵 씬으로 이동
         }
     }
 
     void LoadMainMapScene()
-    {
+    { 
+        isPlayed = true;
+        DataManager.instance.nowPlayer.isPlayed = isPlayed;
+        DataManager.instance.SaveData();
+
         SceneManager.LoadScene("main_map"); // 메인 맵 씬 로드
     }
 }
