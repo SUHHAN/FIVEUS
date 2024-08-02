@@ -416,8 +416,8 @@ public class NpcScript : MonoBehaviour
 //             }
 //             else
 //             {
-//                 SceneManager.LoadScene("big_house");
-//                 newPosition = new Vector3(5, 0, 10); // big_house 내 위치 설정
+//                 SceneManager.LoadScene("hotel");
+//                 newPosition = new Vector3(5, 0, 10);
 //             }
 //             break;
 //         case "힐러":
@@ -428,25 +428,25 @@ public class NpcScript : MonoBehaviour
 //             }
 //             else
 //             {
-//                 SceneManager.LoadScene("big_house");
-//                 newPosition = new Vector3(5, 0, 10); // big_house 내 위치 설정
+//                 SceneManager.LoadScene("hotel_hall");
+//                 newPosition = new Vector3(5, 0, 10);
 //             }
 //             break;
 //         case "탱커":
 //             if (timeOfDay == "Morning" || timeOfDay == "Afternoon")
 //             {
 //                 SceneManager.LoadScene("training");
-//                 newPosition = new Vector3(15, 0, 5); // training 내 위치 설정
+//                 newPosition = new Vector3(-4, 3.36, 0); // training 내 위치 설정
 //             }
 //             else
 //             {
-//                 SceneManager.LoadScene("big_house");
-//                 newPosition = new Vector3(5, 0, 10); // big_house 내 위치 설정
+//                 SceneManager.LoadScene("hotel_room1");
+//                 newPosition = new Vector3(5, 0, 10);
 //             }
 //             break;
 //         case "마법사":
-//             SceneManager.LoadScene("sub2_house");
-//             newPosition = new Vector3(3, 0, 8); // sub2_house 내 위치 설정
+//             SceneManager.LoadScene("magic_house");
+//             newPosition = new Vector3(1.73, 063, 0);
 //             break;
 //         case "암살자":
 //             if (timeOfDay == "Evening")
