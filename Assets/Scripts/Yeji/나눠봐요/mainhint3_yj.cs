@@ -154,6 +154,7 @@ public class mainhint3_yj : MonoBehaviour
     // 기본활동3 : 단서 보겠다 했을 때
     public void OnhintButtonClick()
     {
+        Debug.Log("단서 클릭");
         choiceUI3_yj.SetActive(false);
         timemanager_yj.CompleteActivity(); // 하루 기본 활동 수행 횟수 1 증가
         resuedit_yj.text = $"기본활동 횟수 : {timemanager_yj.activityCount / 2} / 3";
@@ -165,6 +166,9 @@ public class mainhint3_yj : MonoBehaviour
 
         resultUI_yj.SetActive(true);
         Invoke("HideResultPanel()", 2f);
+
+        // 인벤토리에 힌트 랜덤 추가
+        ItemManager.instance.GetHint_inv();
 
         SceneManager.LoadScene("InventoryMain"); // 인벤토리 씬으로 이동
         // 찾은 단서 개수를 한 개 늘림. 이건 인벤토리랑 연관 후에 생각해야 할듯
