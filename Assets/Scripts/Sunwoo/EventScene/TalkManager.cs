@@ -58,10 +58,6 @@ public class TalkManager : MonoBehaviour
 
     void Update()
     {
-        if (isActivated && currentDialogueIndex == 0)
-        {
-            PrintProDialogue(currentDialogueIndex);
-        }
         if (isActivated && Input.GetKeyDown(KeyCode.Space))
         {
             currentDialogueIndex++;
@@ -144,6 +140,8 @@ public class TalkManager : MonoBehaviour
     {
         this.gameObject.SetActive(true);
         isActivated = true;
+        currentDialogueIndex = 0; // 대화를 시작할 때 인덱스를 0으로 초기화
+        PrintProDialogue(currentDialogueIndex);
     }
 
     void DeactivateTalk()
