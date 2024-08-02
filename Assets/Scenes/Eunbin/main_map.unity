@@ -388,7 +388,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &101316922
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1003,11 +1003,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &225220557 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5687749705408214913, guid: 95bf530cc58aabd4797ebbcda34b50f1, type: 3}
-  m_PrefabInstance: {fileID: 1316394086}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &237762851
 GameObject:
   m_ObjectHideFlags: 0
@@ -27516,7 +27511,7 @@ MonoBehaviour:
   choice1Text: {fileID: 222272874}
   choice2Text: {fileID: 377267576}
   interactionRange: 1
-  player: {fileID: 225220557}
+  player: {fileID: 1261792004}
   isTalking: 0
   npcType: "\uAC80\uC0AC"
   affection: 25
@@ -31344,7 +31339,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1261792005
 MonoBehaviour:
   m_ObjectHideFlags: 0

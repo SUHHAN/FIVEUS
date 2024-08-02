@@ -81,9 +81,14 @@ public class NpcScript : MonoBehaviour
 
     void Update()
     {
-        if (isTalking) // 대화 중일 때
+        float distance = Vector3.Distance(player.transform.position, transform.position); // 플레이어와 NPC 간 거리 계산
+        if (distance <= interactionRange) // 상호작용 거리 내에 있는지 확인
         {
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Return) && !isTalking) // 엔터 키 입력 감지 및 대화 중이 아닌 경우
+            {
+                ShowChoiceUI(); // 선택 UI 표시
+            }
+            else if (Input.GetKeyDown(KeyCode.Space) && isTalking) // 대화 중일 때 스페이스바 입력 감지
             {
                 if (choice1Dialogues.Count > 0 && choice1DialogueIndex < choice1Dialogues.Count)
                 {
@@ -95,15 +100,9 @@ public class NpcScript : MonoBehaviour
                 }
             }
         }
-    }
-
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-        // 충돌한 오브젝트의 태그가 "Player"인지 확인
-        if (collision.gameObject.CompareTag("Player"))
+        else
         {
-            // 충돌 시의 행동 정의
-            Debug.Log("충돌했습니다.");
+            choiceUI.SetActive(false); // 선택 UI와 자식 오브젝트들 숨기기
         }
     }
 
