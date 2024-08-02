@@ -8919,9 +8919,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   choiceUI: {fileID: 230793916}
   dialogueUI: {fileID: 1777348900}
-  npcAffectionUI: {fileID: 0}
+  npcAffectionUI: {fileID: 1891482663}
   dialogueText: {fileID: 1798492026}
-  affectionText: {fileID: 0}
+  affectionText: {fileID: 468050332}
   npcNameText: {fileID: 1798492025}
   talkButton: {fileID: 1207533547}
   persuadeButton: {fileID: 980454673}

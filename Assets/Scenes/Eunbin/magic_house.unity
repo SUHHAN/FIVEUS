@@ -5429,9 +5429,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   choiceUI: {fileID: 861139215}
   dialogueUI: {fileID: 4542022}
-  npcAffectionUI: {fileID: 0}
+  npcAffectionUI: {fileID: 22851618}
   dialogueText: {fileID: 1233030425}
-  affectionText: {fileID: 0}
+  affectionText: {fileID: 1664282738}
   npcNameText: {fileID: 1233030426}
   talkButton: {fileID: 394088262}
   persuadeButton: {fileID: 118360172}
