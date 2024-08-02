@@ -43,11 +43,21 @@ public class InventoryItemManager : MonoBehaviour
     private string currentTab;
     private string targetTab;
 
+
+    [Header("기타탭 팝업")]
     public GameObject confirmationPopup; // 팝업창 GameObject
     public Button yesButton; // "예" 버튼
     public Button noButton; // "아니오" 버튼
 
     public string npcName;
+
+
+    [Header("호감도 팝업")]
+    public GameObject GiftGoodPopup; // 팝업창 GameObject
+    public Button OkButton; // "예" 버튼
+
+    private GiftManager GiftManager;   // 선물 관리 스크립트
+
 
     void Start()
     {
@@ -82,6 +92,19 @@ public class InventoryItemManager : MonoBehaviour
         noButton.onClick.AddListener(() => {
             confirmationPopup.SetActive(false);
         });
+
+        // 호감도 팝업 예 버튼 리스너 설정
+        yesButton.onClick.AddListener(() => {
+            confirmationPopup.SetActive(false);
+            PlayerPrefs.DeleteKey("CurType"); // 이후 필요없다면 삭제
+            PlayerPrefs.DeleteKey("NpcType");
+            PlayerPrefs.Save();
+
+            SwitchTab(targetTab);
+        });
+
+        GiftGoodPopup.gameObject.SetActive(false); 
+
 
         LoadItem();
         Debug.Log($"Loaded {AllItemList.Count} items.");
@@ -326,8 +349,28 @@ public class InventoryItemManager : MonoBehaviour
     // 선물하기
     public void onGiftButtonClick(string giftName) {
         npcName = PlayerPrefs.GetString("NpcType");
+
+        // 호감 대상의 호감도와 올릴 수치를 팝업으로 표현
+        TextMeshProUGUI textComponent = GiftGoodPopup.GetComponentInChildren<TextMeshProUGUI>();
+        GiftGoodPopup.gameObject.SetActive(true);
+
         ItemManager.instance.Gift_inv(npcName, giftName);
+        int response = GiftManager.GetGiftResponse(npcName, giftName);
+        int[] loveNum = { 5, 0, -5 };
+
+        Character character_ = DataManager.instance.nowPlayer.characters.Find(x => x.Type == npcName);
         
+        if(response == 0)
+            textComponent.text = $"{character_.Name}의 호감도가 5 올라갔습니다.";
+        else if(response == 1)
+            textComponent.text = $"{character_.Name}의 호감도가 그대로 유지되었습니다.";
+        else 
+            textComponent.text = $"{character_.Name}의 호감도가 5 내려갔습니다.";   
+
+        OkButton.onClick.AddListener(() => {
+           GiftGoodPopup.gameObject.SetActive(false); 
+        });
+
         PlayerPrefs.DeleteKey("NpcType");
         PlayerPrefs.Save();
 

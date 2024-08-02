@@ -180,6 +180,8 @@ public class ItemManager : MonoBehaviour
             return;
         }
 
+
+
         // 호감 대상의 호감도와 올릴 수치를 int로 선언
         int giveChar_love;
         if (int.TryParse(giveChar.Love, out giveChar_love)) {
@@ -191,9 +193,11 @@ public class ItemManager : MonoBehaviour
         } else {
             Debug.LogError("Invalid character love value.");
             return;
-        }
+        }    
+
 
         SaveData();
+        
     }
 
 
