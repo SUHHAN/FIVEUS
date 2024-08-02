@@ -154,6 +154,7 @@ public class mainhint3_yj : MonoBehaviour
     // 기본활동3 : 단서 보겠다 했을 때
     public void OnhintButtonClick()
     {
+        Debug.Log("단서 클릭");
         choiceUI3_yj.SetActive(false);
         timemanager_yj.CompleteActivity(); // 하루 기본 활동 수행 횟수 1 증가
         resuedit_yj.text = $"기본활동 횟수 : {timemanager_yj.activityCount / 2} / 3";

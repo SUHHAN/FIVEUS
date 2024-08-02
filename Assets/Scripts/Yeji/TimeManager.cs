@@ -10,7 +10,7 @@ public class TimeManager : MonoBehaviour
     public int day = 1; // 현재 day 몇인지(1~15)
     public int activityCount =0; // 하루 활동 수(3회까지 가능)
     private string timeOfDay = "아침"; // 현재 시간(아침, 점심, 저녁)
-    public talkwithjjang_yj talkwithjjang;
+    private talkwithjjang_yj talkwithjjang;
 
     // 날짜 표시하는 패널
     public GameObject whatisdate_yj; // 날짜 시작할 때 어두워지는 화면(검정색)(조상님드래그)
