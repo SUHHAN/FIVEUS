@@ -160,13 +160,19 @@ public class TalkManager : MonoBehaviour
 
         if (currentDialogueIndex >= proDialogue.Count)
         {
-            isPlayed = true;
+            
+
             LoadMainMapScene(); // 모든 대사를 출력 후 메인 맵 씬으로 이동
         }
     }
 
     void LoadMainMapScene()
-    {
+    { 
+
+        isPlayed = true;
+        DataManager.instance.nowPlayer.isPlaying = isPlayed;
+        DataManager.instance.SaveData();
+
         SceneManager.LoadScene("main_map"); // 메인 맵 씬 로드
     }
 }
