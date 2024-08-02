@@ -43,6 +43,8 @@ public class TalkManager : MonoBehaviour
     private int currentDialogueIndex = 0; // 현재 대사 인덱스
     private bool isActivated = false; // TalkManager가 활성화되었는지 여부
 
+    public bool isPlayed = false; // 프롤로그씬이 한번 재생됐었는지
+
     void Awake()
     {
         proDialogue = new List<ProDialogue>();
@@ -158,6 +160,7 @@ public class TalkManager : MonoBehaviour
 
         if (currentDialogueIndex >= proDialogue.Count)
         {
+            isPlayed = true;
             LoadMainMapScene(); // 모든 대사를 출력 후 메인 맵 씬으로 이동
         }
     }
