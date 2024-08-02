@@ -11,8 +11,6 @@ using System.Xml.Serialization;
 public class talkwithjjang_yj : MonoBehaviour
 {
     private bool isbasicdial_yj = false; // 대사 치고 있는지 여부
-    private bool isResultActive_yj = false; // 결과 UI가 활성화 되어 있는지 여부
-
 
     // 기본 활동 패널들
     public GameObject choiceUI1_yj; // 기본활동1 UI 패널
@@ -55,8 +53,8 @@ public class talkwithjjang_yj : MonoBehaviour
 
     // 기본활동 몇번 진행했는지 세야 하니..플레이어를 부르자
    // public PlayerNow_yj nowplayer_yj;
-    public PlayerManager_yj playermanager_yj; // 기본활동 덧뺄셈용
-
+    public PlayerManager_yj playermanager_yj; // 체력관리용
+    public TimeManager timemanager_yj; // 날짜 관리 + 기본활동 덧뺄셈용
 
     // Start is called before the first frame update
     void Start()
@@ -99,8 +97,7 @@ public class talkwithjjang_yj : MonoBehaviour
             HandleNPCDialogue_yj(currentNPC); // npc한테 가까이 가면 대화창이 뜬다
 
             if (Input.GetKeyDown(KeyCode.Space))
-            {
-                
+            {              
                 //Dial_changyj.SetActive(false);
                 if (isbasicdial_yj)
                 {
@@ -215,26 +212,16 @@ public class talkwithjjang_yj : MonoBehaviour
     public void OntrainButtonClick()
     {
         //Debug.Log("1기본활동 횟수 변수 : " + nowplayer_yj.howtoday_py);
-        Debug.Log("1기본활동 횟수 변수 : " + playermanager_yj.playerNow.howtoday_py);
+        Debug.Log("1기본활동 횟수 변수 : " + timemanager_yj.activityCount);
 
-        Dial_changyj.SetActive(false);
+        //Dial_changyj.SetActive(false);
         choiceUI1_yj.SetActive(false);
         
         // 변수 계산
         playermanager_yj.IncreaseTrainingCount();// 하루 훈련 활동 횟수 1 증가
-        //nowplayer_yj.howtrain_py ++; // 훈련 횟수 변수 1 증가
-
-        playermanager_yj.IncreaseTiredness(10);
-        playermanager_yj.playerNow.tired_py += 10; // 피로도 10 증가
-
-        //nowplayer_yj.tired_py +=10; // 피로도 10 증가
-
-        playermanager_yj.IncreaseDailyActivityCount();
-        // nowplayer_yj.howtoday_py++; // 하루 기본 활동 수행 횟수 1 증가
-
-        resuedit_yj.text = $"기본활동 횟수: {playermanager_yj.playerNow.howtoday_py} / 3"; // 기본 활동 텍스트 업데이트
-        //resuedit_yj.text = $"기본활동 횟수: {nowplayer_yj.howtoday_py} / 3"; // 기본 활동 텍스트 업데이트
-        //Debug.Log("훈련 횟수 변수 : " + nowplayer_yj.howtrain_py);
+        playermanager_yj.IncreaseTiredness(10);// 피로도 10 증가
+        timemanager_yj.activityCount++;// 하루 기본 활동 수행 횟수 1 증가
+        resuedit_yj.text = $"기본활동 횟수: {timemanager_yj.activityCount} / 3"; // 기본 활동 텍스트 업데이트
         resultUI_yj.SetActive(true);
     }
 
@@ -242,19 +229,16 @@ public class talkwithjjang_yj : MonoBehaviour
     public void OncampButtonClick()
     {
         //Debug.Log("2기본활동 횟수 변수 : " + nowplayer_yj.howtoday_py);
-        Debug.Log("2기본활동 횟수 변수 : " + playermanager_yj.playerNow.howtoday_py);
-        Dial_changyj.SetActive(false);
+        Debug.Log("2기본활동 횟수 변수 : " + timemanager_yj.activityCount);
+        //Dial_changyj.SetActive(false);
         choiceUI2_yj.SetActive(false); // 선택 UI 비활성화
 
         // 변수 계산
         playermanager_yj.IncreaseTeamPower(1);// 하루 단합 활동 횟수 1 증가
-        //nowplayer_yj.team_py++; // 단합변수 1 증가
-        playermanager_yj.IncreaseDailyActivityCount();
-        //nowplayer_yj.howtoday_py++; // 하루 기본 활동 수행 횟수 1 증가
+        timemanager_yj.activityCount++;// 하루 기본 활동 수행 횟수 1 증가
 
         // 결과창 업데이트
-        resuedit_yj.text = $"기본활동 횟수: {playermanager_yj.playerNow.howtoday_py} / 3"; // 기본 활동 텍스트 업데이트
-        //resuedit_yj.text = $"기본활동 횟수: {nowplayer_yj.howtoday_py} / 3"; // 기본 활동 텍스트 업데이트
+        resuedit_yj.text = $"기본활동 횟수: {timemanager_yj.activityCount} / 3"; // 기본 활동 텍스트 업데이트
         resultUI_yj.SetActive(true);
    
        
@@ -263,7 +247,7 @@ public class talkwithjjang_yj : MonoBehaviour
     public void OnhintButtonClick()
     {
         //Debug.Log("3기본활동 횟수 변수 : " + nowplayer_yj.howtoday_py);
-        Debug.Log("3기본활동 횟수 변수 : " + playermanager_yj.playerNow.howtoday_py);
+        Debug.Log("3기본활동 횟수 변수 : " + timemanager_yj.activityCount);
         choiceUI3_yj.SetActive(false);
         SceneManager.LoadScene("InventoryMain"); // 인벤토리 씬으로 이동
         // 찾은 단서 개수를 한 개 늘림. 이건 인벤토리랑 연관 후에 생각해야 할듯
@@ -271,18 +255,15 @@ public class talkwithjjang_yj : MonoBehaviour
     // 기본활동4 : 휴식 취하겠다 했을 때
     public void OnbedButtonClick()
     {
-        Debug.Log("4기본활동 횟수 변수 : " + playermanager_yj.playerNow.howtoday_py);
+        Debug.Log("4기본활동 횟수 변수 : " + timemanager_yj.activityCount);
         //Debug.Log("4기본활동 횟수 변수 : " + nowplayer_yj.howtoday_py);
-        Dial_changyj.SetActive(false);
+        //Dial_changyj.SetActive(false);
         choiceUI4_yj.SetActive(false);
         resultUI_yj.SetActive(true);
 
-        playermanager_yj.IncreaseDailyActivityCount();
-        //nowplayer_yj.howtoday_py++; // 하루 기본 활동 수행 횟수 1 증가
+        timemanager_yj.activityCount++;// 하루 기본 활동 수행 횟수 1 증가
         // 결과창 업데이트
-        resuedit_yj.text = $"기본활동 횟수: {playermanager_yj.playerNow.howtoday_py} / 3"; // 기본 활동 텍스트 업데이트
-
-        //resuedit_yj.text = $"기본활동 횟수: {nowplayer_yj.howtoday_py} / 3"; // 기본 활동 텍스트 업데이트
+        resuedit_yj.text = $"기본활동 횟수: {timemanager_yj.activityCount} / 3"; // 기본 활동 텍스트 업데이트
         resultUI_yj.SetActive(true);
     }
 
@@ -321,25 +302,5 @@ public class talkwithjjang_yj : MonoBehaviour
     choiceUI4_yj.SetActive(false);
     Dial_changyj.SetActive(false);
     resultUI_yj.SetActive(false);
-}
-    void EndDialogue()
-    {
-        Dial_changyj.SetActive(false); // 대화 UI 숨기기
-        //isbasicdial_yj = false; // 대화 상태 해제
-    }
-
-    public void ActivateChoiceUI1()
-    {
-        if (Dial_changyj.activeSelf)
-        {
-            Dial_changyj.SetActive(false);
-            choiceUI1_yj.SetActive(true);
-            choiceUI2_yj.SetActive(true);
-            choiceUI3_yj.SetActive(true);
-            choiceUI4_yj.SetActive(true);
-            resultUI_yj.SetActive(false);
-            isbasicdial_yj = false;
-            isResultActive_yj = false;
-        }
     }
 }
