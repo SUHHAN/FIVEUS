@@ -87,7 +87,7 @@ public class SelectSlotManager : MonoBehaviour
             DataManager.instance.SaveData(); // 현재의 정보를 저장함.
         }
 
-        bool Prologue = DataManager.instance.nowPlayer.isPlaying;
+        bool Prologue = DataManager.instance.nowPlayer.isPlayed;
 
         if (Prologue == true)
             SceneManager.LoadScene("main_map");
@@ -103,7 +103,7 @@ public class SelectSlotManager : MonoBehaviour
             DataManager.instance.LoadItemsFromCSV("Item");
             DataManager.instance.SaveData(); // 현재의 정보를 저장함.
         }
-        bool Prologue = DataManager.instance.nowPlayer.isPlaying;
+        bool Prologue = DataManager.instance.nowPlayer.isPlayed;
 
         if (Prologue == true)
             SceneManager.LoadScene("main_map");

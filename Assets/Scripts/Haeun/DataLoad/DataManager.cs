@@ -53,7 +53,7 @@ public class PlayerData
     public int Player_hint = 0;             // 힌트 데이터 변수
     public int Player_howtoday = 0;            // 기본 활동 일차 데이터 변수
     public int Player_howtrain = 0;            // 기본 활동 훈련 변수 데이터 변수
-    public bool isPlaying = false;
+    public bool isPlayied = false;
 
     // 캐릭터 관련
     public List<Character> characters = new List<Character>();
