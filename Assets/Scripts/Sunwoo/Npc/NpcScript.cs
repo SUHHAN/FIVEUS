@@ -309,6 +309,9 @@ public class NpcScript : MonoBehaviour
 
     public void OnChoice2ButtonClick()
     {
+        // choice1Dialogues 리스트 초기화
+        choice1Dialogues.Clear();
+        choice1DialogueIndex = 0;
         if (npcType == "검사")
         {
             dialogueText.text = "...그럼 왜 말을 건 거지?"; // 선택지 2에 대한 대사
