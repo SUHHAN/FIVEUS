@@ -78,6 +78,7 @@ public class NpcScript : MonoBehaviour
         }
     }
 
+
     void Update()
     {
         float distance = Vector3.Distance(player.transform.position, transform.position); // 플레이어와 NPC 간 거리 계산
