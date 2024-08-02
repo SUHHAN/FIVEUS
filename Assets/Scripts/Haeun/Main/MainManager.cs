@@ -240,7 +240,15 @@ public class MainManager : MonoBehaviour
             DataManager.instance.LoadItemsFromCSV("Item");
             DataManager.instance.SaveData(); // 현재의 정보를 저장함.
         }
-        SceneManager.LoadScene("main_map");
+        
+        bool Prologue = DataManager.instance.nowPlayer.isPlaying;
+
+        if (Prologue == true)
+            SceneManager.LoadScene("main_map");
+        else 
+            SceneManager.LoadScene("PrologueScene");
+        
+        
     }
 }
 
