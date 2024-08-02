@@ -333,7 +333,7 @@ public class InventoryItemManager : MonoBehaviour
 
         LoadItem();
 
-        SceneManager.LoadScene("IngameEx");
+        SceneManager.LoadScene("main_map");
     }
 
     // 선택 버튼 UI 업데이트 메서드

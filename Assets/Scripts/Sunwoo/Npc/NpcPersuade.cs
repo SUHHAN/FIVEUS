@@ -62,6 +62,12 @@ public class NpcPersuade : MonoBehaviour
                 resultText.text = $"실패했습니다!";
                 success = false; // 설득 실패 여부 설정
             }
+
+            Character character = DataManager.instance.nowPlayer.characters.Find(x => x.Type == npcScript.npcType);
+            character.Success = success;
+
+            DataManager.instance.SaveData();
+
             persuadeUI.SetActive(false); // 설득 UI 숨기기
             resultUI.SetActive(true); // 결과 UI 표시
             StartCoroutine(HideResultUIAfterDelay(2f)); // 2초 뒤 결과 UI 숨기기

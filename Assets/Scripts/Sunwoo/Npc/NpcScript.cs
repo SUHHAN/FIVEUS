@@ -40,7 +40,7 @@ public class NpcScript : MonoBehaviour
         persuadeButton.onClick.AddListener(OnPersuadeButtonClick); // 설득하기 버튼 클릭 이벤트 연결
         choice1Button.gameObject.SetActive(false); // 선택지 1 버튼 비활성화
         choice2Button.gameObject.SetActive(false); // 선택지 2 버튼 비활성화
-        giftButton.onClick.AddListener(() => OnGiftButtonClick(npcType)); // 선물하기 버튼 클릭 이벤트 연결
+        giftButton.onClick.AddListener(OnGiftButtonClick); // 선물하기 버튼 클릭 이벤트 연결
 
         choice1Button.onClick.AddListener(OnChoice1ButtonClick); // 선택지 1 버튼 클릭 이벤트 연결
         choice2Button.onClick.AddListener(OnChoice2ButtonClick); // 선택지 2 버튼 클릭 이벤트 연결
@@ -127,8 +127,16 @@ public class NpcScript : MonoBehaviour
         GetComponent<NpcPersuade>().ShowPersuadeUI(); // 설득 UI 표시
     }
 
-    public void OnGiftButtonClick(string npc)
+    public void OnGiftButtonClick()
     {
+        PlayerPrefs.SetString("NpcType", npcType);
+        PlayerPrefs.Save(); 
+
+        // 다른 씬에서 curType을 저장
+        PlayerPrefs.SetString("CurType", "기타"); // "장비" 대신 원하는 탭 이름 사용
+        PlayerPrefs.Save();
+        
+        print(PlayerPrefs.GetString("NpcType"));
         SceneManager.LoadScene("InventoryMain"); // InventoryMain 씬으로 이동
     }
 
@@ -390,7 +398,12 @@ public class NpcScript : MonoBehaviour
     // NPC 호감도 변경
     void ChangeAffection(double amount)
     {
+        Character character = DataManager.instance.nowPlayer.characters.Find(x => x.Type == npcType);
         affection += amount;
+        character.Love = affection.ToString();
+
+        DataManager.instance.SaveData();
+
         affectionText.text = $"호감도: {affection}";
     }
 
@@ -416,8 +429,8 @@ public class NpcScript : MonoBehaviour
 //             }
 //             else
 //             {
-//                 SceneManager.LoadScene("big_house");
-//                 newPosition = new Vector3(5, 0, 10); // big_house 내 위치 설정
+//                 SceneManager.LoadScene("hotel");
+//                 newPosition = new Vector3(5, 0, 10);
 //             }
 //             break;
 //         case "힐러":
@@ -428,38 +441,38 @@ public class NpcScript : MonoBehaviour
 //             }
 //             else
 //             {
-//                 SceneManager.LoadScene("big_house");
-//                 newPosition = new Vector3(5, 0, 10); // big_house 내 위치 설정
+//                 SceneManager.LoadScene("hotel_hall");
+//                 newPosition = new Vector3(5, 0, 10);
 //             }
 //             break;
 //         case "탱커":
 //             if (timeOfDay == "Morning" || timeOfDay == "Afternoon")
 //             {
 //                 SceneManager.LoadScene("training");
-//                 newPosition = new Vector3(15, 0, 5); // training 내 위치 설정
+//                 newPosition = new Vector3(-4, 3.36, 0); // training 내 위치 설정
 //             }
 //             else
 //             {
-//                 SceneManager.LoadScene("big_house");
-//                 newPosition = new Vector3(5, 0, 10); // big_house 내 위치 설정
+//                 SceneManager.LoadScene("hotel_room1");
+//                 newPosition = new Vector3(5, 0, 10);
 //             }
 //             break;
 //         case "마법사":
-//             SceneManager.LoadScene("sub2_house");
-//             newPosition = new Vector3(3, 0, 8); // sub2_house 내 위치 설정
+//             SceneManager.LoadScene("magic_house");
+//             newPosition = new Vector3(1.73, 063, 0);
 //             break;
 //         case "암살자":
 //             if (timeOfDay == "Evening")
 //             {
 //                 SceneManager.LoadScene("bar");
-//                 newPosition = new Vector3(2, 0, 6); // bar 내 위치 설정
+//                 newPosition = new Vector3(-2.23, -0.59, 0); // bar 내 위치 설정
 //             }
 //             break;
 //         case "궁수":
 //             if (timeOfDay == "Evening")
 //             {
 //                 SceneManager.LoadScene("training");
-//                 newPosition = new Vector3(7, 0, 3); // training 내 위치 설정
+//                 newPosition = new Vector3(4.2, -1.74, 0); // training 내 위치 설정
 //             }
 //             break;
 //     }
