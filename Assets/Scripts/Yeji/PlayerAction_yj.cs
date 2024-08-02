@@ -6,6 +6,8 @@ public class PlayerAction_yj : MonoBehaviour
 {
     // Start is called before the first frame update
     public float Speed_yj;
+
+    public talkwithjjang_yj tjjang_yj;
     public bool isAction_yj;
     Rigidbody2D rigid_yj;
     Animator play_anim_yj;
@@ -69,13 +71,6 @@ public class PlayerAction_yj : MonoBehaviour
     void FixedUpdate()
     {
         // Move the rigidbody based on direction vector and speed
-        if (h_yj != 0 || v_yj != 0)
-        {
-            rigid_yj.velocity = dirVec_yj * Speed_yj;
-        }
-        else
-        {
-            rigid_yj.velocity = Vector2.zero; // 방향키 입력이 없으면 속도를 0으로 설정
-        }
+        rigid_yj.velocity = dirVec_yj * Speed_yj;
     }
 }
