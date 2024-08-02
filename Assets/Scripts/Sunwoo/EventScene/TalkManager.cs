@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro; // TextMeshPro 네임스페이스 추가
+using UnityEngine.UI; // UI 네임스페이스 추가
 
 // ProDialogue 클래스 정의 (프롤로그 대사 저장)
 public class ProDialogue
@@ -35,6 +36,8 @@ public class TalkManager : MonoBehaviour
     public TextMeshProUGUI descriptionText; // TextMeshPro UI 텍스트 요소
 
     public GameObject home; // 집 배경 화면
+    public GameObject firstImageObject; // 첫 번째 이미지 오브젝트
+    public GameObject secondImageObject; // 두 번째 이미지 오브젝트 (샐리용)
 
     private int currentDialogueIndex = 0; // 현재 대사 인덱스
     private bool isActivated = false; // TalkManager가 활성화되었는지 여부
@@ -95,7 +98,7 @@ public class TalkManager : MonoBehaviour
             opening.SetActive(true);
             openingText.text = currentDialogue.line;
         }
-        //오프닝 대사 이후부터 인물에 따라 대사/나레이션/텍스트 창 활성화
+        // 오프닝 대사 이후부터 인물에 따라 대사/나레이션/텍스트 창 활성화
         else if (currentDialogue.name == "나레이션")
         {
             narration.SetActive(true);
@@ -110,6 +113,19 @@ public class TalkManager : MonoBehaviour
             opening.SetActive(false);
             nameText.text = currentDialogue.name;
             descriptionText.text = currentDialogue.line;
+
+            // '샐리'의 경우 두 번째 이미지 오브젝트를 활성화
+            if (currentDialogue.name == "샐리")
+            {
+                firstImageObject.SetActive(false);
+                secondImageObject.SetActive(true);
+            }
+            else
+            {
+                // 다른 경우는 첫 번째 이미지 오브젝트를 활성화하고, 두 번째 이미지 오브젝트는 비활성화
+                firstImageObject.SetActive(true);
+                secondImageObject.SetActive(false);
+            }
         }
 
         CheckTalk(currentDialogue.id);

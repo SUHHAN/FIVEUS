@@ -150,7 +150,6 @@ public class NpcScript : MonoBehaviour
     void SetDialogue(string type)
     {
         dialogues.Clear(); // 기존 대사 초기화
-
         if (type == "검사")
         {
             npcNameText.text = "???";
@@ -239,8 +238,6 @@ public class NpcScript : MonoBehaviour
                 "칼리스,하하, 내가 칼리스 맞지.",
                 "칼리스,날 아는 사람이었구나, 반가워.",
                 "칼리스,보아하니 당신도 용병 같은데... 이 마을에 속한 용병인가?",
-                "player,아뇨, 볼일이 있어서 잠시 머무르고 있습니다",
-                "칼리스,아, 그렇구나",
                 "칼리스,나도 이 마을에 좋은 의뢰가 잘 들어온다길래 잠시 이곳에 머무르고 있어",
                 "칼리스,앞으로 잘 지내보자고!"
             };
@@ -412,11 +409,22 @@ public class NpcScript : MonoBehaviour
 //     switch (npcType)
 //     {
 //         case "검사":
+//             if (timeOfDay == "Morning" || timeOfDay == "Afternoon")
+//             {
+//                 SceneManager.LoadScene("main_map");
+//                 newPosition = new Vector3(-6, -0.5, 0); // main_map 내 위치 설정
+//             }
+//             else
+//             {
+//                 SceneManager.LoadScene("big_house");
+//                 newPosition = new Vector3(5, 0, 10); // big_house 내 위치 설정
+//             }
+//             break;
 //         case "힐러":
 //             if (timeOfDay == "Morning" || timeOfDay == "Afternoon")
 //             {
 //                 SceneManager.LoadScene("main_map");
-//                 newPosition = new Vector3(10, 0, 20); // main_map 내 위치 설정
+//                 newPosition = new Vector3(14.68, 7.29, 0); // main_map 내 위치 설정
 //             }
 //             else
 //             {
