@@ -8,9 +8,10 @@ public class TypeEffect : MonoBehaviour
     public GameObject endCursor; // 종료 커서
     public int charPerSeconds; // 초당 출력할 문자 수
     string targetMsg; // 목표 문자열
-    [SerializeField] TextMeshProUGUI msgText; // 메시지 줄력할 컴포넌트
+    [SerializeField] TextMeshProUGUI msgText; // 메시지 출력할 컴포넌트
     int idx; // 현재 출력할 문자 인덱스
     float interval; // 문자 출력 간격
+    bool isCompleted; // 대사 출력 완료 여부
 
     private void Awake()
     {
@@ -31,6 +32,7 @@ public class TypeEffect : MonoBehaviour
         idx = 0; // 인덱스 0으로 초기화
         interval = 1.0f / charPerSeconds; // 문자 출력 간격 계산
         endCursor.SetActive(false); // 종료 커서 비활성화
+        isCompleted = false; // 대사 완료 상태 초기화
 
         Invoke("Effecting", 1 / charPerSeconds); // 일정한 간격으로 Effecting 메서드 호출
     }
@@ -52,6 +54,13 @@ public class TypeEffect : MonoBehaviour
     // 효과를 종료하는 메서드
     void EffectEnd()
     {
+        isCompleted = true; // 대사 출력 완료 상태 설정
         endCursor.SetActive(true); // 종료 커서 활성화
+    }
+
+    // 대사 출력 완료 여부 반환 메서드
+    public bool IsComplete()
+    {
+        return isCompleted;
     }
 }
