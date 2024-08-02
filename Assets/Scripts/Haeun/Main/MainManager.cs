@@ -229,7 +229,12 @@ public class MainManager : MonoBehaviour
             DataManager.instance.SaveData(); // 현재의 정보를 저장함.
         }
 
-        SceneManager.LoadScene("main_map");
+        bool Prologue = DataManager.instance.nowPlayer.isPlayed;
+
+        if (Prologue == true)
+            SceneManager.LoadScene("main_map");
+        else 
+            SceneManager.LoadScene("PrologueScene");
     }
 
     // 원하는 파일의 정보를 가지고 게임을 시작하기.
@@ -241,7 +246,7 @@ public class MainManager : MonoBehaviour
             DataManager.instance.SaveData(); // 현재의 정보를 저장함.
         }
         
-        bool Prologue = DataManager.instance.nowPlayer.isPlaying;
+        bool Prologue = DataManager.instance.nowPlayer.isPlayed;
 
         if (Prologue == true)
             SceneManager.LoadScene("main_map");
