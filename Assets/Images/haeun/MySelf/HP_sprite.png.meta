@@ -97,7 +97,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: "\uCCB4\uB825 sprite_0"
+      name: HP_sprite_0
       rect:
         serializedVersion: 2
         x: 135
@@ -105,7 +105,7 @@ TextureImporter:
         width: 1275
         height: 300
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -118,7 +118,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uCCB4\uB825 sprite_1"
+      name: HP_sprite_5
       rect:
         serializedVersion: 2
         x: 1530
@@ -126,7 +126,7 @@ TextureImporter:
         width: 315
         height: 285
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -139,7 +139,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uCCB4\uB825 sprite_2"
+      name: HP_sprite_1
       rect:
         serializedVersion: 2
         x: 135
@@ -147,7 +147,7 @@ TextureImporter:
         width: 1260
         height: 300
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -160,7 +160,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uCCB4\uB825 sprite_3"
+      name: HP_sprite_2
       rect:
         serializedVersion: 2
         x: 135
@@ -168,7 +168,7 @@ TextureImporter:
         width: 1260
         height: 300
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -181,7 +181,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uCCB4\uB825 sprite_4"
+      name: HP_sprite_3
       rect:
         serializedVersion: 2
         x: 135
@@ -189,7 +189,7 @@ TextureImporter:
         width: 1275
         height: 300
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -202,7 +202,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uCCB4\uB825 sprite_5"
+      name: HP_sprite_4
       rect:
         serializedVersion: 2
         x: 135
@@ -210,7 +210,7 @@ TextureImporter:
         width: 1275
         height: 300
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -233,12 +233,12 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      "\uCCB4\uB825 sprite_0": 1229662747
-      "\uCCB4\uB825 sprite_1": -96512867
-      "\uCCB4\uB825 sprite_2": -1775460458
-      "\uCCB4\uB825 sprite_3": -1258788969
-      "\uCCB4\uB825 sprite_4": 843393813
-      "\uCCB4\uB825 sprite_5": 1791820266
+      HP_sprite_0: 1229662747
+      HP_sprite_1: -1775460458
+      HP_sprite_2: -1258788969
+      HP_sprite_3: 843393813
+      HP_sprite_4: 1791820266
+      HP_sprite_5: -96512867
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

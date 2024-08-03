@@ -97,7 +97,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: "\uB2E8\uC11C sprites_0"
+      name: hint_sprites_0
       rect:
         serializedVersion: 2
         x: 15
@@ -105,7 +105,7 @@ TextureImporter:
         width: 301
         height: 301
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -118,7 +118,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uB2E8\uC11C sprites_1"
+      name: hint_sprites_1
       rect:
         serializedVersion: 2
         x: 330
@@ -126,7 +126,7 @@ TextureImporter:
         width: 301
         height: 301
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -139,15 +139,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uB2E8\uC11C sprites_3"
+      name: hint_sprites_3
       rect:
         serializedVersion: 2
-        x: 960
+        x: 959
         y: 644
         width: 301
         height: 301
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -160,15 +160,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uB2E8\uC11C sprites_4"
+      name: hint_sprites_4
       rect:
         serializedVersion: 2
         x: 1275
-        y: 644
+        y: 643
         width: 301
         height: 301
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -181,7 +181,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uB2E8\uC11C sprites_5"
+      name: hint_sprites_5
       rect:
         serializedVersion: 2
         x: 15
@@ -189,7 +189,7 @@ TextureImporter:
         width: 301
         height: 301
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -202,15 +202,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uB2E8\uC11C sprites_6"
+      name: hint_sprites_6
       rect:
         serializedVersion: 2
-        x: 330
+        x: 329
         y: 329
         width: 301
         height: 301
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -223,7 +223,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uB2E8\uC11C sprites_7"
+      name: hint_sprites_7
       rect:
         serializedVersion: 2
         x: 645
@@ -231,7 +231,7 @@ TextureImporter:
         width: 301
         height: 301
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -244,7 +244,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uB2E8\uC11C sprites_2"
+      name: hint_sprites_2
       rect:
         serializedVersion: 2
         x: 645
@@ -252,7 +252,7 @@ TextureImporter:
         width: 301
         height: 301
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -265,7 +265,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uB2E8\uC11C sprites_9"
+      name: hint_sprites_9
       rect:
         serializedVersion: 2
         x: 1275
@@ -273,7 +273,7 @@ TextureImporter:
         width: 301
         height: 301
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -286,7 +286,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uB2E8\uC11C sprites_14"
+      name: hint_sprites_14
       rect:
         serializedVersion: 2
         x: 1275
@@ -294,7 +294,7 @@ TextureImporter:
         width: 301
         height: 301
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -307,7 +307,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uB2E8\uC11C sprites_11"
+      name: hint_sprites_11
       rect:
         serializedVersion: 2
         x: 330
@@ -315,7 +315,7 @@ TextureImporter:
         width: 301
         height: 301
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -328,7 +328,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uB2E8\uC11C sprites_12"
+      name: hint_sprites_12
       rect:
         serializedVersion: 2
         x: 645
@@ -336,7 +336,7 @@ TextureImporter:
         width: 301
         height: 301
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -349,15 +349,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uB2E8\uC11C sprites_13"
+      name: hint_sprites_13
       rect:
         serializedVersion: 2
         x: 960
-        y: 14
+        y: 10
         width: 301
         height: 301
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -370,7 +370,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uB2E8\uC11C sprites_8"
+      name: hint_sprites_8
       rect:
         serializedVersion: 2
         x: 960
@@ -378,7 +378,7 @@ TextureImporter:
         width: 301
         height: 301
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -391,7 +391,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uB2E8\uC11C sprites_10"
+      name: hint_sprites_10
       rect:
         serializedVersion: 2
         x: 15
@@ -399,7 +399,7 @@ TextureImporter:
         width: 301
         height: 301
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -422,21 +422,21 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      "\uB2E8\uC11C sprites_0": 1808932524
-      "\uB2E8\uC11C sprites_1": 1510977665
-      "\uB2E8\uC11C sprites_10": -2047299439
-      "\uB2E8\uC11C sprites_11": 1658383491
-      "\uB2E8\uC11C sprites_12": 564991660
-      "\uB2E8\uC11C sprites_13": -913342343
-      "\uB2E8\uC11C sprites_14": 2116428514
-      "\uB2E8\uC11C sprites_2": 347592931
-      "\uB2E8\uC11C sprites_3": 1127302665
-      "\uB2E8\uC11C sprites_4": -341233891
-      "\uB2E8\uC11C sprites_5": -214805789
-      "\uB2E8\uC11C sprites_6": -269110010
-      "\uB2E8\uC11C sprites_7": 189070918
-      "\uB2E8\uC11C sprites_8": 1836979796
-      "\uB2E8\uC11C sprites_9": -284720867
+      hint_sprites_0: 1808932524
+      hint_sprites_1: 1510977665
+      hint_sprites_10: -2047299439
+      hint_sprites_11: 1658383491
+      hint_sprites_12: 564991660
+      hint_sprites_13: -913342343
+      hint_sprites_14: 2116428514
+      hint_sprites_2: 347592931
+      hint_sprites_3: 1127302665
+      hint_sprites_4: -341233891
+      hint_sprites_5: -214805789
+      hint_sprites_6: -269110010
+      hint_sprites_7: 189070918
+      hint_sprites_8: 1836979796
+      hint_sprites_9: -284720867
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

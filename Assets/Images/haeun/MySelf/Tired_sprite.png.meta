@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 2e9e7285f13bea8409952b9d1e760ac5
+guid: d4035144e4054cf4db7df6b265f16b43
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -97,7 +97,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: "\uD53C\uB85C\uB3C4 sprite_0"
+      name: Tired_sprite_0
       rect:
         serializedVersion: 2
         x: 135
@@ -105,62 +105,62 @@ TextureImporter:
         width: 1275
         height: 300
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9a6fa8cb9cf7a8d4ba80a0840324ec3c
-      internalID: 616759147
+      spriteID: a3208592fbf8d914fb0c75715f038f9e
+      internalID: -1338097109
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uD53C\uB85C\uB3C4 sprite_1"
-      rect:
-        serializedVersion: 2
-        x: 1530
-        y: 1530
-        width: 300
-        height: 300
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: c7511e2cb654ece4e82a7e9f9e7f3171
-      internalID: -1272708584
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: "\uD53C\uB85C\uB3C4 sprite_2"
+      name: Tired_sprite_1
       rect:
         serializedVersion: 2
         x: 135
-        y: 1155
+        y: 1153
         width: 1275
         height: 300
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 52393d9276dc899479fb177494152c34
-      internalID: 1197234380
+      spriteID: 946a24bac42e56c40a97182ba0743ad9
+      internalID: 1541052363
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uD53C\uB85C\uB3C4 sprite_3"
+      name: Tired_sprite_5
+      rect:
+        serializedVersion: 2
+        x: 1545
+        y: 1155
+        width: 300
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 70a18ff620d8a12409b49bb31cf68b56
+      internalID: 1441358160
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tired_sprite_2
       rect:
         serializedVersion: 2
         x: 135
@@ -168,20 +168,20 @@ TextureImporter:
         width: 1275
         height: 300
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 06336e101ddfbc646a35ba466ca38593
-      internalID: 286524889
+      spriteID: 0805ed08d1b6dd645a5f39d339e060c3
+      internalID: -1222413121
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uD53C\uB85C\uB3C4 sprite_4"
+      name: Tired_sprite_3
       rect:
         serializedVersion: 2
         x: 135
@@ -189,20 +189,20 @@ TextureImporter:
         width: 1275
         height: 300
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1bb2f6837e101d64e87b81e061fec84d
-      internalID: -750994246
+      spriteID: d83faf1d63f2b2941817c1763c4a0e50
+      internalID: -674275287
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uD53C\uB85C\uB3C4 sprite_5"
+      name: Tired_sprite_4
       rect:
         serializedVersion: 2
         x: 135
@@ -210,14 +210,14 @@ TextureImporter:
         width: 1275
         height: 300
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ff52280e2d290a9459c3606fddb6ec27
-      internalID: 2057418245
+      spriteID: 063b8f7718f76134383971bddbcf4fb5
+      internalID: -1498457429
       vertices: []
       indices: 
       edges: []
@@ -233,12 +233,12 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      "\uD53C\uB85C\uB3C4 sprite_0": 616759147
-      "\uD53C\uB85C\uB3C4 sprite_1": -1272708584
-      "\uD53C\uB85C\uB3C4 sprite_2": 1197234380
-      "\uD53C\uB85C\uB3C4 sprite_3": 286524889
-      "\uD53C\uB85C\uB3C4 sprite_4": -750994246
-      "\uD53C\uB85C\uB3C4 sprite_5": 2057418245
+      Tired_sprite_0: -1338097109
+      Tired_sprite_1: 1541052363
+      Tired_sprite_2: -1222413121
+      Tired_sprite_3: -674275287
+      Tired_sprite_4: -1498457429
+      Tired_sprite_5: 1441358160
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
