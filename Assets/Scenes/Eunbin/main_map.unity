@@ -1274,7 +1274,7 @@ MonoBehaviour:
   player: {fileID: 1261792004}
   isTalking: 0
   npcType: "\uD790\uB7EC"
-  affection: 15
+  affection: 30
 --- !u!50 &208590406
 Rigidbody2D:
   serializedVersion: 4
@@ -1604,7 +1604,7 @@ MonoBehaviour:
       - m_Target: {fileID: 208590405}
         m_TargetAssemblyTypeName: NpcScript, Assembly-CSharp
         m_MethodName: OnGiftButtonClick
-        m_Mode: 5
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -30857,7 +30857,7 @@ MonoBehaviour:
   player: {fileID: 1261792004}
   isTalking: 0
   npcType: "\uAC80\uC0AC"
-  affection: 25
+  affection: 45
 --- !u!50 &1074312530
 Rigidbody2D:
   serializedVersion: 4
@@ -40239,7 +40239,7 @@ PrefabInstance:
     - target: {fileID: 7737705012858392437, guid: 4413f814da31e0b439b0f936457d25f3, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 1790382a4e2c3864e8c987f203e03310, type: 3}
+      objectReference: {fileID: 21300000, guid: 6d602bd98270fce439861fdf4c844d9c, type: 3}
     - target: {fileID: 7737705012858392437, guid: 4413f814da31e0b439b0f936457d25f3, type: 3}
       propertyPath: m_Color.b
       value: 1
@@ -41049,7 +41049,7 @@ MonoBehaviour:
       - m_Target: {fileID: 1074312529}
         m_TargetAssemblyTypeName: NpcScript, Assembly-CSharp
         m_MethodName: OnGiftButtonClick
-        m_Mode: 5
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -60705,7 +60705,7 @@ PrefabInstance:
     - target: {fileID: 7737705012858392437, guid: 4413f814da31e0b439b0f936457d25f3, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 1e93aeee24c905f47b63842aacd2259c, type: 3}
+      objectReference: {fileID: 21300000, guid: 4a7c4f5e6bace4543b375f0a2a46863f, type: 3}
     - target: {fileID: 7737705012858392437, guid: 4413f814da31e0b439b0f936457d25f3, type: 3}
       propertyPath: m_Color.b
       value: 1

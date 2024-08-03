@@ -5414,7 +5414,7 @@ MonoBehaviour:
   player: {fileID: 0}
   isTalking: 0
   npcType: "\uB9C8\uBC95\uC0AC"
-  affection: 15
+  affection: 30
 --- !u!50 &1099234942
 Rigidbody2D:
   serializedVersion: 4
@@ -5853,7 +5853,7 @@ PrefabInstance:
     - target: {fileID: 7737705012858392437, guid: 4413f814da31e0b439b0f936457d25f3, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 62f9da759a5762c42871991c388be8e2, type: 3}
+      objectReference: {fileID: 21300000, guid: 9584aa3dd920ac14c8fa3df35a9b8818, type: 3}
     - target: {fileID: 7737705012858392437, guid: 4413f814da31e0b439b0f936457d25f3, type: 3}
       propertyPath: m_Color.b
       value: 1
@@ -6289,7 +6289,7 @@ MonoBehaviour:
       - m_Target: {fileID: 1099234941}
         m_TargetAssemblyTypeName: NpcScript, Assembly-CSharp
         m_MethodName: OnGiftButtonClick
-        m_Mode: 5
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
