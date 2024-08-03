@@ -825,11 +825,11 @@ PlayerSettings:
   apiCompatibilityLevel: 6
   activeInputHandler: 0
   windowsGamepadBackendHint: 0
-  cloudProjectId: b499e0eb-a7f4-491c-b959-30bb6918ea76
+  cloudProjectId: f44fa4c5-7e53-4e6e-a9c8-247075532ddb
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: FIVEUS
-  organizationId: haeun03290
+  projectName: The Way to be Knight
+  organizationId: kyeji02-sookmyung-ac-kr
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   hmiLoadingImage: {fileID: 0}

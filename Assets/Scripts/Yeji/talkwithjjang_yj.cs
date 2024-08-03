@@ -96,6 +96,7 @@ public class talkwithjjang_yj : MonoBehaviour
         void Start()
     {
         // 버튼 연결
+        /*
         trainingButton_yj.onClick.AddListener(OntrainButtonClick);
         campingButton_yj.onClick.AddListener(OncampButtonClick);
         findhintButton_yj.onClick.AddListener(OnhintButtonClick);
@@ -106,9 +107,7 @@ public class talkwithjjang_yj : MonoBehaviour
         noButton3.onClick.AddListener(OnNo3ButtonClick);
         noButton4.onClick.AddListener(OnNo4ButtonClick);
         noButton5.onClick.AddListener(OnNo5ButtonClick);
-        //newbuttoncon_yj = GetComponent<newbuttoncontrol>(); 
-        //nowplayer_yj = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerNow_yj>();
-
+        */
         isbasicdial_yj = false;
         playermanager_yj.playerNow.howtoday_py = 0;
         playermanager_yj.playerNow.howtrain_py = 0;
