@@ -4820,7 +4820,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 208590405}
         m_TargetAssemblyTypeName: NpcScript, Assembly-CSharp
         m_MethodName: OnChoice1ButtonClick
         m_Mode: 1
@@ -7017,7 +7017,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 208590405}
         m_TargetAssemblyTypeName: NpcScript, Assembly-CSharp
         m_MethodName: OnChoice2ButtonClick
         m_Mode: 1
