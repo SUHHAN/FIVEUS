@@ -89,6 +89,18 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Eunbin/hotel_hall.unity
     guid: 913860cc417dd9f42a3850efc43339ec
+  - enabled: 1
+    path: Assets/Scenes/Sunwoo/DeadEndingScene.unity
+    guid: e39139393f0a82d4fa7cce5efbd4c64c
+  - enabled: 1
+    path: Assets/Scenes/Sunwoo/FailEndingScene.unity
+    guid: 73b37bdd08e08c742b0984987bf103d2
+  - enabled: 1
+    path: Assets/Scenes/Sunwoo/HappyEndingScene.unity
+    guid: 9b28dfe3c605b1240a450f1e8c0c75bb
+  - enabled: 1
+    path: Assets/Scenes/Sunwoo/MonsterDeadEndingScene.unity
+    guid: 8e26a8ac6b2cf81408aabb3c6cd51e6d
   m_configObjects:
     com.unity.adaptiveperformance.google.android.provider_settings: {fileID: 11400000, guid: d800438fab6dddb45b0ce4c589f2701b, type: 2}
     com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: 226c78aac0e8d114aae837e19ebec1f6, type: 2}

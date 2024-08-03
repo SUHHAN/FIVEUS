@@ -62,10 +62,12 @@ public class PlayerManager_yj : MonoBehaviour
     public void DecreaseHealth(int amount)
     {
         playerNow.hp_py -= amount;
-        if (playerNow.hp_py < 0 )
+
+        if (playerNow.hp_py <= 0 ) {
             SceneManager.LoadScene("DeadEndingScene");
             playerNow.hp_py = 0; // 최소 체력은 100으로 제한
         // 최소 체력 이하로 떨어지면 엔딩씬으로 연결해야 함.
+        }
 
 
         SaveData();
@@ -99,7 +101,7 @@ public class PlayerManager_yj : MonoBehaviour
     {
         if(playerNow.money_py <= 0)
             playerNow.money_py = 0;
-            
+
         
         playerNow.money_py += amount;
         SaveData();

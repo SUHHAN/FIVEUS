@@ -24,19 +24,19 @@ public class Item
 [System.Serializable]
 public class Character
 {
-    public Character(string _Id, string _Name, string _Description, string _HP, string _STR, string _DEX, string _INT, string _CON, string _DEF, string _ATK, bool _isUsing, string _Type, string _Love, bool _Success, string _TeamCount)
+    public Character(string _Id, string _Name, string _Description, string _HP, string _STR, string _DEX, string _INT, string _CON, string _DEF, string _ATK, bool _isUsing, string _Type, string _Love, bool _Success, string _TeamCount, bool _IsFirstTalk)
     {
         Id = _Id; Name = _Name; Description = _Description; 
         HP = _HP; STR = _STR; DEX = _DEX; 
         INT = _INT; CON = _CON; DEF = _DEF; ATK = _ATK;
         isUsing = _isUsing; Type = _Type; Love = _Love; Success = _Success;
-        TeamCount = _TeamCount;
+        TeamCount = _TeamCount; IsFirstTalk = _IsFirstTalk;
     }
 
     // 캐릭터 관련 변수들
     public string Id, Name, Description, HP, STR, DEX, INT, CON, DEF, ATK;
     public string Type, Love, TeamCount;
-    public bool isUsing, Success;
+    public bool isUsing, Success, IsFirstTalk;
 }
 
 [System.Serializable]
@@ -47,15 +47,14 @@ public class PlayerData
     public int Player_day = 1;              // 날짜 데이터 변수
     public int Player_team = 0;             // 단합력 데이터 변수
     public int Party_ATK = 0;             // 총 파티 능력치 데이터 변수
-    public int Player_hp = 1;               // 체력 데이터 변수
-    public int Player_tired = 99;            // 피로도 데이터 변수
+    public int Player_hp = 100;               // 체력 데이터 변수
+    public int Player_tired = 0;            // 피로도 데이터 변수
     public int Player_money = 100000;            // 재화 데이터 변수
     public int Player_hint = 0;             // 힌트 데이터 변수
     public int Player_howtoday = 0;            // 기본 활동 일차 데이터 변수
     public int Player_howtrain = 0;            // 기본 활동 훈련 변수 데이터 변수
     public bool isPlayed = false;
     public bool isMorning = false;  // 한번이라도 일차 떴으면
-    public bool IsFirstTalk = false;
 
     // 캐릭터 관련
     public List<Character> characters = new List<Character>();
@@ -192,6 +191,7 @@ public class DataManager : MonoBehaviour
                 string type = entry["type"].ToString();
                 bool isUsing;
                 bool Success;
+                bool IsFirstTalk;
                 string love = entry["love"].ToString();
                 string TeamCount = entry["TeamCount"].ToString();
                 
@@ -203,8 +203,12 @@ public class DataManager : MonoBehaviour
                 {
                     Success = false; // 파싱 실패 시 기본값 설정
                 }
+                if (!bool.TryParse(entry["IsFirstTalk"].ToString(), out IsFirstTalk))
+                {
+                    IsFirstTalk = false; // 파싱 실패 시 기본값 설정
+                }
 
-                var newCharacter = new Character(id, name, description, HP, STR, DEX, INT, CON, DEF, ATK, isUsing, type, love, Success, TeamCount);
+                var newCharacter = new Character(id, name, description, HP, STR, DEX, INT, CON, DEF, ATK, isUsing, type, love, Success, TeamCount, IsFirstTalk);
                 CSVCharacter.Add(newCharacter);
                 nowPlayer.characters.Add(newCharacter); // nowPlayer의 characters 리스트에 추가
             }

@@ -20,7 +20,7 @@ public class QuestData_yj : MonoBehaviour
     public GameObject Dial_changyj; // 기본대사 띄울 대화창
     public TextMeshProUGUI dialoguename_yj; // name text
     public TextMeshProUGUI dialogueText_yj; // line text
-    public float interactionRange = 3f; // 상호작용 거리
+    public float interactionRange = 1f; // 상호작용 거리
 
     private GameObject player; // 플레이어 오브젝트
     private GameObject currentNPC; // 현재 상호작용하는 NPC 저장 변수
@@ -140,13 +140,22 @@ public class QuestData_yj : MonoBehaviour
                 currentNPC = null;
             }
         }
-        float distanceNPC7 = Vector3.Distance(player.transform.position, npc7_yj.transform.position);
-        Debug.Log("distanceNPC7 : " + distanceNPC7);
-
-        if (distanceNPC7 <= interactionRange)
+        if (npc7_yj != null)
         {
-            currentNPC = npc7_yj;
+            float distanceNPC7 = Vector3.Distance(player.transform.position, npc7_yj.transform.position);
+            //Debug.Log("distanceNPC7 : " + distanceNPC7);
+
+            if (distanceNPC7 <= interactionRange)
+            {
+                currentNPC = npc7_yj;
+            }
+            else
+            {
+                currentNPC = null;
+            }
         }
+
+        
     }
     // 의뢰 가격 결정하는 메소드(500-1000골드)
     int QuestMomey_yj()
@@ -209,15 +218,19 @@ public class QuestData_yj : MonoBehaviour
         Debug.Log("단서 클릭");
         choiceUI3_yj.SetActive(false);
         timemanager_yj.CompleteActivity(); // 하루 기본 활동 수행 횟수 1 증가
-        resuedit_yj.text = $"기본활동 횟수 : {timemanager_yj.activityCount} / 3";
-        if (timemanager_yj.activityCount >= 5)
+        DataManager.instance.nowPlayer.Player_hint += 1;
+
+        resuedit_yj.text = $"기본활동 횟수 : {DataManager.instance.nowPlayer.Player_howtoday}";
+        if (timemanager_yj.activityCount == 2)
         {
             resuedit2_yj.text = "하루치 기본 활동 3개를 모두 완수하셨습니다!\n[주인공 집]의 [침대]로 돌아가 휴식을 취해주세요!";
             resultUI2_yj.SetActive(true);
         }
 
         resultUI_yj.SetActive(true);
+
         Invoke("HideResultPanel()", 2f);
+
         SaveData();
         // 인벤토리에 힌트 랜덤 추가
         ItemManager.instance.GetHint_inv();
@@ -237,9 +250,9 @@ public class QuestData_yj : MonoBehaviour
         timemanager_yj.CompleteActivity(); // 하루 기본 활동 수행 횟수 1 증가
 
         // 결과창 업데이트
-        resuedit_yj.text = $"기본활동 횟수 : {DataManager.instance.nowPlayer.Player_howtoday} / 3\n총 골드 : {playermanager_yj.playerNow.money_py} G"; // 기본 활동 텍스트 업데이트
+        resuedit_yj.text = $"기본활동 횟수 : {DataManager.instance.nowPlayer.Player_howtoday}\n총 골드 : {DataManager.instance.nowPlayer.Player_money} G"; // 기본 활동 텍스트 업데이트
 
-        if (timemanager_yj.activityCount >= 5)
+        if (timemanager_yj.activityCount == 5)
         {
             resuedit2_yj.text = "하루치 기본 활동 3개를 모두 완수하셨습니다!\n[주인공 집]의 [침대]로 돌아가 휴식을 취해주세요!";
             resultUI2_yj.SetActive(true);
@@ -278,10 +291,12 @@ public class QuestData_yj : MonoBehaviour
         Dial_changyj.SetActive(false);
         resultUI_yj.SetActive(false);
     }
+
     void HideResultPanel()
     {
         resultUI_yj.SetActive(false);
     }
+
     void SaveData()
     {
         DataManager.instance.nowPlayer.Player_hp = playermanager_yj.playerNow.hp_py;

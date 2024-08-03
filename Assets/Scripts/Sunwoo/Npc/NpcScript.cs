@@ -106,6 +106,16 @@ public class NpcScript : MonoBehaviour
 
     bool IsFirstTalk()
     {
+        // 캐릭터가 초면인지 확인하는 변수 저장
+        List<Character> character = DataManager.instance.nowPlayer.characters.FindAll(x => x.Type != "검 사");
+        
+        foreach(var ii in character) {
+            if(ii.Type == npcType) {
+                ii.IsFirstTalk = PlayerPrefs.GetInt(npcType + "_FirstTalk", 1) == 1;
+            }
+        }
+        DataManager.instance.SaveData();
+
         // 첫 대화인지 확인 (PlayerPrefs를 통해 저장된 값 확인)
         return PlayerPrefs.GetInt(npcType + "_FirstTalk", 1) == 1;
     }
@@ -432,7 +442,7 @@ public class NpcScript : MonoBehaviour
         affectionText.text = $"호감도: {affection}";
     }
 
-    void UpdatePosition(string timeOfDay)
+    public void UpdatePosition(string timeOfDay)
     {
         // 시간대에 따라 NPC 위치 업데이트
         Vector3 newPosition = Vector3.zero;
