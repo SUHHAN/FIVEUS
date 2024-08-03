@@ -385,8 +385,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: talkwithjjang_yj, Assembly-CSharp
+      - m_Target: {fileID: 681092210}
+        m_TargetAssemblyTypeName: bedin4_yj, Assembly-CSharp
         m_MethodName: OnNo4ButtonClick
         m_Mode: 1
         m_Arguments:
@@ -709,8 +709,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: mainhint3_yj, Assembly-CSharp
+      - m_Target: {fileID: 681092210}
+        m_TargetAssemblyTypeName: bedin4_yj, Assembly-CSharp
         m_MethodName: OngobedButtonClick
         m_Mode: 1
         m_Arguments:
@@ -1328,9 +1328,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: mainhint3_yj, Assembly-CSharp
-        m_MethodName: OnNo5ButtonClick
+      - m_Target: {fileID: 681092210}
+        m_TargetAssemblyTypeName: bedin4_yj, Assembly-CSharp
+        m_MethodName: OnNo6ButtonClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -8568,8 +8568,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: mainhint3_yj, Assembly-CSharp
+      - m_Target: {fileID: 681092210}
+        m_TargetAssemblyTypeName: bedin4_yj, Assembly-CSharp
         m_MethodName: OnNo5ButtonClick
         m_Mode: 1
         m_Arguments:
@@ -8734,8 +8734,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: talkwithjjang_yj, Assembly-CSharp
+      - m_Target: {fileID: 681092210}
+        m_TargetAssemblyTypeName: bedin4_yj, Assembly-CSharp
         m_MethodName: OnbedButtonClick
         m_Mode: 1
         m_Arguments:
