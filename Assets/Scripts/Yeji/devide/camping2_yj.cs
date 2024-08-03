@@ -78,7 +78,7 @@ public class camping2_yj : MonoBehaviour
     }
     // Start is called before the first frame update
     void Start()
-    {
+    {/*
         campingButton_yj.onClick.AddListener(OncampButtonClick);
         findhintButton_yj.onClick.AddListener(OnhintButtonClick);
         gotobedButton_yj.onClick.AddListener(OngobedButtonClick);
@@ -86,7 +86,7 @@ public class camping2_yj : MonoBehaviour
         noButton2.onClick.AddListener(OnNo2ButtonClick);
         noButton3.onClick.AddListener(OnNo3ButtonClick);
         noButton5.onClick.AddListener(OnNo5ButtonClick);
-
+        */
         isbasicdial_yj = false;
         playermanager_yj.playerNow.howtoday_py = 0;
         playermanager_yj.playerNow.howtrain_py = 0;
