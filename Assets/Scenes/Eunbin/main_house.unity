@@ -1390,7 +1390,7 @@ GameObject:
   - component: {fileID: 305309806}
   - component: {fileID: 305309805}
   m_Layer: 5
-  m_Name: "\uC9D1\uC5D0\uAC00\uB77C\uACE0"
+  m_Name: bedText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2442,20 +2442,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62aca14193e427f49b24c7144ad85dc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  choiceUI3_yj: {fileID: 445222922}
   choiceUI4_yj: {fileID: 818372673}
   iaminbedUI_yj: {fileID: 345540286}
   Dial_changyj: {fileID: 824149585}
   dialoguename_yj: {fileID: 894822590}
   dialogueText_yj: {fileID: 894822589}
   interactionRange: 3
-  npc3_yj: {fileID: 0}
   npc4_yj: {fileID: 133083841}
-  noButton3: {fileID: 2084992231}
   noButton4: {fileID: 114494276}
   noButton5: {fileID: 2012176609}
   noButton6: {fileID: 246623194}
-  findhintButton_yj: {fileID: 1582286275}
   laybedButton_yj: {fileID: 2053281571}
   gotobedButton_yj: {fileID: 137927145}
   resultUI_yj: {fileID: 656815611}
@@ -2625,7 +2621,7 @@ GameObject:
   - component: {fileID: 785442757}
   - component: {fileID: 785442756}
   m_Layer: 5
-  m_Name: "\uC9C8\uBB384"
+  m_Name: Q4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4555,7 +4551,7 @@ GameObject:
   - component: {fileID: 991769258}
   - component: {fileID: 991769257}
   m_Layer: 5
-  m_Name: "\uC9C8\uBB382"
+  m_Name: Q2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5322,7 +5318,7 @@ GameObject:
   - component: {fileID: 1328184866}
   - component: {fileID: 1328184865}
   m_Layer: 5
-  m_Name: "\uC9C8\uBB381"
+  m_Name: Q1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5852,7 +5848,7 @@ GameObject:
   - component: {fileID: 1437021962}
   - component: {fileID: 1437021961}
   m_Layer: 5
-  m_Name: "\uC9C8\uBB383"
+  m_Name: Q3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6788,7 +6784,7 @@ GameObject:
   - component: {fileID: 1647317779}
   - component: {fileID: 1647317778}
   m_Layer: 0
-  m_Name: "\uB0A0\uC9DC \uD45C\uC2DC"
+  m_Name: TimeManager_yj
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7952,7 +7948,7 @@ GameObject:
   - component: {fileID: 1889136572}
   - component: {fileID: 1889136571}
   m_Layer: 5
-  m_Name: "\uD3B8\uC9D1\uC6A9"
+  m_Name: forEdit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8428,7 +8424,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2019998390}
   m_Layer: 0
-  m_Name: "\uB05D\uB0A0 \uB54C\uB9CC \uB098\uC634"
+  m_Name: ResultUI2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
