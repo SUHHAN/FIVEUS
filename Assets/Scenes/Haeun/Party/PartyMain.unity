@@ -1391,8 +1391,8 @@ MonoBehaviour:
   itemSprites:
   - {fileID: 1146003109, guid: f6ff4f28b09dfc643a42d8fdab35cbdf, type: 3}
   - {fileID: -2060087138, guid: 058b1b156403f0643a5fafa00c171afb, type: 3}
-  - {fileID: -783766082, guid: 49e1d9012065ddc47ad2a0e3a72c71fc, type: 3}
   - {fileID: 1015420668, guid: 24dbc26e75d23e847b5caf4c7e7be76b, type: 3}
+  - {fileID: -783766082, guid: 49e1d9012065ddc47ad2a0e3a72c71fc, type: 3}
   - {fileID: 1915900489, guid: 8dde999b685f1824bbd6598123947b80, type: 3}
   - {fileID: -834241224, guid: 1908531ee345acb4ba1bcc2f732b5f17, type: 3}
   - {fileID: 1246562600, guid: 7feaa7ebea0fd7e4bba34e9bc6402675, type: 3}
