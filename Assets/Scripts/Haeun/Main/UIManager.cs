@@ -35,6 +35,12 @@ public class UIManager : MonoBehaviour
     public Sprite[] HPLevelSprites;      // 체력 수치 관련 이미지
     public Sprite[] FatigueLevelSprites; // 피로도 수치 관련 이미지
 
+    [Header("#인게임 씬 목록")]
+    public string[] ingameScenes = {"bar","camping","hotel","hotel_hall","hotel_room1",
+                                    "hotel_room2", "inf_guild", "inf_guild_in", "magic_house",
+                                    "main_house", "main_map", "main_map2", "store",
+                                    "sub1_house","training"}; // 인게임 씬으로 간주할 씬들의 이름
+
     void Awake()
     {
         //DontDestroyOnLoad(canvas.gameObject); // Canvas 오브젝트 파괴되지 않도록 설정
@@ -65,8 +71,8 @@ public class UIManager : MonoBehaviour
             LoadButton.SetActive(true);
             IngameButton.SetActive(false);
 
-            // 인게임 씬이 변경되었을 때만 저장
-            if (currentSceneName.StartsWith("Ingame"))
+            // 인게임 씬인지 확인하고 저장
+            if (Array.Exists(ingameScenes, scene => scene == currentSceneName))
             {
                 PlayerPrefs.SetString("PreviousIngameScene", currentSceneName);
                 PlayerPrefs.Save();
@@ -76,7 +82,8 @@ public class UIManager : MonoBehaviour
         // 데이터 저장 알림창 비활성화(기본)
         TempDataCheckWindow.SetActive(false);
 
-        Button OkButton = TempDataCheckWindow.transform.Find("OkButton").GetComponent<Button>();  // 두 윈도우 속 ok 버튼 클릭시 창 비활성화 메소드 연결
+        // 버튼 클릭 이벤트 연결
+        Button OkButton = TempDataCheckWindow.transform.Find("OkButton").GetComponent<Button>();
         OkButton.onClick.AddListener(ClickOkButton);
         Button NoButton = TempDataCheckWindow.transform.Find("NoButton").GetComponent<Button>();
         NoButton.onClick.AddListener(ClickNoButton);
@@ -84,7 +91,7 @@ public class UIManager : MonoBehaviour
         // UI 초기화
         UpdateUI();
 
-        // 버튼 클릭 이벤트 연결
+        // 상단바 버튼 클릭 이벤트 연결
         StoreButton.onClick.AddListener(() => changeStore());
         InventoryButton.onClick.AddListener(() => changeInventory());
         SettingButton.onClick.AddListener(() => LoadSettingsScene(previousSceneName));
@@ -157,7 +164,7 @@ public class UIManager : MonoBehaviour
 
     void ChangeDayLevel(int Day) {
         int DayLevel = Day;
-        DayLevelText.text = "D-" + DayLevel.ToString();
+        DayLevelText.text = $"{Day}일차" + DayLevel.ToString();
     }
 
     public void changeStore() {

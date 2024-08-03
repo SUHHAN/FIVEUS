@@ -80,6 +80,9 @@ public class ItemManager : MonoBehaviour
             // 전직템 구매시, 구매한 전직템과 관련된 직업으로 바로 변경 및 장착됨.
             List<Item> AllJobItem = DataManager.instance.nowPlayer.Items.FindAll(x => x.Type == "장비");
             foreach(var ii in AllJobItem) {
+                    //if(ii.)
+
+
                     ii.isUsing = false;
             } 
             NowItem.isUsing = true;
@@ -135,7 +138,6 @@ public class ItemManager : MonoBehaviour
             return;
         }
         
-    
         // 변경된 내용을 저장
         SaveData();
 
