@@ -188,6 +188,7 @@ public class bedin4_yj : MonoBehaviour
         }
 
         resultUI_yj.SetActive(true);
+        SaveData();
     }
     public void OngobedButtonClick()
     {

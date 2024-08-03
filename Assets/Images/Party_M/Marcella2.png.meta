@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 3adce10ff340e56439c1f1150c90ac31
+guid: 8dde999b685f1824bbd6598123947b80
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -110,22 +110,22 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Deodorant_0
+      name: Marcella2_0
       rect:
         serializedVersion: 2
-        x: 120
-        y: 100
-        width: 400
-        height: 400
+        x: 700
+        y: 2489
+        width: 3700
+        height: 5790
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d2032004a00e0c24b8e0679254da278f
-      internalID: -1321236551
+      spriteID: d47f289e32a0fbe4396205d34db9f2e8
+      internalID: 1915900489
       vertices: []
       indices: 
       edges: []
@@ -141,7 +141,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Deodorant_0: -1321236551
+      Marcella2_0: 1915900489
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

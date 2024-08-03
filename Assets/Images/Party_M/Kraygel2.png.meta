@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 3adce10ff340e56439c1f1150c90ac31
+guid: 49e1d9012065ddc47ad2a0e3a72c71fc
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -110,22 +110,22 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Deodorant_0
+      name: Kraygel2_0
       rect:
         serializedVersion: 2
-        x: 120
-        y: 100
-        width: 400
-        height: 400
+        x: 600
+        y: 2489
+        width: 3700
+        height: 5790
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d2032004a00e0c24b8e0679254da278f
-      internalID: -1321236551
+      spriteID: 8781c48ada58ec141aed3328e6c5ccd8
+      internalID: -783766082
       vertices: []
       indices: 
       edges: []
@@ -141,7 +141,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Deodorant_0: -1321236551
+      Kraygel2_0: -783766082
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

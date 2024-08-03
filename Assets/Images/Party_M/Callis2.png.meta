@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 3adce10ff340e56439c1f1150c90ac31
+guid: 058b1b156403f0643a5fafa00c171afb
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -110,22 +110,22 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Deodorant_0
+      name: Callis2_0
       rect:
         serializedVersion: 2
-        x: 120
-        y: 100
-        width: 400
-        height: 400
+        x: 700
+        y: 2489
+        width: 3700
+        height: 5790
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d2032004a00e0c24b8e0679254da278f
-      internalID: -1321236551
+      spriteID: 698c25b44de25af44a0e5e270b622086
+      internalID: -2060087138
       vertices: []
       indices: 
       edges: []
@@ -141,7 +141,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Deodorant_0: -1321236551
+      Callis2_0: -2060087138
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

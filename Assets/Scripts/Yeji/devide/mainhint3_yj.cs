@@ -174,9 +174,12 @@ public class mainhint3_yj : MonoBehaviour
 
         resultUI_yj.SetActive(true);
         Invoke("HideResultPanel()", 2f);
+        SaveData();
 
         // 인벤토리에 힌트 랜덤 추가
         ItemManager.instance.GetHint_inv();
+        
+
 
         SceneManager.LoadScene("InventoryMain"); // 인벤토리 씬으로 이동
         // 찾은 단서 개수를 한 개 늘림. 이건 인벤토리랑 연관 후에 생각해야 할듯
@@ -209,5 +212,19 @@ public class mainhint3_yj : MonoBehaviour
     void HideResultPanel()
     {
         resultUI_yj.SetActive(false);
+    }
+
+    void SaveData()
+    {
+        DataManager.instance.nowPlayer.Player_hp = playermanager_yj.playerNow.hp_py;
+        DataManager.instance.nowPlayer.Player_tired = playermanager_yj.playerNow.tired_py;
+        DataManager.instance.nowPlayer.Player_money = playermanager_yj.playerNow.money_py;
+        DataManager.instance.nowPlayer.Player_hint = playermanager_yj.playerNow.hint_py;
+        DataManager.instance.nowPlayer.Player_team = playermanager_yj.playerNow.team_py;
+        DataManager.instance.nowPlayer.Player_day = playermanager_yj.playerNow.day_py;
+        DataManager.instance.nowPlayer.Player_howtoday = playermanager_yj.playerNow.howtoday_py;
+        DataManager.instance.nowPlayer.Player_howtrain = playermanager_yj.playerNow.howtrain_py;
+
+        DataManager.instance.SaveData();
     }
 }
