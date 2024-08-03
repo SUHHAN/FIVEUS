@@ -68,7 +68,7 @@ public class NpcScript : MonoBehaviour
         }
 
         // 초기 위치 업데이트
-        UpdatePosition(timeManager.GetTimeOfDay(), timeManager.activityCount);
+        UpdatePosition(timeManager.activityCount);
     }
 
     void SetChoiceButtonTexts()
@@ -470,11 +470,24 @@ public class NpcScript : MonoBehaviour
         }
     }
 
-    public void UpdatePosition(string timeOfDay, int activityCount)
+    public void UpdatePosition(int activityCount)
     {
-        // 시간대에 따라 NPC 위치 업데이트
         Vector3 newPosition = Vector3.zero;
         string currentScene = SceneManager.GetActiveScene().name;
+        bool shouldBeActive = false;
+
+        (newPosition, shouldBeActive) = GetPositionAndState(currentScene, activityCount, npcType);
+
+        gameObject.SetActive(shouldBeActive);
+        if (shouldBeActive)
+        {
+            transform.position = newPosition;
+        }
+    }
+
+    (Vector3, bool) GetPositionAndState(string currentScene, int activityCount, string npcType)
+    {
+        Vector3 newPosition = Vector3.zero;
         bool shouldBeActive = false;
 
         switch (npcType)
@@ -540,31 +553,7 @@ public class NpcScript : MonoBehaviour
                 break;
         }
 
-        gameObject.SetActive(shouldBeActive);
-        if (shouldBeActive)
-        {
-            transform.position = newPosition;
-        }
-    }
-
-    (Vector3, bool) GetPositionAndState(string timeOfDay, string currentScene, string dayScene, Vector3 dayPosition, string nightScene = null, Vector3 nightPosition = default(Vector3))
-    {
-        // 시간대와 씬에 따라 NPC 위치와 활성화 상태 반환
-        bool isDay = timeOfDay == "Morning" || timeOfDay == "Afternoon";
-        bool shouldBeActive = false;
-        Vector3 newPosition = Vector3.zero;
-
-        if (currentScene == dayScene && isDay)
-        {
-            newPosition = dayPosition;
-            shouldBeActive = true;
-        }
-        else if (nightScene != null && currentScene == nightScene && !isDay)
-        {
-            newPosition = nightPosition;
-            shouldBeActive = true;
-        }
-
         return (newPosition, shouldBeActive);
     }
+
 }
