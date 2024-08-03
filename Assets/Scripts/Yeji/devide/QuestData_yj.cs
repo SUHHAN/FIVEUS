@@ -95,7 +95,9 @@ public class QuestData_yj : MonoBehaviour
 
         isbasicdial_yj = false;
         questmoneyy_yj = 0;
+
         player = GameObject.FindGameObjectWithTag("Player"); // 태그가 "Player"인 오브젝트 찾기
+
         HideUI(); // 시작할 때 UI 숨기기
     }
 
@@ -218,10 +220,10 @@ public class QuestData_yj : MonoBehaviour
         Debug.Log("단서 클릭");
         choiceUI3_yj.SetActive(false);
         timemanager_yj.CompleteActivity(); // 하루 기본 활동 수행 횟수 1 증가
-        DataManager.instance.nowPlayer.Player_hint += 1;
+        
 
-        resuedit_yj.text = $"기본활동 횟수 : {DataManager.instance.nowPlayer.Player_howtoday}";
-        if (timemanager_yj.activityCount == 2)
+        resuedit_yj.text = $"기본활동 횟수 : {DataManager.instance.nowPlayer.Player_howtoday} / 3";
+        if (DataManager.instance.nowPlayer.Player_howtoday >= 3)
         {
             resuedit2_yj.text = "하루치 기본 활동 3개를 모두 완수하셨습니다!\n[주인공 집]의 [침대]로 돌아가 휴식을 취해주세요!";
             resultUI2_yj.SetActive(true);
@@ -231,9 +233,17 @@ public class QuestData_yj : MonoBehaviour
 
         Invoke("HideResultPanel()", 2f);
 
-        SaveData();
         // 인벤토리에 힌트 랜덤 추가
         ItemManager.instance.GetHint_inv();
+        DataManager.instance.nowPlayer.Player_hint += 1;
+        ItemManager.instance.GetHint_inv();
+        DataManager.instance.nowPlayer.Player_hint += 1;
+        ItemManager.instance.GetHint_inv();
+        DataManager.instance.nowPlayer.Player_hint += 1;
+        ItemManager.instance.GetHint_inv();
+        DataManager.instance.nowPlayer.Player_hint += 1;
+
+        SaveData();
 
         SceneManager.LoadScene("InventoryMain"); // 인벤토리 씬으로 이동
         // 찾은 단서 개수를 한 개 늘림. 이건 인벤토리랑 연관 후에 생각해야 할듯
@@ -250,9 +260,9 @@ public class QuestData_yj : MonoBehaviour
         timemanager_yj.CompleteActivity(); // 하루 기본 활동 수행 횟수 1 증가
 
         // 결과창 업데이트
-        resuedit_yj.text = $"기본활동 횟수 : {DataManager.instance.nowPlayer.Player_howtoday}\n총 골드 : {DataManager.instance.nowPlayer.Player_money} G"; // 기본 활동 텍스트 업데이트
+        resuedit_yj.text = $"기본활동 횟수 : {DataManager.instance.nowPlayer.Player_howtoday} / 3\n총 골드 : {DataManager.instance.nowPlayer.Player_money} G"; // 기본 활동 텍스트 업데이트
 
-        if (timemanager_yj.activityCount == 5)
+        if (DataManager.instance.nowPlayer.Player_howtoday >= 3)
         {
             resuedit2_yj.text = "하루치 기본 활동 3개를 모두 완수하셨습니다!\n[주인공 집]의 [침대]로 돌아가 휴식을 취해주세요!";
             resultUI2_yj.SetActive(true);
@@ -299,14 +309,14 @@ public class QuestData_yj : MonoBehaviour
 
     void SaveData()
     {
-        DataManager.instance.nowPlayer.Player_hp = playermanager_yj.playerNow.hp_py;
-        DataManager.instance.nowPlayer.Player_tired = playermanager_yj.playerNow.tired_py;
-        DataManager.instance.nowPlayer.Player_money = playermanager_yj.playerNow.money_py;
-        DataManager.instance.nowPlayer.Player_hint = playermanager_yj.playerNow.hint_py;
-        DataManager.instance.nowPlayer.Player_team = playermanager_yj.playerNow.team_py;
-        DataManager.instance.nowPlayer.Player_day = playermanager_yj.playerNow.day_py;
-        DataManager.instance.nowPlayer.Player_howtoday = playermanager_yj.playerNow.howtoday_py;
-        DataManager.instance.nowPlayer.Player_howtrain = playermanager_yj.playerNow.howtrain_py;
+        // DataManager.instance.nowPlayer.Player_hp = playermanager_yj.playerNow.hp_py;
+        // DataManager.instance.nowPlayer.Player_tired = playermanager_yj.playerNow.tired_py;
+        // DataManager.instance.nowPlayer.Player_money = playermanager_yj.playerNow.money_py;
+        // DataManager.instance.nowPlayer.Player_hint = playermanager_yj.playerNow.hint_py;
+        // DataManager.instance.nowPlayer.Player_team = playermanager_yj.playerNow.team_py;
+        // DataManager.instance.nowPlayer.Player_day = playermanager_yj.playerNow.day_py;
+        // DataManager.instance.nowPlayer.Player_howtoday = playermanager_yj.playerNow.howtoday_py;
+        // DataManager.instance.nowPlayer.Player_howtrain = playermanager_yj.playerNow.howtrain_py;
 
         DataManager.instance.SaveData();
     }
