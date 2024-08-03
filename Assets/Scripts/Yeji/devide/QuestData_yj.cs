@@ -85,13 +85,13 @@ public class QuestData_yj : MonoBehaviour
     void Start()
     {
 
-        findhintButton_yj.onClick.AddListener(OnhintButtonClick);
+       /* findhintButton_yj.onClick.AddListener(OnhintButtonClick);
         myreasonButton_yj.onClick.AddListener(OnQuestButtonClick);
         gotobedButton_yj.onClick.AddListener(OngobedButtonClick);
 
         noButton3.onClick.AddListener(OnNo3ButtonClick);
         noButton5.onClick.AddListener(OnNo5ButtonClick);
-        noButton7.onClick.AddListener(OnNo7ButtonClick);
+        noButton7.onClick.AddListener(OnNo7ButtonClick);*/
 
         isbasicdial_yj = false;
         questmoneyy_yj = 0;
@@ -229,12 +229,10 @@ public class QuestData_yj : MonoBehaviour
     // 기본활동7 : 의뢰한다 했을 때
     public void OnQuestButtonClick()
     {
-        //Dial_changyj.SetActive(false);
         choiceUI7_yj.SetActive(false); // 선택 UI 비활성화
 
         // 변수 계산
-
-        playermanager_yj.DecreaseHealth(20);// 하루 체력 20 감소
+        playermanager_yj.DecreaseHealth(10);// 하루 체력 10 감소
         playermanager_yj.IncreaseMoney(questmoneyy_yj);// 재화 증가
         timemanager_yj.CompleteActivity(); // 하루 기본 활동 수행 횟수 1 증가
 

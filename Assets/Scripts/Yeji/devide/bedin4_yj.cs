@@ -78,13 +78,14 @@ public class bedin4_yj : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        /*
         laybedButton_yj.onClick.AddListener(OnbedButtonClick);
         gotobedButton_yj.onClick.AddListener(OngobedButtonClick);
        
         noButton4.onClick.AddListener(OnNo4ButtonClick);
         noButton5.onClick.AddListener(OnNo5ButtonClick);
         noButton6.onClick.AddListener(OnNo6ButtonClick);
-
+        */
         isbasicdial_yj = false;
         playermanager_yj.playerNow.howtoday_py = 0;
         playermanager_yj.playerNow.howtrain_py = 0;
