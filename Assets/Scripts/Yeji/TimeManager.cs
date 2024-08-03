@@ -51,7 +51,6 @@ public class TimeManager : MonoBehaviour
             AdvanceDay(); // 활동 수가 3개 이상이면 다음 날로 넘어감
             isMorning = false;
             SaveData();
-
         }
     }
 

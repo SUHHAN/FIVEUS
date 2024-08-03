@@ -1389,13 +1389,13 @@ MonoBehaviour:
   - {fileID: 509743480}
   - {fileID: 735566597}
   itemSprites:
-  - {fileID: 21300000, guid: d8078ba1ead78f14fbc2dc0d45317868, type: 3}
-  - {fileID: 21300000, guid: 8a7c9223dac10494588df1953fb82a0d, type: 3}
-  - {fileID: 21300000, guid: 9b9aa28f6243b7340ba559f6e2d60ce6, type: 3}
-  - {fileID: 21300000, guid: 5e70ab89b25a3794f8519c6de3661868, type: 3}
-  - {fileID: 21300000, guid: d7cf8c1756f847d40b10829cb53cb898, type: 3}
-  - {fileID: 21300000, guid: b45e2078f81eb3445b812413c1596acc, type: 3}
-  - {fileID: 21300000, guid: 9d9adabe3d60642448b868dd1bee50c9, type: 3}
+  - {fileID: 1146003109, guid: f6ff4f28b09dfc643a42d8fdab35cbdf, type: 3}
+  - {fileID: -2060087138, guid: 058b1b156403f0643a5fafa00c171afb, type: 3}
+  - {fileID: -783766082, guid: 49e1d9012065ddc47ad2a0e3a72c71fc, type: 3}
+  - {fileID: 1015420668, guid: 24dbc26e75d23e847b5caf4c7e7be76b, type: 3}
+  - {fileID: 1915900489, guid: 8dde999b685f1824bbd6598123947b80, type: 3}
+  - {fileID: -834241224, guid: 1908531ee345acb4ba1bcc2f732b5f17, type: 3}
+  - {fileID: 1246562600, guid: 7feaa7ebea0fd7e4bba34e9bc6402675, type: 3}
   SlotSelectColor: {r: 0.88235295, g: 1, b: 0.88235295, a: 1}
   SlotIdleColor: {r: 1, g: 1, b: 1, a: 1}
   playerNameText: {fileID: 403147820}

@@ -6,7 +6,7 @@ using UnityEngine.Rendering.UI;
 
 public class QuestManager_yj : MonoBehaviour
 {
-   // �Ƚ��
+   // ¾È½á¿ä
 
     void Start()
     {

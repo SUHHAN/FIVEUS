@@ -7,24 +7,24 @@ public class NpcDialogueBar : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI nameTxt;
     [SerializeField] TypeEffect talk;
-    string[] str = { }; // ÃÊ±â ºó ´ë»ç ¹è¿­
+    string[] str = { }; // ì´ˆê¸° ë¹ˆ ëŒ€ì‚¬ ë°°ì—´
 
     void Start()
     {
-        string initialName = "???"; // ÃÊ±â ÀÌ¸§ ¼³Á¤ (¿¹: ???)
-        ActiveDialogue(0, initialName, ref str); // ÃÊ±â ´ëÈ­ ¼³Á¤
+        string initialName = "???"; // ì´ˆê¸° ì´ë¦„ ì„¤ì • (ì˜ˆ: ???)
+        ActiveDialogue(0, initialName, ref str); // ì´ˆê¸° ëŒ€í™” ì„¤ì •
     }
 
     void Update()
     {
-        // ÇÊ¿ä½Ã Update ¸Ş¼­µå¿¡¼­ Ãß°¡ ·ÎÁ÷ ÀÛ¼º
+        // í•„ìš”ì‹œ Update ë©”ì„œë“œì—ì„œ ì¶”ê°€ ë¡œì§ ì‘ì„±
     }
 
     void ActiveDialogue(int idx, string nameData, ref string[] talkData)
     {
-        // nameData³ª talkData°¡ nullÀÏ °æ¿ì ±âº»°ª ¼³Á¤
-        if (nameData == null) nameData = "???"; // ±âº» ÀÌ¸§ ¼³Á¤
-        if (talkData == null) talkData = new string[] { "No dialogue available." }; // ±âº» ´ë»ç ¼³Á¤
+        // nameDataë‚˜ talkDataê°€ nullì¼ ê²½ìš° ê¸°ë³¸ê°’ ì„¤ì •
+        if (nameData == null) nameData = "???"; // ê¸°ë³¸ ì´ë¦„ ì„¤ì •
+        if (talkData == null) talkData = new string[] { "No dialogue available." }; // ê¸°ë³¸ ëŒ€ì‚¬ ì„¤ì •
 
         nameTxt.text = nameData;
 
