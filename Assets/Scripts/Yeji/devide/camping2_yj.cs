@@ -156,7 +156,6 @@ public class camping2_yj : MonoBehaviour
             isbasicdial_yj = true; // 기본대사 치고 있는 중
         }
     }
-
     void HandleNPCchoice_yj(GameObject npc_yjyj)
     {
         // 현재 NPC에 따라 선택지처리
