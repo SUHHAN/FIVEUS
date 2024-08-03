@@ -3,45 +3,45 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using Unity.VisualScripting; // TextMeshPro ³×ÀÓ½ºÆäÀÌ½º Ãß°¡
+using Unity.VisualScripting; // TextMeshPro ë„¤ì„ìŠ¤í˜ì´ìŠ¤ ì¶”ê°€
 using UnityEngine.SceneManagement;
 using System.Xml.Serialization;
 
-// Áı °¡¸é ³ª¿À´Â°Å(ÈŞ½Ä4)
-// Àá ÀÚ´Â ÄÚµå Ãß°¡ÇØ¾ß ÇÔ 
+// ì§‘ ê°€ë©´ ë‚˜ì˜¤ëŠ”ê±°(íœ´ì‹4)
+// ì  ìëŠ” ì½”ë“œ ì¶”ê°€í•´ì•¼ í•¨ 
 public class bedin4_yj : MonoBehaviour
 {
-    private bool isbasicdial_yj = false; // ´ë»ç Ä¡°í ÀÖ´ÂÁö ¿©ºÎ
+    private bool isbasicdial_yj = false; // ëŒ€ì‚¬ ì¹˜ê³  ìˆëŠ”ì§€ ì—¬ë¶€
 
-    public GameObject choiceUI4_yj; // ±âº»È°µ¿4 UI ÆĞ³Î
-    public GameObject iaminbedUI_yj;// ÈŞ½ÄÁß UI ÆĞ³Î
+    public GameObject choiceUI4_yj; // ê¸°ë³¸í™œë™4 UI íŒ¨ë„
+    public GameObject iaminbedUI_yj;// íœ´ì‹ì¤‘ UI íŒ¨ë„
 
-    public GameObject Dial_changyj; // ±âº»´ë»ç ¶ç¿ï ´ëÈ­Ã¢
+    public GameObject Dial_changyj; // ê¸°ë³¸ëŒ€ì‚¬ ë„ìš¸ ëŒ€í™”ì°½
     public TextMeshProUGUI dialoguename_yj; // name text
     public TextMeshProUGUI dialogueText_yj; // line text
-    public float interactionRange = 3f; // »óÈ£ÀÛ¿ë °Å¸®
+    public float interactionRange = 3f; // ìƒí˜¸ì‘ìš© ê±°ë¦¬
 
-    private GameObject player; // ÇÃ·¹ÀÌ¾î ¿ÀºêÁ§Æ®
-    private GameObject currentNPC; // ÇöÀç »óÈ£ÀÛ¿ëÇÏ´Â NPC ÀúÀå º¯¼ö
+    private GameObject player; // í”Œë ˆì´ì–´ ì˜¤ë¸Œì íŠ¸
+    private GameObject currentNPC; // í˜„ì¬ ìƒí˜¸ì‘ìš©í•˜ëŠ” NPC ì €ì¥ ë³€ìˆ˜
 
-    public GameObject npc4_yj; // ÈŞ½Ä
+    public GameObject npc4_yj; // íœ´ì‹
 
-    public Button noButton4; // ¾Æ´Ï¿À ¹öÆ° ¿¬°á4
-    public Button noButton5; // °á°úÃ¢ ´İ±â ¹öÆ° ¿¬°á5
-    public Button noButton6; // ÈŞ½ÄÃ¢ ´İ±â ¹öÆ° ¿¬°á
+    public Button noButton4; // ì•„ë‹ˆì˜¤ ë²„íŠ¼ ì—°ê²°4
+    public Button noButton5; // ê²°ê³¼ì°½ ë‹«ê¸° ë²„íŠ¼ ì—°ê²°5
+    public Button noButton6; // íœ´ì‹ì°½ ë‹«ê¸° ë²„íŠ¼ ì—°ê²°
 
-    public Button laybedButton_yj; // 4. ÈŞ½ÄÇÏ±â ¹öÆ° ¿¬°á
-    public Button gotobedButton_yj; //5. Ä§´ë ÀÌµ¿ ¹öÆ° ¿¬°á
+    public Button laybedButton_yj; // 4. íœ´ì‹í•˜ê¸° ë²„íŠ¼ ì—°ê²°
+    public Button gotobedButton_yj; //5. ì¹¨ëŒ€ ì´ë™ ë²„íŠ¼ ì—°ê²°
 
-    public GameObject resultUI_yj; // °á°ú UI ÆĞ³Î
+    public GameObject resultUI_yj; // ê²°ê³¼ UI íŒ¨ë„
     public GameObject resultUI2_yj;
     public TextMeshProUGUI resuedit_yj; // result edit text
     public TextMeshProUGUI resuedit2_yj; // result edit text
 
-    // ±âº»È°µ¿ ¸î¹ø ÁøÇàÇß´ÂÁö ¼¼¾ß ÇÏ´Ï..ÇÃ·¹ÀÌ¾î¸¦ ºÎ¸£ÀÚ
+    // ê¸°ë³¸í™œë™ ëª‡ë²ˆ ì§„í–‰í–ˆëŠ”ì§€ ì„¸ì•¼ í•˜ë‹ˆ..í”Œë ˆì´ì–´ë¥¼ ë¶€ë¥´ì
     // public PlayerNow_yj nowplayer_yj;
-    public PlayerManager_yj playermanager_yj; // Ã¼·Â°ü¸®¿ë
-    public TimeManager timemanager_yj; // ³¯Â¥ °ü¸® + ±âº»È°µ¿ µ¡»¬¼À¿ë
+    public PlayerManager_yj playermanager_yj; // ì²´ë ¥ê´€ë¦¬ìš©
+    public TimeManager timemanager_yj; // ë‚ ì§œ ê´€ë¦¬ + ê¸°ë³¸í™œë™ ë§ëº„ì…ˆìš©
 
     private static bedin4_yj _instance;
 
@@ -88,8 +88,8 @@ public class bedin4_yj : MonoBehaviour
         isbasicdial_yj = false;
         playermanager_yj.playerNow.howtoday_py = 0;
         playermanager_yj.playerNow.howtrain_py = 0;
-        player = GameObject.FindGameObjectWithTag("Player"); // ÅÂ±×°¡ "Player"ÀÎ ¿ÀºêÁ§Æ® Ã£±â
-        HideUI(); // ½ÃÀÛÇÒ ¶§ UI ¼û±â±â
+        player = GameObject.FindGameObjectWithTag("Player"); // íƒœê·¸ê°€ "Player"ì¸ ì˜¤ë¸Œì íŠ¸ ì°¾ê¸°
+        HideUI(); // ì‹œì‘í•  ë•Œ UI ìˆ¨ê¸°ê¸°
     }
 
     // Update is called once per frame
@@ -104,7 +104,7 @@ public class bedin4_yj : MonoBehaviour
     {
         if (currentNPC != null)
         {
-            HandleNPCDialogue_yj(currentNPC); // npcÇÑÅ× °¡±îÀÌ °¡¸é ´ëÈ­Ã¢ÀÌ ¶á´Ù
+            HandleNPCDialogue_yj(currentNPC); // npcí•œí…Œ ê°€ê¹Œì´ ê°€ë©´ ëŒ€í™”ì°½ì´ ëœ¬ë‹¤
 
             if (Input.GetKeyDown(KeyCode.Space))
             {
@@ -134,26 +134,26 @@ public class bedin4_yj : MonoBehaviour
             Dial_changyj.SetActive(true);
         else if (resultUI_yj.activeSelf || choiceUI4_yj.activeSelf)
             Dial_changyj.SetActive(false);
-        // ÇöÀç NPC¿¡ µû¶ó ´ëÈ­ Ã³¸®
-        if (npc_yjyj == npc4_yj) // Ä§´ë
+        // í˜„ì¬ NPCì— ë”°ë¼ ëŒ€í™” ì²˜ë¦¬
+        if (npc_yjyj == npc4_yj) // ì¹¨ëŒ€
         {
-            dialoguename_yj.text = "Ä§´ë"; // Ä§´ë ÀÌ¸§ Ãâ·Â 
-            dialogueText_yj.text = "¾Æ´ÁÇÑ ³» ¹æÀÇ Ä§´ë´Ù.\nÆí¾ÈÈ÷ ÈŞ½ÄÀ» ÃëÇØ º¸ÀÚ. \n[½ºÆäÀÌ½º¹Ù¸¦ ´­·¯ ÈŞ½ÄÀ» ÁøÇàÇÏ¼¼¿ä]"; // Ä§´ë Æ¯¼ö ´ë»ç Ãâ·Â                                      
-            isbasicdial_yj = true; // ±âº»´ë»ç Ä¡°í ÀÖ´Â Áß
+            dialoguename_yj.text = "ì¹¨ëŒ€"; // ì¹¨ëŒ€ ì´ë¦„ ì¶œë ¥ 
+            dialogueText_yj.text = "ì•„ëŠ‘í•œ ë‚´ ë°©ì˜ ì¹¨ëŒ€ë‹¤.\ní¸ì•ˆíˆ íœ´ì‹ì„ ì·¨í•´ ë³´ì. \n[ìŠ¤í˜ì´ìŠ¤ë°”ë¥¼ ëˆŒëŸ¬ íœ´ì‹ì„ ì§„í–‰í•˜ì„¸ìš”]"; // ì¹¨ëŒ€ íŠ¹ìˆ˜ ëŒ€ì‚¬ ì¶œë ¥                                      
+            isbasicdial_yj = true; // ê¸°ë³¸ëŒ€ì‚¬ ì¹˜ê³  ìˆëŠ” ì¤‘
 
             if (timemanager_yj.activityCount >= 5)
             {
-                // ÁÖÀÎ°øÀÌ ÀÚ¾ß¸¸ ÇÒ ¶§
-                dialoguename_yj.text = "Ä§´ë"; // Ä§´ë ÀÌ¸§ Ãâ·Â 
-                dialogueText_yj.text = "°íµÈ ÇÏ·ç¸¦ ¸¶Ä¡°í ÀÚ´Â ÀáÀº ²ÜÀáÀÌÁö! .\n¿À´Ã ÇÏ·çµµ ¼ö°íÇß¾î~. \n[½ºÆäÀÌ½º¹Ù¸¦ ´­·¯ ¼ö¸éÀ» ÃëÇÏ¼¼¿ä]"; // Ä§´ë Æ¯¼ö ´ë»ç Ãâ·Â                                      
-                isbasicdial_yj = true; // ±âº»´ë»ç Ä¡°í ÀÖ´Â Áß
+                // ì£¼ì¸ê³µì´ ìì•¼ë§Œ í•  ë•Œ
+                dialoguename_yj.text = "ì¹¨ëŒ€"; // ì¹¨ëŒ€ ì´ë¦„ ì¶œë ¥ 
+                dialogueText_yj.text = "ê³ ëœ í•˜ë£¨ë¥¼ ë§ˆì¹˜ê³  ìëŠ” ì ì€ ê¿€ì ì´ì§€! .\nì˜¤ëŠ˜ í•˜ë£¨ë„ ìˆ˜ê³ í–ˆì–´~. \n[ìŠ¤í˜ì´ìŠ¤ë°”ë¥¼ ëˆŒëŸ¬ ìˆ˜ë©´ì„ ì·¨í•˜ì„¸ìš”]"; // ì¹¨ëŒ€ íŠ¹ìˆ˜ ëŒ€ì‚¬ ì¶œë ¥                                      
+                isbasicdial_yj = true; // ê¸°ë³¸ëŒ€ì‚¬ ì¹˜ê³  ìˆëŠ” ì¤‘
             }
         }
     }
 
     void HandleNPCchoice_yj(GameObject npc_yjyj)
     {
-        if (npc_yjyj == npc4_yj) // Ä§´ë
+        if (npc_yjyj == npc4_yj) // ì¹¨ëŒ€
         {
 
             Dial_changyj.SetActive(false);
@@ -162,7 +162,7 @@ public class bedin4_yj : MonoBehaviour
 
             if(timemanager_yj.activityCount >= 5)
             {
-                // ¼±ÅÃÁö ¸»°í ÀÚ°íÀÖ´Ù´Â Ã¢ÀÌ 2ÃÊµ¿¾È ¶ßµµ·Ï
+                // ì„ íƒì§€ ë§ê³  ìê³ ìˆë‹¤ëŠ” ì°½ì´ 2ì´ˆë™ì•ˆ ëœ¨ë„ë¡
                 Dial_changyj.SetActive(false);
                 isbasicdial_yj = false;
                 iaminbedUI_yj.SetActive(true);
@@ -170,20 +170,20 @@ public class bedin4_yj : MonoBehaviour
         }
     }
     
-    // ±âº»È°µ¿4 : ÈŞ½Ä ÃëÇÏ°Ú´Ù ÇßÀ» ¶§
+    // ê¸°ë³¸í™œë™4 : íœ´ì‹ ì·¨í•˜ê² ë‹¤ í–ˆì„ ë•Œ
     public void OnbedButtonClick()
     {
         choiceUI4_yj.SetActive(false);
         resultUI_yj.SetActive(true);
 
-        timemanager_yj.CompleteActivity();// ÇÏ·ç ±âº» È°µ¿ ¼öÇà È½¼ö 1 Áõ°¡
+        timemanager_yj.CompleteActivity();// í•˜ë£¨ ê¸°ë³¸ í™œë™ ìˆ˜í–‰ íšŸìˆ˜ 1 ì¦ê°€
 
-        // °á°úÃ¢ ¾÷µ¥ÀÌÆ®
-        resuedit_yj.text = $"±âº»È°µ¿ È½¼ö : {timemanager_yj.activityCount / 2} / 3"; // ±âº» È°µ¿ ÅØ½ºÆ® ¾÷µ¥ÀÌÆ®
+        // ê²°ê³¼ì°½ ì—…ë°ì´íŠ¸
+        resuedit_yj.text = $"ê¸°ë³¸í™œë™ íšŸìˆ˜ : {timemanager_yj.activityCount / 2} / 3"; // ê¸°ë³¸ í™œë™ í…ìŠ¤íŠ¸ ì—…ë°ì´íŠ¸
 
         if (timemanager_yj.activityCount >= 5)
         {
-            resuedit2_yj.text = "ÇÏ·çÄ¡ ±âº» È°µ¿ 3°³¸¦ ¸ğµÎ ¿Ï¼öÇÏ¼Ì½À´Ï´Ù!\n[ÁÖÀÎ°ø Áı]ÀÇ [Ä§´ë]·Î µ¹¾Æ°¡ ÈŞ½ÄÀ» ÃëÇØÁÖ¼¼¿ä!";
+            resuedit2_yj.text = "í•˜ë£¨ì¹˜ ê¸°ë³¸ í™œë™ 3ê°œë¥¼ ëª¨ë‘ ì™„ìˆ˜í•˜ì…¨ìŠµë‹ˆë‹¤!\n[ì£¼ì¸ê³µ ì§‘]ì˜ [ì¹¨ëŒ€]ë¡œ ëŒì•„ê°€ íœ´ì‹ì„ ì·¨í•´ì£¼ì„¸ìš”!";
             resultUI2_yj.SetActive(true);
         }
 
@@ -191,31 +191,31 @@ public class bedin4_yj : MonoBehaviour
     }
     public void OngobedButtonClick()
     {
-        //SceneManager.LoadScene("main_house"); // ÀÌ°Å ¿À·ù ¾È ³ª·Á³ª? ¿À·ù ³ª¸é Áö¿ö¾ßÁö.
+        //SceneManager.LoadScene("main_house"); // ì´ê±° ì˜¤ë¥˜ ì•ˆ ë‚˜ë ¤ë‚˜? ì˜¤ë¥˜ ë‚˜ë©´ ì§€ì›Œì•¼ì§€.
 
-        // »ç½Ç OnNo5ButtonClick()¹öÆ°ÀÌ¶û °°Àº ±â´É..ÀÌ¹Ì ¾À¿¡ ÀÖ´Âµ¥ ¶Ç ÀÌµ¿½ÃÅ°¸é ¿À·ù³¯±îºÁ 
-        resultUI_yj.SetActive(false); // °á°ú UI ¼±ÅÃÃ¢ ºñÈ°¼ºÈ­
-        resultUI2_yj.SetActive(false); // °á°ú2 UI ¼±ÅÃÃ¢ ºñÈ°¼ºÈ­
+        // ì‚¬ì‹¤ OnNo5ButtonClick()ë²„íŠ¼ì´ë‘ ê°™ì€ ê¸°ëŠ¥..ì´ë¯¸ ì”¬ì— ìˆëŠ”ë° ë˜ ì´ë™ì‹œí‚¤ë©´ ì˜¤ë¥˜ë‚ ê¹Œë´ 
+        resultUI_yj.SetActive(false); // ê²°ê³¼ UI ì„ íƒì°½ ë¹„í™œì„±í™”
+        resultUI2_yj.SetActive(false); // ê²°ê³¼2 UI ì„ íƒì°½ ë¹„í™œì„±í™”
         isbasicdial_yj = false;
     }
 
     
     public void OnNo4ButtonClick()
     {
-        choiceUI4_yj.SetActive(false); // ÈŞ½Ä UI ¼±ÅÃÃ¢ ºñÈ°¼ºÈ­
+        choiceUI4_yj.SetActive(false); // íœ´ì‹ UI ì„ íƒì°½ ë¹„í™œì„±í™”
         isbasicdial_yj = false;
     }
     public void OnNo5ButtonClick()
     {
-        resultUI_yj.SetActive(false); // °á°ú UI ¼±ÅÃÃ¢ ºñÈ°¼ºÈ­
-        resultUI2_yj.SetActive(false); // °á°ú2 UI ¼±ÅÃÃ¢ ºñÈ°¼ºÈ­
+        resultUI_yj.SetActive(false); // ê²°ê³¼ UI ì„ íƒì°½ ë¹„í™œì„±í™”
+        resultUI2_yj.SetActive(false); // ê²°ê³¼2 UI ì„ íƒì°½ ë¹„í™œì„±í™”
         isbasicdial_yj = false;
     }
     public void OnNo6ButtonClick()
     {
-        iaminbedUI_yj.SetActive(false); // ÈŞ½Ä¿Ï·á UI Ã¢ ºñÈ°¼ºÈ­
+        iaminbedUI_yj.SetActive(false); // íœ´ì‹ì™„ë£Œ UI ì°½ ë¹„í™œì„±í™”
         isbasicdial_yj = false;
-        timemanager_yj.UpdateDateAndTimeDisplay();// ´ÙÀ½³¯ ³¯Â¥ ¶ä
+        timemanager_yj.UpdateDateAndTimeDisplay();// ë‹¤ìŒë‚  ë‚ ì§œ ëœ¸
     }
 
     public void HideUI()

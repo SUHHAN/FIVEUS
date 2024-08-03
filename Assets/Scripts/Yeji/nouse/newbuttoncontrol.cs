@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-// �Ƚ��
+// ¾È½á¿ä
 public class newbuttoncontrol : MonoBehaviour
 {
     public void Start()

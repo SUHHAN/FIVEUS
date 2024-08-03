@@ -143,14 +143,14 @@ public class ItemManager : MonoBehaviour
     }
 
     // 선물하기 -> 버튼 클릭 시
-    public void Gift_inv(string charType, string giftName) {
+    public int Gift_inv(string charType, string giftName) {
         // 호감도를 가장 좋아하는 선물 / 그저 그런 선물 / 싫어하는 선물로 나눠서 배열로 저장.
         int[] loveNum = { 5, 0, -5 };
 
         // 선물 관리 매니저를 통해서 선물의 반응을 0, 1, 2로 가지고 오기
         if (GiftManager == null) {
             Debug.LogError("GiftManager is not initialized.");
-            return;
+            return 3;
         }
 
         int response = GiftManager.GetGiftResponse(charType, giftName);
@@ -159,14 +159,14 @@ public class ItemManager : MonoBehaviour
         Character giveChar = DataManager.instance.nowPlayer.characters.FindAll(x => x.Type == charType).Find(x => x.Id != "0");
         if (giveChar == null) {
             Debug.LogError($"Character of type {charType} not found.");
-            return;
+            return 3;
         }
 
         // 특정 이름에 맞는 아이템을 찾기
         Item giveItem = DataManager.instance.nowPlayer.Items.Find(x => x.Name == giftName);
         if (giveItem == null) {
             Debug.LogError($"Item with name {giftName} not found.");
-            return;
+            return 3;
         }
 
         // 일단 선물한 물건의 수량을 하나 감소 시키기
@@ -177,8 +177,10 @@ public class ItemManager : MonoBehaviour
             giveItem.quantity = quantity.ToString();
         } else {
             Debug.LogError("Invalid item quantity.");
-            return;
+            return 3;
         }
+
+
 
         // 호감 대상의 호감도와 올릴 수치를 int로 선언
         int giveChar_love;
@@ -190,10 +192,12 @@ public class ItemManager : MonoBehaviour
             giveChar.Love = giveChar_love.ToString();
         } else {
             Debug.LogError("Invalid character love value.");
-            return;
-        }
+            return 3;
+        }    
 
         SaveData();
+        
+        return response;
     }
 
 

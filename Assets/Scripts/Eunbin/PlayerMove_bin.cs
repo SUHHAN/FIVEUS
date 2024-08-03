@@ -24,13 +24,13 @@ public class PlayerMove_bin : MonoBehaviour
         // anim_yj_pl = GetComponent<Animator>();
     }
 
-    // Update is called once per frame(´Ü¹ß¼ºÀ¸·Î ÀÏ¾î³ª´Â )
+    // Update is called once per frame(ë‹¨ë°œì„±ìœ¼ë¡œ ì¼ì–´ë‚˜ëŠ” )
     void Update()
     {
         h_bin = Input.GetAxisRaw("Horizontal");
         v_bin = Input.GetAxisRaw("Vertical");
 
-        // Á¡ÇÁ
+        // ì í”„
         /*
         if (Input.GetButtonDown("Jump") && !anim_yj_pl.GetBool("isJumping"))
         {
@@ -44,7 +44,7 @@ public class PlayerMove_bin : MonoBehaviour
             rigid_yj.velocity = new Vector2(rigid_yj.velocity.normalized.x * 0.5f, rigid_yj.velocity.y);
         }
 
-        // ¹æÇâ ÀüÈ¯
+        // ë°©í–¥ ì „í™˜
         if (Input.GetButtonDown("Horizontal"))
         {
             spriterenderer_yj.flipX = Input.GetAxisRaw("Horizontal") == -1;
@@ -67,11 +67,11 @@ public class PlayerMove_bin : MonoBehaviour
         float h = Input.GetAxisRaw("Horizontal");
         rigid_yj.AddForce(Vector2.right * h, ForceMode2D.Impulse);
 
-        if (rigid_yj.velocity.x > maxSpeed_yj) // ¿À¸¥ÂÊ max speed
+        if (rigid_yj.velocity.x > maxSpeed_yj) // ì˜¤ë¥¸ìª½ max speed
         {
             rigid_yj.velocity = new Vector2(maxSpeed_yj, rigid_yj.velocity.y);
         }
-        else if (rigid_yj.velocity.x < maxSpeed_yj*(-1)) // ¿ÞÂÊ max speed
+        else if (rigid_yj.velocity.x < maxSpeed_yj*(-1)) // ì™¼ìª½ max speed
         {
             rigid_yj.velocity = new Vector2(maxSpeed_yj * (-1), rigid_yj.velocity.y);
         }

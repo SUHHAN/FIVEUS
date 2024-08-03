@@ -4,128 +4,128 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System;
-using UnityEngine.SceneManagement; // ¾À ÀüÈ¯
+using UnityEngine.SceneManagement; // ì”¬ ì „í™˜
 
 public class NpcScript : MonoBehaviour
 {
-    public GameObject choiceUI; // ¼±ÅÃ UI ÆĞ³Î
-    public GameObject dialogueUI; // ´ëÈ­ UI ÆĞ³Î
-    public GameObject npcAffectionUI; // È£°¨µµ UI ÆĞ³Î
-    public TextMeshProUGUI dialogueText; // ´ë»ç ÅØ½ºÆ® UI ¿¬°á
-    public TextMeshProUGUI affectionText; // È£°¨µµ ÅØ½ºÆ® UI ¿¬°á
-    public TextMeshProUGUI npcNameText; // NPC ÀÌ¸§ ÅØ½ºÆ® UI ¿¬°á
-    public Button talkButton; // ´ëÈ­ÇÏ±â ¹öÆ° ¿¬°á
-    public Button persuadeButton; // ¼³µæÇÏ±â ¹öÆ° ¿¬°á
-    public Button giftButton; // ¼±¹°ÇÏ±â ¹öÆ° ¿¬°á
-    public Button choice1Button; // ¼±ÅÃÁö 1 ¹öÆ°
-    public Button choice2Button; // ¼±ÅÃÁö 2 ¹öÆ°
-    public TextMeshProUGUI choice1Text; // ¼±ÅÃÁö 1 ÅØ½ºÆ®
-    public TextMeshProUGUI choice2Text; // ¼±ÅÃÁö 2 ÅØ½ºÆ®
-    public float interactionRange = 3.0f; // »óÈ£ÀÛ¿ë °Å¸®
-    public GameObject player; // ÇÃ·¹ÀÌ¾î ¿ÀºêÁ§Æ®
-    public bool isTalking = false; // ´ëÈ­ ÁßÀÎÁö ¿©ºÎ
-    public string npcType; // NPC Å¸ÀÔ
-    public double affection = 0; // NPC È£°¨µµ
+    public GameObject choiceUI; // ì„ íƒ UI íŒ¨ë„
+    public GameObject dialogueUI; // ëŒ€í™” UI íŒ¨ë„
+    public GameObject npcAffectionUI; // í˜¸ê°ë„ UI íŒ¨ë„
+    public TextMeshProUGUI dialogueText; // ëŒ€ì‚¬ í…ìŠ¤íŠ¸ UI ì—°ê²°
+    public TextMeshProUGUI affectionText; // í˜¸ê°ë„ í…ìŠ¤íŠ¸ UI ì—°ê²°
+    public TextMeshProUGUI npcNameText; // NPC ì´ë¦„ í…ìŠ¤íŠ¸ UI ì—°ê²°
+    public Button talkButton; // ëŒ€í™”í•˜ê¸° ë²„íŠ¼ ì—°ê²°
+    public Button persuadeButton; // ì„¤ë“í•˜ê¸° ë²„íŠ¼ ì—°ê²°
+    public Button giftButton; // ì„ ë¬¼í•˜ê¸° ë²„íŠ¼ ì—°ê²°
+    public Button choice1Button; // ì„ íƒì§€ 1 ë²„íŠ¼
+    public Button choice2Button; // ì„ íƒì§€ 2 ë²„íŠ¼
+    public TextMeshProUGUI choice1Text; // ì„ íƒì§€ 1 í…ìŠ¤íŠ¸
+    public TextMeshProUGUI choice2Text; // ì„ íƒì§€ 2 í…ìŠ¤íŠ¸
+    public float interactionRange = 3.0f; // ìƒí˜¸ì‘ìš© ê±°ë¦¬
+    public GameObject player; // í”Œë ˆì´ì–´ ì˜¤ë¸Œì íŠ¸
+    public bool isTalking = false; // ëŒ€í™” ì¤‘ì¸ì§€ ì—¬ë¶€
+    public string npcType; // NPC íƒ€ì…
+    public double affection = 0; // NPC í˜¸ê°ë„
 
-    private int currentDialogueIndex = 0; // ÇöÀç ´ëÈ­ ÀÎµ¦½º
-    private List<string> dialogues = new List<string>(); // ´ë»ç ¸ñ·Ï
-    private List<string> choice1Dialogues = new List<string>(); // ÃÊÀÌ½º 1 ´ë»ç ¸ñ·Ï
-    private int choice1DialogueIndex = 0; // ÃÊÀÌ½º 1 ´ë»ç ÀÎµ¦½º
+    private int currentDialogueIndex = 0; // í˜„ì¬ ëŒ€í™” ì¸ë±ìŠ¤
+    private List<string> dialogues = new List<string>(); // ëŒ€ì‚¬ ëª©ë¡
+    private List<string> choice1Dialogues = new List<string>(); // ì´ˆì´ìŠ¤ 1 ëŒ€ì‚¬ ëª©ë¡
+    private int choice1DialogueIndex = 0; // ì´ˆì´ìŠ¤ 1 ëŒ€ì‚¬ ì¸ë±ìŠ¤
 
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player"); // ÅÂ±×°¡ "Player"ÀÎ ¿ÀºêÁ§Æ® Ã£±â
-        choiceUI.SetActive(false); // ½ÃÀÛÇÒ ¶§ ¼±ÅÃ UI ºñÈ°¼ºÈ­
-        dialogueUI.SetActive(false); // ½ÃÀÛÇÒ ¶§ ´ëÈ­ UI ºñÈ°¼ºÈ­
-        persuadeButton.onClick.AddListener(OnPersuadeButtonClick); // ¼³µæÇÏ±â ¹öÆ° Å¬¸¯ ÀÌº¥Æ® ¿¬°á
-        choice1Button.gameObject.SetActive(false); // ¼±ÅÃÁö 1 ¹öÆ° ºñÈ°¼ºÈ­
-        choice2Button.gameObject.SetActive(false); // ¼±ÅÃÁö 2 ¹öÆ° ºñÈ°¼ºÈ­
-        giftButton.onClick.AddListener(OnGiftButtonClick); // ¼±¹°ÇÏ±â ¹öÆ° Å¬¸¯ ÀÌº¥Æ® ¿¬°á
+        player = GameObject.FindGameObjectWithTag("Player"); // íƒœê·¸ê°€ "Player"ì¸ ì˜¤ë¸Œì íŠ¸ ì°¾ê¸°
+        choiceUI.SetActive(false); // ì‹œì‘í•  ë•Œ ì„ íƒ UI ë¹„í™œì„±í™”
+        dialogueUI.SetActive(false); // ì‹œì‘í•  ë•Œ ëŒ€í™” UI ë¹„í™œì„±í™”
+        persuadeButton.onClick.AddListener(OnPersuadeButtonClick); // ì„¤ë“í•˜ê¸° ë²„íŠ¼ í´ë¦­ ì´ë²¤íŠ¸ ì—°ê²°
+        choice1Button.gameObject.SetActive(false); // ì„ íƒì§€ 1 ë²„íŠ¼ ë¹„í™œì„±í™”
+        choice2Button.gameObject.SetActive(false); // ì„ íƒì§€ 2 ë²„íŠ¼ ë¹„í™œì„±í™”
+        giftButton.onClick.AddListener(OnGiftButtonClick); // ì„ ë¬¼í•˜ê¸° ë²„íŠ¼ í´ë¦­ ì´ë²¤íŠ¸ ì—°ê²°
 
-        choice1Button.onClick.AddListener(OnChoice1ButtonClick); // ¼±ÅÃÁö 1 ¹öÆ° Å¬¸¯ ÀÌº¥Æ® ¿¬°á
-        choice2Button.onClick.AddListener(OnChoice2ButtonClick); // ¼±ÅÃÁö 2 ¹öÆ° Å¬¸¯ ÀÌº¥Æ® ¿¬°á
+        choice1Button.onClick.AddListener(OnChoice1ButtonClick); // ì„ íƒì§€ 1 ë²„íŠ¼ í´ë¦­ ì´ë²¤íŠ¸ ì—°ê²°
+        choice2Button.onClick.AddListener(OnChoice2ButtonClick); // ì„ íƒì§€ 2 ë²„íŠ¼ í´ë¦­ ì´ë²¤íŠ¸ ì—°ê²°
 
-        // ¼±ÅÃÁö ¹öÆ° ÅØ½ºÆ® ¼³Á¤
-        if (npcType == "°Ë»ç")
+        // ì„ íƒì§€ ë²„íŠ¼ í…ìŠ¤íŠ¸ ì„¤ì •
+        if (npcType == "ê²€ì‚¬")
         {
-            choice1Button.GetComponentInChildren<TextMeshProUGUI>().text = "´ç½ÅÀÌ ±× À¯¸íÇÑ ¿ëº´ Ä®¸®½º ¸ÂÁÒ?";
-            choice2Button.GetComponentInChildren<TextMeshProUGUI>().text = "¾Æ´¢, º¼ÀÏÀº µüÈ÷ ¾ø´Âµ¥...";
+            choice1Button.GetComponentInChildren<TextMeshProUGUI>().text = "ë‹¹ì‹ ì´ ê·¸ ìœ ëª…í•œ ìš©ë³‘ ì¹¼ë¦¬ìŠ¤ ë§ì£ ?";
+            choice2Button.GetComponentInChildren<TextMeshProUGUI>().text = "ì•„ë‡¨, ë³¼ì¼ì€ ë”±íˆ ì—†ëŠ”ë°...";
         }
-        else if (npcType == "±Ã¼ö")
+        else if (npcType == "ê¶ìˆ˜")
         {
-            choice1Button.GetComponentInChildren<TextMeshProUGUI>().text = "³Ê¹« ¾Æ¸§´Ù¿ì¼Å¼­¿ä.";
-            choice2Button.GetComponentInChildren<TextMeshProUGUI>().text = "È¤½Ã È° ½î´Â ¹ı °¡¸£ÃÄÁÙ ¼ö ÀÖÀ¸½Å°¡¿ä?";
+            choice1Button.GetComponentInChildren<TextMeshProUGUI>().text = "ë„ˆë¬´ ì•„ë¦„ë‹¤ìš°ì…”ì„œìš”.";
+            choice2Button.GetComponentInChildren<TextMeshProUGUI>().text = "í˜¹ì‹œ í™œ ì˜ëŠ” ë²• ê°€ë¥´ì³ì¤„ ìˆ˜ ìˆìœ¼ì‹ ê°€ìš”?";
         }
-        else if (npcType == "ÅÊÄ¿")
+        else if (npcType == "íƒ±ì»¤")
         {
-            choice1Button.GetComponentInChildren<TextMeshProUGUI>().text = "¾È³çÇÏ¼¼¿ä. ¿À´Ã ³¯¾¾°¡ Âü ÁÁ³×¿ä!";
-            choice2Button.GetComponentInChildren<TextMeshProUGUI>().text = "¾È³çÇÏ¼¼¿ä. ÅÊÄ¿´Ô.";
+            choice1Button.GetComponentInChildren<TextMeshProUGUI>().text = "ì•ˆë…•í•˜ì„¸ìš”. ì˜¤ëŠ˜ ë‚ ì”¨ê°€ ì°¸ ì¢‹ë„¤ìš”!";
+            choice2Button.GetComponentInChildren<TextMeshProUGUI>().text = "ì•ˆë…•í•˜ì„¸ìš”. íƒ±ì»¤ë‹˜.";
         }
-        else if (npcType == "¸¶¹ı»ç")
+        else if (npcType == "ë§ˆë²•ì‚¬")
         {
-            choice1Button.GetComponentInChildren<TextMeshProUGUI>().text = "¸¶¹ıÀº Âü À§´ëÇÑ °Í °°¾Æ¿ä.";
-            choice2Button.GetComponentInChildren<TextMeshProUGUI>().text = "¾È³çÇÏ¼¼¿ä. ³¯¾¾°¡ Âü ÁÁ³×¿ä!";
+            choice1Button.GetComponentInChildren<TextMeshProUGUI>().text = "ë§ˆë²•ì€ ì°¸ ìœ„ëŒ€í•œ ê²ƒ ê°™ì•„ìš”.";
+            choice2Button.GetComponentInChildren<TextMeshProUGUI>().text = "ì•ˆë…•í•˜ì„¸ìš”. ë‚ ì”¨ê°€ ì°¸ ì¢‹ë„¤ìš”!";
         }
-        else if (npcType == "Èú·¯")
+        else if (npcType == "íëŸ¬")
         {
-            choice1Button.GetComponentInChildren<TextMeshProUGUI>().text = "½ÅÀÇ °¡È£¶ó´¢?";
-            choice2Button.GetComponentInChildren<TextMeshProUGUI>().text = "°¨»çÇÕ´Ï´Ù, »çÁ¦´Ô.";
+            choice1Button.GetComponentInChildren<TextMeshProUGUI>().text = "ì‹ ì˜ ê°€í˜¸ë¼ë‡¨?";
+            choice2Button.GetComponentInChildren<TextMeshProUGUI>().text = "ê°ì‚¬í•©ë‹ˆë‹¤, ì‚¬ì œë‹˜.";
         }
-        else if (npcType == "¾Ï»ìÀÚ")
+        else if (npcType == "ì•”ì‚´ì")
         {
-            choice1Button.GetComponentInChildren<TextMeshProUGUI>().text = "½É½ÉÇØ¿ä?";
-            choice2Button.GetComponentInChildren<TextMeshProUGUI>().text = "(°¡¸¸È÷ ÁöÄÑº»´Ù)";
+            choice1Button.GetComponentInChildren<TextMeshProUGUI>().text = "ì‹¬ì‹¬í•´ìš”?";
+            choice2Button.GetComponentInChildren<TextMeshProUGUI>().text = "(ê°€ë§Œíˆ ì§€ì¼œë³¸ë‹¤)";
         }
     }
 
 
     void Update()
     {
-        float distance = Vector3.Distance(player.transform.position, transform.position); // ÇÃ·¹ÀÌ¾î¿Í NPC °£ °Å¸® °è»ê
-        if (distance <= interactionRange) // »óÈ£ÀÛ¿ë °Å¸® ³»¿¡ ÀÖ´ÂÁö È®ÀÎ
+        float distance = Vector3.Distance(player.transform.position, transform.position); // í”Œë ˆì´ì–´ì™€ NPC ê°„ ê±°ë¦¬ ê³„ì‚°
+        if (distance <= interactionRange) // ìƒí˜¸ì‘ìš© ê±°ë¦¬ ë‚´ì— ìˆëŠ”ì§€ í™•ì¸
         {
-            if (Input.GetKeyDown(KeyCode.Return) && !isTalking) // ¿£ÅÍ Å° ÀÔ·Â °¨Áö ¹× ´ëÈ­ ÁßÀÌ ¾Æ´Ñ °æ¿ì
+            if (Input.GetKeyDown(KeyCode.Return) && !isTalking) // ì—”í„° í‚¤ ì…ë ¥ ê°ì§€ ë° ëŒ€í™” ì¤‘ì´ ì•„ë‹Œ ê²½ìš°
             {
-                ShowChoiceUI(); // ¼±ÅÃ UI Ç¥½Ã
+                ShowChoiceUI(); // ì„ íƒ UI í‘œì‹œ
             }
-            else if (Input.GetKeyDown(KeyCode.Space) && isTalking) // ´ëÈ­ ÁßÀÏ ¶§ ½ºÆäÀÌ½º¹Ù ÀÔ·Â °¨Áö
+            else if (Input.GetKeyDown(KeyCode.Space) && isTalking) // ëŒ€í™” ì¤‘ì¼ ë•Œ ìŠ¤í˜ì´ìŠ¤ë°” ì…ë ¥ ê°ì§€
             {
                 if (choice1Dialogues.Count > 0 && choice1DialogueIndex < choice1Dialogues.Count)
                 {
-                    ShowNextChoice1Dialogue(); // ´ÙÀ½ ´ë»ç·Î ³Ñ¾î°¡±â
+                    ShowNextChoice1Dialogue(); // ë‹¤ìŒ ëŒ€ì‚¬ë¡œ ë„˜ì–´ê°€ê¸°
                 }
                 else
                 {
-                    ShowNextDialogue(); // ±âº» ´ë»ç·Î ³Ñ¾î°¡±â
+                    ShowNextDialogue(); // ê¸°ë³¸ ëŒ€ì‚¬ë¡œ ë„˜ì–´ê°€ê¸°
                 }
             }
         }
         else
         {
-            choiceUI.SetActive(false); // ¼±ÅÃ UI¿Í ÀÚ½Ä ¿ÀºêÁ§Æ®µé ¼û±â±â
+            choiceUI.SetActive(false); // ì„ íƒ UIì™€ ìì‹ ì˜¤ë¸Œì íŠ¸ë“¤ ìˆ¨ê¸°ê¸°
         }
     }
 
     void ShowChoiceUI()
     {
-        choiceUI.SetActive(true); // ¼±ÅÃ UI È°¼ºÈ­
-        dialogueText.text = ""; // ´ë»ç ÅØ½ºÆ® ÃÊ±âÈ­
+        choiceUI.SetActive(true); // ì„ íƒ UI í™œì„±í™”
+        dialogueText.text = ""; // ëŒ€ì‚¬ í…ìŠ¤íŠ¸ ì´ˆê¸°í™”
     }
 
     public void OnTalkButtonClick()
     {
-        choiceUI.SetActive(false); // ¼±ÅÃ UI ¼û±â±â
-        dialogueUI.SetActive(true); // ´ëÈ­ UI È°¼ºÈ­
-        isTalking = true; // ´ëÈ­ »óÅÂ ¼³Á¤
-        currentDialogueIndex = 0; // ´ëÈ­ ÀÎµ¦½º ÃÊ±âÈ­
-        SetDialogue(npcType); // NPC Å¸ÀÔ¿¡ µû¶ó ´ë»ç ¼³Á¤
-        ShowNextDialogue(); // Ã¹ ¹øÂ° ´ë»ç Ç¥½Ã
+        choiceUI.SetActive(false); // ì„ íƒ UI ìˆ¨ê¸°ê¸°
+        dialogueUI.SetActive(true); // ëŒ€í™” UI í™œì„±í™”
+        isTalking = true; // ëŒ€í™” ìƒíƒœ ì„¤ì •
+        currentDialogueIndex = 0; // ëŒ€í™” ì¸ë±ìŠ¤ ì´ˆê¸°í™”
+        SetDialogue(npcType); // NPC íƒ€ì…ì— ë”°ë¼ ëŒ€ì‚¬ ì„¤ì •
+        ShowNextDialogue(); // ì²« ë²ˆì§¸ ëŒ€ì‚¬ í‘œì‹œ
     }
 
     public void OnPersuadeButtonClick()
     {
-        choiceUI.SetActive(false); // ¼±ÅÃ UI ¼û±â±â
-        GetComponent<NpcPersuade>().ShowPersuadeUI(); // ¼³µæ UI Ç¥½Ã
+        choiceUI.SetActive(false); // ì„ íƒ UI ìˆ¨ê¸°ê¸°
+        GetComponent<NpcPersuade>().ShowPersuadeUI(); // ì„¤ë“ UI í‘œì‹œ
     }
 
     public void OnGiftButtonClick()
@@ -133,63 +133,63 @@ public class NpcScript : MonoBehaviour
         PlayerPrefs.SetString("NpcType", npcType);
         PlayerPrefs.Save();
 
-        // ´Ù¸¥ ¾À¿¡¼­ curTypeÀ» ÀúÀå
-        PlayerPrefs.SetString("CurType", "±âÅ¸"); // "Àåºñ" ´ë½Å ¿øÇÏ´Â ÅÇ ÀÌ¸§ »ç¿ë
+        // ë‹¤ë¥¸ ì”¬ì—ì„œ curTypeì„ ì €ì¥
+        PlayerPrefs.SetString("CurType", "ê¸°íƒ€"); // "ì¥ë¹„" ëŒ€ì‹  ì›í•˜ëŠ” íƒ­ ì´ë¦„ ì‚¬ìš©
         PlayerPrefs.Save();
 
         print(PlayerPrefs.GetString("NpcType"));
-        SceneManager.LoadScene("InventoryMain"); // InventoryMain ¾ÀÀ¸·Î ÀÌµ¿
+        SceneManager.LoadScene("InventoryMain"); // InventoryMain ì”¬ìœ¼ë¡œ ì´ë™
     }
 
     public void HidePersuadeAndGiftButtons()
     {
-        persuadeButton.gameObject.SetActive(false); // ¼³µæÇÏ±â ¹öÆ° ¼û±â±â
-        giftButton.gameObject.SetActive(false); // ¼±¹°ÇÏ±â ¹öÆ° ¼û±â±â
+        persuadeButton.gameObject.SetActive(false); // ì„¤ë“í•˜ê¸° ë²„íŠ¼ ìˆ¨ê¸°ê¸°
+        giftButton.gameObject.SetActive(false); // ì„ ë¬¼í•˜ê¸° ë²„íŠ¼ ìˆ¨ê¸°ê¸°
     }
 
     public void EndDialogue()
     {
-        isTalking = false; // ´ëÈ­ »óÅÂ ÇØÁ¦
-        dialogueUI.SetActive(false); // ´ëÈ­ UI ºñÈ°¼ºÈ­
-        choiceUI.SetActive(false); // ¼±ÅÃ UI¿Í ÀÚ½Ä ¿ÀºêÁ§Æ®µé ºñÈ°¼ºÈ­
-        choice1Button.gameObject.SetActive(false); // ¼±ÅÃÁö 1 ¹öÆ° ºñÈ°¼ºÈ­
-        choice2Button.gameObject.SetActive(false); // ¼±ÅÃÁö 2 ¹öÆ° ºñÈ°¼ºÈ­
+        isTalking = false; // ëŒ€í™” ìƒíƒœ í•´ì œ
+        dialogueUI.SetActive(false); // ëŒ€í™” UI ë¹„í™œì„±í™”
+        choiceUI.SetActive(false); // ì„ íƒ UIì™€ ìì‹ ì˜¤ë¸Œì íŠ¸ë“¤ ë¹„í™œì„±í™”
+        choice1Button.gameObject.SetActive(false); // ì„ íƒì§€ 1 ë²„íŠ¼ ë¹„í™œì„±í™”
+        choice2Button.gameObject.SetActive(false); // ì„ íƒì§€ 2 ë²„íŠ¼ ë¹„í™œì„±í™”
     }
 
     void SetDialogue(string type)
     {
-        dialogues.Clear(); // ±âÁ¸ ´ë»ç ÃÊ±âÈ­
-        if (type == "°Ë»ç")
+        dialogues.Clear(); // ê¸°ì¡´ ëŒ€ì‚¬ ì´ˆê¸°í™”
+        if (type == "ê²€ì‚¬")
         {
             npcNameText.text = "???";
-            dialogues.Add("À½, Ã³À½ º¸´Â ¾ó±¼ °°Àºµ¥.");
-            dialogues.Add("³ªÇÑÅ× ¹«½¼ º¼ÀÏÀÌ¶óµµ?");
+            dialogues.Add("ìŒ, ì²˜ìŒ ë³´ëŠ” ì–¼êµ´ ê°™ì€ë°.");
+            dialogues.Add("ë‚˜í•œí…Œ ë¬´ìŠ¨ ë³¼ì¼ì´ë¼ë„?");
         }
-        else if (type == "±Ã¼ö")
+        else if (type == "ê¶ìˆ˜")
         {
             npcNameText.text = "???";
-            dialogues.Add("...¹¹¾ß. ³ªÇÑÅ× º¼ÀÏ ÀÖ¾î?");
+            dialogues.Add("...ë­ì•¼. ë‚˜í•œí…Œ ë³¼ì¼ ìˆì–´?");
         }
-        else if (type == "ÅÊÄ¿")
+        else if (type == "íƒ±ì»¤")
         {
             npcNameText.text = "???";
             dialogues.Add("......");
         }
-        else if (type == "¸¶¹ı»ç")
+        else if (type == "ë§ˆë²•ì‚¬")
         {
             npcNameText.text = "???";
             dialogues.Add(".......");
         }
-        else if (type == "Èú·¯")
+        else if (type == "íëŸ¬")
         {
             npcNameText.text = "???";
-            dialogues.Add("¾È³çÇÏ¼¼¿ä, ¿ëº´´Ô!");
-            dialogues.Add("¸¸³ª¼­ ¹İ°©½À´Ï´Ù. ½ÅÀÇ °¡È£°¡ ÇÔ²² ÇÏ½Ã±æ..");
+            dialogues.Add("ì•ˆë…•í•˜ì„¸ìš”, ìš©ë³‘ë‹˜!");
+            dialogues.Add("ë§Œë‚˜ì„œ ë°˜ê°‘ìŠµë‹ˆë‹¤. ì‹ ì˜ ê°€í˜¸ê°€ í•¨ê»˜ í•˜ì‹œê¸¸..");
         }
-        else if (type == "¾Ï»ìÀÚ")
+        else if (type == "ì•”ì‚´ì")
         {
             npcNameText.text = "???";
-            dialogues.Add("ÈìÈìÈì~");
+            dialogues.Add("í í í ~");
         }
     }
 
@@ -197,189 +197,189 @@ public class NpcScript : MonoBehaviour
     {
         if (currentDialogueIndex < dialogues.Count)
         {
-            dialogueText.text = dialogues[currentDialogueIndex]; // ÇöÀç ´ë»ç Ç¥½Ã
+            dialogueText.text = dialogues[currentDialogueIndex]; // í˜„ì¬ ëŒ€ì‚¬ í‘œì‹œ
 
-            // Æ¯Á¤ ´ë»çÀÏ ¶§ ¼±ÅÃÁö ¹öÆ° È°¼ºÈ­
-            if (dialogueText.text == "³ªÇÑÅ× ¹«½¼ º¼ÀÏÀÌ¶óµµ?")
+            // íŠ¹ì • ëŒ€ì‚¬ì¼ ë•Œ ì„ íƒì§€ ë²„íŠ¼ í™œì„±í™”
+            if (dialogueText.text == "ë‚˜í•œí…Œ ë¬´ìŠ¨ ë³¼ì¼ì´ë¼ë„?")
             {
-                choice1Button.gameObject.SetActive(true); // ¼±ÅÃÁö 1 ¹öÆ° È°¼ºÈ­
-                choice2Button.gameObject.SetActive(true); // ¼±ÅÃÁö 2 ¹öÆ° È°¼ºÈ­
+                choice1Button.gameObject.SetActive(true); // ì„ íƒì§€ 1 ë²„íŠ¼ í™œì„±í™”
+                choice2Button.gameObject.SetActive(true); // ì„ íƒì§€ 2 ë²„íŠ¼ í™œì„±í™”
             }
-            else if (dialogueText.text == "...¹¹¾ß. ³ªÇÑÅ× º¼ÀÏ ÀÖ¾î?")
+            else if (dialogueText.text == "...ë­ì•¼. ë‚˜í•œí…Œ ë³¼ì¼ ìˆì–´?")
             {
-                choice1Button.gameObject.SetActive(true); // ¼±ÅÃÁö 1 ¹öÆ° È°¼ºÈ­
-                choice2Button.gameObject.SetActive(true); // ¼±ÅÃÁö 2 ¹öÆ° È°¼ºÈ­
+                choice1Button.gameObject.SetActive(true); // ì„ íƒì§€ 1 ë²„íŠ¼ í™œì„±í™”
+                choice2Button.gameObject.SetActive(true); // ì„ íƒì§€ 2 ë²„íŠ¼ í™œì„±í™”
             }
             else if (dialogueText.text == "......")
             {
-                choice1Button.gameObject.SetActive(true); // ¼±ÅÃÁö 1 ¹öÆ° È°¼ºÈ­
-                choice2Button.gameObject.SetActive(true); // ¼±ÅÃÁö 2 ¹öÆ° È°¼ºÈ­
+                choice1Button.gameObject.SetActive(true); // ì„ íƒì§€ 1 ë²„íŠ¼ í™œì„±í™”
+                choice2Button.gameObject.SetActive(true); // ì„ íƒì§€ 2 ë²„íŠ¼ í™œì„±í™”
             }
             else if (dialogueText.text == ".......")
             {
-                choice1Button.gameObject.SetActive(true); // ¼±ÅÃÁö 1 ¹öÆ° È°¼ºÈ­
-                choice2Button.gameObject.SetActive(true); // ¼±ÅÃÁö 2 ¹öÆ° È°¼ºÈ­
+                choice1Button.gameObject.SetActive(true); // ì„ íƒì§€ 1 ë²„íŠ¼ í™œì„±í™”
+                choice2Button.gameObject.SetActive(true); // ì„ íƒì§€ 2 ë²„íŠ¼ í™œì„±í™”
             }
-            else if (dialogueText.text == "¸¸³ª¼­ ¹İ°©½À´Ï´Ù. ½ÅÀÇ °¡È£°¡ ÇÔ²² ÇÏ½Ã±æ..")
+            else if (dialogueText.text == "ë§Œë‚˜ì„œ ë°˜ê°‘ìŠµë‹ˆë‹¤. ì‹ ì˜ ê°€í˜¸ê°€ í•¨ê»˜ í•˜ì‹œê¸¸..")
             {
-                choice1Button.gameObject.SetActive(true); // ¼±ÅÃÁö 1 ¹öÆ° È°¼ºÈ­
-                choice2Button.gameObject.SetActive(true); // ¼±ÅÃÁö 2 ¹öÆ° È°¼ºÈ­
+                choice1Button.gameObject.SetActive(true); // ì„ íƒì§€ 1 ë²„íŠ¼ í™œì„±í™”
+                choice2Button.gameObject.SetActive(true); // ì„ íƒì§€ 2 ë²„íŠ¼ í™œì„±í™”
             }
-            else if (dialogueText.text == "ÈìÈìÈì~")
+            else if (dialogueText.text == "í í í ~")
             {
-                choice1Button.gameObject.SetActive(true); // ¼±ÅÃÁö 1 ¹öÆ° È°¼ºÈ­
-                choice2Button.gameObject.SetActive(true); // ¼±ÅÃÁö 2 ¹öÆ° È°¼ºÈ­
+                choice1Button.gameObject.SetActive(true); // ì„ íƒì§€ 1 ë²„íŠ¼ í™œì„±í™”
+                choice2Button.gameObject.SetActive(true); // ì„ íƒì§€ 2 ë²„íŠ¼ í™œì„±í™”
             }
-            currentDialogueIndex++; // ÀÎµ¦½º Áõ°¡
+            currentDialogueIndex++; // ì¸ë±ìŠ¤ ì¦ê°€
         }
         else
         {
-            EndDialogue(); // ´ë»ç ³¡³ª¸é ´ëÈ­ Á¾·á
+            EndDialogue(); // ëŒ€ì‚¬ ëë‚˜ë©´ ëŒ€í™” ì¢…ë£Œ
         }
     }
 
     public void OnChoice1ButtonClick()
     {
-        if (npcType == "°Ë»ç")
+        if (npcType == "ê²€ì‚¬")
         {
             choice1Dialogues = new List<string>
             {
-                "Ä®¸®½º,ÇÏÇÏ, ³»°¡ Ä®¸®½º ¸ÂÁö.",
-                "Ä®¸®½º,³¯ ¾Æ´Â »ç¶÷ÀÌ¾ú±¸³ª, ¹İ°¡¿ö.",
-                "Ä®¸®½º,º¸¾ÆÇÏ´Ï ´ç½Åµµ ¿ëº´ °°Àºµ¥... ÀÌ ¸¶À»¿¡ ¼ÓÇÑ ¿ëº´ÀÎ°¡?",
-                "Ä®¸®½º,³ªµµ ÀÌ ¸¶À»¿¡ ÁÁÀº ÀÇ·Ú°¡ Àß µé¾î¿Â´Ù±æ·¡ Àá½Ã ÀÌ°÷¿¡ ¸Ó¹«¸£°í ÀÖ¾î",
-                "Ä®¸®½º,¾ÕÀ¸·Î Àß Áö³»º¸ÀÚ°í!"
+                "ì¹¼ë¦¬ìŠ¤,í•˜í•˜, ë‚´ê°€ ì¹¼ë¦¬ìŠ¤ ë§ì§€.",
+                "ì¹¼ë¦¬ìŠ¤,ë‚  ì•„ëŠ” ì‚¬ëŒì´ì—ˆêµ¬ë‚˜, ë°˜ê°€ì›Œ.",
+                "ì¹¼ë¦¬ìŠ¤,ë³´ì•„í•˜ë‹ˆ ë‹¹ì‹ ë„ ìš©ë³‘ ê°™ì€ë°... ì´ ë§ˆì„ì— ì†í•œ ìš©ë³‘ì¸ê°€?",
+                "ì¹¼ë¦¬ìŠ¤,ë‚˜ë„ ì´ ë§ˆì„ì— ì¢‹ì€ ì˜ë¢°ê°€ ì˜ ë“¤ì–´ì˜¨ë‹¤ê¸¸ë˜ ì ì‹œ ì´ê³³ì— ë¨¸ë¬´ë¥´ê³  ìˆì–´",
+                "ì¹¼ë¦¬ìŠ¤,ì•ìœ¼ë¡œ ì˜ ì§€ë‚´ë³´ìê³ !"
             };
-            ChangeAffection(2.5); // È£°¨µµ +5
+            ChangeAffection(2.5); // í˜¸ê°ë„ +5
         }
-        else if (npcType == "±Ã¼ö")
+        else if (npcType == "ê¶ìˆ˜")
         {
             choice1Dialogues = new List<string>
             {
-                "¿¡¸±¶õ,À¸... ¹¹·¡."
+                "ì—ë¦´ë€,ìœ¼... ë­ë˜."
             };
-            ChangeAffection(-5); // È£°¨µµ -10
+            ChangeAffection(-5); // í˜¸ê°ë„ -10
         }
-        else if (npcType == "ÅÊÄ¿")
+        else if (npcType == "íƒ±ì»¤")
         {
             choice1Dialogues = new List<string>
             {
-                "Ææ¸¯,¾Æ.¾È³çÇÏ½Ã¿À.",
-                "Ææ¸¯,...±×·¸±º. ³¯¾¾°¡ ÁÁÀº ÁÙµµ ¸ğ¸£°í Áö³ª°¥ »· Çß¼Ò.",
-                "Ææ¸¯,´ÙÁ¤ÇÑ ÀÎ»ç¸¦ °Ç³×Áà¼­ °í¸¿³×. Ã»³â."
+                "íœë¦­,ì•„.ì•ˆë…•í•˜ì‹œì˜¤.",
+                "íœë¦­,...ê·¸ë ‡êµ°. ë‚ ì”¨ê°€ ì¢‹ì€ ì¤„ë„ ëª¨ë¥´ê³  ì§€ë‚˜ê°ˆ ë»” í–ˆì†Œ.",
+                "íœë¦­,ë‹¤ì •í•œ ì¸ì‚¬ë¥¼ ê±´ë„¤ì¤˜ì„œ ê³ ë§™ë„¤. ì²­ë…„."
             };
-            ChangeAffection(2.5); // È£°¨µµ +5
+            ChangeAffection(2.5); // í˜¸ê°ë„ +5
         }
-        else if (npcType == "¸¶¹ı»ç")
+        else if (npcType == "ë§ˆë²•ì‚¬")
         {
             choice1Dialogues = new List<string>
             {
-                "Å©·¹ÀÌ±Û,¿À. ¾È³çÇÏ¼¼¿ä.",
-                "Å©·¹ÀÌ±Û, Àúµµ ±×·¸°Ô »ı°¢ÇØ¿ä! ¸¶¹ıÀº Âü À§´ëÇÏÁÒ!",
-                "Å©·¹ÀÌ±Û, ±×¸®°í ±× À§´ëÇÑ ¸¶¹ıÀÇ ¹ßÀüÀ» À§ÇØ ´Ù¾çÇÑ ¿¬±¸¿Í ½ÇÇèÀº ºÒ°¡ÇÇÇØ¿ä.",
-                "Å©·¹ÀÌ±Û, ±×·¸Áö ¾Ê³ª¿ä?"
+                "í¬ë ˆì´ê¸€,ì˜¤. ì•ˆë…•í•˜ì„¸ìš”.",
+                "í¬ë ˆì´ê¸€, ì €ë„ ê·¸ë ‡ê²Œ ìƒê°í•´ìš”! ë§ˆë²•ì€ ì°¸ ìœ„ëŒ€í•˜ì£ !",
+                "í¬ë ˆì´ê¸€, ê·¸ë¦¬ê³  ê·¸ ìœ„ëŒ€í•œ ë§ˆë²•ì˜ ë°œì „ì„ ìœ„í•´ ë‹¤ì–‘í•œ ì—°êµ¬ì™€ ì‹¤í—˜ì€ ë¶ˆê°€í”¼í•´ìš”.",
+                "í¬ë ˆì´ê¸€, ê·¸ë ‡ì§€ ì•Šë‚˜ìš”?"
             };
-            ChangeAffection(2.5); // È£°¨µµ +5
+            ChangeAffection(2.5); // í˜¸ê°ë„ +5
         }
-        else if (npcType == "Èú·¯")
+        else if (npcType == "íëŸ¬")
         {
             choice1Dialogues = new List<string>
             {
-                "¸¶¸£¼¿¶ó, À½.. ½ÅÀ» ¹ÏÁö ¾ÊÀ¸½Ã³ª¿ä?",
-                "¸¶¸£¼¿¶ó, ±×·¸´Ù¸é Âü ¾Æ½±³×¿ä.."
+                "ë§ˆë¥´ì…€ë¼, ìŒ.. ì‹ ì„ ë¯¿ì§€ ì•Šìœ¼ì‹œë‚˜ìš”?",
+                "ë§ˆë¥´ì…€ë¼, ê·¸ë ‡ë‹¤ë©´ ì°¸ ì•„ì‰½ë„¤ìš”.."
             };
-            ChangeAffection(-2.5); // È£°¨µµ -5
+            ChangeAffection(-2.5); // í˜¸ê°ë„ -5
         }
-        else if (npcType == "¾Ï»ìÀÚ")
+        else if (npcType == "ì•”ì‚´ì")
         {
             choice1Dialogues = new List<string>
             {
-                "¸®¾Æ, ³×! ¾î¶»°Ô ¾Ë¾ÒÁö~?",
-                "¸®¾Æ, ¹º°¡ Àç¹Õ´Â ÀÏÀÌ »ı°åÀ¸¸é ÁÁ°Ú¾î¿ä~",
-                "¸®¾Æ, ´ç½ÅÀº Á» Àç¹Õ¾î º¸ÀÌ±ä ÇÏ³×¿ä!"
+                "ë¦¬ì•„, ë„¤! ì–´ë–»ê²Œ ì•Œì•˜ì§€~?",
+                "ë¦¬ì•„, ë­”ê°€ ì¬ë°ŒëŠ” ì¼ì´ ìƒê²¼ìœ¼ë©´ ì¢‹ê² ì–´ìš”~",
+                "ë¦¬ì•„, ë‹¹ì‹ ì€ ì¢€ ì¬ë°Œì–´ ë³´ì´ê¸´ í•˜ë„¤ìš”!"
             };
-            ChangeAffection(+2.5); // È£°¨µµ +5
+            ChangeAffection(+2.5); // í˜¸ê°ë„ +5
         }
         choice1DialogueIndex = 0;
-        isTalking = true; // ´ëÈ­ »óÅÂ À¯Áö
-        choice1Button.gameObject.SetActive(false); // ¼±ÅÃÁö 1 ¹öÆ° ºñÈ°¼ºÈ­
-        choice2Button.gameObject.SetActive(false); // ¼±ÅÃÁö 2 ¹öÆ° ºñÈ°¼ºÈ­
-        ShowNextChoice1Dialogue(); // Ã¹ ¹øÂ° ´ë»ç Ãâ·Â
+        isTalking = true; // ëŒ€í™” ìƒíƒœ ìœ ì§€
+        choice1Button.gameObject.SetActive(false); // ì„ íƒì§€ 1 ë²„íŠ¼ ë¹„í™œì„±í™”
+        choice2Button.gameObject.SetActive(false); // ì„ íƒì§€ 2 ë²„íŠ¼ ë¹„í™œì„±í™”
+        ShowNextChoice1Dialogue(); // ì²« ë²ˆì§¸ ëŒ€ì‚¬ ì¶œë ¥
     }
 
     public void OnChoice2ButtonClick()
     {
-        // choice1Dialogues ¸®½ºÆ® ÃÊ±âÈ­
+        // choice1Dialogues ë¦¬ìŠ¤íŠ¸ ì´ˆê¸°í™”
         choice1Dialogues.Clear();
         choice1DialogueIndex = 0;
-        if (npcType == "°Ë»ç")
+        if (npcType == "ê²€ì‚¬")
         {
-            dialogueText.text = "...±×·³ ¿Ö ¸»À» °Ç °ÅÁö?"; // ¼±ÅÃÁö 2¿¡ ´ëÇÑ ´ë»ç
-            npcNameText.text = "Ä®¸®½º";
-            ChangeAffection(-2.5); // È£°¨µµ -5
+            dialogueText.text = "...ê·¸ëŸ¼ ì™œ ë§ì„ ê±´ ê±°ì§€?"; // ì„ íƒì§€ 2ì— ëŒ€í•œ ëŒ€ì‚¬
+            npcNameText.text = "ì¹¼ë¦¬ìŠ¤";
+            ChangeAffection(-2.5); // í˜¸ê°ë„ -5
         }
-        else if (npcType == "±Ã¼ö")
+        else if (npcType == "ê¶ìˆ˜")
         {
             choice1Dialogues = new List<string>
             {
-                "¿¡¸±¶õ,È°ÀÌ¶ó°í?",
-                "¿¡¸±¶õ,À½... ´ç½Å ¿ëº´ÀÌ±¸³ª.",
-                "¿¡¸±¶õ,...È°Àº ÁıÁß·ÂÀÌ Áß¿äÇÏÁö.",
-                "¿¡¸±¶õ,°¡¸£ÃÄÁÖ´Â °Ç ¸ğ¸£°ÚÁö¸¸ °¡²û ºÁÁÙ ¼ø ÀÖ¾î."
+                "ì—ë¦´ë€,í™œì´ë¼ê³ ?",
+                "ì—ë¦´ë€,ìŒ... ë‹¹ì‹  ìš©ë³‘ì´êµ¬ë‚˜.",
+                "ì—ë¦´ë€,...í™œì€ ì§‘ì¤‘ë ¥ì´ ì¤‘ìš”í•˜ì§€.",
+                "ì—ë¦´ë€,ê°€ë¥´ì³ì£¼ëŠ” ê±´ ëª¨ë¥´ê² ì§€ë§Œ ê°€ë” ë´ì¤„ ìˆœ ìˆì–´."
             };
-            ChangeAffection(2.5); // È£°¨µµ +5
+            ChangeAffection(2.5); // í˜¸ê°ë„ +5
         }
-        else if (npcType == "ÅÊÄ¿")
+        else if (npcType == "íƒ±ì»¤")
         {
             choice1Dialogues = new List<string>
             {
-                "Ææ¸¯,...³¯ ¾Ë°í ÀÖ´Â°¡?",
-                "Ææ¸¯,¹Ì¾ÈÇÏÁö¸¸ ÅÊÄ¿ ¿ªÇÒÀ» ±â´ëÇÏ°í ¿Â °Å¶ó¸é µ¹¾Æ°¡°Ô.",
-                "Ææ¸¯, ³ª´Â ´Ù¸¥ »ç¶÷°ú ÇÔ²² ÀÏÇÏÁö ¾Ê¾Æ."
+                "íœë¦­,...ë‚  ì•Œê³  ìˆëŠ”ê°€?",
+                "íœë¦­,ë¯¸ì•ˆí•˜ì§€ë§Œ íƒ±ì»¤ ì—­í• ì„ ê¸°ëŒ€í•˜ê³  ì˜¨ ê±°ë¼ë©´ ëŒì•„ê°€ê²Œ.",
+                "íœë¦­, ë‚˜ëŠ” ë‹¤ë¥¸ ì‚¬ëŒê³¼ í•¨ê»˜ ì¼í•˜ì§€ ì•Šì•„."
             };
-            ChangeAffection(-2.5); // È£°¨µµ -5
+            ChangeAffection(-2.5); // í˜¸ê°ë„ -5
         }
-        else if (npcType == "¸¶¹ı»ç")
+        else if (npcType == "ë§ˆë²•ì‚¬")
         {
             choice1Dialogues = new List<string>
             {
-                "Å©·¹ÀÌ±Û, ¾Æ ³×. ±×·¸³×¿ä.",
-                "Å©·¹ÀÌ±Û, ...",
-                "Å©·¹ÀÌ±Û, ¹¹... ´õ ÇÏ½Ç ¸»¾¸ÀÌ¶óµµ?"
+                "í¬ë ˆì´ê¸€, ì•„ ë„¤. ê·¸ë ‡ë„¤ìš”.",
+                "í¬ë ˆì´ê¸€, ...",
+                "í¬ë ˆì´ê¸€, ë­... ë” í•˜ì‹¤ ë§ì”€ì´ë¼ë„?"
             };
-            ChangeAffection(-2.5); // È£°¨µµ -5
+            ChangeAffection(-2.5); // í˜¸ê°ë„ -5
         }
-        else if (npcType == "Èú·¯")
+        else if (npcType == "íëŸ¬")
         {
             choice1Dialogues = new List<string>
             {
-                "¸¶¸£¼¿¶ó, ÇÏÇÏÇÏ. ¿À·£¸¸¿¡ µè´Â ÄªÈ£³×¿ä.",
-                "¸¶¸£¼¿¶ó, ºñ·Ï Áö±İÀº »çÁ¦°¡ ¾Æ´ÏÁö¸¸...",
-                "¸¶¸£¼¿¶ó, ±×·¡µµ ¿©ÀüÈ÷ ½ÅÀ» ¼¶±â°í ÀÖ´ä´Ï´Ù~"
+                "ë§ˆë¥´ì…€ë¼, í•˜í•˜í•˜. ì˜¤ëœë§Œì— ë“£ëŠ” ì¹­í˜¸ë„¤ìš”.",
+                "ë§ˆë¥´ì…€ë¼, ë¹„ë¡ ì§€ê¸ˆì€ ì‚¬ì œê°€ ì•„ë‹ˆì§€ë§Œ...",
+                "ë§ˆë¥´ì…€ë¼, ê·¸ë˜ë„ ì—¬ì „íˆ ì‹ ì„ ì„¬ê¸°ê³  ìˆë‹µë‹ˆë‹¤~"
             };
-            ChangeAffection(2.5); // È£°¨µµ +5
+            ChangeAffection(2.5); // í˜¸ê°ë„ +5
         }
-        else if (npcType == "¾Ï»ìÀÚ")
+        else if (npcType == "ì•”ì‚´ì")
         {
             choice1Dialogues = new List<string>
             {
-                "¸®¾Æ, ¶ö¶ö¶ó~",
-                "¸®¾Æ, (°è¼ÓÇØ¼­ ³ë·¡¸¦ Èï¾ó°Å¸°´Ù)"
+                "ë¦¬ì•„, ë„ë„ë¼~",
+                "ë¦¬ì•„, (ê³„ì†í•´ì„œ ë…¸ë˜ë¥¼ í¥ì–¼ê±°ë¦°ë‹¤)"
             };
-            ChangeAffection(-2.5); // È£°¨µµ -5
+            ChangeAffection(-2.5); // í˜¸ê°ë„ -5
         }
         choice1DialogueIndex = 0;
-        isTalking = true; // ´ëÈ­ »óÅÂ À¯Áö
-        choice1Button.gameObject.SetActive(false); // ¼±ÅÃÁö 1 ¹öÆ° ºñÈ°¼ºÈ­
-        choice2Button.gameObject.SetActive(false); // ¼±ÅÃÁö 2 ¹öÆ° ºñÈ°¼ºÈ­
-        ShowNextChoice1Dialogue(); // Ã¹ ¹øÂ° ´ë»ç Ãâ·Â
+        isTalking = true; // ëŒ€í™” ìƒíƒœ ìœ ì§€
+        choice1Button.gameObject.SetActive(false); // ì„ íƒì§€ 1 ë²„íŠ¼ ë¹„í™œì„±í™”
+        choice2Button.gameObject.SetActive(false); // ì„ íƒì§€ 2 ë²„íŠ¼ ë¹„í™œì„±í™”
+        ShowNextChoice1Dialogue(); // ì²« ë²ˆì§¸ ëŒ€ì‚¬ ì¶œë ¥
     }
 
     void ShowNextChoice1Dialogue()
     {
         if (choice1DialogueIndex < choice1Dialogues.Count)
         {
-            // ´ë»ç¿Í ÀÌ¸§À» ','·Î ±¸ºĞÇÏ¿© Ç¥½Ã
+            // ëŒ€ì‚¬ì™€ ì´ë¦„ì„ ','ë¡œ êµ¬ë¶„í•˜ì—¬ í‘œì‹œ
             var splitDialogue = choice1Dialogues[choice1DialogueIndex].Split(new string[] { "," }, StringSplitOptions.None);
             if (splitDialogue.Length > 1)
             {
@@ -391,15 +391,15 @@ public class NpcScript : MonoBehaviour
                 dialogueText.text = splitDialogue[0];
             }
 
-            choice1DialogueIndex++; // ÀÎµ¦½º Áõ°¡
+            choice1DialogueIndex++; // ì¸ë±ìŠ¤ ì¦ê°€
         }
         else
         {
-            EndDialogue(); // ´ë»ç ³¡³ª¸é ´ëÈ­ Á¾·á
+            EndDialogue(); // ëŒ€ì‚¬ ëë‚˜ë©´ ëŒ€í™” ì¢…ë£Œ
         }
     }
 
-    // NPC È£°¨µµ º¯°æ
+    // NPC í˜¸ê°ë„ ë³€ê²½
     void ChangeAffection(double amount)
     {
         Character character = DataManager.instance.nowPlayer.characters.Find(x => x.Type == npcType);
@@ -408,14 +408,14 @@ public class NpcScript : MonoBehaviour
 
         DataManager.instance.SaveData();
 
-        affectionText.text = $"È£°¨µµ: {affection}";
+        affectionText.text = $"í˜¸ê°ë„: {affection}";
     }
 
-    // NPC ´ëÈ­ ³»¿ë Ç¥½Ã
+    // NPC ëŒ€í™” ë‚´ìš© í‘œì‹œ
     void DisplayDialogue(string npcName, string description)
     {
-        dialogueText.text = description; // ´ëÈ­ ³»¿ë ¼³Á¤
-        npcNameText.text = npcName; // NPC ÀÌ¸§ ¼³Á¤
+        dialogueText.text = description; // ëŒ€í™” ë‚´ìš© ì„¤ì •
+        npcNameText.text = npcName; // NPC ì´ë¦„ ì„¤ì •
     }
 
     void UpdatePosition(string timeOfDay)
@@ -426,17 +426,17 @@ public class NpcScript : MonoBehaviour
 
         switch (npcType)
         {
-            case "°Ë»ç":
+            case "ê²€ì‚¬":
                 if (currentScene == "main_map")
                 {
                     if (timeOfDay == "Morning" || timeOfDay == "Afternoon")
                     {
                         newPosition = new Vector3(-6, -0.5f, 0);
-                        shouldBeActive = true; // main_map¿¡ ÀÖÀ» ¶§¸¸ È°¼ºÈ­
+                        shouldBeActive = true; // main_mapì— ìˆì„ ë•Œë§Œ í™œì„±í™”
                     }
                     else
                     {
-                        shouldBeActive = false; // Àú³á¿¡´Â main_map¿¡¼­ ºñÈ°¼ºÈ­
+                        shouldBeActive = false; // ì €ë…ì—ëŠ” main_mapì—ì„œ ë¹„í™œì„±í™”
                     }
                 }
                 else if (currentScene == "hotel")
@@ -444,26 +444,26 @@ public class NpcScript : MonoBehaviour
                     if (timeOfDay == "Evening")
                     {
                         newPosition = new Vector3(-2, 0, 0);
-                        shouldBeActive = true; // hotel¿¡ ÀÖÀ» ¶§¸¸ È°¼ºÈ­
+                        shouldBeActive = true; // hotelì— ìˆì„ ë•Œë§Œ í™œì„±í™”
                     }
                     else
                     {
-                        shouldBeActive = false; // ¾ÆÄ§°ú Á¡½É¿¡´Â hotel¿¡¼­ ºñÈ°¼ºÈ­
+                        shouldBeActive = false; // ì•„ì¹¨ê³¼ ì ì‹¬ì—ëŠ” hotelì—ì„œ ë¹„í™œì„±í™”
                     }
                 }
                 break;
 
-            case "Èú·¯":
+            case "íëŸ¬":
                 if (currentScene == "main_map")
                 {
                     if (timeOfDay == "Morning" || timeOfDay == "Afternoon")
                     {
                         newPosition = new Vector3(14.68f, 7.29f, 0);
-                        shouldBeActive = true; // main_map¿¡ ÀÖÀ» ¶§¸¸ È°¼ºÈ­
+                        shouldBeActive = true; // main_mapì— ìˆì„ ë•Œë§Œ í™œì„±í™”
                     }
                     else
                     {
-                        shouldBeActive = false; // Àú³á¿¡´Â main_map¿¡¼­ ºñÈ°¼ºÈ­
+                        shouldBeActive = false; // ì €ë…ì—ëŠ” main_mapì—ì„œ ë¹„í™œì„±í™”
                     }
                 }
                 else if (currentScene == "hotel_hall")
@@ -471,26 +471,26 @@ public class NpcScript : MonoBehaviour
                     if (timeOfDay == "Evening")
                     {
                         newPosition = new Vector3(2, 0.85f, 0);
-                        shouldBeActive = true; // hotel_hall¿¡ ÀÖÀ» ¶§¸¸ È°¼ºÈ­
+                        shouldBeActive = true; // hotel_hallì— ìˆì„ ë•Œë§Œ í™œì„±í™”
                     }
                     else
                     {
-                        shouldBeActive = false; // ¾ÆÄ§°ú Á¡½É¿¡´Â hotel_hall¿¡¼­ ºñÈ°¼ºÈ­
+                        shouldBeActive = false; // ì•„ì¹¨ê³¼ ì ì‹¬ì—ëŠ” hotel_hallì—ì„œ ë¹„í™œì„±í™”
                     }
                 }
                 break;
 
-            case "ÅÊÄ¿":
+            case "íƒ±ì»¤":
                 if (currentScene == "training")
                 {
                     if (timeOfDay == "Morning" || timeOfDay == "Afternoon")
                     {
                         newPosition = new Vector3(-4, 3.36f, 0);
-                        shouldBeActive = true; // training¿¡ ÀÖÀ» ¶§¸¸ È°¼ºÈ­
+                        shouldBeActive = true; // trainingì— ìˆì„ ë•Œë§Œ í™œì„±í™”
                     }
                     else
                     {
-                        shouldBeActive = false; // Àú³á¿¡´Â training¿¡¼­ ºñÈ°¼ºÈ­
+                        shouldBeActive = false; // ì €ë…ì—ëŠ” trainingì—ì„œ ë¹„í™œì„±í™”
                     }
                 }
                 else if (currentScene == "hotel_room1")
@@ -498,59 +498,59 @@ public class NpcScript : MonoBehaviour
                     if (timeOfDay == "Evening")
                     {
                         newPosition = new Vector3(0.4f, 3.5f, 0);
-                        shouldBeActive = true; // hotel_room1¿¡ ÀÖÀ» ¶§¸¸ È°¼ºÈ­
+                        shouldBeActive = true; // hotel_room1ì— ìˆì„ ë•Œë§Œ í™œì„±í™”
                     }
                     else
                     {
-                        shouldBeActive = false; // ¾ÆÄ§°ú Á¡½É¿¡´Â hotel_room1¿¡¼­ ºñÈ°¼ºÈ­
+                        shouldBeActive = false; // ì•„ì¹¨ê³¼ ì ì‹¬ì—ëŠ” hotel_room1ì—ì„œ ë¹„í™œì„±í™”
                     }
                 }
                 break;
 
-            case "¸¶¹ı»ç":
+            case "ë§ˆë²•ì‚¬":
                 if (currentScene == "magic_house")
                 {
                     newPosition = new Vector3(1.73f, 0.63f, 0);
-                    shouldBeActive = true; // magic_house¿¡¼­ Ç×»ó È°¼ºÈ­
+                    shouldBeActive = true; // magic_houseì—ì„œ í•­ìƒ í™œì„±í™”
                 }
                 break;
 
-            case "¾Ï»ìÀÚ":
+            case "ì•”ì‚´ì":
                 if (currentScene == "bar")
                 {
                     if (timeOfDay == "Evening")
                     {
                         newPosition = new Vector3(-2.23f, -0.59f, 0);
-                        shouldBeActive = true; // bar¿¡ ÀÖÀ» ¶§¸¸ È°¼ºÈ­
+                        shouldBeActive = true; // barì— ìˆì„ ë•Œë§Œ í™œì„±í™”
                     }
                     else
                     {
-                        shouldBeActive = false; // Àú³á ÀÌ¿ÜÀÇ ½Ã°£¿¡´Â bar¿¡¼­ ºñÈ°¼ºÈ­
+                        shouldBeActive = false; // ì €ë… ì´ì™¸ì˜ ì‹œê°„ì—ëŠ” barì—ì„œ ë¹„í™œì„±í™”
                     }
                 }
                 break;
 
-            case "±Ã¼ö":
+            case "ê¶ìˆ˜":
                 if (currentScene == "training")
                 {
                     if (timeOfDay == "Evening")
                     {
                         newPosition = new Vector3(4.2f, -1.74f, 0);
-                        shouldBeActive = true; // training¿¡ ÀÖÀ» ¶§¸¸ È°¼ºÈ­
+                        shouldBeActive = true; // trainingì— ìˆì„ ë•Œë§Œ í™œì„±í™”
                     }
                     else
                     {
-                        shouldBeActive = false; // Àú³á ÀÌ¿ÜÀÇ ½Ã°£¿¡´Â training¿¡¼­ ºñÈ°¼ºÈ­
+                        shouldBeActive = false; // ì €ë… ì´ì™¸ì˜ ì‹œê°„ì—ëŠ” trainingì—ì„œ ë¹„í™œì„±í™”
                     }
                 }
                 break;
         }
 
-        // NPC È°¼ºÈ­ ¿©ºÎ¿¡ µû¶ó °ÔÀÓ ¿ÀºêÁ§Æ® È°¼ºÈ­/ºñÈ°¼ºÈ­
+        // NPC í™œì„±í™” ì—¬ë¶€ì— ë”°ë¼ ê²Œì„ ì˜¤ë¸Œì íŠ¸ í™œì„±í™”/ë¹„í™œì„±í™”
         gameObject.SetActive(shouldBeActive);
         if (shouldBeActive)
         {
-            transform.position = newPosition; // NPC À§Ä¡ ¼³Á¤
+            transform.position = newPosition; // NPC ìœ„ì¹˜ ì„¤ì •
         }
     }
 }

@@ -43,11 +43,21 @@ public class InventoryItemManager : MonoBehaviour
     private string currentTab;
     private string targetTab;
 
+
+    [Header("기타탭 팝업")]
     public GameObject confirmationPopup; // 팝업창 GameObject
     public Button yesButton; // "예" 버튼
     public Button noButton; // "아니오" 버튼
 
     public string npcName;
+
+
+    [Header("호감도 팝업")]
+    public GameObject GiftGoodPopup; // 팝업창 GameObject
+    public Button OkButton; // "예" 버튼
+
+    private GiftManager GiftManager;   // 선물 관리 스크립트
+
 
     void Start()
     {
@@ -82,6 +92,19 @@ public class InventoryItemManager : MonoBehaviour
         noButton.onClick.AddListener(() => {
             confirmationPopup.SetActive(false);
         });
+
+        // 호감도 팝업 예 버튼 리스너 설정
+        yesButton.onClick.AddListener(() => {
+            confirmationPopup.SetActive(false);
+            PlayerPrefs.DeleteKey("CurType"); // 이후 필요없다면 삭제
+            PlayerPrefs.DeleteKey("NpcType");
+            PlayerPrefs.Save();
+
+            SwitchTab(targetTab);
+        });
+
+        GiftGoodPopup.gameObject.SetActive(false); 
+
 
         LoadItem();
         Debug.Log($"Loaded {AllItemList.Count} items.");
@@ -295,6 +318,7 @@ public class InventoryItemManager : MonoBehaviour
                     LoadItem();
 
                 });
+                
                 GiftButton_gi.onClick.AddListener(() => {
                     AudioManager.Instance.PlaySfx(AudioManager.Sfx.ButtonClick);
                     onGiftButtonClick(item.Name);
@@ -326,14 +350,45 @@ public class InventoryItemManager : MonoBehaviour
     // 선물하기
     public void onGiftButtonClick(string giftName) {
         npcName = PlayerPrefs.GetString("NpcType");
-        ItemManager.instance.Gift_inv(npcName, giftName);
+
+        int response = ItemManager.instance.Gift_inv(npcName, giftName);
+        if(response == 3) 
+            Debug.Log("제대로 값이 넘어오고 있지 않습니다.");
         
-        PlayerPrefs.DeleteKey("NpcType");
-        PlayerPrefs.Save();
+        TextMeshProUGUI textComponent = GiftGoodPopup.GetComponentInChildren<TextMeshProUGUI>();
+        if (textComponent != null)
+        {
+            // 주인공을 제외한 나머지 호감도 캐릭터에 대한 처리
+            Character character_ = DataManager.instance.nowPlayer.characters.Find(x => x.Type == npcName && x.Id != "0");
 
-        LoadItem();
+            if (response == 0)
+                textComponent.text = $"{character_.Name}의 호감도가 5 올라갔습니다.";
+            else if (response == 1)
+                textComponent.text = $"{character_.Name}의 호감도가 그대로 유지되었습니다.";
+            else 
+                textComponent.text = $"{character_.Name}의 호감도가 5 내려갔습니다.";
+        }
+        else
+        {
+            Debug.LogError("TextMeshProUGUI component not found in GiftGoodPopup.");
+        }
 
-        SceneManager.LoadScene("main_map");
+        GiftGoodPopup.gameObject.SetActive(true);
+
+        OkButton.onClick.RemoveAllListeners();
+        OkButton.onClick.AddListener(() => {
+            GiftGoodPopup.gameObject.SetActive(false);
+
+            PlayerPrefs.DeleteKey("NpcType");
+            PlayerPrefs.Save();
+
+            LoadItem();
+            SceneManager.LoadScene("main_map");
+        });
+
+        
+        
+        
     }
 
     // 선택 버튼 UI 업데이트 메서드
