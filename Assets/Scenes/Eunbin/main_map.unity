@@ -1260,9 +1260,9 @@ MonoBehaviour:
   choiceUI: {fileID: 144412987}
   dialogueUI: {fileID: 1160163558}
   npcAffectionUI: {fileID: 1424474546}
-  dialogueText: {fileID: 0}
+  dialogueText: {fileID: 443255525}
   affectionText: {fileID: 1700135649}
-  npcNameText: {fileID: 0}
+  npcNameText: {fileID: 1573366019}
   talkButton: {fileID: 1289654754}
   persuadeButton: {fileID: 1595236985}
   giftButton: {fileID: 245791320}
@@ -5568,6 +5568,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 434849042}
   m_CullTransparentMesh: 1
+--- !u!114 &443255525 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5472057876251699214, guid: 4413f814da31e0b439b0f936457d25f3, type: 3}
+  m_PrefabInstance: {fileID: 1573366016}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &449198756
 GameObject:
   m_ObjectHideFlags: 0
