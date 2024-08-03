@@ -122,7 +122,8 @@ public class InventoryItemManager : MonoBehaviour
     public void TapClick(string tabName)
     {
         // 만약 현재 탭이 "기타" 탭이고, 다른 탭으로 이동하려고 한다면
-        if (currentTab == "기타" && tabName != "기타" && PlayerPrefs.HasKey("NpcType"))
+        //if (currentTab == "기타" && tabName != "기타" && PlayerPrefs.HasKey("NpcType"))
+        if (currentTab == "기타" && PlayerPrefs.HasKey("NpcType"))
         {
             targetTab = tabName; // 이동하려는 탭 저장
             confirmationPopup.SetActive(true); // 팝업창 띄우기
@@ -356,10 +357,14 @@ public class InventoryItemManager : MonoBehaviour
 
         ItemManager.instance.Gift_inv(npcName, giftName);
         int response = GiftManager.GetGiftResponse(npcName, giftName);
-        int[] loveNum = { 5, 0, -5 };
 
-        Character character_ = DataManager.instance.nowPlayer.characters.Find(x => x.Type == npcName);
+        PlayerPrefs.DeleteKey("NpcType");
+        PlayerPrefs.Save();
+
+        LoadItem();
         
+        Character character_ = DataManager.instance.nowPlayer.characters.Find(x => x.Type == npcName);
+
         if(response == 0)
             textComponent.text = $"{character_.Name}의 호감도가 5 올라갔습니다.";
         else if(response == 1)
@@ -370,12 +375,7 @@ public class InventoryItemManager : MonoBehaviour
         OkButton.onClick.AddListener(() => {
            GiftGoodPopup.gameObject.SetActive(false); 
         });
-
-        PlayerPrefs.DeleteKey("NpcType");
-        PlayerPrefs.Save();
-
-        LoadItem();
-
+        
         SceneManager.LoadScene("main_map");
     }
 
