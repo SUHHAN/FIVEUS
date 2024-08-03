@@ -105,8 +105,13 @@ public class mainhint3_yj : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                if (isbasicdial_yj)
+                Debug.Log("space");
+                if (isbasicdial_yj) {
+                    Debug.Log("HandleNPCchoice");
                     HandleNPCchoice_yj(currentNPC);
+                    
+                }
+
             }
         }
     }
