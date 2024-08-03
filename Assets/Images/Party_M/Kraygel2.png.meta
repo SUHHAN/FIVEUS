@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 8dde999b685f1824bbd6598123947b80
+guid: 49e1d9012065ddc47ad2a0e3a72c71fc
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -43,7 +43,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -108,7 +108,28 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: Kraygel2_0
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 2489
+        width: 3700
+        height: 5790
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8781c48ada58ec141aed3328e6c5ccd8
+      internalID: -783766082
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -119,7 +140,8 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Kraygel2_0: -783766082
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

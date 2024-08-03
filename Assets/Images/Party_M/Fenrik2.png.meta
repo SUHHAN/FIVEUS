@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 49e1d9012065ddc47ad2a0e3a72c71fc
+guid: 1908531ee345acb4ba1bcc2f732b5f17
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -43,7 +43,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -108,7 +108,28 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: Fenrik2_0
+      rect:
+        serializedVersion: 2
+        x: 430
+        y: 2489
+        width: 3700
+        height: 5790
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a5fcb18af700d4d4bba034ed2bdc6b35
+      internalID: -834241224
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -119,7 +140,8 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Fenrik2_0: -834241224
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
