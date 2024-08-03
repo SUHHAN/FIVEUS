@@ -5,13 +5,13 @@ using TMPro;
 
 public class DialogueBar_yj : MonoBehaviour
 {
-    [SerializeField] TextMeshProUGUI nameTxt; // ÀÌ¸§ Ç¥½ÃÇÒ ÄÄÆ÷³ÍÆ®
-    [SerializeField] TypeEffect talk; // ´ë»ç Ç¥½ÃÇÒ ÄÄÆ÷³ÍÆ®
-    string[] str = { }; // ¿¹½Ã ´ëÈ­ ¹è¿­
+    [SerializeField] TextMeshProUGUI nameTxt; // ì´ë¦„ í‘œì‹œí•  ì»´í¬ë„ŒíŠ¸
+    [SerializeField] TypeEffect talk; // ëŒ€ì‚¬ í‘œì‹œí•  ì»´í¬ë„ŒíŠ¸
+    string[] str = { }; // ì˜ˆì‹œ ëŒ€í™” ë°°ì—´
 
     void Start()
     {
-        ActiveDialogue(0, "±â»ç´ÜÀå", ref str); // ´ëÈ­Ã¢ È°¼ºÈ­ ¸Ş¼­µå È£Ãâ
+        ActiveDialogue(0, "ê¸°ì‚¬ë‹¨ì¥", ref str); // ëŒ€í™”ì°½ í™œì„±í™” ë©”ì„œë“œ í˜¸ì¶œ
     }
 
     void Update()
@@ -19,28 +19,28 @@ public class DialogueBar_yj : MonoBehaviour
 
     }
 
-    // ´ëÈ­Ã¢ È°¼ºÈ­ ¸Ş¼­µå
+    // ëŒ€í™”ì°½ í™œì„±í™” ë©”ì„œë“œ
     void ActiveDialogue(int idx, string nameData, ref string[] talkData)
     {
         if (nameData == null && talkData == null)
         {
-            // µ¥ÀÌÅÍ¸¦ °¡Á®¿ÀÁö ¸øÇßÀ» °æ¿ì, ÇÊ¿äÇÑ µ¥ÀÌÅÍ¸¦ °ü¸®ÇÏ´Â °÷¿¡¼­ °¡Á®¿É´Ï´Ù.
+            // ë°ì´í„°ë¥¼ ê°€ì ¸ì˜¤ì§€ ëª»í–ˆì„ ê²½ìš°, í•„ìš”í•œ ë°ì´í„°ë¥¼ ê´€ë¦¬í•˜ëŠ” ê³³ì—ì„œ ê°€ì ¸ì˜µë‹ˆë‹¤.
         }
 
-        nameTxt.text = nameData; // ÀÌ¸§ ÅØ½ºÆ® ¼³Á¤
+        nameTxt.text = nameData; // ì´ë¦„ í…ìŠ¤íŠ¸ ì„¤ì •
 
-        // ´ëÈ­ µ¥ÀÌÅÍ Ãâ·Â
+        // ëŒ€í™” ë°ì´í„° ì¶œë ¥
         for (int i = 0; i < talkData.Length; i++)
         {
             talk.SetMsg(talkData[i]);
-            //Æ¯Á¤ Å° ´©¸£¸é ´ÙÀ½ ´ëÈ­ ÁøÇà °¡´É.
-            //´ëÈ­ ½ºÅµ ¿©ºÎ´Â ³íÀÇ ÈÄ °áÁ¤ (InputSystem¿¡ ±×·¯¸é ÃßÈÄ Ãß°¡ÇØ¾ß ÇÔ)
+            //íŠ¹ì • í‚¤ ëˆ„ë¥´ë©´ ë‹¤ìŒ ëŒ€í™” ì§„í–‰ ê°€ëŠ¥.
+            //ëŒ€í™” ìŠ¤í‚µ ì—¬ë¶€ëŠ” ë…¼ì˜ í›„ ê²°ì • (InputSystemì— ê·¸ëŸ¬ë©´ ì¶”í›„ ì¶”ê°€í•´ì•¼ í•¨)
         }
     }
 
-    //»óÈ£ÀÛ¿ëÇÏ¸é ´ëÈ­Ã¢ È°¼ºÈ­
+    //ìƒí˜¸ì‘ìš©í•˜ë©´ ëŒ€í™”ì°½ í™œì„±í™”
     /*
-     * UI Manager¿¡¼­ ÇÃ·¹ÀÌ¾î¿Í ´Ù¸¥ ¿ÀºêÁ§Æ®°£ Ãæµ¹ / Æ¯Á¤ ´ëÈ­ ÀÌº¥Æ® ¹ß»ı½Ã È°¼ºÈ­
+     * UI Managerì—ì„œ í”Œë ˆì´ì–´ì™€ ë‹¤ë¥¸ ì˜¤ë¸Œì íŠ¸ê°„ ì¶©ëŒ / íŠ¹ì • ëŒ€í™” ì´ë²¤íŠ¸ ë°œìƒì‹œ í™œì„±í™”
      dialogueBar.SetAcvite(true);
      */
 }

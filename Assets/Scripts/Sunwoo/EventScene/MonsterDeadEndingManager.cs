@@ -7,21 +7,21 @@ using TMPro; // TextMeshPro
 public class MonsterDeadEndingManager : MonoBehaviour
 {
     public GameObject dialogue;
-    public GameObject nameObj; // ÀÌ¸§
-    public TextMeshProUGUI nameText; // TextMeshPro UI ÅØ½ºÆ®
-    public TextMeshProUGUI descriptionText; // TextMeshPro UI ÅØ½ºÆ®
+    public GameObject nameObj; // ì´ë¦„
+    public TextMeshProUGUI nameText; // TextMeshPro UI í…ìŠ¤íŠ¸
+    public TextMeshProUGUI descriptionText; // TextMeshPro UI í…ìŠ¤íŠ¸
     public GameObject ending;
     public GameObject narration;
-    public TextMeshProUGUI narrationText; // TextMeshPro UI ÅØ½ºÆ®
+    public TextMeshProUGUI narrationText; // TextMeshPro UI í…ìŠ¤íŠ¸
 
-    private int dialogueState = 0; // ´ë»ç ÁøÇà »óÅÂ
+    private int dialogueState = 0; // ëŒ€ì‚¬ ì§„í–‰ ìƒíƒœ
 
     // Start is called before the first frame update
     void Start()
     {
-        dialogue.SetActive(true); // ´ëÈ­ ½ÃÀÛ ½Ã È°¼ºÈ­
-        nameText.text = ""; // ÀÌ¸§ ÅØ½ºÆ® ÃÊ±âÈ­
-        descriptionText.text = ""; // ¼³¸í ÅØ½ºÆ® ÃÊ±âÈ­
+        dialogue.SetActive(true); // ëŒ€í™” ì‹œì‘ ì‹œ í™œì„±í™”
+        nameText.text = ""; // ì´ë¦„ í…ìŠ¤íŠ¸ ì´ˆê¸°í™”
+        descriptionText.text = ""; // ì„¤ëª… í…ìŠ¤íŠ¸ ì´ˆê¸°í™”
     }
 
     // Update is called once per frame
@@ -38,22 +38,22 @@ public class MonsterDeadEndingManager : MonoBehaviour
         switch (dialogueState)
         {
             case 0:
-                nameText.text = "ÁÖÀÎ°ø";
-                descriptionText.text = "¿ì¸® ÀÌÁ¦ °øÁÖ´ÔÀ» Ã£À¸·¯ °¡º¸ÀÚ!";
+                nameText.text = "ì£¼ì¸ê³µ";
+                descriptionText.text = "ìš°ë¦¬ ì´ì œ ê³µì£¼ë‹˜ì„ ì°¾ìœ¼ëŸ¬ ê°€ë³´ì!";
                 dialogueState++;
                 break;
             case 1:
                 dialogue.SetActive(false);
                 narration.SetActive(true);
-                narrationText.text = "ÁÖÀÎ°ø ÀÏÇàÀº ´Ü¼­¸¦ È°¿ëÇØ ¸¶°è·Î °¡´Â ±æÀ» Ã£¾Ò´Ù.";
+                narrationText.text = "ì£¼ì¸ê³µ ì¼í–‰ì€ ë‹¨ì„œë¥¼ í™œìš©í•´ ë§ˆê³„ë¡œ ê°€ëŠ” ê¸¸ì„ ì°¾ì•˜ë‹¤.";
                 dialogueState++;
                 break;
             case 2:
-                narrationText.text = "±×·¯³ª ÆÄÆ¼ÀÇ ´ÜÇÕ·ÂÀÌ ºÎÁ·ÇØ ¸¶¿Õ¼ºÀ¸·Î °¡´Â ±æ¿¡ ¸¶ÁÖÄ£ ¸ó½ºÅÍµé°ú ½Î¿ì´Âµ¥ ¾î·Á¿òÀ» °Ş¾ú°í...";
+                narrationText.text = "ê·¸ëŸ¬ë‚˜ íŒŒí‹°ì˜ ë‹¨í•©ë ¥ì´ ë¶€ì¡±í•´ ë§ˆì™•ì„±ìœ¼ë¡œ ê°€ëŠ” ê¸¸ì— ë§ˆì£¼ì¹œ ëª¬ìŠ¤í„°ë“¤ê³¼ ì‹¸ìš°ëŠ”ë° ì–´ë ¤ì›€ì„ ê²ªì—ˆê³ ...";
                 dialogueState++;
                 break;
             case 3:
-                narrationText.text = "°á±¹ ±×µéÀº ¸ó½ºÅÍ¿Í ½Î¿ì´Ù »ç¸ÁÇÏ°í ¸»¾Ò´Ù.";
+                narrationText.text = "ê²°êµ­ ê·¸ë“¤ì€ ëª¬ìŠ¤í„°ì™€ ì‹¸ìš°ë‹¤ ì‚¬ë§í•˜ê³  ë§ì•˜ë‹¤.";
                 dialogueState++;
                 break;
             case 4:
@@ -61,7 +61,7 @@ public class MonsterDeadEndingManager : MonoBehaviour
                 dialogueState++;
                 break;
             case 5:
-                SceneManager.LoadScene("MainScene"); // MainSceneÀ¸·Î ¾À ÀüÈ¯
+                SceneManager.LoadScene("MainScene"); // MainSceneìœ¼ë¡œ ì”¬ ì „í™˜
                 break;
         }
     }
