@@ -53,7 +53,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Haeun/MainScreen/MainScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Sunwoo/NpcScene.unity
     guid: 30a8b968cf1735c449e4d7322cf3f56d
   - enabled: 1
@@ -87,5 +87,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Eunbin/hotel_hall.unity
     guid: 913860cc417dd9f42a3850efc43339ec
   m_configObjects:
+    com.unity.adaptiveperformance.google.android.provider_settings: {fileID: 11400000, guid: d800438fab6dddb45b0ce4c589f2701b, type: 2}
     com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: 226c78aac0e8d114aae837e19ebec1f6, type: 2}
+    com.unity.adaptiveperformance.samsung.android.provider_settings: {fileID: 11400000, guid: 5b95f16e6b50d9840ae743e4e91f189a, type: 2}
     com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000, guid: c911035f6a96f804a8559876366c9ad6, type: 2}
