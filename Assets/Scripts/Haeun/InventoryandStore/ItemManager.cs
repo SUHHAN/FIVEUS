@@ -278,6 +278,32 @@ public class ItemManager : MonoBehaviour
         SaveData();
     }
 
+    // 플레이어 장비 스왑 시 능력치 상승
+    public void ItemSwap_inv(Item item) {
+        
+        if (item.Name == "장검") {
+
+        }
+        else if (item.Name == "활") {
+            
+        }
+        else if (item.Name == "지팡이") {
+            
+        }
+        else if (item.Name == "수정구") {
+            
+        }
+        else if (item.Name == "방패") {
+            
+        }
+        else if (item.Name == "암기") {
+            
+        }
+        
+
+
+    }
+
     // 플레이어 체력 증가
     public void IncreaseHealth(int amount)
     {
