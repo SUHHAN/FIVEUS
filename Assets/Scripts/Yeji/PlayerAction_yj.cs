@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PlayerAction_yj : MonoBehaviour
 {
-    // Start is called before the first frame update
     public float Speed_yj;
     public bool isAction_yj;
     Rigidbody2D rigid_yj;
@@ -15,67 +14,67 @@ public class PlayerAction_yj : MonoBehaviour
     float v_yj;
     bool isHorizonMove_yj;
 
+    public FixedJoystick joystick; // sw추가. 조이스틱
+
     void Awake()
     {
+        // 초기화
         rigid_yj = GetComponent<Rigidbody2D>();
         play_anim_yj = GetComponent<Animator>();
     }
+
     void Start()
     {
-        
+
     }
 
-    // Update is called once per frame
     void Update()
     {
-        h_yj = isAction_yj ? 0 : Input.GetAxisRaw("Horizontal");
-        v_yj = isAction_yj ? 0 : Input.GetAxisRaw("Vertical");
+        // sw 추가. 조이스틱 입력 받기
+        h_yj = isAction_yj ? 0 : joystick.Horizontal;
+        v_yj = isAction_yj ? 0 : joystick.Vertical;
 
-        bool hDown_yj = isAction_yj ? false : Input.GetButtonDown("Horizontal");
-        bool vDown_yj = isAction_yj ? false : Input.GetButtonDown("Vertical");
-        bool hUp_yj = isAction_yj ? false : Input.GetButtonUp("Horizontal");
-        bool vUp_yj = isAction_yj ? false : Input.GetButtonUp("Vertical");
+        // sw 추가. 입력값이 특정 기준 이상인지 확인
+        bool hDown_yj = isAction_yj ? false : Mathf.Abs(joystick.Horizontal) > 0.1f;
+        bool vDown_yj = isAction_yj ? false : Mathf.Abs(joystick.Vertical) > 0.1f;
+        bool hUp_yj = isAction_yj ? false : Mathf.Abs(joystick.Horizontal) <= 0.1f;
+        bool vUp_yj = isAction_yj ? false : Mathf.Abs(joystick.Vertical) <= 0.1f;
 
-        
         if (hDown_yj)
-                isHorizonMove_yj = true;
+            isHorizonMove_yj = true;
         else if (vDown_yj)
-                isHorizonMove_yj = false;
+            isHorizonMove_yj = false;
         else if (hUp_yj || vUp_yj)
-                isHorizonMove_yj = h_yj != 0;
-        
+            isHorizonMove_yj = h_yj != 0;
+
         // 애니메이션
-        if (play_anim_yj.GetInteger("hAxisRaw_yj") != h_yj) {
+        if (play_anim_yj.GetInteger("hAxisRaw_yj") != h_yj)
+        {
             play_anim_yj.SetBool("isChange_yj", true);
-            play_anim_yj.SetInteger("hAxisRaw_yj",(int)h_yj);
+            play_anim_yj.SetInteger("hAxisRaw_yj", (int)h_yj);
         }
-        else if (play_anim_yj.GetInteger("vAxisRaw_yj") != v_yj) {
+        else if (play_anim_yj.GetInteger("vAxisRaw_yj") != v_yj)
+        {
             play_anim_yj.SetBool("isChange_yj", true);
             play_anim_yj.SetInteger("vAxisRaw_yj", (int)v_yj);
         }
         else
             play_anim_yj.SetBool("isChange_yj", false);
 
-        // direction
-        if(vDown_yj && v_yj == 1)
-            dirVec_yj = Vector3.up;
-        else if (vDown_yj && v_yj == -1)
-            dirVec_yj = Vector3.down;
-        else if (hDown_yj && h_yj == -1)
-            dirVec_yj = Vector3.left;
-        else if (hDown_yj && h_yj == 1)
-            dirVec_yj = Vector3.right;
+        dirVec_yj = new Vector3(h_yj, v_yj).normalized; // sw추가. 대각선 이동도 가능
     }
+
+    // 물리 연산 업데이트
     void FixedUpdate()
     {
-        if (h_yj != 0 || v_yj != 0)
+        // 이동 처리
+        if (dirVec_yj != Vector3.zero)
         {
-            rigid_yj.velocity = dirVec_yj * Speed_yj;
+            rigid_yj.velocity = dirVec_yj * Speed_yj; // 방향 벡터와 속도를 곱하여 속도 설정
         }
         else
         {
-            rigid_yj.velocity = Vector2.zero; // 이제 멈추면 멈춰질거임
+            rigid_yj.velocity = Vector2.zero; // 정지
         }
     }
 }
-
