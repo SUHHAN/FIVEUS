@@ -122,7 +122,7 @@ public class camping2_yj : MonoBehaviour
         float distanceNPC2 = Vector3.Distance(player.transform.position, npc2_yj.transform.position);
         float distanceNPC3 = Vector3.Distance(player.transform.position, npc3_yj.transform.position);
 
-         if (distanceNPC2 <= interactionRange)
+        if (distanceNPC2 <= interactionRange)
         {
             currentNPC = npc2_yj;
         }
@@ -143,12 +143,12 @@ public class camping2_yj : MonoBehaviour
         else if (resultUI_yj.activeSelf || choiceUI2_yj.activeSelf || choiceUI3_yj.activeSelf)
             Dial_changyj.SetActive(false);
         // 현재 NPC에 따라 대화 처리
-       if (npc_yjyj == npc2_yj) // 캠핑장
-       {
+        if (npc_yjyj == npc2_yj) // 캠핑장
+        {
             dialoguename_yj.text = "캠핑장 주인"; // 캠핑장 이름 출력 
             dialogueText_yj.text = "어서오세요~캠핑장입니다. \n캠핑을 통하여 단합을 진행하실 건가요? \n[스페이스바를 눌러 단합을 진행하세요]"; // 캠핑장 기본 대사 출력
             isbasicdial_yj = true; // 기본대사 치고 있는 중
-       }
+        }
         else if (npc_yjyj == npc3_yj) // 단서
         {
             dialoguename_yj.text = "단서"; // 단서 이름 출력 
@@ -156,7 +156,6 @@ public class camping2_yj : MonoBehaviour
             isbasicdial_yj = true; // 기본대사 치고 있는 중
         }
     }
-
     void HandleNPCchoice_yj(GameObject npc_yjyj)
     {
         // 현재 NPC에 따라 선택지처리
@@ -186,6 +185,7 @@ public class camping2_yj : MonoBehaviour
         // 결과창 업데이트
         resuedit_yj.text = $"기본활동 횟수 : {timemanager_yj.activityCount / 2} / 3"; // 기본 활동 텍스트 업데이트
 
+
         if (timemanager_yj.activityCount >= 5)
         {
             resuedit2_yj.text = "하루치 기본 활동 3개를 모두 완수하셨습니다!\n[주인공 집]의 [침대]로 돌아가 휴식을 취해주세요!";
@@ -193,6 +193,8 @@ public class camping2_yj : MonoBehaviour
         }
 
         resultUI_yj.SetActive(true);
+
+        SaveData();
 
     }
     // 기본활동3 : 단서 보겠다 했을 때
@@ -209,6 +211,8 @@ public class camping2_yj : MonoBehaviour
 
         resultUI_yj.SetActive(true);
         Invoke("HideResultPanel()", 2f);
+
+        SaveData();
 
         SceneManager.LoadScene("InventoryMain"); // 인벤토리 씬으로 이동
         // 찾은 단서 개수를 한 개 늘림. 이건 인벤토리랑 연관 후에 생각해야 할듯
@@ -246,4 +250,19 @@ public class camping2_yj : MonoBehaviour
     {
         resultUI_yj.SetActive(false);
     }
+
+    void SaveData()
+    {
+        DataManager.instance.nowPlayer.Player_hp = playermanager_yj.playerNow.hp_py;
+        DataManager.instance.nowPlayer.Player_tired = playermanager_yj.playerNow.tired_py;
+        DataManager.instance.nowPlayer.Player_money = playermanager_yj.playerNow.money_py;
+        DataManager.instance.nowPlayer.Player_hint = playermanager_yj.playerNow.hint_py;
+        DataManager.instance.nowPlayer.Player_team = playermanager_yj.playerNow.team_py;
+        DataManager.instance.nowPlayer.Player_day = playermanager_yj.playerNow.day_py;
+        DataManager.instance.nowPlayer.Player_howtoday = playermanager_yj.playerNow.howtoday_py;
+        DataManager.instance.nowPlayer.Player_howtrain = playermanager_yj.playerNow.howtrain_py;
+
+        DataManager.instance.SaveData();
+    }
+
 }

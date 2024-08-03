@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
@@ -7,8 +8,8 @@ using UnityEngine.SceneManagement;
 
 public class TimeManager : MonoBehaviour
 {
-    public int day = 1; // 현재 day 몇인지(1~15)
-    public int activityCount =0; // 하루 활동 수(3회까지 가능)
+    public int day = DataManager.instance.nowPlayer.Player_day; // 현재 day 몇인지(1~15)
+    public int activityCount = DataManager.instance.nowPlayer.Player_howtoday; // 하루 활동 수(3회까지 가능)
     private string timeOfDay = "아침"; // 현재 시간(아침, 점심, 저녁)
     private talkwithjjang_yj talkwithjjang;
 
@@ -22,13 +23,24 @@ public class TimeManager : MonoBehaviour
     // public TextMeshProUGUI mornluneve_yj; //  현재 시간(오전, 오후, 저녁) 텍스트
     */
 
+    int today = DataManager.instance.nowPlayer.Player_howtoday;
+    bool isMorning = DataManager.instance.nowPlayer.isMorning;
+
     public void Start()
     {
-        activityCount = 0;
         Getday();
         GetTimeOfDay();
-        todayiswhat_yj.text = $"{day.ToString()}일차 {timeOfDay}";
-        whatisdate_yj.SetActive(true);// 시작할 때 며칠인지 까만 화면 띄워야함
+
+        
+
+        if ((today == 0 || (today > 4 && today <= 6) ) && isMorning == false)
+        {
+            todayiswhat_yj.text = $"{day.ToString()}일차 {timeOfDay}";
+            whatisdate_yj.SetActive(true);// 시작할 때 며칠인지 까만 화면 띄워야함
+            isMorning = true;
+        }
+        
+        
         // Invoke the method to hide the whatisdate_yj panel after 2 seconds
         Invoke("HideWhatIsDatePanel", 2f);
     }
@@ -37,6 +49,9 @@ public class TimeManager : MonoBehaviour
         if (activityCount >= 6)
         {
             AdvanceDay(); // 활동 수가 3개 이상이면 다음 날로 넘어감
+            isMorning = false;
+            SaveData();
+
         }
     }
 
@@ -108,5 +123,14 @@ public class TimeManager : MonoBehaviour
     void HideWhatIsDatePanel()
     {
         whatisdate_yj.SetActive(false);
+    }
+
+    void SaveData()
+    {
+        DataManager.instance.nowPlayer.Player_day = today;
+        DataManager.instance.nowPlayer.Player_howtoday = activityCount;
+        DataManager.instance.nowPlayer.isMorning = isMorning;
+
+        DataManager.instance.SaveData();
     }
 }
