@@ -8,37 +8,37 @@ using UnityEngine.UI; // Button
 public class HappyEndingTalkManager : MonoBehaviour
 {
     public GameObject dialogue;
-    public GameObject nameObj; // ÀÌ¸§
-    public TextMeshProUGUI nameText; // TextMeshPro UI ÅØ½ºÆ®
-    public TextMeshProUGUI descriptionText; // TextMeshPro UI ÅØ½ºÆ®
+    public GameObject nameObj; // ì´ë¦„
+    public TextMeshProUGUI nameText; // TextMeshPro UI í…ìŠ¤íŠ¸
+    public TextMeshProUGUI descriptionText; // TextMeshPro UI í…ìŠ¤íŠ¸
     public GameObject ending;
     public GameObject hell;
     public GameObject narration;
-    public TextMeshProUGUI narrationText; // TextMeshPro UI ÅØ½ºÆ®
+    public TextMeshProUGUI narrationText; // TextMeshPro UI í…ìŠ¤íŠ¸
 
-    private int dialogueState = 0; // ´ë»ç ÁøÇà »óÅÂ
-    private bool isYesEndingActive = false; // Yes ¹öÆ° ´ë»ç ÁøÇà ¿©ºÎ
-    private bool isNoEndingActive = false;  // No ¹öÆ° ´ë»ç ÁøÇà ¿©ºÎ
+    private int dialogueState = 0; // ëŒ€ì‚¬ ì§„í–‰ ìƒíƒœ
+    private bool isYesEndingActive = false; // Yes ë²„íŠ¼ ëŒ€ì‚¬ ì§„í–‰ ì—¬ë¶€
+    private bool isNoEndingActive = false;  // No ë²„íŠ¼ ëŒ€ì‚¬ ì§„í–‰ ì—¬ë¶€
 
-    // Ãß°¡µÈ º¯¼öµé
-    public GameObject image1; // ÁÖÀÎ°ø ÀÌ¹ÌÁö
-    public GameObject princessImage; // °øÁÖ ÀÌ¹ÌÁö
-    public Button yesButton; // yes ¹öÆ°
-    public Button noButton; // no ¹öÆ°
+    // ì¶”ê°€ëœ ë³€ìˆ˜ë“¤
+    public GameObject image1; // ì£¼ì¸ê³µ ì´ë¯¸ì§€
+    public GameObject princessImage; // ê³µì£¼ ì´ë¯¸ì§€
+    public Button yesButton; // yes ë²„íŠ¼
+    public Button noButton; // no ë²„íŠ¼
 
     void Start()
     {
-        dialogue.SetActive(true); // ´ëÈ­ ½ÃÀÛ ½Ã È°¼ºÈ­
-        nameText.text = ""; // ÀÌ¸§ ÅØ½ºÆ® ÃÊ±âÈ­
-        descriptionText.text = ""; // ¼³¸í ÅØ½ºÆ® ÃÊ±âÈ­
+        dialogue.SetActive(true); // ëŒ€í™” ì‹œì‘ ì‹œ í™œì„±í™”
+        nameText.text = ""; // ì´ë¦„ í…ìŠ¤íŠ¸ ì´ˆê¸°í™”
+        descriptionText.text = ""; // ì„¤ëª… í…ìŠ¤íŠ¸ ì´ˆê¸°í™”
 
-        // Ãß°¡µÈ º¯¼ö ÃÊ±âÈ­
-        image1.SetActive(false); // ÁÖÀÎ°ø ÀÌ¹ÌÁö ºñÈ°¼ºÈ­
-        princessImage.SetActive(false); // °øÁÖ ÀÌ¹ÌÁö ºñÈ°¼ºÈ­
-        yesButton.gameObject.SetActive(false); // yes ¹öÆ° ºñÈ°¼ºÈ­
-        noButton.gameObject.SetActive(false); // no ¹öÆ° ºñÈ°¼ºÈ­
+        // ì¶”ê°€ëœ ë³€ìˆ˜ ì´ˆê¸°í™”
+        image1.SetActive(false); // ì£¼ì¸ê³µ ì´ë¯¸ì§€ ë¹„í™œì„±í™”
+        princessImage.SetActive(false); // ê³µì£¼ ì´ë¯¸ì§€ ë¹„í™œì„±í™”
+        yesButton.gameObject.SetActive(false); // yes ë²„íŠ¼ ë¹„í™œì„±í™”
+        noButton.gameObject.SetActive(false); // no ë²„íŠ¼ ë¹„í™œì„±í™”
 
-        // ¹öÆ° Å¬¸¯ ÀÌº¥Æ® ¿¬°á
+        // ë²„íŠ¼ í´ë¦­ ì´ë²¤íŠ¸ ì—°ê²°
         yesButton.onClick.AddListener(OnYesButtonClicked);
         noButton.onClick.AddListener(OnNoButtonClicked);
     }
@@ -67,53 +67,53 @@ public class HappyEndingTalkManager : MonoBehaviour
         switch (dialogueState)
         {
             case 0:
-                nameText.text = "ÁÖÀÎ°ø";
-                descriptionText.text = "¿ì¸® ÀÌÁ¦ °øÁÖ´ÔÀ» Ã£À¸·¯ °¡º¸ÀÚ!";
-                image1.SetActive(true); // ÁÖÀÎ°ø ÀÌ¹ÌÁö È°¼ºÈ­
+                nameText.text = "ì£¼ì¸ê³µ";
+                descriptionText.text = "ìš°ë¦¬ ì´ì œ ê³µì£¼ë‹˜ì„ ì°¾ìœ¼ëŸ¬ ê°€ë³´ì!";
+                image1.SetActive(true); // ì£¼ì¸ê³µ ì´ë¯¸ì§€ í™œì„±í™”
                 dialogueState++;
                 break;
             case 1:
-                image1.SetActive(false); // ÁÖÀÎ°ø ÀÌ¹ÌÁö ºñÈ°¼ºÈ­
+                image1.SetActive(false); // ì£¼ì¸ê³µ ì´ë¯¸ì§€ ë¹„í™œì„±í™”
                 dialogue.SetActive(false);
                 narration.SetActive(true);
-                narrationText.text = "ÁÖÀÎ°ø ÀÏÇàÀº ´Ü¼­¸¦ È°¿ëÇØ ¸¶°è·Î ÇâÇÏ´Â ±æÀ» Ã£¾Ò´Ù.";
+                narrationText.text = "ì£¼ì¸ê³µ ì¼í–‰ì€ ë‹¨ì„œë¥¼ í™œìš©í•´ ë§ˆê³„ë¡œ í–¥í•˜ëŠ” ê¸¸ì„ ì°¾ì•˜ë‹¤.";
                 dialogueState++;
                 break;
             case 2:
-                narrationText.text = "¸¶¿Õ¼ºÀ¸·Î °¡´Â µ¿¾È ¸¹Àº ¸ó½ºÅÍµéÀ» ¸¶ÁÖÃÆÁö¸¸";
+                narrationText.text = "ë§ˆì™•ì„±ìœ¼ë¡œ ê°€ëŠ” ë™ì•ˆ ë§ì€ ëª¬ìŠ¤í„°ë“¤ì„ ë§ˆì£¼ì³¤ì§€ë§Œ";
                 dialogueState++;
                 break;
             case 3:
-                narrationText.text = "±×µéÀº ³ôÀº ´ÜÇÕ·ÂÀ¸·Î ¸ó½ºÅÍµéÀ» ¹«Âî¸£°í ¸¶¿Õ¼º¿¡ µµÂøÇÑ´Ù.";
+                narrationText.text = "ê·¸ë“¤ì€ ë†’ì€ ë‹¨í•©ë ¥ìœ¼ë¡œ ëª¬ìŠ¤í„°ë“¤ì„ ë¬´ì°Œë¥´ê³  ë§ˆì™•ì„±ì— ë„ì°©í•œë‹¤.";
                 dialogueState++;
                 break;
             case 4:
                 hell.SetActive(true);
                 narration.SetActive(false);
                 dialogue.SetActive(true);
-                image1.SetActive(true); // ÁÖÀÎ°ø ÀÌ¹ÌÁö È°¼ºÈ­
-                nameText.text = "ÁÖÀÎ°ø";
-                descriptionText.text = "±¸ÇÏ·¯ ¿Ô½À´Ï´Ù, °øÁÖ´Ô!";
+                image1.SetActive(true); // ì£¼ì¸ê³µ ì´ë¯¸ì§€ í™œì„±í™”
+                nameText.text = "ì£¼ì¸ê³µ";
+                descriptionText.text = "êµ¬í•˜ëŸ¬ ì™”ìŠµë‹ˆë‹¤, ê³µì£¼ë‹˜!";
                 dialogueState++;
                 break;
             case 5:
-                // °øÁÖÀÏ °æ¿ì °øÁÖ ÀÌ¹ÌÁö·Î º¯°æ
-                image1.SetActive(false); // ÁÖÀÎ°ø ÀÌ¹ÌÁö ºñÈ°¼ºÈ­
-                princessImage.SetActive(true); // °øÁÖ ÀÌ¹ÌÁö È°¼ºÈ­
-                nameText.text = "°øÁÖ";
+                // ê³µì£¼ì¼ ê²½ìš° ê³µì£¼ ì´ë¯¸ì§€ë¡œ ë³€ê²½
+                image1.SetActive(false); // ì£¼ì¸ê³µ ì´ë¯¸ì§€ ë¹„í™œì„±í™”
+                princessImage.SetActive(true); // ê³µì£¼ ì´ë¯¸ì§€ í™œì„±í™”
+                nameText.text = "ê³µì£¼";
                 descriptionText.text = "......";
                 dialogueState++;
                 break;
             case 6:
-                princessImage.SetActive(false); // °øÁÖ ÀÌ¹ÌÁö ºñÈ°¼ºÈ­
+                princessImage.SetActive(false); // ê³µì£¼ ì´ë¯¸ì§€ ë¹„í™œì„±í™”
                 dialogue.SetActive(false);
                 narration.SetActive(true);
-                narrationText.text = "±×µéÀº °øÁÖ´ÔÀ» ¸¸³ª ¸¶¿Õ°ú Áø½ÉÀ¸·Î »ç¶ûÇÏ´Â »çÀÌ¶ó´Â ºñ¹ĞÀ» µé¾ú´Ù.";
+                narrationText.text = "ê·¸ë“¤ì€ ê³µì£¼ë‹˜ì„ ë§Œë‚˜ ë§ˆì™•ê³¼ ì§„ì‹¬ìœ¼ë¡œ ì‚¬ë‘í•˜ëŠ” ì‚¬ì´ë¼ëŠ” ë¹„ë°€ì„ ë“¤ì—ˆë‹¤.";
                 dialogueState++;
                 break;
             case 7:
-                // yes¹öÆ°°ú no¹öÆ° È°¼ºÈ­
-                narrationText.text = "°øÁÖ¸¦ ¿Õ±¹À¸·Î µ¥·Á°¡½Ã°Ú½À´Ï±î?";
+                // yesë²„íŠ¼ê³¼ noë²„íŠ¼ í™œì„±í™”
+                narrationText.text = "ê³µì£¼ë¥¼ ì™•êµ­ìœ¼ë¡œ ë°ë ¤ê°€ì‹œê² ìŠµë‹ˆê¹Œ?";
                 yesButton.gameObject.SetActive(true);
                 yesButton.interactable = true;
 
@@ -126,11 +126,11 @@ public class HappyEndingTalkManager : MonoBehaviour
 
     public void OnYesButtonClicked()
     {
-        // Yes ¹öÆ°À» ´©¸¦ °æ¿ìÀÇ ·ÎÁ÷ ±¸Çö
+        // Yes ë²„íŠ¼ì„ ëˆ„ë¥¼ ê²½ìš°ì˜ ë¡œì§ êµ¬í˜„
         ending.SetActive(true);
-        isYesEndingActive = true; // Yes ¹öÆ° ¿£µù ´ë»ç È°¼ºÈ­
-        dialogueState = 0; // ¿£µù ´ë»ç ÁøÇà »óÅÂ ÃÊ±âÈ­
-        narrationText.text = "ÁÖÀÎ°ø ÀÏÇàÀº °øÁÖÀÇ »çÁ¤À» ¹«½ÃÇÏ°í ¿Õ±¹À¸·Î µ¥·Á°¡°í, È­°¡³­ ¸¶¿ÕÀº ÀüÀïÀ» ¼±Æ÷ÇÑ´Ù.";
+        isYesEndingActive = true; // Yes ë²„íŠ¼ ì—”ë”© ëŒ€ì‚¬ í™œì„±í™”
+        dialogueState = 0; // ì—”ë”© ëŒ€ì‚¬ ì§„í–‰ ìƒíƒœ ì´ˆê¸°í™”
+        narrationText.text = "ì£¼ì¸ê³µ ì¼í–‰ì€ ê³µì£¼ì˜ ì‚¬ì •ì„ ë¬´ì‹œí•˜ê³  ì™•êµ­ìœ¼ë¡œ ë°ë ¤ê°€ê³ , í™”ê°€ë‚œ ë§ˆì™•ì€ ì „ìŸì„ ì„ í¬í•œë‹¤.";
     }
 
     void ProgressYesEndingDialogue()
@@ -138,15 +138,15 @@ public class HappyEndingTalkManager : MonoBehaviour
         switch (dialogueState)
         {
             case 0:
-                narrationText.text = "ÁÖÀÎ°ø ÀÏÇàÀº °øÁÖÀÇ »çÁ¤À» ¹«½ÃÇÏ°í ¿Õ±¹À¸·Î µ¥·Á°¡°í, È­°¡³­ ¸¶¿ÕÀº ÀüÀïÀ» ¼±Æ÷ÇÑ´Ù.";
+                narrationText.text = "ì£¼ì¸ê³µ ì¼í–‰ì€ ê³µì£¼ì˜ ì‚¬ì •ì„ ë¬´ì‹œí•˜ê³  ì™•êµ­ìœ¼ë¡œ ë°ë ¤ê°€ê³ , í™”ê°€ë‚œ ë§ˆì™•ì€ ì „ìŸì„ ì„ í¬í•œë‹¤.";
                 dialogueState++;
                 break;
             case 1:
-                narrationText.text = "ÁØºñ°¡ µÇÁö ¾Ê¾Ò´ø ¿Õ±¹Àº Ã³ÂüÈ÷ ¹«³ÊÁ® ¸¹Àº ±¹¹ÎÀÌ »ç¸ÁÇÑ´Ù.";
+                narrationText.text = "ì¤€ë¹„ê°€ ë˜ì§€ ì•Šì•˜ë˜ ì™•êµ­ì€ ì²˜ì°¸íˆ ë¬´ë„ˆì ¸ ë§ì€ êµ­ë¯¼ì´ ì‚¬ë§í•œë‹¤.";
                 dialogueState++;
                 break;
             case 2:
-                narrationText.text = "ÁÖÀÎ°ø°ú µ¿·áµéµµ »ç¸ÁÇÏ°í, °øÁÖ´Â ¸¶¿Õ°ú ÇÔ²² ¸¶°è·Î µ¹¾Æ°¬´Ù.";
+                narrationText.text = "ì£¼ì¸ê³µê³¼ ë™ë£Œë“¤ë„ ì‚¬ë§í•˜ê³ , ê³µì£¼ëŠ” ë§ˆì™•ê³¼ í•¨ê»˜ ë§ˆê³„ë¡œ ëŒì•„ê°”ë‹¤.";
                 dialogueState++;
                 break;
             case 3:
@@ -154,18 +154,18 @@ public class HappyEndingTalkManager : MonoBehaviour
                 dialogueState++;
                 break;
             case 4:
-                SceneManager.LoadScene("MainScene"); // MainSceneÀ¸·Î ¾À ÀüÈ¯
+                SceneManager.LoadScene("MainScene"); // MainSceneìœ¼ë¡œ ì”¬ ì „í™˜
                 break;
         }
     }
 
     public void OnNoButtonClicked()
     {
-        // No ¹öÆ°À» ´©¸¦ °æ¿ìÀÇ ·ÎÁ÷ ±¸Çö
+        // No ë²„íŠ¼ì„ ëˆ„ë¥¼ ê²½ìš°ì˜ ë¡œì§ êµ¬í˜„
         ending.SetActive(true);
-        isNoEndingActive = true; // No ¹öÆ° ¿£µù ´ë»ç È°¼ºÈ­
-        dialogueState = 0; // ¿£µù ´ë»ç ÁøÇà »óÅÂ ÃÊ±âÈ­
-        narrationText.text = "ÁÖÀÎ°øÀº °øÁÖÀÇ ÆíÁö¸¦ ¿Õ¿¡°Ô ÀüÇß°í, ¿ÕÀº ±×µéÀÇ ¼±ÅÃÀ» Á¸ÁßÇß´Ù.";
+        isNoEndingActive = true; // No ë²„íŠ¼ ì—”ë”© ëŒ€ì‚¬ í™œì„±í™”
+        dialogueState = 0; // ì—”ë”© ëŒ€ì‚¬ ì§„í–‰ ìƒíƒœ ì´ˆê¸°í™”
+        narrationText.text = "ì£¼ì¸ê³µì€ ê³µì£¼ì˜ í¸ì§€ë¥¼ ì™•ì—ê²Œ ì „í–ˆê³ , ì™•ì€ ê·¸ë“¤ì˜ ì„ íƒì„ ì¡´ì¤‘í–ˆë‹¤.";
     }
 
     void ProgressNoEndingDialogue()
@@ -173,11 +173,11 @@ public class HappyEndingTalkManager : MonoBehaviour
         switch (dialogueState)
         {
             case 0:
-                narrationText.text = "ÁÖÀÎ°øÀº °øÁÖÀÇ ÆíÁö¸¦ ¿Õ¿¡°Ô ÀüÇß°í, ¿ÕÀº ±×µéÀÇ ¼±ÅÃÀ» Á¸ÁßÇß´Ù.";
+                narrationText.text = "ì£¼ì¸ê³µì€ ê³µì£¼ì˜ í¸ì§€ë¥¼ ì™•ì—ê²Œ ì „í–ˆê³ , ì™•ì€ ê·¸ë“¤ì˜ ì„ íƒì„ ì¡´ì¤‘í–ˆë‹¤.";
                 dialogueState++;
                 break;
             case 1:
-                narrationText.text = "ÁÖÀÎ°ø ÀÏÇàÀº ÈÄÇÑ º¸»óÀ» ¹Ş¾Ò°í, ÁÖÀÎ°øÀº »ç±â²ÛÀ¸·Î¼­ÀÇ »î ´ë½Å º»ÀÎÀÌ ¿øÇß´ø »îÀ» »ì ¼ö ÀÖ°Ô µÇ¾ú´Ù.";
+                narrationText.text = "ì£¼ì¸ê³µ ì¼í–‰ì€ í›„í•œ ë³´ìƒì„ ë°›ì•˜ê³ , ì£¼ì¸ê³µì€ ì‚¬ê¸°ê¾¼ìœ¼ë¡œì„œì˜ ì‚¶ ëŒ€ì‹  ë³¸ì¸ì´ ì›í–ˆë˜ ì‚¶ì„ ì‚´ ìˆ˜ ìˆê²Œ ë˜ì—ˆë‹¤.";
                 dialogueState++;
                 break;
             case 2:
@@ -185,7 +185,7 @@ public class HappyEndingTalkManager : MonoBehaviour
                 dialogueState++;
                 break;
             case 3:
-                SceneManager.LoadScene("MainScene"); // MainSceneÀ¸·Î ¾À ÀüÈ¯
+                SceneManager.LoadScene("MainScene"); // MainSceneìœ¼ë¡œ ì”¬ ì „í™˜
                 break;
         }
     }

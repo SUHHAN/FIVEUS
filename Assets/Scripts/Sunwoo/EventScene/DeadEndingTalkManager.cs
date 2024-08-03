@@ -7,21 +7,21 @@ using TMPro; // TextMeshPro
 public class DeadEndingTalkManager : MonoBehaviour
 {
     public GameObject dialogue;
-    public GameObject nameObj; // ÀÌ¸§
-    public TextMeshProUGUI nameText; // TextMeshPro UI ÅØ½ºÆ®
-    public TextMeshProUGUI descriptionText; // TextMeshPro UI ÅØ½ºÆ®
+    public GameObject nameObj; // ì´ë¦„
+    public TextMeshProUGUI nameText; // TextMeshPro UI í…ìŠ¤íŠ¸
+    public TextMeshProUGUI descriptionText; // TextMeshPro UI í…ìŠ¤íŠ¸
     public GameObject ending;
     public GameObject narration;
-    public TextMeshProUGUI narrationText; // TextMeshPro UI ÅØ½ºÆ®
+    public TextMeshProUGUI narrationText; // TextMeshPro UI í…ìŠ¤íŠ¸
 
-    private int dialogueState = 0; // ´ë»ç ÁøÇà »óÅÂ
+    private int dialogueState = 0; // ëŒ€ì‚¬ ì§„í–‰ ìƒíƒœ
 
     // Start is called before the first frame update
     void Start()
     {
-        dialogue.SetActive(true); // ´ëÈ­ ½ÃÀÛ ½Ã È°¼ºÈ­
-        nameText.text = ""; // ÀÌ¸§ ÅØ½ºÆ® ÃÊ±âÈ­
-        descriptionText.text = ""; // ¼³¸í ÅØ½ºÆ® ÃÊ±âÈ­
+        dialogue.SetActive(true); // ëŒ€í™” ì‹œì‘ ì‹œ í™œì„±í™”
+        nameText.text = ""; // ì´ë¦„ í…ìŠ¤íŠ¸ ì´ˆê¸°í™”
+        descriptionText.text = ""; // ì„¤ëª… í…ìŠ¤íŠ¸ ì´ˆê¸°í™”
     }
 
     // Update is called once per frame
@@ -38,22 +38,22 @@ public class DeadEndingTalkManager : MonoBehaviour
         switch (dialogueState)
         {
             case 0:
-                nameText.text = "ÁÖÀÎ°ø";
-                descriptionText.text = "¾î¶ó?";
+                nameText.text = "ì£¼ì¸ê³µ";
+                descriptionText.text = "ì–´ë¼?";
                 dialogueState++;
                 break;
             case 1:
-                descriptionText.text = "°©ÀÚ±â ´« ¾ÕÀÌ ±ô±ôÇØÁ³´Ù.";
+                descriptionText.text = "ê°‘ìê¸° ëˆˆ ì•ì´ ê¹œê¹œí•´ì¡Œë‹¤.";
                 dialogueState++;
                 break;
             case 2:
-                descriptionText.text = "³Ê¹« ¹«¸®Çß³ª..";
+                descriptionText.text = "ë„ˆë¬´ ë¬´ë¦¬í–ˆë‚˜..";
                 dialogueState++;
                 break;
             case 3:
                 dialogue.SetActive(false);
                 narration.SetActive(true);
-                narrationText.text = "Ã¼·ÂÀÌ 0ÀÌ µÇ¾î »ç¸ÁÇÏ¼Ì½À´Ï´Ù.";
+                narrationText.text = "ì²´ë ¥ì´ 0ì´ ë˜ì–´ ì‚¬ë§í•˜ì…¨ìŠµë‹ˆë‹¤.";
                 dialogueState++;
                 break;
             case 4:
@@ -61,7 +61,7 @@ public class DeadEndingTalkManager : MonoBehaviour
                 dialogueState++;
                 break;
             case 5:
-                SceneManager.LoadScene("MainScene"); // MainSceneÀ¸·Î ¾À ÀüÈ¯
+                SceneManager.LoadScene("MainScene"); // MainSceneìœ¼ë¡œ ì”¬ ì „í™˜
                 break;
         }
     }

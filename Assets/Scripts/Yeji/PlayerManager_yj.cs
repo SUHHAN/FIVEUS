@@ -36,8 +36,17 @@ public class PlayerManager_yj : MonoBehaviour
         playerNow.hp_py += amount;
         if (playerNow.hp_py > 100)
             playerNow.hp_py = 100; // 최대 체력은 100으로 제한
-
     }
+    // 플레이어 체력 감소
+    public void DecreaseHealth(int amount)
+    {
+        playerNow.hp_py -= amount;
+        if (playerNow.hp_py <0 )
+            playerNow.hp_py = 0; // 최소 체력은 100으로 제한
+        // 최소 체력 이하로 떨어지면 엔딩씬으로 연결해야 함.
+    }
+
+
     // 플레이어 훈련 횟수 증가
     public void IncreaseTrainingCount()
     {
@@ -48,6 +57,10 @@ public class PlayerManager_yj : MonoBehaviour
     public void IncreaseTiredness(int amount)
     {
         playerNow.tired_py += amount;
+        if (playerNow.tired_py >= 100) { 
+            playerNow.hp_py -= 10; // 피로도 100 넘어가면 체력 10 감소
+            // tired는 아이템 먹지 않는 이상 안 내려감
+        }
     }
 
     // 플레이어 재화 증가

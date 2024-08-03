@@ -10,7 +10,7 @@ public class HintInteraction : MonoBehaviour
 
     void Start()
     {
-        // PlayerPrefs ÃÊ±âÈ­(ÀÌ ÄÚµå·Î °ÔÀÓÀ» ÇÑ ¹ø ½ÇÇàÇØ¼­ ÀúÀåÇØ¾ß °ÔÀÓ Àç½ÃÀÛÇÒ ¶§ ´Ü¼­°¡ ÃÊ±âÈ­µË´Ï´Ù)
+        // PlayerPrefs ì´ˆê¸°í™”(ì´ ì½”ë“œë¡œ ê²Œì„ì„ í•œ ë²ˆ ì‹¤í–‰í•´ì„œ ì €ì¥í•´ì•¼ ê²Œì„ ì¬ì‹œì‘í•  ë•Œ ë‹¨ì„œê°€ ì´ˆê¸°í™”ë©ë‹ˆë‹¤)
        //DeleteHintKey();
         LoadHintState();
 

@@ -7,21 +7,21 @@ using TMPro; // TextMeshPro
 public class FailEndingTalkManager : MonoBehaviour
 {
     public GameObject dialogue;
-    public GameObject nameObj; // ÀÌ¸§
-    public TextMeshProUGUI nameText; // TextMeshPro UI ÅØ½ºÆ®
-    public TextMeshProUGUI descriptionText; // TextMeshPro UI ÅØ½ºÆ®
+    public GameObject nameObj; // ì´ë¦„
+    public TextMeshProUGUI nameText; // TextMeshPro UI í…ìŠ¤íŠ¸
+    public TextMeshProUGUI descriptionText; // TextMeshPro UI í…ìŠ¤íŠ¸
     public GameObject ending;
     public GameObject narration;
-    public TextMeshProUGUI narrationText; // TextMeshPro UI ÅØ½ºÆ®
+    public TextMeshProUGUI narrationText; // TextMeshPro UI í…ìŠ¤íŠ¸
 
-    private int dialogueState = 0; // ´ë»ç ÁøÇà »óÅÂ
+    private int dialogueState = 0; // ëŒ€ì‚¬ ì§„í–‰ ìƒíƒœ
 
     // Start is called before the first frame update
     void Start()
     {
-        dialogue.SetActive(true); // ´ëÈ­ ½ÃÀÛ ½Ã È°¼ºÈ­
-        nameText.text = ""; // ÀÌ¸§ ÅØ½ºÆ® ÃÊ±âÈ­
-        descriptionText.text = ""; // ¼³¸í ÅØ½ºÆ® ÃÊ±âÈ­
+        dialogue.SetActive(true); // ëŒ€í™” ì‹œì‘ ì‹œ í™œì„±í™”
+        nameText.text = ""; // ì´ë¦„ í…ìŠ¤íŠ¸ ì´ˆê¸°í™”
+        descriptionText.text = ""; // ì„¤ëª… í…ìŠ¤íŠ¸ ì´ˆê¸°í™”
     }
 
     // Update is called once per frame
@@ -38,30 +38,30 @@ public class FailEndingTalkManager : MonoBehaviour
         switch (dialogueState)
         {
             case 0:
-                nameText.text = "ÁÖÀÎ°ø";
-                descriptionText.text = "¿ì¸® ÀÌÁ¦ °øÁÖ´ÔÀ» Ã£À¸·¯ °¡º¸ÀÚ!";
+                nameText.text = "ì£¼ì¸ê³µ";
+                descriptionText.text = "ìš°ë¦¬ ì´ì œ ê³µì£¼ë‹˜ì„ ì°¾ìœ¼ëŸ¬ ê°€ë³´ì!";
                 dialogueState++;
                 break;
             case 1:
                 dialogue.SetActive(false);
                 narration.SetActive(true);
-                narrationText.text = "¼ö»óÇÑ ±â¿îÀÌ ´À²¸Áö´Â ±æÀÌ´Ù.";
+                narrationText.text = "ìˆ˜ìƒí•œ ê¸°ìš´ì´ ëŠê»´ì§€ëŠ” ê¸¸ì´ë‹¤.";
                 dialogueState++;
                 break;
             case 2:
-                narrationText.text = "¸¶°è·Î °¡´Â ±æ·Î ÇÑÂüÀ» °É¾úÁö¸¸, ´Ù¸¥ ±â»ç´ÜÃ³·³ °øÁÖ´ÔÀÇ ÈçÀûÁ¶Â÷ Ã£Áö ¸øÇß´Ù.";
+                narrationText.text = "ë§ˆê³„ë¡œ ê°€ëŠ” ê¸¸ë¡œ í•œì°¸ì„ ê±¸ì—ˆì§€ë§Œ, ë‹¤ë¥¸ ê¸°ì‚¬ë‹¨ì²˜ëŸ¼ ê³µì£¼ë‹˜ì˜ í”ì ì¡°ì°¨ ì°¾ì§€ ëª»í–ˆë‹¤.";
                 dialogueState++;
                 break;
             case 3:
-                narrationText.text = "¿ÕÀº ÀÓ¹«¿¡ ½ÇÆĞÇÑ ±×µé¿¡°Ô ¿Õ±¹¿¡¼­ÀÇ Ãß¹æ ¸í·ÉÀ» ³»¸°´Ù.";
+                narrationText.text = "ì™•ì€ ì„ë¬´ì— ì‹¤íŒ¨í•œ ê·¸ë“¤ì—ê²Œ ì™•êµ­ì—ì„œì˜ ì¶”ë°© ëª…ë ¹ì„ ë‚´ë¦°ë‹¤.";
                 dialogueState++;
                 break;
             case 4:
-                narrationText.text = "¸ğÁıÇß´ø ¿ëº´µéÀº ±×µ¿¾È °í»ıÇß´ø °Í¿¡ ´ëÇÑ º¸»óÀ» ÁÖÀÎ°ø¿¡°Ô ¿ä±¸ÇÑ´Ù.";
+                narrationText.text = "ëª¨ì§‘í–ˆë˜ ìš©ë³‘ë“¤ì€ ê·¸ë™ì•ˆ ê³ ìƒí–ˆë˜ ê²ƒì— ëŒ€í•œ ë³´ìƒì„ ì£¼ì¸ê³µì—ê²Œ ìš”êµ¬í•œë‹¤.";
                 dialogueState++;
                 break;
             case 5:
-                narrationText.text = "°á±¹ ÁÖÀÎ°øÀº ±×µé¿¡°Ô¼­ µµ¸ÁÄ¡¸ç ¶°µ¹¾Æ´Ù´Ï´Â »îÀ» »ì°Ô µÈ´Ù.";
+                narrationText.text = "ê²°êµ­ ì£¼ì¸ê³µì€ ê·¸ë“¤ì—ê²Œì„œ ë„ë§ì¹˜ë©° ë– ëŒì•„ë‹¤ë‹ˆëŠ” ì‚¶ì„ ì‚´ê²Œ ëœë‹¤.";
                 dialogueState++;
                 break;
             case 6:
@@ -69,7 +69,7 @@ public class FailEndingTalkManager : MonoBehaviour
                 dialogueState++;
                 break;
             case 7:
-                SceneManager.LoadScene("MainScene"); // MainSceneÀ¸·Î ¾À ÀüÈ¯
+                SceneManager.LoadScene("MainScene"); // MainSceneìœ¼ë¡œ ì”¬ ì „í™˜
                 break;
         }
     }
