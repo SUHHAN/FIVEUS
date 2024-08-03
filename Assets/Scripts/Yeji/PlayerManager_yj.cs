@@ -1,100 +1,100 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-// ¿¹Áö ÄÚ¸àÆ® : ÁÖÀÎ°øÀÇ »óÅÂ¸¦ °ü¸®ÇÏ´Â Ã¢
-// ÁÖÀÎ°øÀÇ Ã¼·Â+ÇÇ·Îµµ+ÀçÈ­+´Ü¼­+´ÜÇÕ·Â, ³¯Â¥ °ü¸® script
+// ì˜ˆì§€ ì½”ë©˜íŠ¸ : ì£¼ì¸ê³µì˜ ìƒíƒœë¥¼ ê´€ë¦¬í•˜ëŠ” ì°½
+// ì£¼ì¸ê³µì˜ ì²´ë ¥+í”¼ë¡œë„+ì¬í™”+ë‹¨ì„œ+ë‹¨í•©ë ¥, ë‚ ì§œ ê´€ë¦¬ script
 
 public class PlayerManager_yj : MonoBehaviour
 {
 
-    // ÇöÀç ÇÃ·¹ÀÌ¾îÀÇ »óÅÂ¸¦ ³ªÅ¸³»´Â °´Ã¼
+    // í˜„ì¬ í”Œë ˆì´ì–´ì˜ ìƒíƒœë¥¼ ë‚˜íƒ€ë‚´ëŠ” ê°ì²´
     public PlayerNow_yj playerNow;
 
     // Start is called before the first frame update
     void Start()
     {
-        // ÃÊ±â ÇÃ·¹ÀÌ¾î »óÅÂ ¼³Á¤
+        // ì´ˆê¸° í”Œë ˆì´ì–´ ìƒíƒœ ì„¤ì •
         InitializePlayer();
     }
 
     // Update is called once per frame
     void Update()
     {
-        // ÇÃ·¹ÀÌ¾î »óÅÂ¿¡ µû¸¥ ¾÷µ¥ÀÌÆ® ·ÎÁ÷
+        // í”Œë ˆì´ì–´ ìƒíƒœì— ë”°ë¥¸ ì—…ë°ì´íŠ¸ ë¡œì§
     }
 
-    // ÇÃ·¹ÀÌ¾î ÃÊ±â »óÅÂ ¼³Á¤
+    // í”Œë ˆì´ì–´ ì´ˆê¸° ìƒíƒœ ì„¤ì •
     void InitializePlayer()
     {
-        // ÃÊ±â »óÅÂ °ª ¼³Á¤ (¿¹½Ã)
+        // ì´ˆê¸° ìƒíƒœ ê°’ ì„¤ì • (ì˜ˆì‹œ)
         playerNow = new PlayerNow_yj(100, 0, 50, 0, 0, 1, 0, 0);
     }
 
-    // ÇÃ·¹ÀÌ¾î Ã¼·Â Áõ°¡
+    // í”Œë ˆì´ì–´ ì²´ë ¥ ì¦ê°€
     public void IncreaseHealth(int amount)
     {
         playerNow.hp_py += amount;
         if (playerNow.hp_py > 100)
-            playerNow.hp_py = 100; // ÃÖ´ë Ã¼·ÂÀº 100À¸·Î Á¦ÇÑ
+            playerNow.hp_py = 100; // ìµœëŒ€ ì²´ë ¥ì€ 100ìœ¼ë¡œ ì œí•œ
     }
-    // ÇÃ·¹ÀÌ¾î Ã¼·Â °¨¼Ò
+    // í”Œë ˆì´ì–´ ì²´ë ¥ ê°ì†Œ
     public void DecreaseHealth(int amount)
     {
         playerNow.hp_py -= amount;
         if (playerNow.hp_py <0 )
-            playerNow.hp_py = 0; // ÃÖ¼Ò Ã¼·ÂÀº 100À¸·Î Á¦ÇÑ
-        // ÃÖ¼Ò Ã¼·Â ÀÌÇÏ·Î ¶³¾îÁö¸é ¿£µù¾ÀÀ¸·Î ¿¬°áÇØ¾ß ÇÔ.
+            playerNow.hp_py = 0; // ìµœì†Œ ì²´ë ¥ì€ 100ìœ¼ë¡œ ì œí•œ
+        // ìµœì†Œ ì²´ë ¥ ì´í•˜ë¡œ ë–¨ì–´ì§€ë©´ ì—”ë”©ì”¬ìœ¼ë¡œ ì—°ê²°í•´ì•¼ í•¨.
     }
 
 
-    // ÇÃ·¹ÀÌ¾î ÈÆ·Ã È½¼ö Áõ°¡
+    // í”Œë ˆì´ì–´ í›ˆë ¨ íšŸìˆ˜ ì¦ê°€
     public void IncreaseTrainingCount()
     {
         playerNow.howtrain_py++;
     }
 
-    // ÇÃ·¹ÀÌ¾î ÇÇ·Îµµ Áõ°¡
+    // í”Œë ˆì´ì–´ í”¼ë¡œë„ ì¦ê°€
     public void IncreaseTiredness(int amount)
     {
         playerNow.tired_py += amount;
         if (playerNow.tired_py >= 100) { 
-            playerNow.hp_py -= 10; // ÇÇ·Îµµ 100 ³Ñ¾î°¡¸é Ã¼·Â 10 °¨¼Ò
-            // tired´Â ¾ÆÀÌÅÛ ¸ÔÁö ¾Ê´Â ÀÌ»ó ¾È ³»·Á°¨
+            playerNow.hp_py -= 10; // í”¼ë¡œë„ 100 ë„˜ì–´ê°€ë©´ ì²´ë ¥ 10 ê°ì†Œ
+            // tiredëŠ” ì•„ì´í…œ ë¨¹ì§€ ì•ŠëŠ” ì´ìƒ ì•ˆ ë‚´ë ¤ê°
         }
     }
 
-    // ÇÃ·¹ÀÌ¾î ÀçÈ­ Áõ°¡
+    // í”Œë ˆì´ì–´ ì¬í™” ì¦ê°€
     public void IncreaseMoney(int amount)
     {
         playerNow.money_py += amount;
     }
 
-    // ÇÃ·¹ÀÌ¾î ´Ü¼­ Áõ°¡
+    // í”Œë ˆì´ì–´ ë‹¨ì„œ ì¦ê°€
     public void IncreaseHint(int amount)
     {
         playerNow.hint_py += amount;
     }
 
-    // ÇÃ·¹ÀÌ¾î ´ÜÇÕ·Â Áõ°¡
+    // í”Œë ˆì´ì–´ ë‹¨í•©ë ¥ ì¦ê°€
     public void IncreaseTeamPower(int amount)
     {
         playerNow.team_py += amount;
     }
 
-    // timeManager·Î ³Ñ±æ°Ô ±×³Ä¾Ó...±×·¡¼­ ÁÖ¼® Ã³¸®
-    // ÇÃ·¹ÀÌ¾î ¿À´Ã ³¯Â¥ ¼³Á¤
+    // timeManagerë¡œ ë„˜ê¸¸ê²Œ ê·¸ëƒì•™...ê·¸ë˜ì„œ ì£¼ì„ ì²˜ë¦¬
+    // í”Œë ˆì´ì–´ ì˜¤ëŠ˜ ë‚ ì§œ ì„¤ì •
      /*public void SetDay(int day)
     {
         playerNow.day_py = day;
     }
 
-    // ÇÃ·¹ÀÌ¾î ÇÏ·ç È°µ¿ È½¼ö Áõ°¡
+    // í”Œë ˆì´ì–´ í•˜ë£¨ í™œë™ íšŸìˆ˜ ì¦ê°€
 
    public void IncreaseDailyActivityCount()
     {
         playerNow.howtoday_py++;
         if (playerNow.howtoday_py > 2)
-            playerNow.howtoday_py = 0; // ÇÏ·ç È°µ¿ È½¼ö´Â ÃÖ´ë 3È¸·Î Á¦ÇÑ
+            playerNow.howtoday_py = 0; // í•˜ë£¨ í™œë™ íšŸìˆ˜ëŠ” ìµœëŒ€ 3íšŒë¡œ ì œí•œ
 
     }*/
 

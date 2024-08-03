@@ -11,7 +11,7 @@ public class HintInteraction : MonoBehaviour
     void Start()
     {
         // PlayerPrefs 초기화(이 코드로 게임을 한 번 실행해서 저장해야 게임 재시작할 때 단서가 초기화됩니다)
-       //DeleteHintKey();
+        //DeleteHintKey();
         LoadHintState();
 
         gameObject.SetActive(isHintVisible);
