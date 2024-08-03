@@ -188,6 +188,7 @@ public class bedin4_yj : MonoBehaviour
         }
 
         resultUI_yj.SetActive(true);
+        SaveData();
     }
     public void OngobedButtonClick()
     {
@@ -228,4 +229,19 @@ public class bedin4_yj : MonoBehaviour
     {
         resultUI_yj.SetActive(false);
     }
+
+    void SaveData()
+    {
+        DataManager.instance.nowPlayer.Player_hp = playermanager_yj.playerNow.hp_py;
+        DataManager.instance.nowPlayer.Player_tired = playermanager_yj.playerNow.tired_py;
+        DataManager.instance.nowPlayer.Player_money = playermanager_yj.playerNow.money_py;
+        DataManager.instance.nowPlayer.Player_hint = playermanager_yj.playerNow.hint_py;
+        DataManager.instance.nowPlayer.Player_team = playermanager_yj.playerNow.team_py;
+        DataManager.instance.nowPlayer.Player_day = playermanager_yj.playerNow.day_py;
+        DataManager.instance.nowPlayer.Player_howtoday = playermanager_yj.playerNow.howtoday_py;
+        DataManager.instance.nowPlayer.Player_howtrain = playermanager_yj.playerNow.howtrain_py;
+
+        DataManager.instance.SaveData();
+    }
+
 }
