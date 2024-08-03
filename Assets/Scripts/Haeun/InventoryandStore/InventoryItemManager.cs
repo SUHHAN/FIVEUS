@@ -122,8 +122,7 @@ public class InventoryItemManager : MonoBehaviour
     public void TapClick(string tabName)
     {
         // 만약 현재 탭이 "기타" 탭이고, 다른 탭으로 이동하려고 한다면
-        //if (currentTab == "기타" && tabName != "기타" && PlayerPrefs.HasKey("NpcType"))
-        if (currentTab == "기타" && PlayerPrefs.HasKey("NpcType"))
+        if (currentTab == "기타" && tabName != "기타" && PlayerPrefs.HasKey("NpcType"))
         {
             targetTab = tabName; // 이동하려는 탭 저장
             confirmationPopup.SetActive(true); // 팝업창 띄우기
@@ -319,6 +318,7 @@ public class InventoryItemManager : MonoBehaviour
                     LoadItem();
 
                 });
+                
                 GiftButton_gi.onClick.AddListener(() => {
                     AudioManager.Instance.PlaySfx(AudioManager.Sfx.ButtonClick);
                     onGiftButtonClick(item.Name);
@@ -351,18 +351,15 @@ public class InventoryItemManager : MonoBehaviour
     public void onGiftButtonClick(string giftName) {
         npcName = PlayerPrefs.GetString("NpcType");
 
+        ItemManager.instance.Gift_inv(npcName, giftName);
+
         // 호감 대상의 호감도와 올릴 수치를 팝업으로 표현
         TextMeshProUGUI textComponent = GiftGoodPopup.GetComponentInChildren<TextMeshProUGUI>();
         GiftGoodPopup.gameObject.SetActive(true);
 
-        ItemManager.instance.Gift_inv(npcName, giftName);
         int response = GiftManager.GetGiftResponse(npcName, giftName);
 
-        PlayerPrefs.DeleteKey("NpcType");
-        PlayerPrefs.Save();
 
-        LoadItem();
-        
         Character character_ = DataManager.instance.nowPlayer.characters.Find(x => x.Type == npcName);
 
         if(response == 0)
@@ -373,10 +370,19 @@ public class InventoryItemManager : MonoBehaviour
             textComponent.text = $"{character_.Name}의 호감도가 5 내려갔습니다.";   
 
         OkButton.onClick.AddListener(() => {
-           GiftGoodPopup.gameObject.SetActive(false); 
+            GiftGoodPopup.gameObject.SetActive(false); 
+
+            PlayerPrefs.DeleteKey("NpcType");
+            PlayerPrefs.Save();
+
+            LoadItem();
+            SceneManager.LoadScene("main_map");
+
         });
+
         
-        SceneManager.LoadScene("main_map");
+        
+        
     }
 
     // 선택 버튼 UI 업데이트 메서드

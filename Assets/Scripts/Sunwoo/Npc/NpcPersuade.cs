@@ -2,65 +2,65 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro; // TextMeshPro ³×ÀÓ½ºÆäÀÌ½º Ãß°¡
+using TMPro; // TextMeshPro ë„¤ì„ìŠ¤í˜ì´ìŠ¤ ì¶”ê°€
 
 public class NpcPersuade : MonoBehaviour
 {
-    public GameObject persuadeUI; // ¼³µæ UI ÆĞ³Î
-    public GameObject resultUI; // °á°ú UI ÆĞ³Î
-    public TextMeshProUGUI persuadeText; // ¼³µæ ÅØ½ºÆ® UI ¿¬°á
-    public TextMeshProUGUI resultText; // °á°ú ÅØ½ºÆ® UI ¿¬°á
-    public Button yesButton; // ¿¹ ¹öÆ° ¿¬°á
-    public Button noButton; // ¾Æ´Ï¿À ¹öÆ° ¿¬°á
-    private double remainingAttempts = 3; // ³²Àº ¼³µæ ½Ãµµ È½¼ö
-    public bool success = false; // ¼³µæ ¼º°ø ¿©ºÎ
-    private NpcScript npcScript; // NpcScript ½ºÅ©¸³Æ® ÂüÁ¶
+    public GameObject persuadeUI; // ì„¤ë“ UI íŒ¨ë„
+    public GameObject resultUI; // ê²°ê³¼ UI íŒ¨ë„
+    public TextMeshProUGUI persuadeText; // ì„¤ë“ í…ìŠ¤íŠ¸ UI ì—°ê²°
+    public TextMeshProUGUI resultText; // ê²°ê³¼ í…ìŠ¤íŠ¸ UI ì—°ê²°
+    public Button yesButton; // ì˜ˆ ë²„íŠ¼ ì—°ê²°
+    public Button noButton; // ì•„ë‹ˆì˜¤ ë²„íŠ¼ ì—°ê²°
+    private double remainingAttempts = 3; // ë‚¨ì€ ì„¤ë“ ì‹œë„ íšŸìˆ˜
+    public bool success = false; // ì„¤ë“ ì„±ê³µ ì—¬ë¶€
+    private NpcScript npcScript; // NpcScript ìŠ¤í¬ë¦½íŠ¸ ì°¸ì¡°
 
     void Start()
     {
-        npcScript = GetComponent<NpcScript>(); // NpcScript ½ºÅ©¸³Æ® ÂüÁ¶ ¾ò±â
-        persuadeUI.SetActive(false); // ½ÃÀÛÇÒ ¶§ ¼³µæ UI ºñÈ°¼ºÈ­
-        resultUI.SetActive(false); // ½ÃÀÛÇÒ ¶§ °á°ú UI ºñÈ°¼ºÈ­
-        yesButton.onClick.AddListener(OnYesButtonClick); // ¿¹ ¹öÆ° Å¬¸¯ ÀÌº¥Æ® ¿¬°á
-        noButton.onClick.AddListener(OnNoButtonClick); // ¾Æ´Ï¿À ¹öÆ° Å¬¸¯ ÀÌº¥Æ® ¿¬°á
+        npcScript = GetComponent<NpcScript>(); // NpcScript ìŠ¤í¬ë¦½íŠ¸ ì°¸ì¡° ì–»ê¸°
+        persuadeUI.SetActive(false); // ì‹œì‘í•  ë•Œ ì„¤ë“ UI ë¹„í™œì„±í™”
+        resultUI.SetActive(false); // ì‹œì‘í•  ë•Œ ê²°ê³¼ UI ë¹„í™œì„±í™”
+        yesButton.onClick.AddListener(OnYesButtonClick); // ì˜ˆ ë²„íŠ¼ í´ë¦­ ì´ë²¤íŠ¸ ì—°ê²°
+        noButton.onClick.AddListener(OnNoButtonClick); // ì•„ë‹ˆì˜¤ ë²„íŠ¼ í´ë¦­ ì´ë²¤íŠ¸ ì—°ê²°
     }
 
     public void ShowPersuadeUI()
     {
-        persuadeUI.SetActive(true); // ¼³µæ UI Ç¥½Ã
-        persuadeText.text = $"¼³µæÇÏ½Ã°Ú½À´Ï±î? ³²Àº ±âÈ¸: {remainingAttempts}";
-        yesButton.gameObject.SetActive(true); // ¿¹ ¹öÆ° Ç¥½Ã
-        noButton.gameObject.SetActive(true); // ¾Æ´Ï¿À ¹öÆ° Ç¥½Ã
+        persuadeUI.SetActive(true); // ì„¤ë“ UI í‘œì‹œ
+        persuadeText.text = $"ì„¤ë“í•˜ì‹œê² ìŠµë‹ˆê¹Œ? ë‚¨ì€ ê¸°íšŒ: {remainingAttempts}";
+        yesButton.gameObject.SetActive(true); // ì˜ˆ ë²„íŠ¼ í‘œì‹œ
+        noButton.gameObject.SetActive(true); // ì•„ë‹ˆì˜¤ ë²„íŠ¼ í‘œì‹œ
     }
 
     public void OnYesButtonClick()
     {
-        AttemptPersuasion(); // ¼³µæ ½Ãµµ
+        AttemptPersuasion(); // ì„¤ë“ ì‹œë„
     }
 
     public void OnNoButtonClick()
     {
-        persuadeUI.SetActive(false); // ¼³µæ UI ¼û±â±â
+        persuadeUI.SetActive(false); // ì„¤ë“ UI ìˆ¨ê¸°ê¸°
     }
 
     public void AttemptPersuasion()
     {
-        remainingAttempts -= 0.5; // ½Ãµµ ÈÄ ³²Àº ±âÈ¸ 1 °¨¼Ò
+        remainingAttempts -= 0.5; // ì‹œë„ í›„ ë‚¨ì€ ê¸°íšŒ 1 ê°ì†Œ
         if (remainingAttempts >= 0)
         {
-            double successChance = npcScript.affection; // NpcScriptÀÇ affectionÀ» ¼º°ø È®·ü·Î »ç¿ë
-            double randomValue = Random.Range(0, 100); // 0¿¡¼­ 100 »çÀÌÀÇ ·£´ı °ª »ı¼º
+            double successChance = npcScript.affection; // NpcScriptì˜ affectionì„ ì„±ê³µ í™•ë¥ ë¡œ ì‚¬ìš©
+            double randomValue = Random.Range(0, 100); // 0ì—ì„œ 100 ì‚¬ì´ì˜ ëœë¤ ê°’ ìƒì„±
 
             if (randomValue < successChance)
             {
-                // ¼³µæ ¼º°ø
-                resultText.text = "¼º°øÇß½À´Ï´Ù!";
+                // ì„¤ë“ ì„±ê³µ
+                resultText.text = "ì„±ê³µí–ˆìŠµë‹ˆë‹¤!";
                 success = true;
             }
-            else // ¼³µæ ½ÇÆĞ
+            else // ì„¤ë“ ì‹¤íŒ¨
             {
-                resultText.text = $"½ÇÆĞÇß½À´Ï´Ù!";
-                success = false; // ¼³µæ ½ÇÆĞ ¿©ºÎ ¼³Á¤
+                resultText.text = $"ì‹¤íŒ¨í–ˆìŠµë‹ˆë‹¤!";
+                success = false; // ì„¤ë“ ì‹¤íŒ¨ ì—¬ë¶€ ì„¤ì •
             }
 
             Character character = DataManager.instance.nowPlayer.characters.Find(x => x.Type == npcScript.npcType);
@@ -68,22 +68,22 @@ public class NpcPersuade : MonoBehaviour
 
             DataManager.instance.SaveData();
 
-            persuadeUI.SetActive(false); // ¼³µæ UI ¼û±â±â
-            resultUI.SetActive(true); // °á°ú UI Ç¥½Ã
-            StartCoroutine(HideResultUIAfterDelay(2f)); // 2ÃÊ µÚ °á°ú UI ¼û±â±â
+            persuadeUI.SetActive(false); // ì„¤ë“ UI ìˆ¨ê¸°ê¸°
+            resultUI.SetActive(true); // ê²°ê³¼ UI í‘œì‹œ
+            StartCoroutine(HideResultUIAfterDelay(2f)); // 2ì´ˆ ë’¤ ê²°ê³¼ UI ìˆ¨ê¸°ê¸°
         }
         else
         {
-            resultText.text = "¼³µæ ½Ãµµ ±âÈ¸¸¦ ¸ğµÎ »ç¿ëÇß½À´Ï´Ù.";
-            persuadeUI.SetActive(false); // ¼³µæ UI ¼û±â±â
-            resultUI.SetActive(true); // °á°ú UI Ç¥½Ã
-            StartCoroutine(HideResultUIAfterDelay(3f)); // 3ÃÊ µÚ °á°ú UI ¼û±â±â
+            resultText.text = "ì„¤ë“ ì‹œë„ ê¸°íšŒë¥¼ ëª¨ë‘ ì‚¬ìš©í–ˆìŠµë‹ˆë‹¤.";
+            persuadeUI.SetActive(false); // ì„¤ë“ UI ìˆ¨ê¸°ê¸°
+            resultUI.SetActive(true); // ê²°ê³¼ UI í‘œì‹œ
+            StartCoroutine(HideResultUIAfterDelay(3f)); // 3ì´ˆ ë’¤ ê²°ê³¼ UI ìˆ¨ê¸°ê¸°
         }
     }
 
     private IEnumerator HideResultUIAfterDelay(float delay)
     {
-        yield return new WaitForSeconds(delay); // delay ¸¸Å­ ´ë±â
-        resultUI.SetActive(false); // °á°ú UI ¼û±â±â
+        yield return new WaitForSeconds(delay); // delay ë§Œí¼ ëŒ€ê¸°
+        resultUI.SetActive(false); // ê²°ê³¼ UI ìˆ¨ê¸°ê¸°
     }
 }

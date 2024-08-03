@@ -7,19 +7,19 @@ using UnityEngine.SceneManagement;
 
 public class TimeManager : MonoBehaviour
 {
-    public int day = 1; // ÇöÀç day ¸îÀÎÁö(1~15)
-    public int activityCount =0; // ÇÏ·ç È°µ¿ ¼ö(3È¸±îÁö °¡´É)
-    private string timeOfDay = "¾ÆÄ§"; // ÇöÀç ½Ã°£(¾ÆÄ§, Á¡½É, Àú³á)
+    public int day = 1; // í˜„ì¬ day ëª‡ì¸ì§€(1~15)
+    public int activityCount =0; // í•˜ë£¨ í™œë™ ìˆ˜(3íšŒê¹Œì§€ ê°€ëŠ¥)
+    private string timeOfDay = "ì•„ì¹¨"; // í˜„ì¬ ì‹œê°„(ì•„ì¹¨, ì ì‹¬, ì €ë…)
     private talkwithjjang_yj talkwithjjang;
 
-    // ³¯Â¥ Ç¥½ÃÇÏ´Â ÆĞ³Î
-    public GameObject whatisdate_yj; // ³¯Â¥ ½ÃÀÛÇÒ ¶§ ¾îµÎ¿öÁö´Â È­¸é(°ËÁ¤»ö)(Á¶»ó´Ôµå·¡±×)
-    public TextMeshProUGUI todayiswhat_yj; // ¿À´Ã ¸çÄ¥ÀÎÁö ÅØ½ºÆ® ¸ÅÀÏ ¹Ù²ñ
+    // ë‚ ì§œ í‘œì‹œí•˜ëŠ” íŒ¨ë„
+    public GameObject whatisdate_yj; // ë‚ ì§œ ì‹œì‘í•  ë•Œ ì–´ë‘ì›Œì§€ëŠ” í™”ë©´(ê²€ì •ìƒ‰)(ì¡°ìƒë‹˜ë“œë˜ê·¸)
+    public TextMeshProUGUI todayiswhat_yj; // ì˜¤ëŠ˜ ë©°ì¹ ì¸ì§€ í…ìŠ¤íŠ¸ ë§¤ì¼ ë°”ë€œ
     /*
-    public GameObject whatistime1_yj; // ÇöÀç ½Ã°£(¿ÀÀü) È­¸é
-    public GameObject whatistime2_yj; // ÇöÀç ½Ã°£(Á¡½É) È­¸é
-    public GameObject whatistime3_yj; // ÇöÀç ½Ã°£(Àú³á) È­¸é
-    // public TextMeshProUGUI mornluneve_yj; //  ÇöÀç ½Ã°£(¿ÀÀü, ¿ÀÈÄ, Àú³á) ÅØ½ºÆ®
+    public GameObject whatistime1_yj; // í˜„ì¬ ì‹œê°„(ì˜¤ì „) í™”ë©´
+    public GameObject whatistime2_yj; // í˜„ì¬ ì‹œê°„(ì ì‹¬) í™”ë©´
+    public GameObject whatistime3_yj; // í˜„ì¬ ì‹œê°„(ì €ë…) í™”ë©´
+    // public TextMeshProUGUI mornluneve_yj; //  í˜„ì¬ ì‹œê°„(ì˜¤ì „, ì˜¤í›„, ì €ë…) í…ìŠ¤íŠ¸
     */
 
     public void Start()
@@ -27,8 +27,8 @@ public class TimeManager : MonoBehaviour
         activityCount = 0;
         Getday();
         GetTimeOfDay();
-        todayiswhat_yj.text = $"{day.ToString()}ÀÏÂ÷ {timeOfDay}";
-        whatisdate_yj.SetActive(true);// ½ÃÀÛÇÒ ¶§ ¸çÄ¥ÀÎÁö ±î¸¸ È­¸é ¶ç¿ö¾ßÇÔ
+        todayiswhat_yj.text = $"{day.ToString()}ì¼ì°¨ {timeOfDay}";
+        whatisdate_yj.SetActive(true);// ì‹œì‘í•  ë•Œ ë©°ì¹ ì¸ì§€ ê¹Œë§Œ í™”ë©´ ë„ì›Œì•¼í•¨
         // Invoke the method to hide the whatisdate_yj panel after 2 seconds
         Invoke("HideWhatIsDatePanel", 2f);
     }
@@ -36,7 +36,7 @@ public class TimeManager : MonoBehaviour
     {
         if (activityCount >= 6)
         {
-            AdvanceDay(); // È°µ¿ ¼ö°¡ 3°³ ÀÌ»óÀÌ¸é ´ÙÀ½ ³¯·Î ³Ñ¾î°¨
+            AdvanceDay(); // í™œë™ ìˆ˜ê°€ 3ê°œ ì´ìƒì´ë©´ ë‹¤ìŒ ë‚ ë¡œ ë„˜ì–´ê°
         }
     }
 
@@ -45,19 +45,19 @@ public class TimeManager : MonoBehaviour
         activityCount++;
         if (activityCount == 0)
         {
-            timeOfDay = "¾ÆÄ§"; 
+            timeOfDay = "ì•„ì¹¨"; 
         }
         else if (activityCount > 0 && activityCount <= 2)
         {
-            timeOfDay = "Á¡½É"; 
+            timeOfDay = "ì ì‹¬"; 
         }
         else if (activityCount > 2 && activityCount <= 4)
         {
-            timeOfDay = "Àú³á"; 
+            timeOfDay = "ì €ë…"; 
         }
         else if (activityCount > 4 && activityCount <= 6)
         {
-            timeOfDay = "¾ÆÄ§ "; 
+            timeOfDay = "ì•„ì¹¨ "; 
         }
     }
 
@@ -65,7 +65,7 @@ public class TimeManager : MonoBehaviour
     {
         Getday();
         GetTimeOfDay();
-        todayiswhat_yj.text = $"{day.ToString()}ÀÏÂ÷ {timeOfDay}";
+        todayiswhat_yj.text = $"{day.ToString()}ì¼ì°¨ {timeOfDay}";
         talkwithjjang.choiceUI1_yj.SetActive(false);
         talkwithjjang.choiceUI2_yj.SetActive(false);
         talkwithjjang.choiceUI3_yj.SetActive(false);
@@ -86,19 +86,19 @@ public class TimeManager : MonoBehaviour
         day++;
         if (day > 15)
         {
-            day = 1; // 15ÀÏ ÀÌÈÄ¿¡´Â ´Ù½Ã 1ÀÏ·Î µ¹¾Æ°¨(ÀÓ½Ã)
-            SceneManager.LoadScene("FailEndingScene"); // ³ªÁß¿¡´Â ¿£µù¾ÀÀ¸·Î ¿¬°áµÇ°Ô ÄÚµå Ãß°¡
+            day = 1; // 15ì¼ ì´í›„ì—ëŠ” ë‹¤ì‹œ 1ì¼ë¡œ ëŒì•„ê°(ì„ì‹œ)
+            SceneManager.LoadScene("FailEndingScene"); // ë‚˜ì¤‘ì—ëŠ” ì—”ë”©ì”¬ìœ¼ë¡œ ì—°ê²°ë˜ê²Œ ì½”ë“œ ì¶”ê°€
         }
         activityCount = 0;
-        timeOfDay = "¾ÆÄ§ "; // »õ·Î¿î ³¯ÀÇ ½ÃÀÛÀº ¾ÆÄ§
-        //  ¿©±â¿¡ ³Ö´Â °Ô ¸Â±ä ÇÑµ¥, ´Ù½Ã Ä§´ë µé¾î°¡¾ß ÇÏ´Ï±î ¾îµğ´Ù À§Ä¡ ¿Å°Ü¾ß ÇÏ³ª
+        timeOfDay = "ì•„ì¹¨ "; // ìƒˆë¡œìš´ ë‚ ì˜ ì‹œì‘ì€ ì•„ì¹¨
+        //  ì—¬ê¸°ì— ë„£ëŠ” ê²Œ ë§ê¸´ í•œë°, ë‹¤ì‹œ ì¹¨ëŒ€ ë“¤ì–´ê°€ì•¼ í•˜ë‹ˆê¹Œ ì–´ë””ë‹¤ ìœ„ì¹˜ ì˜®ê²¨ì•¼ í•˜ë‚˜
        // UpdateDateAndTimeDisplay();
     }
 
 
     public string GetTimeOfDay()
     {
-        return timeOfDay; // ÇöÀç ½Ã°£´ë ¹İÈ¯
+        return timeOfDay; // í˜„ì¬ ì‹œê°„ëŒ€ ë°˜í™˜
     }
     public int Getday()
     {

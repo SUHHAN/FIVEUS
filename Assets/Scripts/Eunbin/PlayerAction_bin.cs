@@ -18,7 +18,7 @@ public class PlayerAction_bin : MonoBehaviour
     bool isHorizonMove_bin;
 
     private static PlayerAction_bin instance;
-    private bool isInputEnabled = true; // ÀÔ·Â È°¼ºÈ­ »óÅÂ¸¦ Á¦¾îÇÏ´Â º¯¼ö
+    private bool isInputEnabled = true; // ì…ë ¥ í™œì„±í™” ìƒíƒœë¥¼ ì œì–´í•˜ëŠ” ë³€ìˆ˜
 
     void Awake()
     {
@@ -37,7 +37,7 @@ public class PlayerAction_bin : MonoBehaviour
 
     void Update()
     {
-        if (!isInputEnabled) return; // ÀÔ·ÂÀÌ ºñÈ°¼ºÈ­µÈ °æ¿ì ¾÷µ¥ÀÌÆ®¸¦ ¸ØÃä´Ï´Ù
+        if (!isInputEnabled) return; // ì…ë ¥ì´ ë¹„í™œì„±í™”ëœ ê²½ìš° ì—…ë°ì´íŠ¸ë¥¼ ë©ˆì¶¥ë‹ˆë‹¤
 
         h_bin = manager_bin.isAction_bin ? 0 : Input.GetAxisRaw("Horizontal");
         v_bin = manager_bin.isAction_bin ? 0 : Input.GetAxisRaw("Vertical");
@@ -78,7 +78,7 @@ public class PlayerAction_bin : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (!isInputEnabled) return; // ÀÔ·ÂÀÌ ºñÈ°¼ºÈ­µÈ °æ¿ì ¾÷µ¥ÀÌÆ®¸¦ ¸ØÃä´Ï´Ù
+        if (!isInputEnabled) return; // ì…ë ¥ì´ ë¹„í™œì„±í™”ëœ ê²½ìš° ì—…ë°ì´íŠ¸ë¥¼ ë©ˆì¶¥ë‹ˆë‹¤
 
         Vector2 moveVec = isHorizonMove_bin ? new Vector2(h_bin, 0) : new Vector2(0, v_bin);
         rigid_bin.velocity = moveVec * Speed_bin;
@@ -221,11 +221,11 @@ public class PlayerAction_bin : MonoBehaviour
 
     private IEnumerator LoadSceneCoroutine(string sceneName, int loadedScene)
     {
-        isInputEnabled = false; // ÀÔ·Â ºñÈ°¼ºÈ­
-        rigid_bin.velocity = Vector2.zero; // ÇÃ·¹ÀÌ¾î ¼Óµµ 0À¸·Î ¼³Á¤
+        isInputEnabled = false; // ì…ë ¥ ë¹„í™œì„±í™”
+        rigid_bin.velocity = Vector2.zero; // í”Œë ˆì´ì–´ ì†ë„ 0ìœ¼ë¡œ ì„¤ì •
         yield return SceneManager.LoadSceneAsync(sceneName);
         LoadedScene = loadedScene;
-        isInputEnabled = true; // ÀÔ·Â È°¼ºÈ­
+        isInputEnabled = true; // ì…ë ¥ í™œì„±í™”
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -337,6 +337,6 @@ public class PlayerAction_bin : MonoBehaviour
         {
             transform.position = new Vector3(-26, 4, 0);
         }
-        Speed_bin = 3; // ÀÌµ¿ ¼Óµµ º¹¿ø
+        Speed_bin = 3; // ì´ë™ ì†ë„ ë³µì›
     }
 }

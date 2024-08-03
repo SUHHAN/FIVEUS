@@ -44,7 +44,7 @@ public class PlayerAction_yj : MonoBehaviour
         else if (hUp_yj || vUp_yj)
                 isHorizonMove_yj = h_yj != 0;
         
-        // ¾Ö´Ï¸ŞÀÌ¼Ç
+        // Ã¦Ã·Â¥Å“âˆï¬Â¿ÃƒÂºÂ«
         if (play_anim_yj.GetInteger("hAxisRaw_yj") != h_yj) {
             play_anim_yj.SetBool("isChange_yj", true);
             play_anim_yj.SetInteger("hAxisRaw_yj",(int)h_yj);
@@ -74,7 +74,7 @@ public class PlayerAction_yj : MonoBehaviour
         }
         else
         {
-            rigid_yj.velocity = Vector2.zero; // ÀÌÁ¦ ¸ØÃß¸é ¸ØÃçÁú°ÅÀÓ
+            rigid_yj.velocity = Vector2.zero; // Â¿ÃƒÂ¡Â¶ âˆÃ¿âˆšï¬‚âˆÃˆ âˆÃ¿âˆšÃÂ¡Ë™âˆâ‰ˆÂ¿â€
         }
     }
 }
