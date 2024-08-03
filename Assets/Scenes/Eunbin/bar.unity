@@ -13185,7 +13185,7 @@ MonoBehaviour:
   player: {fileID: 0}
   isTalking: 0
   npcType: "\uC554\uC0B4\uC790"
-  affection: 25
+  affection: 45
 --- !u!50 &1666396407
 Rigidbody2D:
   serializedVersion: 4

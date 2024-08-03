@@ -1274,7 +1274,7 @@ MonoBehaviour:
   player: {fileID: 1261792004}
   isTalking: 0
   npcType: "\uD790\uB7EC"
-  affection: 15
+  affection: 30
 --- !u!50 &208590406
 Rigidbody2D:
   serializedVersion: 4
@@ -30857,7 +30857,7 @@ MonoBehaviour:
   player: {fileID: 1261792004}
   isTalking: 0
   npcType: "\uAC80\uC0AC"
-  affection: 25
+  affection: 45
 --- !u!50 &1074312530
 Rigidbody2D:
   serializedVersion: 4
