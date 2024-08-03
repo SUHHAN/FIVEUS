@@ -164,7 +164,7 @@ public class UIManager : MonoBehaviour
 
     void ChangeDayLevel(int Day) {
         int DayLevel = Day;
-        DayLevelText.text = $"{Day}일차" + DayLevel.ToString();
+        DayLevelText.text = $"{Day}일차";
     }
 
     public void changeStore() {

@@ -101,12 +101,16 @@ public class TimeManager : MonoBehaviour
         if (day > 15)
         {
             day = 1; // 15일 이후에는 다시 1일로 돌아감(임시)
+            
             SceneManager.LoadScene("FailEndingScene"); // 나중에는 엔딩씬으로 연결되게 코드 추가
         }
+
         activityCount = 0;
         timeOfDay = "아침 "; // 새로운 날의 시작은 아침
         //  여기에 넣는 게 맞긴 한데, 다시 침대 들어가야 하니까 어디다 위치 옮겨야 하나
        // UpdateDateAndTimeDisplay();
+
+
     }
 
 
@@ -126,7 +130,7 @@ public class TimeManager : MonoBehaviour
 
     void SaveData()
     {
-        DataManager.instance.nowPlayer.Player_day = today;
+        DataManager.instance.nowPlayer.Player_day = day;
         DataManager.instance.nowPlayer.Player_howtoday = activityCount;
         DataManager.instance.nowPlayer.isMorning = isMorning;
 
