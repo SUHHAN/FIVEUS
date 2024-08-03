@@ -87,8 +87,6 @@ public class bedin4_yj : MonoBehaviour
         noButton6.onClick.AddListener(OnNo6ButtonClick);
         */
         isbasicdial_yj = false;
-        // playermanager_yj.playerNow.howtoday_py = 0;
-        // playermanager_yj.playerNow.howtrain_py = 0;
         player = GameObject.FindGameObjectWithTag("Player"); // 태그가 "Player"인 오브젝트 찾기
         HideUI(); // 시작할 때 UI 숨기기
     }
@@ -142,7 +140,7 @@ public class bedin4_yj : MonoBehaviour
             dialogueText_yj.text = "아늑한 내 방의 침대다.\n편안히 휴식을 취해 보자. \n[스페이스바를 눌러 휴식을 진행하세요]"; // 침대 특수 대사 출력                                      
             isbasicdial_yj = true; // 기본대사 치고 있는 중
 
-            if (DataManager.instance.nowPlayer.Player_howtoday >= 3)
+            if (DataManager.instance.nowPlayer.Player_howtoday >= 2)
             {
                 // 주인공이 자야만 할 때
                 dialoguename_yj.text = "침대"; // 침대 이름 출력 
@@ -165,7 +163,7 @@ public class bedin4_yj : MonoBehaviour
             isbasicdial_yj = false;
             choiceUI4_yj.SetActive(true);
 
-            if(DataManager.instance.nowPlayer.Player_howtoday >= 3)
+            if(DataManager.instance.nowPlayer.Player_howtoday >= 2)
             {
                 // 선택지 말고 자고있다는 창이 2초동안 뜨도록
                 Dial_changyj.SetActive(false);
@@ -186,7 +184,7 @@ public class bedin4_yj : MonoBehaviour
         // 결과창 업데이트
         resuedit_yj.text = $"기본활동 횟수 : {DataManager.instance.nowPlayer.Player_howtoday} / 3"; // 기본 활동 텍스트 업데이트
 
-        if (DataManager.instance.nowPlayer.Player_howtoday >= 3)
+        if (DataManager.instance.nowPlayer.Player_howtoday >= 2)
         {
             resuedit2_yj.text = "하루치 기본 활동 3개를 모두 완수하셨습니다!\n[주인공 집]의 [침대]로 돌아가 휴식을 취해주세요!";
             resultUI2_yj.SetActive(true);
@@ -197,8 +195,7 @@ public class bedin4_yj : MonoBehaviour
     }
     public void OngobedButtonClick()
     {
-        //SceneManager.LoadScene("main_house"); // 이거 오류 안 나려나? 오류 나면 지워야지.
-
+     
         // 사실 OnNo5ButtonClick()버튼이랑 같은 기능..이미 씬에 있는데 또 이동시키면 오류날까봐 
         resultUI_yj.SetActive(false); // 결과 UI 선택창 비활성화
         resultUI2_yj.SetActive(false); // 결과2 UI 선택창 비활성화
