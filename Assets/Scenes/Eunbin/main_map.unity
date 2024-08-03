@@ -1260,15 +1260,9 @@ MonoBehaviour:
   choiceUI: {fileID: 144412987}
   dialogueUI: {fileID: 1160163558}
   npcAffectionUI: {fileID: 1424474546}
-<<<<<<< Updated upstream
   dialogueText: {fileID: 2116318489}
   affectionText: {fileID: 1700135649}
   npcNameText: {fileID: 1573366019}
-=======
-  dialogueText: {fileID: 0}
-  affectionText: {fileID: 1700135649}
-  npcNameText: {fileID: 0}
->>>>>>> Stashed changes
   talkButton: {fileID: 1289654754}
   persuadeButton: {fileID: 1595236985}
   giftButton: {fileID: 245791320}
@@ -39994,7 +39988,6 @@ PrefabInstance:
       propertyPath: m_fontColor32.rgba
       value: 4278190080
       objectReference: {fileID: 0}
-<<<<<<< Updated upstream
     - target: {fileID: 5785286743113580370, guid: 4413f814da31e0b439b0f936457d25f3, type: 3}
       propertyPath: endCursor
       value: 
@@ -40002,11 +39995,6 @@ PrefabInstance:
     - target: {fileID: 5876351550150144190, guid: 4413f814da31e0b439b0f936457d25f3, type: 3}
       propertyPath: m_Name
       value: Image
-=======
-    - target: {fileID: 5876351550150144190, guid: 4413f814da31e0b439b0f936457d25f3, type: 3}
-      propertyPath: m_Name
-      value: ImageCallis
->>>>>>> Stashed changes
       objectReference: {fileID: 0}
     - target: {fileID: 6479636486231394893, guid: 4413f814da31e0b439b0f936457d25f3, type: 3}
       propertyPath: m_SizeDelta.x
@@ -40047,11 +40035,7 @@ PrefabInstance:
     - target: {fileID: 7737705012858392437, guid: 4413f814da31e0b439b0f936457d25f3, type: 3}
       propertyPath: m_Sprite
       value: 
-<<<<<<< Updated upstream
       objectReference: {fileID: 21300000, guid: 1790382a4e2c3864e8c987f203e03310, type: 3}
-=======
-      objectReference: {fileID: 21300000, guid: 1e93aeee24c905f47b63842aacd2259c, type: 3}
->>>>>>> Stashed changes
     - target: {fileID: 7737705012858392437, guid: 4413f814da31e0b439b0f936457d25f3, type: 3}
       propertyPath: m_Color.b
       value: 1
