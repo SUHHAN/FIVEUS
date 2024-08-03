@@ -140,7 +140,7 @@ public class bedin4_yj : MonoBehaviour
             dialogueText_yj.text = "아늑한 내 방의 침대다.\n편안히 휴식을 취해 보자. \n[스페이스바를 눌러 휴식을 진행하세요]"; // 침대 특수 대사 출력                                      
             isbasicdial_yj = true; // 기본대사 치고 있는 중
 
-            if (DataManager.instance.nowPlayer.Player_howtoday >= 2)
+            if (DataManager.instance.nowPlayer.Player_howtoday >= 2 || DataManager.instance.nowPlayer.Player_howtoday ==0)
             {
                 // 주인공이 자야만 할 때
                 dialoguename_yj.text = "침대"; // 침대 이름 출력 
