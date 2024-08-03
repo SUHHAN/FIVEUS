@@ -18,7 +18,7 @@ public class NpcPersuade : MonoBehaviour
     private string npcType; // NPC 타입 저장
 
     void Start()
-    {
+    {   
         npcScript = GetComponent<NpcScript>(); // NpcScript 스크립트 참조 얻기
         npcType = npcScript.npcType; // Start에서 npcType 초기화
         npcScript = GetComponent<NpcScript>(); // NpcScript 스크립트 참조 얻기
@@ -68,6 +68,7 @@ public class NpcPersuade : MonoBehaviour
 
             Character character = DataManager.instance.nowPlayer.characters.Find(x => x.Type == npcScript.npcType);
             character.Success = success;
+            character.Suc_count = remainingAttempts.ToString();
 
             DataManager.instance.SaveData();
 
