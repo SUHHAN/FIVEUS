@@ -42,11 +42,11 @@ public class NpcScript : MonoBehaviour
         dialogueUI.SetActive(false); // 대화 UI 숨기기
 
         // 버튼 클릭 이벤트 연결
-        talkButton.onClick.AddListener(OnTalkButtonClick);
+        /*talkButton.onClick.AddListener(OnTalkButtonClick);
         persuadeButton.onClick.AddListener(OnPersuadeButtonClick);
         giftButton.onClick.AddListener(OnGiftButtonClick);
         choice1Button.onClick.AddListener(OnChoice1ButtonClick);
-        choice2Button.onClick.AddListener(OnChoice2ButtonClick);
+        choice2Button.onClick.AddListener(OnChoice2ButtonClick);*/
 
         SetChoiceButtonTexts(); // 선택지 텍스트 설정
         SetNpcName(); // NPC 이름 설정

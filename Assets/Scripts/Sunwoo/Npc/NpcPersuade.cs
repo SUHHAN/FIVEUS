@@ -24,8 +24,8 @@ public class NpcPersuade : MonoBehaviour
         npcScript = GetComponent<NpcScript>(); // NpcScript 스크립트 참조 얻기
         persuadeUI.SetActive(false); // 시작할 때 설득 UI 비활성화
         resultUI.SetActive(false); // 시작할 때 결과 UI 비활성화
-        yesButton.onClick.AddListener(OnYesButtonClick); // 예 버튼 클릭 이벤트 연결
-        noButton.onClick.AddListener(OnNoButtonClick); // 아니오 버튼 클릭 이벤트 연결
+        /*yesButton.onClick.AddListener(OnYesButtonClick); // 예 버튼 클릭 이벤트 연결
+        noButton.onClick.AddListener(OnNoButtonClick); // 아니오 버튼 클릭 이벤트 연결*/
     }
 
     public void ShowPersuadeUI()
@@ -48,7 +48,7 @@ public class NpcPersuade : MonoBehaviour
 
     public void AttemptPersuasion()
     {
-        remainingAttempts -= 0.5; // 시도 후 남은 기회 1 감소
+        remainingAttempts -= 1; // 시도 후 남은 기회 1 감소
         if (remainingAttempts >= 0)
         {
             double successChance = GetSuccessChance(npcScript.affection); // 성공 확률을 계산하는 메서드 호출
