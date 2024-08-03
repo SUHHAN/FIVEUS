@@ -21,6 +21,10 @@ public class NpcPersuade : MonoBehaviour
     {   
         npcScript = GetComponent<NpcScript>(); // NpcScript 스크립트 참조 얻기
         npcType = npcScript.npcType; // Start에서 npcType 초기화
+
+        Character temp = DataManager.instance.nowPlayer.characters.Find(x => x.Type == npcType);
+        remainingAttempts = double.Parse(temp.Suc_count);
+        
         npcScript = GetComponent<NpcScript>(); // NpcScript 스크립트 참조 얻기
         persuadeUI.SetActive(false); // 시작할 때 설득 UI 비활성화
         resultUI.SetActive(false); // 시작할 때 결과 UI 비활성화
