@@ -280,9 +280,11 @@ public class ItemManager : MonoBehaviour
 
     // 플레이어 장비 스왑 시 능력치 상승
     public void ItemSwap_inv(Item item) {
+
+        Character hero = DataManager.instance.nowPlayer.characters.Find(x => x.Id == "0");
         
         if (item.Name == "장검") {
-
+            //hero.
         }
         else if (item.Name == "활") {
             

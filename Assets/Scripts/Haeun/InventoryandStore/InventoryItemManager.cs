@@ -407,6 +407,7 @@ public class InventoryItemManager : MonoBehaviour
     // 장착하기
     public void onWearButtonClick(Item item) {
         ItemManager.instance.WearItem_inv(item);
+        
         SaveItem();
         LoadItem();
 
