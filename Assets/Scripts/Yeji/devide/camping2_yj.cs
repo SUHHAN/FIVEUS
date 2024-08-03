@@ -214,9 +214,12 @@ public class camping2_yj : MonoBehaviour
 
         SaveData();
 
+<<<<<<< Updated upstream
 // 인벤토리에 힌트 랜덤 추가
         ItemManager.instance.GetHint_inv();
         
+=======
+>>>>>>> Stashed changes
         SceneManager.LoadScene("InventoryMain"); // 인벤토리 씬으로 이동
         // 찾은 단서 개수를 한 개 늘림. 이건 인벤토리랑 연관 후에 생각해야 할듯
     }
