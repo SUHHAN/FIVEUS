@@ -1373,6 +1373,11 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &234236276 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3433164337862000459, guid: 4413f814da31e0b439b0f936457d25f3, type: 3}
+  m_PrefabInstance: {fileID: 1798492024}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &255281606
 GameObject:
   m_ObjectHideFlags: 0
@@ -14659,6 +14664,10 @@ PrefabInstance:
       propertyPath: m_fontColor32.rgba
       value: 4278190080
       objectReference: {fileID: 0}
+    - target: {fileID: 5785286743113580370, guid: 4413f814da31e0b439b0f936457d25f3, type: 3}
+      propertyPath: endCursor
+      value: 
+      objectReference: {fileID: 234236276}
     - target: {fileID: 6479636486231394893, guid: 4413f814da31e0b439b0f936457d25f3, type: 3}
       propertyPath: m_SizeDelta.x
       value: 300
