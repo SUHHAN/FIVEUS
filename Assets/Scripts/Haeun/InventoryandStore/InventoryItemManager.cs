@@ -351,34 +351,39 @@ public class InventoryItemManager : MonoBehaviour
     public void onGiftButtonClick(string giftName) {
         npcName = PlayerPrefs.GetString("NpcType");
 
-        ItemManager.instance.Gift_inv(npcName, giftName);
-
-        // 호감 대상의 호감도와 올릴 수치를 팝업으로 표현
+        int response = ItemManager.instance.Gift_inv(npcName, giftName);
+        if(response == 3) 
+            Debug.Log("제대로 값이 넘어오고 있지 않습니다.");
+        
         TextMeshProUGUI textComponent = GiftGoodPopup.GetComponentInChildren<TextMeshProUGUI>();
+        if (textComponent != null)
+        {
+            // 주인공을 제외한 나머지 호감도 캐릭터에 대한 처리
+            Character character_ = DataManager.instance.nowPlayer.characters.Find(x => x.Type == npcName && x.Id != "0");
+
+            if (response == 0)
+                textComponent.text = $"{character_.Name}의 호감도가 5 올라갔습니다.";
+            else if (response == 1)
+                textComponent.text = $"{character_.Name}의 호감도가 그대로 유지되었습니다.";
+            else 
+                textComponent.text = $"{character_.Name}의 호감도가 5 내려갔습니다.";
+        }
+        else
+        {
+            Debug.LogError("TextMeshProUGUI component not found in GiftGoodPopup.");
+        }
+
         GiftGoodPopup.gameObject.SetActive(true);
 
-        int response = GiftManager.GetGiftResponse(npcName, giftName);
-
-
-        Character character_ = DataManager.instance.nowPlayer.characters.Find(x => x.Type == npcName);
-
-        if(response == 0)
-            textComponent.text = $"{character_.Name}의 호감도가 5 올라갔습니다.";
-        else if(response == 1)
-            textComponent.text = $"{character_.Name}의 호감도가 그대로 유지되었습니다.";
-        else 
-            textComponent.text = $"{character_.Name}의 호감도가 5 내려갔습니다.";   
-
-
+        OkButton.onClick.RemoveAllListeners();
         OkButton.onClick.AddListener(() => {
-            //GiftGoodPopup.SetActive(false); 
+            GiftGoodPopup.gameObject.SetActive(false);
 
             PlayerPrefs.DeleteKey("NpcType");
             PlayerPrefs.Save();
 
             LoadItem();
             SceneManager.LoadScene("main_map");
-
         });
 
         
