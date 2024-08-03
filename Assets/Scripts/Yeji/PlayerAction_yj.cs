@@ -14,11 +14,11 @@ public class PlayerAction_yj : MonoBehaviour
     float v_yj;
     bool isHorizonMove_yj;
 
-    public FixedJoystick joystick; // sw√ﬂ∞°. ¡∂¿ÃΩ∫∆Ω
+    public FixedJoystick joystick; // swÏ∂îÍ∞Ä. Ï°∞Ïù¥Ïä§Ìã±
 
     void Awake()
     {
-        // √ ±‚»≠
+        // Ï¥àÍ∏∞Ìôî
         rigid_yj = GetComponent<Rigidbody2D>();
         play_anim_yj = GetComponent<Animator>();
     }
@@ -30,11 +30,11 @@ public class PlayerAction_yj : MonoBehaviour
 
     void Update()
     {
-        // sw √ﬂ∞°. ¡∂¿ÃΩ∫∆Ω ¿‘∑¬ πﬁ±‚
+        // sw Ï∂îÍ∞Ä. Ï°∞Ïù¥Ïä§Ìã± ÏûÖÎ†• Î∞õÍ∏∞
         h_yj = isAction_yj ? 0 : joystick.Horizontal;
         v_yj = isAction_yj ? 0 : joystick.Vertical;
 
-        // sw √ﬂ∞°. ¿‘∑¬∞™¿Ã ∆Ø¡§ ±‚¡ÿ ¿ÃªÛ¿Œ¡ˆ »Æ¿Œ
+        // sw Ï∂îÍ∞Ä. ÏûÖÎ†•Í∞íÏù¥ ÌäπÏ†ï Í∏∞Ï§Ä Ïù¥ÏÉÅÏù∏ÏßÄ ÌôïÏù∏
         bool hDown_yj = isAction_yj ? false : Mathf.Abs(joystick.Horizontal) > 0.1f;
         bool vDown_yj = isAction_yj ? false : Mathf.Abs(joystick.Vertical) > 0.1f;
         bool hUp_yj = isAction_yj ? false : Mathf.Abs(joystick.Horizontal) <= 0.1f;
@@ -47,7 +47,7 @@ public class PlayerAction_yj : MonoBehaviour
         else if (hUp_yj || vUp_yj)
             isHorizonMove_yj = h_yj != 0;
 
-        // æ÷¥œ∏ﬁ¿Ãº«
+        // Ïï†ÎãàÎ©îÏù¥ÏÖò
         if (play_anim_yj.GetInteger("hAxisRaw_yj") != h_yj)
         {
             play_anim_yj.SetBool("isChange_yj", true);
@@ -61,20 +61,20 @@ public class PlayerAction_yj : MonoBehaviour
         else
             play_anim_yj.SetBool("isChange_yj", false);
 
-        dirVec_yj = new Vector3(h_yj, v_yj).normalized; // sw√ﬂ∞°. ¥Î∞¢º± ¿Ãµøµµ ∞°¥…
+        dirVec_yj = new Vector3(h_yj, v_yj).normalized; // swÏ∂îÍ∞Ä. ÎåÄÍ∞ÅÏÑ† Ïù¥ÎèôÎèÑ Í∞ÄÎä•
     }
 
-    // π∞∏Æ ø¨ªÍ æ˜µ•¿Ã∆Æ
+    // Î¨ºÎ¶¨ Ïó∞ÏÇ∞ ÏóÖÎç∞Ïù¥Ìä∏
     void FixedUpdate()
     {
-        // ¿Ãµø √≥∏Æ
+        // Ïù¥Îèô Ï≤òÎ¶¨
         if (dirVec_yj != Vector3.zero)
         {
-            rigid_yj.velocity = dirVec_yj * Speed_yj; // πÊ«‚ ∫§≈ÕøÕ º”µµ∏¶ ∞ˆ«œø© º”µµ º≥¡§
+            rigid_yj.velocity = dirVec_yj * Speed_yj; // Î∞©Ìñ• Î≤°ÌÑ∞ÏôÄ ÏÜçÎèÑÎ•º Í≥±ÌïòÏó¨ ÏÜçÎèÑ ÏÑ§Ï†ï
         }
         else
         {
-            rigid_yj.velocity = Vector2.zero; // ¡§¡ˆ
+            rigid_yj.velocity = Vector2.zero; // Ï†ïÏßÄ
         }
     }
 }
