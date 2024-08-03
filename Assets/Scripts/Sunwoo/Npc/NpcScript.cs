@@ -32,6 +32,8 @@ public class NpcScript : MonoBehaviour
     private List<string> choice1Dialogues = new List<string>(); // 초이스 1 대사 목록
     private int choice1DialogueIndex = 0; // 초이스 1 대사 인덱스
 
+    private TimeManager timeManager; // TimeManager 참조
+
     void Start()
     {
         // 플레이어 오브젝트를 태그로 찾기
@@ -48,6 +50,12 @@ public class NpcScript : MonoBehaviour
 
         SetChoiceButtonTexts(); // 선택지 텍스트 설정
         SetNpcName(); // NPC 이름 설정
+
+        // TimeManager 스크립트 참조 얻기
+        timeManager = FindObjectOfType<TimeManager>();
+
+        // 초기 위치 업데이트
+        UpdatePosition(timeManager.GetTimeOfDay(), timeManager.activityCount);
     }
 
     void SetChoiceButtonTexts()
@@ -292,13 +300,13 @@ public class NpcScript : MonoBehaviour
                     "보아하니 당신도 용병 같은데... 이 마을에 속한 용병인가?",
                     "나도 이 마을에 좋은 의뢰가 잘 들어온다길래 잠시 이곳에 머무르고 있어",
                     "앞으로 잘 지내보자고!"
-                }, 2.5);
+                }, 5);
                 break;
             case "궁수":
                 SetChoice1Dialogues(new List<string>
                 {
                     "으... 뭐래."
-                }, -5);
+                }, -10);
                 break;
             case "탱커":
                 SetChoice1Dialogues(new List<string>
@@ -306,7 +314,7 @@ public class NpcScript : MonoBehaviour
                     "아.안녕하시오.",
                     "...그렇군. 날씨가 좋은 줄도 모르고 지나갈 뻔 했소.",
                     "다정한 인사를 건네줘서 고맙네. 청년."
-                }, 2.5);
+                }, 5);
                 break;
             case "마법사":
                 SetChoice1Dialogues(new List<string>
@@ -315,14 +323,14 @@ public class NpcScript : MonoBehaviour
                     "저도 그렇게 생각해요! 마법은 참 위대하죠!",
                     "그리고 그 위대한 마법의 발전을 위해 다양한 연구와 실험은 불가피해요.",
                     "그렇지 않나요?"
-                }, 2.5);
+                }, 5);
                 break;
             case "힐러":
                 SetChoice1Dialogues(new List<string>
                 {
                     "음.. 신을 믿지 않으시나요?",
                     "그렇다면 참 아쉽네요.."
-                }, -2.5);
+                }, 5);
                 break;
             case "암살자":
                 SetChoice1Dialogues(new List<string>
@@ -330,7 +338,7 @@ public class NpcScript : MonoBehaviour
                     "네! 어떻게 알았지~?",
                     "뭔가 재밌는 일이 생겼으면 좋겠어요~",
                     "당신은 좀 재밌어 보이긴 하네요!"
-                }, 2.5);
+                }, 5);
                 break;
         }
 
@@ -350,7 +358,7 @@ public class NpcScript : MonoBehaviour
         {
             case "검사":
                 SetDialogueText("...그럼 왜 말을 건 거지?");
-                ChangeAffection(-2.5);
+                ChangeAffection(-5);
                 break;
             case "궁수":
                 SetChoice1Dialogues(new List<string>
@@ -359,7 +367,7 @@ public class NpcScript : MonoBehaviour
                     "음... 당신 용병이구나.",
                     "...활은 집중력이 중요하지.",
                     "가르쳐주는 건 모르겠지만 가끔 봐줄 순 있어."
-                }, 2.5);
+                }, 5);
                 break;
             case "탱커":
                 SetChoice1Dialogues(new List<string>
@@ -367,7 +375,7 @@ public class NpcScript : MonoBehaviour
                     "...날 알고 있는가?",
                     "미안하지만 탱커 역할을 기대하고 온 거라면 돌아가게.",
                     "나는 다른 사람과 함께 일하지 않아."
-                }, -2.5);
+                }, -5);
                 break;
             case "마법사":
                 SetChoice1Dialogues(new List<string>
@@ -375,7 +383,7 @@ public class NpcScript : MonoBehaviour
                     "아 네. 그렇네요.",
                     "...",
                     "뭐... 더 하실 말씀이라도?"
-                }, -2.5);
+                }, -5);
                 break;
             case "힐러":
                 SetChoice1Dialogues(new List<string>
@@ -383,14 +391,14 @@ public class NpcScript : MonoBehaviour
                     "하하하. 오랜만에 듣는 칭호네요.",
                     "비록 지금은 사제가 아니지만...",
                     "그래도 여전히 신을 섬기고 있답니다~"
-                }, 2.5);
+                }, 5);
                 break;
             case "암살자":
                 SetChoice1Dialogues(new List<string>
                 {
                     "랄랄라~",
                     "(계속해서 노래를 흥얼거린다)"
-                }, -2.5);
+                }, -5);
                 break;
         }
 
@@ -442,7 +450,7 @@ public class NpcScript : MonoBehaviour
         affectionText.text = $"호감도: {affection}";
     }
 
-    public void UpdatePosition(string timeOfDay)
+    public void UpdatePosition(string timeOfDay, int activityCount)
     {
         // 시간대에 따라 NPC 위치 업데이트
         Vector3 newPosition = Vector3.zero;
@@ -452,28 +460,63 @@ public class NpcScript : MonoBehaviour
         switch (npcType)
         {
             case "검사":
-                (newPosition, shouldBeActive) = GetPositionAndState(timeOfDay, currentScene, "main_map", new Vector3(-6, -0.5f, 0), "hotel", new Vector3(-2, 0, 0));
+                if (activityCount == 0 || activityCount == 1)
+                {
+                    newPosition = new Vector3(-6, -0.5f, 0); // main_map에서의 위치
+                    shouldBeActive = currentScene == "main_map";
+                }
+                else if (activityCount == 2)
+                {
+                    newPosition = new Vector3(-2, 0, 0); // hotel에서의 위치
+                    shouldBeActive = currentScene == "hotel";
+                }
                 break;
 
             case "힐러":
-                (newPosition, shouldBeActive) = GetPositionAndState(timeOfDay, currentScene, "main_map", new Vector3(14.68f, 7.29f, 0), "hotel_hall", new Vector3(2, 0.85f, 0));
+                if (activityCount == 0 || activityCount == 1)
+                {
+                    newPosition = new Vector3(14.68f, 7.29f, 0); // main_map에서의 위치
+                    shouldBeActive = currentScene == "main_map";
+                }
+                else if (activityCount == 2)
+                {
+                    newPosition = new Vector3(2, 0.85f, 0); // hotel_hall에서의 위치
+                    shouldBeActive = currentScene == "hotel_hall";
+                }
                 break;
 
             case "탱커":
-                (newPosition, shouldBeActive) = GetPositionAndState(timeOfDay, currentScene, "training", new Vector3(-4, 3.36f, 0), "hotel_room1", new Vector3(0.4f, 3.5f, 0));
+                if (activityCount == 0 || activityCount == 1)
+                {
+                    newPosition = new Vector3(-4, 3.36f, 0); // training에서의 위치
+                    shouldBeActive = currentScene == "training";
+                }
+                else if (activityCount == 2)
+                {
+                    newPosition = new Vector3(0.4f, 3.5f, 0); // hotel_room1에서의 위치
+                    shouldBeActive = currentScene == "hotel_room1";
+                }
                 break;
 
             case "마법사":
-                newPosition = new Vector3(1.73f, 0.63f, 0);
+                newPosition = new Vector3(1.73f, 0.63f, 0); // magic_house에서의 위치
                 shouldBeActive = currentScene == "magic_house";
                 break;
 
             case "암살자":
-                (newPosition, shouldBeActive) = GetPositionAndState(timeOfDay, currentScene, "bar", new Vector3(-2.23f, -0.59f, 0));
+                if (activityCount == 2)
+                {
+                    newPosition = new Vector3(-2.23f, -0.59f, 0); // bar에서의 위치
+                    shouldBeActive = currentScene == "bar";
+                }
                 break;
 
             case "궁수":
-                (newPosition, shouldBeActive) = GetPositionAndState(timeOfDay, currentScene, "training", new Vector3(4.2f, -1.74f, 0));
+                if (activityCount == 2)
+                {
+                    newPosition = new Vector3(4.2f, -1.74f, 0); // training에서의 위치
+                    shouldBeActive = currentScene == "training";
+                }
                 break;
         }
 

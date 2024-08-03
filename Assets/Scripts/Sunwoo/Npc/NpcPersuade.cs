@@ -15,9 +15,12 @@ public class NpcPersuade : MonoBehaviour
     private double remainingAttempts = 3; // 남은 설득 시도 횟수
     public bool success = false; // 설득 성공 여부
     private NpcScript npcScript; // NpcScript 스크립트 참조
+    private string npcType; // NPC 타입 저장
 
     void Start()
     {   
+        npcScript = GetComponent<NpcScript>(); // NpcScript 스크립트 참조 얻기
+        npcType = npcScript.npcType; // Start에서 npcType 초기화
         npcScript = GetComponent<NpcScript>(); // NpcScript 스크립트 참조 얻기
         persuadeUI.SetActive(false); // 시작할 때 설득 UI 비활성화
         resultUI.SetActive(false); // 시작할 때 결과 UI 비활성화
@@ -48,7 +51,7 @@ public class NpcPersuade : MonoBehaviour
         remainingAttempts -= 0.5; // 시도 후 남은 기회 1 감소
         if (remainingAttempts >= 0)
         {
-            double successChance = npcScript.affection; // NpcScript의 affection을 성공 확률로 사용
+            double successChance = GetSuccessChance(npcScript.affection); // 성공 확률을 계산하는 메서드 호출
             double randomValue = Random.Range(0, 100); // 0에서 100 사이의 랜덤 값 생성
 
             if (randomValue < successChance)
@@ -80,6 +83,40 @@ public class NpcPersuade : MonoBehaviour
             resultUI.SetActive(true); // 결과 UI 표시
             StartCoroutine(HideResultUIAfterDelay(3f)); // 3초 뒤 결과 UI 숨기기
         }
+    }
+
+    // 호감도에 따른 성공 확률을 반환하는 메서드
+    private double GetSuccessChance(double affection)
+    {
+        if (affection < 50)
+        {
+            return 0;
+        }
+        else if (affection >= 50 && affection < 60)
+        {
+            return 25;
+        }
+        else if (affection >= 60 && affection < 70)
+        {
+            return 40;
+        }
+        else if (affection >= 70 && affection < 80)
+        {
+            return 55;
+        }
+        else if (affection >= 80 && affection < 90)
+        {
+            return 70;
+        }
+        else if (affection >= 90 && affection < 100)
+        {
+            return 85;
+        }
+        else if (affection >= 100)
+        {
+            return 100;
+        }
+        return 0;
     }
 
     private IEnumerator HideResultUIAfterDelay(float delay)
