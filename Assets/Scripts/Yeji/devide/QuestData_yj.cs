@@ -9,7 +9,7 @@ using System.Xml.Serialization;
 
 // 의뢰 + 단서
 // 기본활동 5번째 의뢰 구현(5인데 5가 있으니까 7번으로 설정)
-public class QuestData_yj :MonoBehaviour
+public class QuestData_yj : MonoBehaviour
 {
     // random gold 
     private bool isbasicdial_yj = false; // 대사 치고 있는지 여부
@@ -48,7 +48,7 @@ public class QuestData_yj :MonoBehaviour
     public TimeManager timemanager_yj; // 날짜 관리 + 기본활동 덧뺄셈용
 
     private int questmoneyy_yj;// (여기서만 사용됨) : 의뢰 가격
-    
+
     private static QuestData_yj _instance;
 
     public static QuestData_yj Instance
@@ -94,9 +94,7 @@ public class QuestData_yj :MonoBehaviour
         noButton7.onClick.AddListener(OnNo7ButtonClick);
 
         isbasicdial_yj = false;
-        playermanager_yj.playerNow.howtoday_py = 0;
-        playermanager_yj.playerNow.howtrain_py = 0;
-        questmoneyy_yj =0;
+        questmoneyy_yj = 0;
         player = GameObject.FindGameObjectWithTag("Player"); // 태그가 "Player"인 오브젝트 찾기
         HideUI(); // 시작할 때 UI 숨기기
     }
@@ -104,7 +102,7 @@ public class QuestData_yj :MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
         CheckNPCInteraction();
         HandleUserInput();
         //timeManager_yj.UpdateDateAndTimeDisplay(); 
@@ -118,13 +116,9 @@ public class QuestData_yj :MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                //QuestMomey_yj();
-                //Debug.Log("space");
                 if (isbasicdial_yj)
                 {
-                   //Debug.Log("HandleNPCchoice");
                     HandleNPCchoice_yj(currentNPC);
-
                 }
 
             }
@@ -136,7 +130,7 @@ public class QuestData_yj :MonoBehaviour
         if (npc3_yj != null)
         {
             float distanceNPC3 = Vector3.Distance(player.transform.position, npc3_yj.transform.position);
-            
+
             if (distanceNPC3 <= interactionRange)
             {
                 currentNPC = npc3_yj;
@@ -215,7 +209,7 @@ public class QuestData_yj :MonoBehaviour
         Debug.Log("단서 클릭");
         choiceUI3_yj.SetActive(false);
         timemanager_yj.CompleteActivity(); // 하루 기본 활동 수행 횟수 1 증가
-        resuedit_yj.text = $"기본활동 횟수 : {timemanager_yj.activityCount / 2} / 3";
+        resuedit_yj.text = $"기본활동 횟수 : {timemanager_yj.activityCount} / 3";
         if (timemanager_yj.activityCount >= 5)
         {
             resuedit2_yj.text = "하루치 기본 활동 3개를 모두 완수하셨습니다!\n[주인공 집]의 [침대]로 돌아가 휴식을 취해주세요!";
@@ -224,7 +218,7 @@ public class QuestData_yj :MonoBehaviour
 
         resultUI_yj.SetActive(true);
         Invoke("HideResultPanel()", 2f);
-
+        SaveData();
         // 인벤토리에 힌트 랜덤 추가
         ItemManager.instance.GetHint_inv();
 
@@ -239,13 +233,13 @@ public class QuestData_yj :MonoBehaviour
         choiceUI7_yj.SetActive(false); // 선택 UI 비활성화
 
         // 변수 계산
-        
+
         playermanager_yj.DecreaseHealth(20);// 하루 체력 20 감소
         playermanager_yj.IncreaseMoney(questmoneyy_yj);// 재화 증가
         timemanager_yj.CompleteActivity(); // 하루 기본 활동 수행 횟수 1 증가
 
         // 결과창 업데이트
-        resuedit_yj.text = $"기본활동 횟수 : {timemanager_yj.activityCount / 2} / 3\n총 골드 : {playermanager_yj.playerNow.money_py} G"; // 기본 활동 텍스트 업데이트
+        resuedit_yj.text = $"기본활동 횟수 : {DataManager.instance.nowPlayer.Player_howtoday} / 3\n총 골드 : {playermanager_yj.playerNow.money_py} G"; // 기본 활동 텍스트 업데이트
 
         if (timemanager_yj.activityCount >= 5)
         {
@@ -254,6 +248,7 @@ public class QuestData_yj :MonoBehaviour
         }
 
         resultUI_yj.SetActive(true);
+        SaveData();
     }
 
     public void OngobedButtonClick()
@@ -288,5 +283,18 @@ public class QuestData_yj :MonoBehaviour
     void HideResultPanel()
     {
         resultUI_yj.SetActive(false);
+    }
+    void SaveData()
+    {
+        DataManager.instance.nowPlayer.Player_hp = playermanager_yj.playerNow.hp_py;
+        DataManager.instance.nowPlayer.Player_tired = playermanager_yj.playerNow.tired_py;
+        DataManager.instance.nowPlayer.Player_money = playermanager_yj.playerNow.money_py;
+        DataManager.instance.nowPlayer.Player_hint = playermanager_yj.playerNow.hint_py;
+        DataManager.instance.nowPlayer.Player_team = playermanager_yj.playerNow.team_py;
+        DataManager.instance.nowPlayer.Player_day = playermanager_yj.playerNow.day_py;
+        DataManager.instance.nowPlayer.Player_howtoday = playermanager_yj.playerNow.howtoday_py;
+        DataManager.instance.nowPlayer.Player_howtrain = playermanager_yj.playerNow.howtrain_py;
+
+        DataManager.instance.SaveData();
     }
 }
