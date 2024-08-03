@@ -211,7 +211,7 @@ GameObject:
   - component: {fileID: 83465609}
   - component: {fileID: 83465608}
   m_Layer: 5
-  m_Name: "\uC9C8\uBB383"
+  m_Name: Q3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1146,7 +1146,7 @@ GameObject:
   - component: {fileID: 541816233}
   - component: {fileID: 541816232}
   m_Layer: 5
-  m_Name: "\uC9C8\uBB381"
+  m_Name: Q1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4192,7 +4192,7 @@ GameObject:
   - component: {fileID: 1152117732}
   - component: {fileID: 1152117731}
   m_Layer: 5
-  m_Name: "\uD3B8\uC9D1\uC6A9"
+  m_Name: ForEdit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6874,7 +6874,7 @@ GameObject:
   - component: {fileID: 1820602856}
   - component: {fileID: 1820602855}
   m_Layer: 5
-  m_Name: "\uC9C8\uBB382"
+  m_Name: Q2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7008,7 +7008,7 @@ GameObject:
   - component: {fileID: 1830401917}
   - component: {fileID: 1830401916}
   m_Layer: 5
-  m_Name: "\uC9C8\uBB384"
+  m_Name: Q4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7140,7 +7140,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1831667518}
   m_Layer: 0
-  m_Name: "\uB05D\uB0A0 \uB54C\uB9CC \uB098\uC634"
+  m_Name: Result2UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7403,7 +7403,7 @@ GameObject:
   - component: {fileID: 1912179363}
   - component: {fileID: 1912179362}
   m_Layer: 5
-  m_Name: "\uC9D1\uC5D0\uAC00\uB77C\uACE0"
+  m_Name: edittext2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7747,7 +7747,7 @@ GameObject:
   - component: {fileID: 1989400934}
   - component: {fileID: 1989400933}
   m_Layer: 0
-  m_Name: "\uB0A0\uC9DC \uD45C\uC2DC"
+  m_Name: TimeManager_yj
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

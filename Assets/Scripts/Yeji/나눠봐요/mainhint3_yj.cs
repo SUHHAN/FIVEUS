@@ -20,7 +20,7 @@ public class mainhint3_yj : MonoBehaviour
     public TextMeshProUGUI dialogueText_yj; // line text
     public float interactionRange = 3f; // 상호작용 거리
 
-    public GameObject player; // 플레이어 오브젝트
+    private GameObject player; // 플레이어 오브젝트
     private GameObject currentNPC; // 현재 상호작용하는 NPC 저장 변수
 
     public GameObject npc3_yj; // 힌트
