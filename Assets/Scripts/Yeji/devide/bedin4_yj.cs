@@ -175,7 +175,7 @@ public class bedin4_yj : MonoBehaviour
     {
         choiceUI4_yj.SetActive(false);
         resultUI_yj.SetActive(true);
-
+        // 피로도 또는 체력 수정
         timemanager_yj.CompleteActivity();// 하루 기본 활동 수행 횟수 1 증가
 
         // 결과창 업데이트

@@ -54,6 +54,7 @@ public class PlayerData
     public int Player_howtoday = 0;            // 기본 활동 일차 데이터 변수
     public int Player_howtrain = 0;            // 기본 활동 훈련 변수 데이터 변수
     public bool isPlayed = false;
+    public bool isMorning = false;  // 한번이라도 일차 떴으면
 
     // 캐릭터 관련
     public List<Character> characters = new List<Character>();

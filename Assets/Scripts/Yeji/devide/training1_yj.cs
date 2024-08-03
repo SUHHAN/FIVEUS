@@ -185,6 +185,8 @@ public class training1_yj : MonoBehaviour
         playermanager_yj.IncreaseTrainingCount();// 하루 훈련 활동 횟수 1 증가
         playermanager_yj.IncreaseTiredness(30);// 피로도 10 증가
         timemanager_yj.CompleteActivity(); // 하루 기본 활동 수행 횟수 1 증가
+
+
         resuedit_yj.text = $"기본활동 횟수 : {timemanager_yj.activityCount / 2} / 3"; // 기본 활동 텍스트 업데이트
 
 
@@ -195,6 +197,9 @@ public class training1_yj : MonoBehaviour
         }
 
         resultUI_yj.SetActive(true);
+
+        SaveData();
+
     }
     // 기본활동3 : 단서 보겠다 했을 때
     public void OnhintButtonClick()
@@ -210,6 +215,8 @@ public class training1_yj : MonoBehaviour
 
         resultUI_yj.SetActive(true);
         Invoke("HideResultPanel()", 2f);
+
+        SaveData();
 
         SceneManager.LoadScene("InventoryMain"); // 인벤토리 씬으로 이동
         // 찾은 단서 개수를 한 개 늘림. 이건 인벤토리랑 연관 후에 생각해야 할듯
@@ -246,5 +253,20 @@ public class training1_yj : MonoBehaviour
     void HideResultPanel()
     {
         resultUI_yj.SetActive(false);
+    }
+
+
+    void SaveData()
+    {
+        DataManager.instance.nowPlayer.Player_hp = playermanager_yj.playerNow.hp_py;
+        DataManager.instance.nowPlayer.Player_tired = playermanager_yj.playerNow.tired_py;
+        DataManager.instance.nowPlayer.Player_money = playermanager_yj.playerNow.money_py;
+        DataManager.instance.nowPlayer.Player_hint = playermanager_yj.playerNow.hint_py;
+        DataManager.instance.nowPlayer.Player_team = playermanager_yj.playerNow.team_py;
+        DataManager.instance.nowPlayer.Player_day = playermanager_yj.playerNow.day_py;
+        DataManager.instance.nowPlayer.Player_howtoday = playermanager_yj.playerNow.howtoday_py;
+        DataManager.instance.nowPlayer.Player_howtrain = playermanager_yj.playerNow.howtrain_py;
+
+        DataManager.instance.SaveData();
     }
 }
