@@ -369,8 +369,9 @@ public class InventoryItemManager : MonoBehaviour
         else 
             textComponent.text = $"{character_.Name}의 호감도가 5 내려갔습니다.";   
 
+
         OkButton.onClick.AddListener(() => {
-            GiftGoodPopup.gameObject.SetActive(false); 
+            //GiftGoodPopup.SetActive(false); 
 
             PlayerPrefs.DeleteKey("NpcType");
             PlayerPrefs.Save();
