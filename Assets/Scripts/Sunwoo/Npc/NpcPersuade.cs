@@ -15,9 +15,12 @@ public class NpcPersuade : MonoBehaviour
     private double remainingAttempts = 3; // 남은 설득 시도 횟수
     public bool success = false; // 설득 성공 여부
     private NpcScript npcScript; // NpcScript 스크립트 참조
+    private string npcType; // NPC 타입 저장
 
     void Start()
     {
+        npcScript = GetComponent<NpcScript>(); // NpcScript 스크립트 참조 얻기
+        npcType = npcScript.npcType; // Start에서 npcType 초기화
         npcScript = GetComponent<NpcScript>(); // NpcScript 스크립트 참조 얻기
         persuadeUI.SetActive(false); // 시작할 때 설득 UI 비활성화
         resultUI.SetActive(false); // 시작할 때 결과 UI 비활성화
