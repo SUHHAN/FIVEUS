@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PlayerAction_yj : MonoBehaviour
 {
-    // Start is called before the first frame update
     public float Speed_yj;
     public bool isAction_yj;
     Rigidbody2D rigid_yj;
@@ -15,67 +14,67 @@ public class PlayerAction_yj : MonoBehaviour
     float v_yj;
     bool isHorizonMove_yj;
 
+    public FixedJoystick joystick; // sw√ﬂ∞°. ¡∂¿ÃΩ∫∆Ω
+
     void Awake()
     {
+        // √ ±‚»≠
         rigid_yj = GetComponent<Rigidbody2D>();
         play_anim_yj = GetComponent<Animator>();
     }
+
     void Start()
     {
-        
+
     }
 
-    // Update is called once per frame
     void Update()
     {
-        h_yj = isAction_yj ? 0 : Input.GetAxisRaw("Horizontal");
-        v_yj = isAction_yj ? 0 : Input.GetAxisRaw("Vertical");
+        // sw √ﬂ∞°. ¡∂¿ÃΩ∫∆Ω ¿‘∑¬ πﬁ±‚
+        h_yj = isAction_yj ? 0 : joystick.Horizontal;
+        v_yj = isAction_yj ? 0 : joystick.Vertical;
 
-        bool hDown_yj = isAction_yj ? false : Input.GetButtonDown("Horizontal");
-        bool vDown_yj = isAction_yj ? false : Input.GetButtonDown("Vertical");
-        bool hUp_yj = isAction_yj ? false : Input.GetButtonUp("Horizontal");
-        bool vUp_yj = isAction_yj ? false : Input.GetButtonUp("Vertical");
+        // sw √ﬂ∞°. ¿‘∑¬∞™¿Ã ∆Ø¡§ ±‚¡ÿ ¿ÃªÛ¿Œ¡ˆ »Æ¿Œ
+        bool hDown_yj = isAction_yj ? false : Mathf.Abs(joystick.Horizontal) > 0.1f;
+        bool vDown_yj = isAction_yj ? false : Mathf.Abs(joystick.Vertical) > 0.1f;
+        bool hUp_yj = isAction_yj ? false : Mathf.Abs(joystick.Horizontal) <= 0.1f;
+        bool vUp_yj = isAction_yj ? false : Mathf.Abs(joystick.Vertical) <= 0.1f;
 
-        
         if (hDown_yj)
-                isHorizonMove_yj = true;
+            isHorizonMove_yj = true;
         else if (vDown_yj)
-                isHorizonMove_yj = false;
+            isHorizonMove_yj = false;
         else if (hUp_yj || vUp_yj)
-                isHorizonMove_yj = h_yj != 0;
-        
-        // √¶√∑¬•≈ì‚àèÔ¨Å¬ø√É¬∫¬´
-        if (play_anim_yj.GetInteger("hAxisRaw_yj") != h_yj) {
+            isHorizonMove_yj = h_yj != 0;
+
+        // æ÷¥œ∏ﬁ¿Ãº«
+        if (play_anim_yj.GetInteger("hAxisRaw_yj") != h_yj)
+        {
             play_anim_yj.SetBool("isChange_yj", true);
-            play_anim_yj.SetInteger("hAxisRaw_yj",(int)h_yj);
+            play_anim_yj.SetInteger("hAxisRaw_yj", (int)h_yj);
         }
-        else if (play_anim_yj.GetInteger("vAxisRaw_yj") != v_yj) {
+        else if (play_anim_yj.GetInteger("vAxisRaw_yj") != v_yj)
+        {
             play_anim_yj.SetBool("isChange_yj", true);
             play_anim_yj.SetInteger("vAxisRaw_yj", (int)v_yj);
         }
         else
             play_anim_yj.SetBool("isChange_yj", false);
 
-        // direction
-        if(vDown_yj && v_yj == 1)
-            dirVec_yj = Vector3.up;
-        else if (vDown_yj && v_yj == -1)
-            dirVec_yj = Vector3.down;
-        else if (hDown_yj && h_yj == -1)
-            dirVec_yj = Vector3.left;
-        else if (hDown_yj && h_yj == 1)
-            dirVec_yj = Vector3.right;
+        dirVec_yj = new Vector3(h_yj, v_yj).normalized; // sw√ﬂ∞°. ¥Î∞¢º± ¿Ãµøµµ ∞°¥…
     }
+
+    // π∞∏Æ ø¨ªÍ æ˜µ•¿Ã∆Æ
     void FixedUpdate()
     {
-        if (h_yj != 0 || v_yj != 0)
+        // ¿Ãµø √≥∏Æ
+        if (dirVec_yj != Vector3.zero)
         {
-            rigid_yj.velocity = dirVec_yj * Speed_yj;
+            rigid_yj.velocity = dirVec_yj * Speed_yj; // πÊ«‚ ∫§≈ÕøÕ º”µµ∏¶ ∞ˆ«œø© º”µµ º≥¡§
         }
         else
         {
-            rigid_yj.velocity = Vector2.zero; // ¬ø√É¬°¬∂ ‚àè√ø‚àöÔ¨Ç‚àè√à ‚àè√ø‚àö√Å¬°Àô‚àû‚âà¬ø‚Äù
+            rigid_yj.velocity = Vector2.zero; // ¡§¡ˆ
         }
     }
 }
-
