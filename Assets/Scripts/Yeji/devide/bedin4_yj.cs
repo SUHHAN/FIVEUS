@@ -198,6 +198,8 @@ public class bedin4_yj : MonoBehaviour
         resultUI_yj.SetActive(false); // 결과 UI 선택창 비활성화
         resultUI2_yj.SetActive(false); // 결과2 UI 선택창 비활성화
         isbasicdial_yj = false;
+
+
     }
 
     
@@ -243,5 +245,4 @@ public class bedin4_yj : MonoBehaviour
 
         DataManager.instance.SaveData();
     }
-
 }
