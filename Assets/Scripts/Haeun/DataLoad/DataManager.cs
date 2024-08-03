@@ -24,18 +24,18 @@ public class Item
 [System.Serializable]
 public class Character
 {
-    public Character(string _Id, string _Name, string _Description, string _HP, string _STR, string _DEX, string _INT, string _CON, string _DEF, string _ATK, bool _isUsing, string _Type, string _Love, bool _Success, string _TeamCount, bool _IsFirstTalk)
+    public Character(string _Id, string _Name, string _Description, string _HP, string _STR, string _DEX, string _INT, string _CON, string _DEF, string _ATK, bool _isUsing, string _Type, string _Love, bool _Success, string _TeamCount, bool _IsFirstTalk, string _Suc_count)
     {
         Id = _Id; Name = _Name; Description = _Description; 
         HP = _HP; STR = _STR; DEX = _DEX; 
         INT = _INT; CON = _CON; DEF = _DEF; ATK = _ATK;
         isUsing = _isUsing; Type = _Type; Love = _Love; Success = _Success;
-        TeamCount = _TeamCount; IsFirstTalk = _IsFirstTalk;
+        TeamCount = _TeamCount; IsFirstTalk = _IsFirstTalk; Suc_count = _Suc_count;
     }
 
     // 캐릭터 관련 변수들
     public string Id, Name, Description, HP, STR, DEX, INT, CON, DEF, ATK;
-    public string Type, Love, TeamCount;
+    public string Type, Love, TeamCount, Suc_count;
     public bool isUsing, Success, IsFirstTalk;
 }
 
@@ -108,12 +108,6 @@ public class DataManager : MonoBehaviour
         string data = File.ReadAllText(path + nowSlot.ToString());
         Debug.Log($"Loaded Data: {data}"); // JSON 데이터를 출력
         nowPlayer = JsonUtility.FromJson<PlayerData>(data); // 불러온 데이터가 PlayerData 형태로 저장되어 있음.
-
-        // 중요한 데이터 로그 출력
-        Debug.Log($"Player Name: {nowPlayer.Player_name}");
-        Debug.Log($"Player Day: {nowPlayer.Player_day}");
-        Debug.Log($"Number of Items: {nowPlayer.Items.Count}");
-        Debug.Log($"Number of Characters: {nowPlayer.characters.Count}");
 
         OnDataChanged?.Invoke(); // 데이터 로드 시 이벤트 호출
     }
@@ -194,6 +188,7 @@ public class DataManager : MonoBehaviour
                 bool IsFirstTalk;
                 string love = entry["love"].ToString();
                 string TeamCount = entry["TeamCount"].ToString();
+                string Suc_count = entry["Suc_count"].ToString();
                 
                 if (!bool.TryParse(entry["isUsing"].ToString(), out isUsing))
                 {
@@ -208,7 +203,7 @@ public class DataManager : MonoBehaviour
                     IsFirstTalk = false; // 파싱 실패 시 기본값 설정
                 }
 
-                var newCharacter = new Character(id, name, description, HP, STR, DEX, INT, CON, DEF, ATK, isUsing, type, love, Success, TeamCount, IsFirstTalk);
+                var newCharacter = new Character(id, name, description, HP, STR, DEX, INT, CON, DEF, ATK, isUsing, type, love, Success, TeamCount, IsFirstTalk, Suc_count);
                 CSVCharacter.Add(newCharacter);
                 nowPlayer.characters.Add(newCharacter); // nowPlayer의 characters 리스트에 추가
             }
