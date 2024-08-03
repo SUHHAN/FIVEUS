@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class DialogueBar : MonoBehaviour
+public class NpcDialogueBar : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI nameTxt;
     [SerializeField] TypeEffect talk;
@@ -11,7 +11,7 @@ public class DialogueBar : MonoBehaviour
 
     void Start()
     {
-        string initialName = ""; // 초기 이름 설정 (예: ???)
+        string initialName = "???"; // 초기 이름 설정 (예: ???)
         ActiveDialogue(0, initialName, ref str); // 초기 대화 설정
     }
 
@@ -23,7 +23,7 @@ public class DialogueBar : MonoBehaviour
     void ActiveDialogue(int idx, string nameData, ref string[] talkData)
     {
         // nameData나 talkData가 null일 경우 기본값 설정
-        if (nameData == null) nameData = ""; // 기본 이름 설정
+        if (nameData == null) nameData = "???"; // 기본 이름 설정
         if (talkData == null) talkData = new string[] { "No dialogue available." }; // 기본 대사 설정
 
         nameTxt.text = nameData;

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System;
-using UnityEngine.SceneManagement; // 씬 전환
+using UnityEngine.SceneManagement;
 
 public class NpcScript : MonoBehaviour
 {
@@ -34,374 +34,395 @@ public class NpcScript : MonoBehaviour
 
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player"); // 태그가 "Player"인 오브젝트 찾기
-        choiceUI.SetActive(false); // 시작할 때 선택 UI 비활성화
-        dialogueUI.SetActive(false); // 시작할 때 대화 UI 비활성화
-        persuadeButton.onClick.AddListener(OnPersuadeButtonClick); // 설득하기 버튼 클릭 이벤트 연결
-        choice1Button.gameObject.SetActive(false); // 선택지 1 버튼 비활성화
-        choice2Button.gameObject.SetActive(false); // 선택지 2 버튼 비활성화
-        giftButton.onClick.AddListener(OnGiftButtonClick); // 선물하기 버튼 클릭 이벤트 연결
+        // 플레이어 오브젝트를 태그로 찾기
+        player = GameObject.FindGameObjectWithTag("Player");
+        choiceUI.SetActive(false); // 선택 UI 숨기기
+        dialogueUI.SetActive(false); // 대화 UI 숨기기
 
-        choice1Button.onClick.AddListener(OnChoice1ButtonClick); // 선택지 1 버튼 클릭 이벤트 연결
-        choice2Button.onClick.AddListener(OnChoice2ButtonClick); // 선택지 2 버튼 클릭 이벤트 연결
+        // 버튼 클릭 이벤트 연결
+        talkButton.onClick.AddListener(OnTalkButtonClick);
+        persuadeButton.onClick.AddListener(OnPersuadeButtonClick);
+        giftButton.onClick.AddListener(OnGiftButtonClick);
+        choice1Button.onClick.AddListener(OnChoice1ButtonClick);
+        choice2Button.onClick.AddListener(OnChoice2ButtonClick);
 
-        // 선택지 버튼 텍스트 설정
-        if (npcType == "검사")
+        SetChoiceButtonTexts(); // 선택지 텍스트 설정
+        SetNpcName(); // NPC 이름 설정
+    }
+
+    void SetChoiceButtonTexts()
+    {
+        // NPC 타입에 따라 선택지 버튼의 텍스트 설정
+        switch (npcType)
         {
-            choice1Button.GetComponentInChildren<TextMeshProUGUI>().text = "당신이 그 유명한 용병 칼리스 맞죠?";
-            choice2Button.GetComponentInChildren<TextMeshProUGUI>().text = "아뇨, 볼일은 딱히 없는데...";
-        }
-        else if (npcType == "궁수")
-        {
-            choice1Button.GetComponentInChildren<TextMeshProUGUI>().text = "너무 아름다우셔서요.";
-            choice2Button.GetComponentInChildren<TextMeshProUGUI>().text = "혹시 활 쏘는 법 가르쳐줄 수 있으신가요?";
-        }
-        else if (npcType == "탱커")
-        {
-            choice1Button.GetComponentInChildren<TextMeshProUGUI>().text = "안녕하세요. 오늘 날씨가 참 좋네요!";
-            choice2Button.GetComponentInChildren<TextMeshProUGUI>().text = "안녕하세요. 탱커님.";
-        }
-        else if (npcType == "마법사")
-        {
-            choice1Button.GetComponentInChildren<TextMeshProUGUI>().text = "마법은 참 위대한 것 같아요.";
-            choice2Button.GetComponentInChildren<TextMeshProUGUI>().text = "안녕하세요. 날씨가 참 좋네요!";
-        }
-        else if (npcType == "힐러")
-        {
-            choice1Button.GetComponentInChildren<TextMeshProUGUI>().text = "신의 가호라뇨?";
-            choice2Button.GetComponentInChildren<TextMeshProUGUI>().text = "감사합니다, 사제님.";
-        }
-        else if (npcType == "암살자")
-        {
-            choice1Button.GetComponentInChildren<TextMeshProUGUI>().text = "심심해요?";
-            choice2Button.GetComponentInChildren<TextMeshProUGUI>().text = "(가만히 지켜본다)";
+            case "검사":
+                SetChoiceButtonText("당신이 그 유명한 용병 칼리스 맞죠?", "아뇨, 볼일은 딱히 없는데...");
+                break;
+            case "궁수":
+                SetChoiceButtonText("너무 아름다우셔서요.", "혹시 활 쏘는 법 가르쳐줄 수 있으신가요?");
+                break;
+            case "탱커":
+                SetChoiceButtonText("안녕하세요. 오늘 날씨가 참 좋네요!", "안녕하세요. 탱커님.");
+                break;
+            case "마법사":
+                SetChoiceButtonText("마법은 참 위대한 것 같아요.", "안녕하세요. 날씨가 참 좋네요!");
+                break;
+            case "힐러":
+                SetChoiceButtonText("신의 가호라뇨?", "감사합니다, 사제님.");
+                break;
+            case "암살자":
+                SetChoiceButtonText("심심해요?", "(가만히 지켜본다)");
+                break;
         }
     }
 
+    void SetChoiceButtonText(string choice1, string choice2)
+    {
+        // 선택지 버튼 텍스트 설정
+        choice1Button.GetComponentInChildren<TextMeshProUGUI>().text = choice1;
+        choice2Button.GetComponentInChildren<TextMeshProUGUI>().text = choice2;
+    }
+
+    void SetNpcName()
+    {
+        // 첫 대화인지 여부에 따라 NPC 이름 설정
+        npcNameText.text = IsFirstTalk() ? "???" : GetNpcName(npcType);
+    }
+
+    string GetNpcName(string type)
+    {
+        // NPC 타입에 따른 이름 반환
+        switch (type)
+        {
+            case "검사": return "칼리스";
+            case "탱커": return "펜릭";
+            case "궁수": return "에릴란";
+            case "마법사": return "크레이글";
+            case "힐러": return "마르셀라";
+            case "암살자": return "리아";
+            default: return "???";
+        }
+    }
+
+    bool IsFirstTalk()
+    {
+        // 첫 대화인지 확인 (PlayerPrefs를 통해 저장된 값 확인)
+        return PlayerPrefs.GetInt(npcType + "_FirstTalk", 1) == 1;
+    }
 
     void Update()
     {
-        float distance = Vector3.Distance(player.transform.position, transform.position); // 플레이어와 NPC 간 거리 계산
-        if (distance <= interactionRange) // 상호작용 거리 내에 있는지 확인
+        // 플레이어와 NPC 간 거리 계산
+        float distance = Vector3.Distance(player.transform.position, transform.position);
+        if (distance <= interactionRange)
         {
-            if (Input.GetKeyDown(KeyCode.Return) && !isTalking) // 엔터 키 입력 감지 및 대화 중이 아닌 경우
+            // 상호작용 키 입력 시 동작
+            if (Input.GetKeyDown(KeyCode.Return) && !isTalking)
             {
                 ShowChoiceUI(); // 선택 UI 표시
             }
-            else if (Input.GetKeyDown(KeyCode.Space) && isTalking) // 대화 중일 때 스페이스바 입력 감지
+            else if (Input.GetKeyDown(KeyCode.Space) && isTalking)
             {
+                // 대화 진행
                 if (choice1Dialogues.Count > 0 && choice1DialogueIndex < choice1Dialogues.Count)
                 {
-                    ShowNextChoice1Dialogue(); // 다음 대사로 넘어가기
+                    ShowNextChoice1Dialogue(); // 초이스 1 대화 표시
                 }
                 else
                 {
-                    ShowNextDialogue(); // 기본 대사로 넘어가기
+                    ShowNextDialogue(); // 다음 대화 표시
                 }
             }
         }
         else
         {
-            choiceUI.SetActive(false); // 선택 UI와 자식 오브젝트들 숨기기
+            choiceUI.SetActive(false); // 상호작용 거리 밖으로 벗어나면 선택 UI 숨기기
         }
     }
 
     void ShowChoiceUI()
     {
-        choiceUI.SetActive(true); // 선택 UI 활성화
+        choiceUI.SetActive(true); // 선택 UI 표시
         dialogueText.text = ""; // 대사 텍스트 초기화
     }
 
     public void OnTalkButtonClick()
     {
         choiceUI.SetActive(false); // 선택 UI 숨기기
-        dialogueUI.SetActive(true); // 대화 UI 활성화
-        isTalking = true; // 대화 상태 설정
+        dialogueUI.SetActive(true); // 대화 UI 표시
+        isTalking = true; // 대화 중 상태로 변경
         currentDialogueIndex = 0; // 대화 인덱스 초기화
-        SetDialogue(npcType); // NPC 타입에 따라 대사 설정
-        ShowNextDialogue(); // 첫 번째 대사 표시
+        SetDialogue(npcType); // NPC 대사 설정
+        ShowNextDialogue(); // 첫 번째 대화 표시
+
+        // 첫 대화 시 PlayerPrefs에 정보 저장
+        if (IsFirstTalk())
+        {
+            PlayerPrefs.SetInt(npcType + "_FirstTalk", 0);
+            PlayerPrefs.Save();
+            npcNameText.text = GetNpcName(npcType);
+        }
     }
 
     public void OnPersuadeButtonClick()
     {
-        choiceUI.SetActive(false); // 선택 UI 숨기기
-        GetComponent<NpcPersuade>().ShowPersuadeUI(); // 설득 UI 표시
+        // 설득 UI 표시
+        choiceUI.SetActive(false);
+        GetComponent<NpcPersuade>().ShowPersuadeUI();
     }
 
     public void OnGiftButtonClick()
     {
+        // 선물하기 시 InventoryMain 씬으로 전환
         PlayerPrefs.SetString("NpcType", npcType);
         PlayerPrefs.Save();
 
-        // 다른 씬에서 curType을 저장
-        PlayerPrefs.SetString("CurType", "기타"); // "장비" 대신 원하는 탭 이름 사용
+        PlayerPrefs.SetString("CurType", "기타");
         PlayerPrefs.Save();
 
-        print(PlayerPrefs.GetString("NpcType"));
-        SceneManager.LoadScene("InventoryMain"); // InventoryMain 씬으로 이동
+        SceneManager.LoadScene("InventoryMain");
     }
 
     public void HidePersuadeAndGiftButtons()
     {
-        persuadeButton.gameObject.SetActive(false); // 설득하기 버튼 숨기기
-        giftButton.gameObject.SetActive(false); // 선물하기 버튼 숨기기
+        // 설득 및 선물 버튼 숨기기
+        persuadeButton.gameObject.SetActive(false);
+        giftButton.gameObject.SetActive(false);
     }
 
     public void EndDialogue()
     {
-        isTalking = false; // 대화 상태 해제
-        dialogueUI.SetActive(false); // 대화 UI 비활성화
-        choiceUI.SetActive(false); // 선택 UI와 자식 오브젝트들 비활성화
-        choice1Button.gameObject.SetActive(false); // 선택지 1 버튼 비활성화
-        choice2Button.gameObject.SetActive(false); // 선택지 2 버튼 비활성화
+        // 대화 종료 시 동작
+        isTalking = false; // 대화 중 상태 해제
+        dialogueUI.SetActive(false); // 대화 UI 숨기기
+        choiceUI.SetActive(false); // 선택 UI 숨기기
+        choice1Button.gameObject.SetActive(false); // 초이스 1 버튼 숨기기
+        choice2Button.gameObject.SetActive(false); // 초이스 2 버튼 숨기기
     }
 
     void SetDialogue(string type)
     {
-        dialogues.Clear(); // 기존 대사 초기화
-        if (type == "검사")
+        dialogues.Clear(); // 대사 목록 초기화
+        SetNpcName(); // NPC 이름 설정
+
+        // NPC 타입에 따른 대사 설정
+        switch (type)
         {
-            npcNameText.text = "???";
-            dialogues.Add("음, 처음 보는 얼굴 같은데.");
-            dialogues.Add("나한테 무슨 볼일이라도?");
-        }
-        else if (type == "궁수")
-        {
-            npcNameText.text = "???";
-            dialogues.Add("...뭐야. 나한테 볼일 있어?");
-        }
-        else if (type == "탱커")
-        {
-            npcNameText.text = "???";
-            dialogues.Add("......");
-        }
-        else if (type == "마법사")
-        {
-            npcNameText.text = "???";
-            dialogues.Add(".......");
-        }
-        else if (type == "힐러")
-        {
-            npcNameText.text = "???";
-            dialogues.Add("안녕하세요, 용병님!");
-            dialogues.Add("만나서 반갑습니다. 신의 가호가 함께 하시길..");
-        }
-        else if (type == "암살자")
-        {
-            npcNameText.text = "???";
-            dialogues.Add("흠흠흠~");
+            case "검사":
+                dialogues.Add("음, 처음 보는 얼굴 같은데.");
+                dialogues.Add("나한테 무슨 볼일이라도?");
+                break;
+            case "궁수":
+                dialogues.Add("...뭐야. 나한테 볼일 있어?");
+                break;
+            case "탱커":
+                dialogues.Add("......");
+                break;
+            case "마법사":
+                dialogues.Add(".......");
+                break;
+            case "힐러":
+                dialogues.Add("안녕하세요, 용병님!");
+                dialogues.Add("만나서 반갑습니다. 신의 가호가 함께 하시길..");
+                break;
+            case "암살자":
+                dialogues.Add("흠흠흠~");
+                break;
         }
     }
 
     void ShowNextDialogue()
     {
+        // 다음 대사 표시
         if (currentDialogueIndex < dialogues.Count)
         {
-            dialogueText.text = dialogues[currentDialogueIndex]; // 현재 대사 표시
+            dialogueText.text = dialogues[currentDialogueIndex];
+            if (currentDialogueIndex == 0 && IsFirstTalk())
+            {
+                PlayerPrefs.SetInt(npcType + "_FirstTalk", 0);
+                PlayerPrefs.Save();
+                npcNameText.text = GetNpcName(npcType);
+            }
 
-            // 특정 대사일 때 선택지 버튼 활성화
-            if (dialogueText.text == "나한테 무슨 볼일이라도?")
+            if (IsChoicePoint(dialogueText.text))
             {
-                choice1Button.gameObject.SetActive(true); // 선택지 1 버튼 활성화
-                choice2Button.gameObject.SetActive(true); // 선택지 2 버튼 활성화
+                choice1Button.gameObject.SetActive(true);
+                choice2Button.gameObject.SetActive(true);
             }
-            else if (dialogueText.text == "...뭐야. 나한테 볼일 있어?")
-            {
-                choice1Button.gameObject.SetActive(true); // 선택지 1 버튼 활성화
-                choice2Button.gameObject.SetActive(true); // 선택지 2 버튼 활성화
-            }
-            else if (dialogueText.text == "......")
-            {
-                choice1Button.gameObject.SetActive(true); // 선택지 1 버튼 활성화
-                choice2Button.gameObject.SetActive(true); // 선택지 2 버튼 활성화
-            }
-            else if (dialogueText.text == ".......")
-            {
-                choice1Button.gameObject.SetActive(true); // 선택지 1 버튼 활성화
-                choice2Button.gameObject.SetActive(true); // 선택지 2 버튼 활성화
-            }
-            else if (dialogueText.text == "만나서 반갑습니다. 신의 가호가 함께 하시길..")
-            {
-                choice1Button.gameObject.SetActive(true); // 선택지 1 버튼 활성화
-                choice2Button.gameObject.SetActive(true); // 선택지 2 버튼 활성화
-            }
-            else if (dialogueText.text == "흠흠흠~")
-            {
-                choice1Button.gameObject.SetActive(true); // 선택지 1 버튼 활성화
-                choice2Button.gameObject.SetActive(true); // 선택지 2 버튼 활성화
-            }
-            currentDialogueIndex++; // 인덱스 증가
+
+            currentDialogueIndex++;
         }
         else
         {
-            EndDialogue(); // 대사 끝나면 대화 종료
+            EndDialogue(); // 대사가 끝나면 대화 종료
         }
+    }
+
+    bool IsChoicePoint(string dialogue)
+    {
+        // 선택지 표시 여부 확인
+        return dialogue == "나한테 무슨 볼일이라도?" ||
+               dialogue == "...뭐야. 나한테 볼일 있어?" ||
+               dialogue == "......" ||
+               dialogue == "......." ||
+               dialogue == "만나서 반갑습니다. 신의 가호가 함께 하시길.." ||
+               dialogue == "흠흠흠~";
     }
 
     public void OnChoice1ButtonClick()
     {
-        if (npcType == "검사")
+        choice1Dialogues.Clear(); // 초이스 1 대사 목록 초기화
+        switch (npcType)
         {
-            choice1Dialogues = new List<string>
-            {
-                "칼리스,하하, 내가 칼리스 맞지.",
-                "칼리스,날 아는 사람이었구나, 반가워.",
-                "칼리스,보아하니 당신도 용병 같은데... 이 마을에 속한 용병인가?",
-                "칼리스,나도 이 마을에 좋은 의뢰가 잘 들어온다길래 잠시 이곳에 머무르고 있어",
-                "칼리스,앞으로 잘 지내보자고!"
-            };
-            ChangeAffection(2.5); // 호감도 +5
+            case "검사":
+                SetChoice1Dialogues(new List<string>
+                {
+                    "하하, 내가 칼리스 맞지.",
+                    "날 아는 사람이었구나, 반가워.",
+                    "보아하니 당신도 용병 같은데... 이 마을에 속한 용병인가?",
+                    "나도 이 마을에 좋은 의뢰가 잘 들어온다길래 잠시 이곳에 머무르고 있어",
+                    "앞으로 잘 지내보자고!"
+                }, 2.5);
+                break;
+            case "궁수":
+                SetChoice1Dialogues(new List<string>
+                {
+                    "으... 뭐래."
+                }, -5);
+                break;
+            case "탱커":
+                SetChoice1Dialogues(new List<string>
+                {
+                    "아.안녕하시오.",
+                    "...그렇군. 날씨가 좋은 줄도 모르고 지나갈 뻔 했소.",
+                    "다정한 인사를 건네줘서 고맙네. 청년."
+                }, 2.5);
+                break;
+            case "마법사":
+                SetChoice1Dialogues(new List<string>
+                {
+                    "오. 안녕하세요.",
+                    "저도 그렇게 생각해요! 마법은 참 위대하죠!",
+                    "그리고 그 위대한 마법의 발전을 위해 다양한 연구와 실험은 불가피해요.",
+                    "그렇지 않나요?"
+                }, 2.5);
+                break;
+            case "힐러":
+                SetChoice1Dialogues(new List<string>
+                {
+                    "음.. 신을 믿지 않으시나요?",
+                    "그렇다면 참 아쉽네요.."
+                }, -2.5);
+                break;
+            case "암살자":
+                SetChoice1Dialogues(new List<string>
+                {
+                    "네! 어떻게 알았지~?",
+                    "뭔가 재밌는 일이 생겼으면 좋겠어요~",
+                    "당신은 좀 재밌어 보이긴 하네요!"
+                }, 2.5);
+                break;
         }
-        else if (npcType == "궁수")
-        {
-            choice1Dialogues = new List<string>
-            {
-                "에릴란,으... 뭐래."
-            };
-            ChangeAffection(-5); // 호감도 -10
-        }
-        else if (npcType == "탱커")
-        {
-            choice1Dialogues = new List<string>
-            {
-                "펜릭,아.안녕하시오.",
-                "펜릭,...그렇군. 날씨가 좋은 줄도 모르고 지나갈 뻔 했소.",
-                "펜릭,다정한 인사를 건네줘서 고맙네. 청년."
-            };
-            ChangeAffection(2.5); // 호감도 +5
-        }
-        else if (npcType == "마법사")
-        {
-            choice1Dialogues = new List<string>
-            {
-                "크레이글,오. 안녕하세요.",
-                "크레이글, 저도 그렇게 생각해요! 마법은 참 위대하죠!",
-                "크레이글, 그리고 그 위대한 마법의 발전을 위해 다양한 연구와 실험은 불가피해요.",
-                "크레이글, 그렇지 않나요?"
-            };
-            ChangeAffection(2.5); // 호감도 +5
-        }
-        else if (npcType == "힐러")
-        {
-            choice1Dialogues = new List<string>
-            {
-                "마르셀라, 음.. 신을 믿지 않으시나요?",
-                "마르셀라, 그렇다면 참 아쉽네요.."
-            };
-            ChangeAffection(-2.5); // 호감도 -5
-        }
-        else if (npcType == "암살자")
-        {
-            choice1Dialogues = new List<string>
-            {
-                "리아, 네! 어떻게 알았지~?",
-                "리아, 뭔가 재밌는 일이 생겼으면 좋겠어요~",
-                "리아, 당신은 좀 재밌어 보이긴 하네요!"
-            };
-            ChangeAffection(+2.5); // 호감도 +5
-        }
-        choice1DialogueIndex = 0;
-        isTalking = true; // 대화 상태 유지
-        choice1Button.gameObject.SetActive(false); // 선택지 1 버튼 비활성화
-        choice2Button.gameObject.SetActive(false); // 선택지 2 버튼 비활성화
-        ShowNextChoice1Dialogue(); // 첫 번째 대사 출력
+
+        choice1DialogueIndex = 0; // 초이스 1 대사 인덱스 초기화
+        isTalking = true; // 대화 중 상태로 변경
+        choice1Button.gameObject.SetActive(false); // 초이스 1 버튼 숨기기
+        choice2Button.gameObject.SetActive(false); // 초이스 2 버튼 숨기기
+        ShowNextChoice1Dialogue(); // 초이스 1 대사 표시
     }
 
     public void OnChoice2ButtonClick()
     {
-        // choice1Dialogues 리스트 초기화
+        // 선택지 2 선택 시 동작
         choice1Dialogues.Clear();
         choice1DialogueIndex = 0;
-        if (npcType == "검사")
+        switch (npcType)
         {
-            dialogueText.text = "...그럼 왜 말을 건 거지?"; // 선택지 2에 대한 대사
-            npcNameText.text = "칼리스";
-            ChangeAffection(-2.5); // 호감도 -5
+            case "검사":
+                SetDialogueText("...그럼 왜 말을 건 거지?");
+                ChangeAffection(-2.5);
+                break;
+            case "궁수":
+                SetChoice1Dialogues(new List<string>
+                {
+                    "활이라고?",
+                    "음... 당신 용병이구나.",
+                    "...활은 집중력이 중요하지.",
+                    "가르쳐주는 건 모르겠지만 가끔 봐줄 순 있어."
+                }, 2.5);
+                break;
+            case "탱커":
+                SetChoice1Dialogues(new List<string>
+                {
+                    "...날 알고 있는가?",
+                    "미안하지만 탱커 역할을 기대하고 온 거라면 돌아가게.",
+                    "나는 다른 사람과 함께 일하지 않아."
+                }, -2.5);
+                break;
+            case "마법사":
+                SetChoice1Dialogues(new List<string>
+                {
+                    "아 네. 그렇네요.",
+                    "...",
+                    "뭐... 더 하실 말씀이라도?"
+                }, -2.5);
+                break;
+            case "힐러":
+                SetChoice1Dialogues(new List<string>
+                {
+                    "하하하. 오랜만에 듣는 칭호네요.",
+                    "비록 지금은 사제가 아니지만...",
+                    "그래도 여전히 신을 섬기고 있답니다~"
+                }, 2.5);
+                break;
+            case "암살자":
+                SetChoice1Dialogues(new List<string>
+                {
+                    "랄랄라~",
+                    "(계속해서 노래를 흥얼거린다)"
+                }, -2.5);
+                break;
         }
-        else if (npcType == "궁수")
-        {
-            choice1Dialogues = new List<string>
-            {
-                "에릴란,활이라고?",
-                "에릴란,음... 당신 용병이구나.",
-                "에릴란,...활은 집중력이 중요하지.",
-                "에릴란,가르쳐주는 건 모르겠지만 가끔 봐줄 순 있어."
-            };
-            ChangeAffection(2.5); // 호감도 +5
-        }
-        else if (npcType == "탱커")
-        {
-            choice1Dialogues = new List<string>
-            {
-                "펜릭,...날 알고 있는가?",
-                "펜릭,미안하지만 탱커 역할을 기대하고 온 거라면 돌아가게.",
-                "펜릭, 나는 다른 사람과 함께 일하지 않아."
-            };
-            ChangeAffection(-2.5); // 호감도 -5
-        }
-        else if (npcType == "마법사")
-        {
-            choice1Dialogues = new List<string>
-            {
-                "크레이글, 아 네. 그렇네요.",
-                "크레이글, ...",
-                "크레이글, 뭐... 더 하실 말씀이라도?"
-            };
-            ChangeAffection(-2.5); // 호감도 -5
-        }
-        else if (npcType == "힐러")
-        {
-            choice1Dialogues = new List<string>
-            {
-                "마르셀라, 하하하. 오랜만에 듣는 칭호네요.",
-                "마르셀라, 비록 지금은 사제가 아니지만...",
-                "마르셀라, 그래도 여전히 신을 섬기고 있답니다~"
-            };
-            ChangeAffection(2.5); // 호감도 +5
-        }
-        else if (npcType == "암살자")
-        {
-            choice1Dialogues = new List<string>
-            {
-                "리아, 랄랄라~",
-                "리아, (계속해서 노래를 흥얼거린다)"
-            };
-            ChangeAffection(-2.5); // 호감도 -5
-        }
-        choice1DialogueIndex = 0;
-        isTalking = true; // 대화 상태 유지
-        choice1Button.gameObject.SetActive(false); // 선택지 1 버튼 비활성화
-        choice2Button.gameObject.SetActive(false); // 선택지 2 버튼 비활성화
-        ShowNextChoice1Dialogue(); // 첫 번째 대사 출력
+
+        choice1DialogueIndex = 0; // 초이스 1 대사 인덱스 초기화
+        isTalking = true; // 대화 중 상태로 변경
+        choice1Button.gameObject.SetActive(false); // 초이스 1 버튼 숨기기
+        choice2Button.gameObject.SetActive(false); // 초이스 2 버튼 숨기기
+        ShowNextChoice1Dialogue(); // 초이스 1 대사 표시
+    }
+
+    void SetChoice1Dialogues(List<string> dialogues, double affectionChange)
+    {
+        choice1Dialogues = dialogues; // 초이스 1 대사 목록 설정
+        ChangeAffection(affectionChange); // 호감도 변경
+    }
+
+    void SetDialogueText(string dialogue)
+    {
+        // NPC 이름 설정 및 대사 설정
+        npcNameText.text = GetNpcName(npcType);
+        dialogueText.text = dialogue;
     }
 
     void ShowNextChoice1Dialogue()
     {
+        // 다음 초이스 1 대사 표시
         if (choice1DialogueIndex < choice1Dialogues.Count)
         {
-            // 대사와 이름을 ','로 구분하여 표시
-            var splitDialogue = choice1Dialogues[choice1DialogueIndex].Split(new string[] { "," }, StringSplitOptions.None);
-            if (splitDialogue.Length > 1)
-            {
-                npcNameText.text = splitDialogue[0];
-                dialogueText.text = splitDialogue[1];
-            }
-            else
-            {
-                dialogueText.text = splitDialogue[0];
-            }
+            string dialogue = choice1Dialogues[choice1DialogueIndex];
+            SetDialogueText(dialogue);
 
-            choice1DialogueIndex++; // 인덱스 증가
+            choice1DialogueIndex++;
         }
         else
         {
-            EndDialogue(); // 대사 끝나면 대화 종료
+            EndDialogue(); // 초이스 1 대사가 끝나면 대화 종료
         }
     }
 
-    // NPC 호감도 변경
     void ChangeAffection(double amount)
     {
+        // 호감도 변경
         Character character = DataManager.instance.nowPlayer.characters.Find(x => x.Type == npcType);
         affection += amount;
         character.Love = affection.ToString();
@@ -411,15 +432,9 @@ public class NpcScript : MonoBehaviour
         affectionText.text = $"호감도: {affection}";
     }
 
-    // NPC 대화 내용 표시
-    void DisplayDialogue(string npcName, string description)
-    {
-        dialogueText.text = description; // 대화 내용 설정
-        npcNameText.text = npcName; // NPC 이름 설정
-    }
-
     void UpdatePosition(string timeOfDay)
     {
+        // 시간대에 따라 NPC 위치 업데이트
         Vector3 newPosition = Vector3.zero;
         string currentScene = SceneManager.GetActiveScene().name;
         bool shouldBeActive = false;
@@ -427,130 +442,56 @@ public class NpcScript : MonoBehaviour
         switch (npcType)
         {
             case "검사":
-                if (currentScene == "main_map")
-                {
-                    if (timeOfDay == "Morning" || timeOfDay == "Afternoon")
-                    {
-                        newPosition = new Vector3(-6, -0.5f, 0);
-                        shouldBeActive = true; // main_map에 있을 때만 활성화
-                    }
-                    else
-                    {
-                        shouldBeActive = false; // 저녁에는 main_map에서 비활성화
-                    }
-                }
-                else if (currentScene == "hotel")
-                {
-                    if (timeOfDay == "Evening")
-                    {
-                        newPosition = new Vector3(-2, 0, 0);
-                        shouldBeActive = true; // hotel에 있을 때만 활성화
-                    }
-                    else
-                    {
-                        shouldBeActive = false; // 아침과 점심에는 hotel에서 비활성화
-                    }
-                }
+                (newPosition, shouldBeActive) = GetPositionAndState(timeOfDay, currentScene, "main_map", new Vector3(-6, -0.5f, 0), "hotel", new Vector3(-2, 0, 0));
                 break;
 
             case "힐러":
-                if (currentScene == "main_map")
-                {
-                    if (timeOfDay == "Morning" || timeOfDay == "Afternoon")
-                    {
-                        newPosition = new Vector3(14.68f, 7.29f, 0);
-                        shouldBeActive = true; // main_map에 있을 때만 활성화
-                    }
-                    else
-                    {
-                        shouldBeActive = false; // 저녁에는 main_map에서 비활성화
-                    }
-                }
-                else if (currentScene == "hotel_hall")
-                {
-                    if (timeOfDay == "Evening")
-                    {
-                        newPosition = new Vector3(2, 0.85f, 0);
-                        shouldBeActive = true; // hotel_hall에 있을 때만 활성화
-                    }
-                    else
-                    {
-                        shouldBeActive = false; // 아침과 점심에는 hotel_hall에서 비활성화
-                    }
-                }
+                (newPosition, shouldBeActive) = GetPositionAndState(timeOfDay, currentScene, "main_map", new Vector3(14.68f, 7.29f, 0), "hotel_hall", new Vector3(2, 0.85f, 0));
                 break;
 
             case "탱커":
-                if (currentScene == "training")
-                {
-                    if (timeOfDay == "Morning" || timeOfDay == "Afternoon")
-                    {
-                        newPosition = new Vector3(-4, 3.36f, 0);
-                        shouldBeActive = true; // training에 있을 때만 활성화
-                    }
-                    else
-                    {
-                        shouldBeActive = false; // 저녁에는 training에서 비활성화
-                    }
-                }
-                else if (currentScene == "hotel_room1")
-                {
-                    if (timeOfDay == "Evening")
-                    {
-                        newPosition = new Vector3(0.4f, 3.5f, 0);
-                        shouldBeActive = true; // hotel_room1에 있을 때만 활성화
-                    }
-                    else
-                    {
-                        shouldBeActive = false; // 아침과 점심에는 hotel_room1에서 비활성화
-                    }
-                }
+                (newPosition, shouldBeActive) = GetPositionAndState(timeOfDay, currentScene, "training", new Vector3(-4, 3.36f, 0), "hotel_room1", new Vector3(0.4f, 3.5f, 0));
                 break;
 
             case "마법사":
-                if (currentScene == "magic_house")
-                {
-                    newPosition = new Vector3(1.73f, 0.63f, 0);
-                    shouldBeActive = true; // magic_house에서 항상 활성화
-                }
+                newPosition = new Vector3(1.73f, 0.63f, 0);
+                shouldBeActive = currentScene == "magic_house";
                 break;
 
             case "암살자":
-                if (currentScene == "bar")
-                {
-                    if (timeOfDay == "Evening")
-                    {
-                        newPosition = new Vector3(-2.23f, -0.59f, 0);
-                        shouldBeActive = true; // bar에 있을 때만 활성화
-                    }
-                    else
-                    {
-                        shouldBeActive = false; // 저녁 이외의 시간에는 bar에서 비활성화
-                    }
-                }
+                (newPosition, shouldBeActive) = GetPositionAndState(timeOfDay, currentScene, "bar", new Vector3(-2.23f, -0.59f, 0));
                 break;
 
             case "궁수":
-                if (currentScene == "training")
-                {
-                    if (timeOfDay == "Evening")
-                    {
-                        newPosition = new Vector3(4.2f, -1.74f, 0);
-                        shouldBeActive = true; // training에 있을 때만 활성화
-                    }
-                    else
-                    {
-                        shouldBeActive = false; // 저녁 이외의 시간에는 training에서 비활성화
-                    }
-                }
+                (newPosition, shouldBeActive) = GetPositionAndState(timeOfDay, currentScene, "training", new Vector3(4.2f, -1.74f, 0));
                 break;
         }
 
-        // NPC 활성화 여부에 따라 게임 오브젝트 활성화/비활성화
         gameObject.SetActive(shouldBeActive);
         if (shouldBeActive)
         {
-            transform.position = newPosition; // NPC 위치 설정
+            transform.position = newPosition;
         }
+    }
+
+    (Vector3, bool) GetPositionAndState(string timeOfDay, string currentScene, string dayScene, Vector3 dayPosition, string nightScene = null, Vector3 nightPosition = default(Vector3))
+    {
+        // 시간대와 씬에 따라 NPC 위치와 활성화 상태 반환
+        bool isDay = timeOfDay == "Morning" || timeOfDay == "Afternoon";
+        bool shouldBeActive = false;
+        Vector3 newPosition = Vector3.zero;
+
+        if (currentScene == dayScene && isDay)
+        {
+            newPosition = dayPosition;
+            shouldBeActive = true;
+        }
+        else if (nightScene != null && currentScene == nightScene && !isDay)
+        {
+            newPosition = nightPosition;
+            shouldBeActive = true;
+        }
+
+        return (newPosition, shouldBeActive);
     }
 }
