@@ -113,15 +113,18 @@ public class mainhint3_yj : MonoBehaviour
 
     void CheckNPCInteraction()
     {
-        float distanceNPC3 = Vector3.Distance(player.transform.position, npc3_yj.transform.position);
+        if (npc3_yj != null)
+        {
+            float distanceNPC3 = Vector3.Distance(player.transform.position, npc3_yj.transform.position);
 
-        if (distanceNPC3 <= interactionRange)
-        {
-            currentNPC = npc3_yj;
-        }
-        else
-        {
-            currentNPC = null;
+            if (distanceNPC3 <= interactionRange)
+            {
+                currentNPC = npc3_yj;
+            }
+            else
+            {
+                currentNPC = null;
+            }
         }
     }
 
