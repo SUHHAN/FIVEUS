@@ -105,9 +105,7 @@ public class mainhint3_yj : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                Debug.Log("space");
                 if (isbasicdial_yj) {
-                    Debug.Log("HandleNPCchoice");
                     HandleNPCchoice_yj(currentNPC);
                     
                 }
@@ -165,7 +163,7 @@ public class mainhint3_yj : MonoBehaviour
         Debug.Log("단서 클릭");
         choiceUI3_yj.SetActive(false);
         timemanager_yj.CompleteActivity(); // 하루 기본 활동 수행 횟수 1 증가
-        resuedit_yj.text = $"기본활동 횟수 : {timemanager_yj.activityCount / 2} / 3";
+        resuedit_yj.text = $"기본활동 횟수 : {timemanager_yj.activityCount} / 3";
         if (timemanager_yj.activityCount >= 5)
         {
             resuedit2_yj.text = "하루치 기본 활동 3개를 모두 완수하셨습니다!\n[주인공 집]의 [침대]로 돌아가 휴식을 취해주세요!";

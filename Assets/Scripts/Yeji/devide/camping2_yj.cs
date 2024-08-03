@@ -183,7 +183,7 @@ public class camping2_yj : MonoBehaviour
         timemanager_yj.CompleteActivity(); // 하루 기본 활동 수행 횟수 1 증가
 
         // 결과창 업데이트
-        resuedit_yj.text = $"기본활동 횟수 : {timemanager_yj.activityCount / 2} / 3"; // 기본 활동 텍스트 업데이트
+        resuedit_yj.text = $"기본활동 횟수 : {timemanager_yj.activityCount} / 3"; // 기본 활동 텍스트 업데이트
 
 
         if (timemanager_yj.activityCount >= 5)
@@ -202,7 +202,7 @@ public class camping2_yj : MonoBehaviour
     {
         choiceUI3_yj.SetActive(false);
         timemanager_yj.CompleteActivity(); // 하루 기본 활동 수행 횟수 1 증가
-        resuedit_yj.text = $"기본활동 횟수 : {timemanager_yj.activityCount / 2} / 3";
+        resuedit_yj.text = $"기본활동 횟수 : {timemanager_yj.activityCount} / 3";
         if (timemanager_yj.activityCount >= 5)
         {
             resuedit2_yj.text = "하루치 기본 활동 3개를 모두 완수하셨습니다!\n[주인공 집]의 [침대]로 돌아가 휴식을 취해주세요!";
