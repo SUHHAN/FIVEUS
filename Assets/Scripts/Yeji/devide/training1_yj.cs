@@ -87,6 +87,7 @@ public class training1_yj : MonoBehaviour
         isbasicdial_yj = false;
         playermanager_yj.playerNow.howtoday_py = 0;
         playermanager_yj.playerNow.howtrain_py = 0;
+        
         player = GameObject.FindGameObjectWithTag("Player"); // �±װ� "Player"�� ������Ʈ ã��
         HideUI(); // ������ �� UI �����
     }
@@ -164,10 +165,10 @@ public class training1_yj : MonoBehaviour
         timemanager_yj.CompleteActivity(); // �Ϸ� �⺻ Ȱ�� ���� Ƚ�� 1 ����
 
 
-        resuedit_yj.text = $"기본 활동 횟수: {timemanager_yj.activityCount / 2} / 3"; // �⺻ Ȱ�� �ؽ�Ʈ ������Ʈ
+        resuedit_yj.text = $"기본 활동 횟수: {DataManager.instance.nowPlayer.Player_howtoday}"; // �⺻ Ȱ�� �ؽ�Ʈ ������Ʈ
 
 
-        if (timemanager_yj.activityCount >= 5)
+        if (DataManager.instance.nowPlayer.Player_howtoday >= 3)
         {
             resuedit2_yj.text = "하루치 기본 활동 3개를 모두 완수하셨습니다!\n[주인공 집]의 [침대]로 돌아가 휴식을 취해주세요!";
             resultUI2_yj.SetActive(true);
@@ -212,14 +213,14 @@ public class training1_yj : MonoBehaviour
 
     void SaveData()
     {
-        DataManager.instance.nowPlayer.Player_hp = playermanager_yj.playerNow.hp_py;
-        DataManager.instance.nowPlayer.Player_tired = playermanager_yj.playerNow.tired_py;
-        DataManager.instance.nowPlayer.Player_money = playermanager_yj.playerNow.money_py;
-        DataManager.instance.nowPlayer.Player_hint = playermanager_yj.playerNow.hint_py;
-        DataManager.instance.nowPlayer.Player_team = playermanager_yj.playerNow.team_py;
-        DataManager.instance.nowPlayer.Player_day = playermanager_yj.playerNow.day_py;
-        DataManager.instance.nowPlayer.Player_howtoday = playermanager_yj.playerNow.howtoday_py;
-        DataManager.instance.nowPlayer.Player_howtrain = playermanager_yj.playerNow.howtrain_py;
+        // DataManager.instance.nowPlayer.Player_hp = playermanager_yj.playerNow.hp_py;
+        // DataManager.instance.nowPlayer.Player_tired = playermanager_yj.playerNow.tired_py;
+        // DataManager.instance.nowPlayer.Player_money = playermanager_yj.playerNow.money_py;
+        // DataManager.instance.nowPlayer.Player_hint = playermanager_yj.playerNow.hint_py;
+        // DataManager.instance.nowPlayer.Player_team = playermanager_yj.playerNow.team_py;
+        // DataManager.instance.nowPlayer.Player_day = playermanager_yj.playerNow.day_py;
+        // DataManager.instance.nowPlayer.Player_howtoday = playermanager_yj.playerNow.howtoday_py;
+        // DataManager.instance.nowPlayer.Player_howtrain = playermanager_yj.playerNow.howtrain_py;
 
         DataManager.instance.SaveData();
     }

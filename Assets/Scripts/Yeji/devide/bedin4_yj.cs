@@ -87,8 +87,8 @@ public class bedin4_yj : MonoBehaviour
         noButton6.onClick.AddListener(OnNo6ButtonClick);
         */
         isbasicdial_yj = false;
-        playermanager_yj.playerNow.howtoday_py = 0;
-        playermanager_yj.playerNow.howtrain_py = 0;
+        // playermanager_yj.playerNow.howtoday_py = 0;
+        // playermanager_yj.playerNow.howtrain_py = 0;
         player = GameObject.FindGameObjectWithTag("Player"); // 태그가 "Player"인 오브젝트 찾기
         HideUI(); // 시작할 때 UI 숨기기
     }
@@ -142,12 +142,16 @@ public class bedin4_yj : MonoBehaviour
             dialogueText_yj.text = "아늑한 내 방의 침대다.\n편안히 휴식을 취해 보자. \n[스페이스바를 눌러 휴식을 진행하세요]"; // 침대 특수 대사 출력                                      
             isbasicdial_yj = true; // 기본대사 치고 있는 중
 
-            if (timemanager_yj.activityCount >= 5)
+            if (DataManager.instance.nowPlayer.Player_howtoday >= 3)
             {
                 // 주인공이 자야만 할 때
                 dialoguename_yj.text = "침대"; // 침대 이름 출력 
                 dialogueText_yj.text = "고된 하루를 마치고 자는 잠은 꿀잠이지! .\n오늘 하루도 수고했어~. \n[스페이스바를 눌러 수면을 취하세요]"; // 침대 특수 대사 출력                                      
                 isbasicdial_yj = true; // 기본대사 치고 있는 중
+
+                PlayerPrefs.DeleteKey("bedGood");
+                PlayerPrefs.Save();
+
             }
         }
     }
@@ -161,7 +165,7 @@ public class bedin4_yj : MonoBehaviour
             isbasicdial_yj = false;
             choiceUI4_yj.SetActive(true);
 
-            if(timemanager_yj.activityCount >= 5)
+            if(DataManager.instance.nowPlayer.Player_howtoday >= 3)
             {
                 // 선택지 말고 자고있다는 창이 2초동안 뜨도록
                 Dial_changyj.SetActive(false);
@@ -180,9 +184,9 @@ public class bedin4_yj : MonoBehaviour
         timemanager_yj.CompleteActivity();// 하루 기본 활동 수행 횟수 1 증가
 
         // 결과창 업데이트
-        resuedit_yj.text = $"기본활동 횟수 : {timemanager_yj.activityCount / 2} / 3"; // 기본 활동 텍스트 업데이트
+        resuedit_yj.text = $"기본활동 횟수 : {DataManager.instance.nowPlayer.Player_howtoday} / 3"; // 기본 활동 텍스트 업데이트
 
-        if (timemanager_yj.activityCount >= 5)
+        if (DataManager.instance.nowPlayer.Player_howtoday >= 3)
         {
             resuedit2_yj.text = "하루치 기본 활동 3개를 모두 완수하셨습니다!\n[주인공 집]의 [침대]로 돌아가 휴식을 취해주세요!";
             resultUI2_yj.SetActive(true);
@@ -235,14 +239,14 @@ public class bedin4_yj : MonoBehaviour
 
     void SaveData()
     {
-        DataManager.instance.nowPlayer.Player_hp = playermanager_yj.playerNow.hp_py;
-        DataManager.instance.nowPlayer.Player_tired = playermanager_yj.playerNow.tired_py;
-        DataManager.instance.nowPlayer.Player_money = playermanager_yj.playerNow.money_py;
-        DataManager.instance.nowPlayer.Player_hint = playermanager_yj.playerNow.hint_py;
-        DataManager.instance.nowPlayer.Player_team = playermanager_yj.playerNow.team_py;
-        DataManager.instance.nowPlayer.Player_day = playermanager_yj.playerNow.day_py;
-        DataManager.instance.nowPlayer.Player_howtoday = playermanager_yj.playerNow.howtoday_py;
-        DataManager.instance.nowPlayer.Player_howtrain = playermanager_yj.playerNow.howtrain_py;
+        // DataManager.instance.nowPlayer.Player_hp = playermanager_yj.playerNow.hp_py;
+        // DataManager.instance.nowPlayer.Player_tired = playermanager_yj.playerNow.tired_py;
+        // DataManager.instance.nowPlayer.Player_money = playermanager_yj.playerNow.money_py;
+        // DataManager.instance.nowPlayer.Player_hint = playermanager_yj.playerNow.hint_py;
+        // DataManager.instance.nowPlayer.Player_team = playermanager_yj.playerNow.team_py;
+        // DataManager.instance.nowPlayer.Player_day = playermanager_yj.playerNow.day_py;
+        // DataManager.instance.nowPlayer.Player_howtoday = playermanager_yj.playerNow.howtoday_py;
+        // DataManager.instance.nowPlayer.Player_howtrain = playermanager_yj.playerNow.howtrain_py;
 
         DataManager.instance.SaveData();
     }

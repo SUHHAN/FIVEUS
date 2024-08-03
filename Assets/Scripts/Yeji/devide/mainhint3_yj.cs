@@ -83,8 +83,10 @@ public class mainhint3_yj : MonoBehaviour
         noButton5.onClick.AddListener(OnNo5ButtonClick);
         */
         isbasicdial_yj = false;
-        playermanager_yj.playerNow.howtoday_py = 0;
-        playermanager_yj.playerNow.howtrain_py = 0;
+
+        // playermanager_yj.playerNow.howtoday_py = 0;
+        // playermanager_yj.playerNow.howtrain_py = 0;
+
         player = GameObject.FindGameObjectWithTag("Player"); // 태그가 "Player"인 오브젝트 찾기
         HideUI(); // 시작할 때 UI 숨기기
     }
@@ -163,7 +165,7 @@ public class mainhint3_yj : MonoBehaviour
         Debug.Log("단서 클릭");
         choiceUI3_yj.SetActive(false);
         timemanager_yj.CompleteActivity(); // 하루 기본 활동 수행 횟수 1 증가
-        resuedit_yj.text = $"기본활동 횟수 : {timemanager_yj.activityCount} / 3";
+        resuedit_yj.text = $"기본활동 횟수 : {DataManager.instance.nowPlayer.Player_howtoday} / 3";
         if (timemanager_yj.activityCount >= 5)
         {
             resuedit2_yj.text = "하루치 기본 활동 3개를 모두 완수하셨습니다!\n[주인공 집]의 [침대]로 돌아가 휴식을 취해주세요!";

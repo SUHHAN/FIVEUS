@@ -32,18 +32,24 @@ public class TimeManager : MonoBehaviour
         GetTimeOfDay();
         
         //NpcScript.UpdatePosition(timeOfDay);
+        
 
-        if ((activityCount == 0 || (activityCount > 4 && activityCount <= 6) ) && isMorning == false)
+        if ((activityCount == 0 || (activityCount > 4 && activityCount <= 6) ) && isMorning == false && !PlayerPrefs.HasKey("bedGood"))
         {
             todayiswhat_yj.text = $"{day.ToString()}일차 {timeOfDay}";
             whatisdate_yj.SetActive(true);// 시작할 때 며칠인지 까만 화면 띄워야함
             isMorning = true;
             DataManager.instance.nowPlayer.isMorning = isMorning;
             SaveData();
+
+            PlayerPrefs.SetInt("bedGood",1);
+            PlayerPrefs.Save();
         }
         
         // Invoke the method to hide the whatisdate_yj panel after 2 seconds
         Invoke("HideWhatIsDatePanel", 2f);
+
+        
 
     }
     void Update()
@@ -56,7 +62,7 @@ public class TimeManager : MonoBehaviour
             SaveData();
         }
 
-        if ((activityCount == 0 || (activityCount > 4 && activityCount <= 6) ) && isMorning == false) {
+        if ((activityCount == 0 || (activityCount > 4 && activityCount <= 6) ) && isMorning == false && !PlayerPrefs.HasKey("bedGood")) {
             todayiswhat_yj.text = $"{day.ToString()}일차 {timeOfDay}";
             whatisdate_yj.SetActive(true);// 시작할 때 며칠인지 까만 화면 띄워야함
             isMorning = true;
@@ -66,6 +72,9 @@ public class TimeManager : MonoBehaviour
 
             // Invoke the method to hide the whatisdate_yj panel after 2 seconds
             Invoke("HideWhatIsDatePanel", 2f);
+
+            PlayerPrefs.SetInt("bedGood",1);
+            PlayerPrefs.Save();
         }
     }
 
@@ -107,6 +116,7 @@ public class TimeManager : MonoBehaviour
             timeOfDay = "아침 "; 
         }
 
+        SaveData();
     }
 
     public void UpdateDateAndTimeDisplay()
@@ -139,12 +149,13 @@ public class TimeManager : MonoBehaviour
             
             SceneManager.LoadScene("FailEndingScene"); // 나중에는 엔딩씬으로 연결되게 코드 추가
         }
+        DataManager.instance.SaveData();
 
         activityCount = 0;
         timeOfDay = "아침 "; // 새로운 날의 시작은 아침
         //  여기에 넣는 게 맞긴 한데, 다시 침대 들어가야 하니까 어디다 위치 옮겨야 하나
        // UpdateDateAndTimeDisplay();
-
+        SaveData();
 
     }
 
