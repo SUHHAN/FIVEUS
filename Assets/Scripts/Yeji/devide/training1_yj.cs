@@ -77,12 +77,13 @@ public class training1_yj : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        /*
         trainingButton_yj.onClick.AddListener(OntrainButtonClick);
         gotobedButton_yj.onClick.AddListener(OngobedButtonClick);
 
         noButton1.onClick.AddListener(OnNo1ButtonClick);
         noButton5.onClick.AddListener(OnNo5ButtonClick);
-
+        */
         isbasicdial_yj = false;
         playermanager_yj.playerNow.howtoday_py = 0;
         playermanager_yj.playerNow.howtrain_py = 0;
@@ -135,8 +136,8 @@ public class training1_yj : MonoBehaviour
         // ���� NPC�� ���� ��ȭ ó��
         if (npc_yjyj == npc1_yj) // �Ʒô���
         {
-            dialoguename_yj.text = "�Ʒô���"; // �Ʒô��� �̸� ��� 
-            dialogueText_yj.text = "����-������! \n�Ʒ��� �غ�� �Ƴ�? \n[�����̽��ٸ� ���� �Ʒ��� �����ϼ���]"; // �Ʒô��� �⺻ ��� ���
+            dialoguename_yj.text = "훈련대장"; // �Ʒô��� �̸� ��� 
+            dialogueText_yj.text = "여어-말라깽이! \n훈련할 준비는 됐나? \n[스페이스바를 눌러 훈련을 진행하세요]"; // �Ʒô��� �⺻ ��� ���
             isbasicdial_yj = true; // �⺻��� ġ�� �ִ� ��
 
         }
@@ -147,30 +148,28 @@ public class training1_yj : MonoBehaviour
         // ���� NPC�� ���� ������ó��
         if (npc_yjyj == npc1_yj) // �Ʒô���
         {
-            //Debug.Log("�Ʒô����̶� �����");
+           
             Dial_changyj.SetActive(false);
             isbasicdial_yj = false;
             choiceUI1_yj.SetActive(true);
 
         }
     }
-    // �⺻Ȱ��1 : "�Ʒ��Ѵ�" �������� ��
     public void OntrainButtonClick()
     {
         choiceUI1_yj.SetActive(false);
 
-        // ���� ���
         playermanager_yj.IncreaseTrainingCount();// �Ϸ� �Ʒ� Ȱ�� Ƚ�� 1 ����
         playermanager_yj.IncreaseTiredness(30);// �Ƿε� 10 ����
         timemanager_yj.CompleteActivity(); // �Ϸ� �⺻ Ȱ�� ���� Ƚ�� 1 ����
 
 
-        resuedit_yj.text = $"�⺻Ȱ�� Ƚ�� : {timemanager_yj.activityCount / 2} / 3"; // �⺻ Ȱ�� �ؽ�Ʈ ������Ʈ
+        resuedit_yj.text = $"기본 활동 횟수: {timemanager_yj.activityCount / 2} / 3"; // �⺻ Ȱ�� �ؽ�Ʈ ������Ʈ
 
 
         if (timemanager_yj.activityCount >= 5)
         {
-            resuedit2_yj.text = "�Ϸ�ġ �⺻ Ȱ�� 3���� ��� �ϼ��ϼ̽��ϴ�!\n[���ΰ� ��]�� [ħ��]�� ���ư� �޽��� �����ּ���!";
+            resuedit2_yj.text = "하루치 기본 활동 3개를 모두 완수하셨습니다!\n[주인공 집]의 [침대]로 돌아가 휴식을 취해주세요!";
             resultUI2_yj.SetActive(true);
         }
 
