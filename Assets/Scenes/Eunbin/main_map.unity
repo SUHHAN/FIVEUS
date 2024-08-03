@@ -33352,8 +33352,7 @@ MonoBehaviour:
   Dial_changyj: {fileID: 1653790907}
   dialoguename_yj: {fileID: 304204763}
   dialogueText_yj: {fileID: 379177547}
-  interactionRange: 3
-  player: {fileID: 1261792004}
+  interactionRange: 2
   npc3_yj: {fileID: 836261809}
   noButton3: {fileID: 1195756429}
   noButton5: {fileID: 418183404}
