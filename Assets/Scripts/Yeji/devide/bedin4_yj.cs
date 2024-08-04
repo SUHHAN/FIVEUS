@@ -158,18 +158,20 @@ public class bedin4_yj : MonoBehaviour
     {
         if (npc_yjyj == npc4_yj) // 침대
         {
-
-            Dial_changyj.SetActive(false);
-            isbasicdial_yj = false;
-            choiceUI4_yj.SetActive(true);
-
-            if(DataManager.instance.nowPlayer.Player_howtoday >= 2)
+            if (DataManager.instance.nowPlayer.Player_howtoday >= 2 || DataManager.instance.nowPlayer.Player_howtoday == 0)
             {
                 // 선택지 말고 자고있다는 창이 2초동안 뜨도록
                 Dial_changyj.SetActive(false);
                 isbasicdial_yj = false;
                 iaminbedUI_yj.SetActive(true);
             }
+            else
+            {
+                Dial_changyj.SetActive(false);
+                isbasicdial_yj = false;
+                choiceUI4_yj.SetActive(true);
+            }
+            
         }
     }
     
