@@ -196,6 +196,23 @@ public class StoreItemManager : MonoBehaviour
 
         UpdateSaleButtonState(item); // 아이템 수량 변화 후 판매 버튼 상태 업데이트
 
+        BuyButton.interactable = true;
+        if (item.Type == "장비" && int.Parse(item.quantity) >= 1) {
+            BuyButton.interactable = false;
+            }
+        else if (item.Type == "장비" && int.Parse(item.quantity) < 1) {
+            BuyButton.interactable = true;
+            if (int.Parse(item.quantity) < 0) {
+                int EqBuy = int.Parse(item.quantity);
+                EqBuy = 0;
+                item.quantity = EqBuy.ToString();
+                SaveItem();
+            }
+        }
+
+        if (int.Parse(item.Price) > DataManager.instance.nowPlayer.Player_money) {
+            BuyButton.interactable = false;
+        }
         // 구매 버튼 설정
         BuyButton.onClick.AddListener(() => {
             UpButton.onClick.RemoveAllListeners();
@@ -203,6 +220,13 @@ public class StoreItemManager : MonoBehaviour
             UpdateSaleButtonState(item); // 아이템 수량 변화 후 판매 버튼 상태 업데이트
             currentQuantity = 1;
             maxQuantity = int.MaxValue; // 구매 시 최대 수량을 제한할 필요가 없을 경우
+            if(item.Type == "장비") {
+                currentQuantity = 1;
+                maxQuantity = 1;
+                if(item.quantity == "1") {
+                    BuyButton.interactable = false;
+                }
+            }
             UpdateQuantityText(item, "구매");
             
             itemImage.sprite = itemSprites[itemId];
@@ -218,6 +242,7 @@ public class StoreItemManager : MonoBehaviour
                 ItemManager.instance.ConfirmItemQuantity(item, "구매", currentQuantity);
                 LoadItem();
                 UpdateSaleButtonState(item); // 아이템 수량 변화 후 판매 버튼 상태 업데이트
+                UpdateBuyButtonState(item);
                 informationPopup.SetActive(false);
             });
 
@@ -246,6 +271,7 @@ public class StoreItemManager : MonoBehaviour
                 ItemManager.instance.ConfirmItemQuantity(item, "판매", -1 * currentQuantity);
                 LoadItem();
                 UpdateSaleButtonState(item); // 아이템 수량 변화 후 판매 버튼 상태 업데이트
+                UpdateBuyButtonState(item);
                 informationPopup.SetActive(false);
             });
 
@@ -254,6 +280,7 @@ public class StoreItemManager : MonoBehaviour
 
         UpdateSaleButtonState(item); // 초기 버튼 상태 업데이트
         SelectItemInfor.SetActive(true); // 설명 창 활성화
+        
     }
 
     // 수량 증가 함수
@@ -287,6 +314,29 @@ public class StoreItemManager : MonoBehaviour
     void UpdateSaleButtonState(Item item)
     {   
         SaleButton.interactable = int.Parse(item.quantity) > 0;
+        if (item.Type == "장비") {
+            SaleButton.interactable = false;
+        }
+    }
+
+    void UpdateBuyButtonState(Item item) {
+        BuyButton.interactable = true;
+        if (item.Type == "장비" && int.Parse(item.quantity) >= 1) {
+            BuyButton.interactable = false;
+            }
+        else if (item.Type == "장비" && int.Parse(item.quantity) < 1) {
+            BuyButton.interactable = true;
+            if (int.Parse(item.quantity) < 0) {
+                int EqBuy = int.Parse(item.quantity);
+                EqBuy = 0;
+                item.quantity = EqBuy.ToString();
+                SaveItem();
+            }
+        }
+
+        if (int.Parse(item.Price) > DataManager.instance.nowPlayer.Player_money) {
+            BuyButton.interactable = false;
+        }
     }
 
     void SaveItem()

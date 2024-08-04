@@ -75,34 +75,52 @@ public class ItemManager : MonoBehaviour
 
         NowItem.quantity = NowItem_Quantity.ToString();           
 
-        if (item.Type == "장비" && sort == "구매")
+        if (item.Type == "장비" && sort == "구매" && int.Parse(NowItem.quantity) == 1)
         {
             // 전직템 구매시, 구매한 전직템과 관련된 직업으로 바로 변경 및 장착됨.
             List<Item> AllJobItem = DataManager.instance.nowPlayer.Items.FindAll(x => x.Type == "장비");
+            int STR = int.Parse(player.STR); int DEX = int.Parse(player.DEX); int INT = int.Parse(player.INT);
+            int CON = int.Parse(player.CON); int DEF = int.Parse(player.DEF);
+            switch (player.Type) 
+                {  
+                    case "검 사":
+                        STR -= 100; player.STR = STR.ToString(); break;
+                    case "궁 수":
+                        DEX -= 100; player.DEX = DEX.ToString(); break;
+                    case "마 법 사":
+                        INT -= 100; player.INT = INT.ToString(); break;
+                    case "힐 러":
+                        CON -= 100; player.CON = CON.ToString(); break;
+                    case "탱 커":
+                        DEF -= 100; player.DEF = DEF.ToString(); break;
+                    case "암 살 자":
+                        STR -= 50; DEX -= 50; player.STR = STR.ToString(); player.DEX = DEX.ToString(); break;
+                    default:
+                        break;
+                }
+            
             foreach(var ii in AllJobItem) {
-                    //if(ii.)
-
-
                     ii.isUsing = false;
             } 
+
             NowItem.isUsing = true;
 
             switch (item.Id)
             {
                 case "0":
-                    player.Type = "검사"; break;
+                    player.Type = "검 사"; STR += 100; player.STR = STR.ToString(); break;
                 case "1":
-                    player.Type = "궁수"; break;
+                    player.Type = "궁 수"; DEX += 100; player.DEX = DEX.ToString(); break;
                 case "2":
-                    player.Type = "마법사"; break;
+                    player.Type = "마 법 사"; INT += 100; player.INT = INT.ToString(); break;
                 case "3":
-                    player.Type = "힐러"; break;
+                    player.Type = "힐 러"; CON += 100; player.CON = CON.ToString(); break;
                 case "4":
-                    player.Type = "방패병"; break;
+                    player.Type = "탱 커"; DEF += 100; player.DEF = DEF.ToString(); break;
                 case "5":
-                    player.Type = "암살자"; break;
+                    player.Type = "암 살 자"; STR += 50; DEX += 50; player.STR = STR.ToString(); player.DEX = DEX.ToString(); break;
                 default:
-                    player.Type = "검사"; 
+                    player.Type = "검 사"; 
                     NowItem.isUsing = false;
                     AllJobItem.Find(x => x.Name == "장검").isUsing = true;
                     break;
@@ -247,27 +265,47 @@ public class ItemManager : MonoBehaviour
         {
             // 전직템 구매시, 구매한 전직템과 관련된 직업으로 바로 변경 및 장착됨.
             List<Item> AllJobItem = DataManager.instance.nowPlayer.Items.FindAll(x => x.Type == "장비");
+            int STR = int.Parse(player.STR); int DEX = int.Parse(player.DEX); int INT = int.Parse(player.INT);
+            int CON = int.Parse(player.CON); int DEF = int.Parse(player.DEF);
+            switch (player.Type) 
+                {  
+                    case "검 사":
+                        STR -= 100; player.STR = STR.ToString(); break;
+                    case "궁 수":
+                        DEX -= 100; player.DEX = DEX.ToString(); break;
+                    case "마 법 사":
+                        INT -= 100; player.INT = INT.ToString(); break;
+                    case "힐 러":
+                        CON -= 100; player.CON = CON.ToString(); break;
+                    case "탱 커":
+                        DEF -= 100; player.DEF = DEF.ToString(); break;
+                    case "암 살 자":
+                        STR -= 50; DEX -= 50; player.STR = STR.ToString(); player.DEX = DEX.ToString(); break;
+                    default:
+                        break;
+                }
             foreach(var ii in AllJobItem) {
                     ii.isUsing = false;
             } 
+
             NowItem.isUsing = true;
 
-            switch (item.Id)
+            switch (NowItem.Id)
             {
                 case "0":
-                    player.Type = "검사"; break;
+                    player.Type = "검 사"; STR += 100; player.STR = STR.ToString(); break;
                 case "1":
-                    player.Type = "궁수"; break;
+                    player.Type = "궁 수"; DEX += 100; player.DEX = DEX.ToString(); break;
                 case "2":
-                    player.Type = "마법사"; break;
+                    player.Type = "마 법 사"; INT += 100; player.INT = INT.ToString(); break;
                 case "3":
-                    player.Type = "힐러"; break;
+                    player.Type = "힐 러"; CON += 100; player.CON = CON.ToString(); break;
                 case "4":
-                    player.Type = "방패병"; break;
+                    player.Type = "탱 커"; DEF += 100; player.DEF = DEF.ToString(); break;
                 case "5":
-                    player.Type = "암살자"; break;
+                    player.Type = "암 살 자"; STR += 100; DEX += 100; player.STR = STR.ToString(); player.DEX = DEX.ToString(); break;
                 default:
-                    player.Type = "검사"; 
+                    player.Type = "검 사"; 
                     NowItem.isUsing = false;
                     AllJobItem.Find(x => x.Name == "장검").isUsing = true;
                     break;
