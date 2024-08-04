@@ -133,26 +133,54 @@ public class QuestData_yj : MonoBehaviour
 
         if (npc3_yj != null)
         {
-            float distanceNPC3 = Vector3.Distance(player.transform.position, npc3_yj.transform.position);
-
-            if (distanceNPC3 <= interactionRange)
+            try
             {
-                currentNPC = npc3_yj;
+                float distanceNPC3 = Vector3.Distance(player.transform.position, npc3_yj.transform.position);
+
+                if (distanceNPC3 <= interactionRange)
+                {
+                    currentNPC = npc3_yj;
+                }
             }
+
+            catch (MissingReferenceException)
+            {
+                npc3_yj = null;
+            }
+
         }
+
         if (npc7_yj != null)
-        {
+        {            try
+
             float distanceNPC7 = Vector3.Distance(player.transform.position, npc7_yj.transform.position);
             Debug.Log(distanceNPC7);
             // 가장 가까운 NPC만 할당
             if (distanceNPC7 <= interactionRange && (currentNPC == null || distanceNPC7 < Vector3.Distance(player.transform.position, currentNPC.transform.position)))
+
             {
-                currentNPC = npc7_yj;
+                float distanceNPC7 = Vector3.Distance(player.transform.position, npc7_yj.transform.position);
+
+                if (distanceNPC7 <= interactionRange)
+                {
+                    currentNPC = npc7_yj;
+                }
             }
+
+            catch (MissingReferenceException)
+            {
+                npc7_yj = null;
+            }
+
         }
         
 
-        
+        // 플레이어가 NPC와의 상호작용 범위를 벗어났을 때 대화창 비활성화
+        if (currentNPC == null && Dial_changyj.activeSelf)
+        {
+            Dial_changyj.SetActive(false);
+            isbasicdial_yj = false;
+        }
     }
     // 의뢰 가격 결정하는 메소드(500-1000골드)
     int QuestMomey_yj()
@@ -166,10 +194,21 @@ public class QuestData_yj : MonoBehaviour
 
     void HandleNPCDialogue_yj(GameObject npc_yjyj)
     {
+        /*
         if (isbasicdial_yj == false)
             Dial_changyj.SetActive(true);
         else if (resultUI_yj.activeSelf || choiceUI7_yj.activeSelf || choiceUI3_yj.activeSelf)
             Dial_changyj.SetActive(false);
+        */
+        if (npc_yjyj == null)
+            return;
+        if (isbasicdial_yj == false && !(resultUI_yj.activeSelf || choiceUI7_yj.activeSelf || choiceUI3_yj.activeSelf))
+        {
+            if (npc_yjyj != null && !npc_yjyj.Equals(null))
+            {
+                Dial_changyj.SetActive(true);
+            }
+        }
         // 현재 NPC에 따라 대화 처리
         if (npc_yjyj == npc7_yj) // 의뢰
         {
@@ -316,5 +355,12 @@ public class QuestData_yj : MonoBehaviour
         // DataManager.instance.nowPlayer.Player_howtrain = playermanager_yj.playerNow.howtrain_py;
 
         DataManager.instance.SaveData();
+    }
+
+    private void OnDestroy()
+    {
+        // 씬을 떠나기 전에 참조 해제
+        npc7_yj = null;
+        npc3_yj = null;
     }
 }
