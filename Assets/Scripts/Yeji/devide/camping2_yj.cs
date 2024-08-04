@@ -182,6 +182,8 @@ public class camping2_yj : MonoBehaviour
         playermanager_yj.IncreaseTeamPower(1);// 하루 단합 활동 횟수 1 증가
         timemanager_yj.CompleteActivity(); // 하루 기본 활동 수행 횟수 1 증가
 
+        CharacterManager.instance.Team_Activity();
+
         // 결과창 업데이트
         resuedit_yj.text = $"기본활동 횟수 : {DataManager.instance.nowPlayer.Player_howtoday} / 3"; // 기본 활동 텍스트 업데이트
 
