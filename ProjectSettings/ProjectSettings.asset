@@ -141,7 +141,7 @@ PlayerSettings:
   tvOSBundleVersion: 1.0
   bundleVersion: 1.0.2
   preloadedAssets:
-  - {fileID: 3577144189308439750, guid: 226c78aac0e8d114aae837e19ebec1f6, type: 2}
+  - {fileID: 141962350293764655, guid: 226c78aac0e8d114aae837e19ebec1f6, type: 2}
   - {fileID: 11400000, guid: 5b95f16e6b50d9840ae743e4e91f189a, type: 2}
   - {fileID: 11400000, guid: d800438fab6dddb45b0ce4c589f2701b, type: 2}
   metroInputSource: 0
@@ -825,11 +825,11 @@ PlayerSettings:
   apiCompatibilityLevel: 6
   activeInputHandler: 0
   windowsGamepadBackendHint: 0
-  cloudProjectId: f44fa4c5-7e53-4e6e-a9c8-247075532ddb
+  cloudProjectId: b499e0eb-a7f4-491c-b959-30bb6918ea76
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: The Way to be Knight
-  organizationId: kyeji02-sookmyung-ac-kr
+  projectName: FIVEUS
+  organizationId: haeun03290
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   hmiLoadingImage: {fileID: 0}
