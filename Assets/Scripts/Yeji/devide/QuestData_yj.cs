@@ -129,8 +129,6 @@ public class QuestData_yj : MonoBehaviour
 
     void CheckNPCInteraction()
     {
-        currentNPC = null;
-
         if (npc3_yj != null)
         {
             float distanceNPC3 = Vector3.Distance(player.transform.position, npc3_yj.transform.position);
@@ -139,18 +137,25 @@ public class QuestData_yj : MonoBehaviour
             {
                 currentNPC = npc3_yj;
             }
+            else
+            {
+                currentNPC = null;
+            }
         }
         if (npc7_yj != null)
         {
             float distanceNPC7 = Vector3.Distance(player.transform.position, npc7_yj.transform.position);
-            Debug.Log(distanceNPC7);
-            // 가장 가까운 NPC만 할당
-            if (distanceNPC7 <= interactionRange && (currentNPC == null || distanceNPC7 < Vector3.Distance(player.transform.position, currentNPC.transform.position)))
+            //Debug.Log("distanceNPC7 : " + distanceNPC7);
+
+            if (distanceNPC7 <= interactionRange)
             {
                 currentNPC = npc7_yj;
             }
+            else
+            {
+                currentNPC = null;
+            }
         }
-        
 
         
     }
@@ -207,14 +212,12 @@ public class QuestData_yj : MonoBehaviour
             isbasicdial_yj = false;
             choiceUI3_yj.SetActive(true);
         }
-        // 모든 NPC에 대한 처리 후 대화창 끄기
-        Dial_changyj.SetActive(false);
-        isbasicdial_yj = false;
+
     }
     // 기본활동3 : 단서 보겠다 했을 때
     public void OnhintButtonClick()
     {
-        //Debug.Log("단서 클릭");
+        Debug.Log("단서 클릭");
         choiceUI3_yj.SetActive(false);
         timemanager_yj.CompleteActivity(); // 하루 기본 활동 수행 횟수 1 증가
         
@@ -241,6 +244,10 @@ public class QuestData_yj : MonoBehaviour
         DataManager.instance.nowPlayer.Player_hint += 1;
 
         SaveData();
+
+        // 단서 탭에서 확인할 수 있도록
+        PlayerPrefs.SetString("CurType", "단서");
+        PlayerPrefs.Save();
 
         SceneManager.LoadScene("InventoryMain"); // 인벤토리 씬으로 이동
         // 찾은 단서 개수를 한 개 늘림. 이건 인벤토리랑 연관 후에 생각해야 할듯

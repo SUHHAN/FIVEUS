@@ -340,7 +340,6 @@ public class InventoryItemManager : MonoBehaviour
                 SelectButton.onClick.AddListener(() => {
                     AudioManager.Instance.PlaySfx(AudioManager.Sfx.ButtonClick);
                     onWearButtonClick(item);
-                    LoadItem();
                 });
             }
             SelectItemInfor.SetActive(true); // 설명 창 활성화
@@ -402,7 +401,85 @@ public class InventoryItemManager : MonoBehaviour
         {
             GiftButton_gi.interactable = false;
         }
+        
     }
+
+    void UpdateCheck() {
+    // 현재 선택된 탭의 아이템 리스트를 설정
+    if (curType == "단서") {
+        CurItemList = AllItemList.FindAll(x => x.Type == curType);
+    } else {
+        CurItemList = AllItemList.FindAll(x => x.Type == curType && int.Parse(x.quantity) > 0);
+    }
+
+    // 슬롯과 텍스트를 보일 수 있도록 만들기
+    for (int i = 0; i < slot.Length; i++) {
+        bool active = i < CurItemList.Count;
+        slot[i].SetActive(active);
+
+        if (active) {
+            // 슬롯에 아이템을 설정
+            Item currentItem = CurItemList[i];
+
+            // 체크 이미지 장착 중일때만 보이도록 설정
+            Transform checkImage = slot[i].transform.Find("isUsing");
+            if (currentItem.Type == "장비" && currentItem.isUsing) {
+                checkImage.gameObject.SetActive(true);
+            } else {
+                checkImage.gameObject.SetActive(false);
+            }
+
+            // 텍스트 설정
+            TextMeshProUGUI textComponent = slot[i].GetComponentInChildren<TextMeshProUGUI>();
+            if (textComponent != null) {
+                textComponent.text = currentItem.Name;
+            }
+
+            // 이미지 설정
+            Transform imageTransform = slot[i].transform.Find("Image");
+            Transform XimageTransform = slot[i].transform.Find("X Image");
+            if (imageTransform != null) {
+                Image imageComponent = imageTransform.GetComponent<Image>();
+                Image XimageComponent = XimageTransform.GetComponent<Image>();
+
+                if (imageComponent != null && XimageComponent != null) {
+                    int itemId = int.Parse(currentItem.Id);
+                    if (itemId >= 0 && itemId < itemSprites.Length) {
+                        XimageTransform.gameObject.SetActive(false);
+                        imageComponent.sprite = itemSprites[itemId];
+
+                        // 단서이고 수량이 0인 경우 비활성화 이미지 표시
+                        if (curType == "단서" && int.Parse(currentItem.quantity) == 0) {
+                            XimageComponent.sprite = itemSprites[itemId];
+                            XimageTransform.gameObject.SetActive(true);
+                        }
+                    } else {
+                        Debug.LogError($"Item Id {itemId}에 맞는 이미지가 없습니다.");
+                    }
+                }
+            }
+
+            // 수량 패널 설정
+            Transform quantityTransform = slot[i].transform.Find("Quantity");
+            TextMeshProUGUI quantityText = quantityTransform.GetComponentInChildren<TextMeshProUGUI>();
+            quantityText.text = currentItem.quantity;
+
+            // 버튼에 아이템 정보 추가 및 클릭 이벤트 연결
+            ItemButton itemButton = slot[i].GetComponent<ItemButton>();
+            if (itemButton == null) {
+                itemButton = slot[i].AddComponent<ItemButton>();
+            }
+            itemButton.Item = currentItem;
+            Button button = slot[i].GetComponent<Button>();
+            if (button != null) {
+                button.onClick.RemoveAllListeners(); // 기존 이벤트 제거
+                button.onClick.AddListener(() => SlotClick(itemButton.Item));
+            } else {
+                Debug.LogError("Button component not found in slot.");
+            }
+        }
+    }
+}
     
     // 장착하기
     public void onWearButtonClick(Item item) {
@@ -411,9 +488,11 @@ public class InventoryItemManager : MonoBehaviour
         SaveItem();
         LoadItem();
 
-        // UI 즉시 업데이트
+        // UI 즉시 업데이트 -> 슬롯 추가
         TapClick(curType);
+        UpdateCheck();
     }
+    
 
 
     // 사용하기
@@ -421,6 +500,8 @@ public class InventoryItemManager : MonoBehaviour
         ItemManager.instance.UseItem_inv(item);
         SaveItem();
         LoadItem();
+
+        SlotClick(item);
     }
 
     void OnDestroy()
