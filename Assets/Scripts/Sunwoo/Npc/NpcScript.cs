@@ -58,10 +58,10 @@ public class NpcScript : MonoBehaviour
 
         // 호감도 변경
         Character character = DataManager.instance.nowPlayer.characters.Find(x => x.Type == npcType);
-
+        
 
         if (character.IsFirstTalk == true) {
-             affectionText.text = $"호감도: {affection}";
+             affectionText.text = $"호감도: {character.Love}";
         }
         else {
             affectionText.text = "호감도: ..";
@@ -463,7 +463,7 @@ public class NpcScript : MonoBehaviour
 
         
         if (character.IsFirstTalk == true) {
-             affectionText.text = $"호감도: {affection}";
+             affectionText.text = $"호감도: {character.Love}";
         }
         else {
             affectionText.text = "호감도: ..";
