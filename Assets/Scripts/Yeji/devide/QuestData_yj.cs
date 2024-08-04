@@ -129,6 +129,8 @@ public class QuestData_yj : MonoBehaviour
 
     void CheckNPCInteraction()
     {
+        currentNPC = null;
+
         if (npc3_yj != null)
         {
             try
@@ -140,15 +142,22 @@ public class QuestData_yj : MonoBehaviour
                     currentNPC = npc3_yj;
                 }
             }
+
             catch (MissingReferenceException)
             {
                 npc3_yj = null;
             }
+
         }
 
         if (npc7_yj != null)
-        {
-            try
+        {            try
+
+            float distanceNPC7 = Vector3.Distance(player.transform.position, npc7_yj.transform.position);
+            Debug.Log(distanceNPC7);
+            // 가장 가까운 NPC만 할당
+            if (distanceNPC7 <= interactionRange && (currentNPC == null || distanceNPC7 < Vector3.Distance(player.transform.position, currentNPC.transform.position)))
+
             {
                 float distanceNPC7 = Vector3.Distance(player.transform.position, npc7_yj.transform.position);
 
@@ -157,11 +166,14 @@ public class QuestData_yj : MonoBehaviour
                     currentNPC = npc7_yj;
                 }
             }
+
             catch (MissingReferenceException)
             {
                 npc7_yj = null;
             }
+
         }
+        
 
         // 플레이어가 NPC와의 상호작용 범위를 벗어났을 때 대화창 비활성화
         if (currentNPC == null && Dial_changyj.activeSelf)
