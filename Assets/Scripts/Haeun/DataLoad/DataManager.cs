@@ -47,8 +47,8 @@ public class PlayerData
     public int Player_day = 1;              // 날짜 데이터 변수
     public int Player_team = 0;             // 단합력 데이터 변수
     public int Party_ATK = 0;             // 총 파티 능력치 데이터 변수
-    public int Player_hp = 100;               // 체력 데이터 변수
-    public int Player_tired = 0;            // 피로도 데이터 변수
+    public int Player_hp = 30;               // 체력 데이터 변수
+    public int Player_tired = 90;            // 피로도 데이터 변수
     public int Player_money = 100000;            // 재화 데이터 변수
     public int Player_hint = 0;             // 힌트 데이터 변수
     public int Player_howtoday = 0;            // 기본 활동 일차 데이터 변수

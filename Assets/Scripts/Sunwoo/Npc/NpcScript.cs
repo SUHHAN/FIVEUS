@@ -54,6 +54,19 @@ public class NpcScript : MonoBehaviour
         // TimeManager 스크립트 참조 얻기
         timeManager = FindObjectOfType<TimeManager>();
 
+        DataManager.instance.LoadData();
+
+        // 호감도 변경
+        Character character = DataManager.instance.nowPlayer.characters.Find(x => x.Type == npcType);
+        
+
+        if (character.IsFirstTalk == true) {
+             affectionText.text = $"호감도: {character.Love}";
+        }
+        else {
+            affectionText.text = "호감도: ..";
+        }
+
         // 초기 위치 업데이트
         UpdatePosition(timeManager.activityCount);
     }
@@ -115,13 +128,9 @@ public class NpcScript : MonoBehaviour
     bool IsFirstTalk()
     {
         // 캐릭터가 초면인지 확인하는 변수 저장
-        List<Character> character = DataManager.instance.nowPlayer.characters.FindAll(x => x.Type != "검 사");
+        Character character = DataManager.instance.nowPlayer.characters.Find(x => x.Type == npcType);
+        character.IsFirstTalk = true;
         
-        foreach(var ii in character) {
-            if(ii.Type == npcType) {
-                ii.IsFirstTalk = PlayerPrefs.GetInt(npcType + "_FirstTalk", 1) == 1;
-            }
-        }
         DataManager.instance.SaveData();
 
         // 첫 대화인지 확인 (PlayerPrefs를 통해 저장된 값 확인)
@@ -440,14 +449,25 @@ public class NpcScript : MonoBehaviour
 
     void ChangeAffection(double amount)
     {
+        DataManager.instance.LoadData();
+
         // 호감도 변경
         Character character = DataManager.instance.nowPlayer.characters.Find(x => x.Type == npcType);
+
         affection += amount;
         character.Love = affection.ToString();
 
-        DataManager.instance.SaveData();
 
-        affectionText.text = $"호감도: {affection}";
+        DataManager.instance.SaveData();
+        DataManager.instance.LoadData();
+
+        
+        if (character.IsFirstTalk == true) {
+             affectionText.text = $"호감도: {character.Love}";
+        }
+        else {
+            affectionText.text = "호감도: ..";
+        }
     }
 
     public void UpdatePosition(int activityCount)
